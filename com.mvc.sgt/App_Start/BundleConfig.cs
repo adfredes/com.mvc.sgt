@@ -23,6 +23,8 @@ namespace com.mvc.sgt
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

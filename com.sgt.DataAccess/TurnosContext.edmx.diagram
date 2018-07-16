@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="752d4ab0461d4bcea885963b0cb4180d" Name="Diagram1">
+        <EntityTypeShape EntityType="TurnosModel.Agendum" Width="1.5" PointX="7.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Agenda_Bloqueos" Width="2" PointX="9.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Agenda_Receso" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Aseguradora" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Aseguradora_Plan" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Consultorio" Width="1.5" PointX="7.5" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Documento_Tipo" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Feriado" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Imagen" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Localidad" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Paciente" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Paciente_Aseguradora_Historico" Width="1.5" PointX="10.5" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Profesional" Width="1.5" PointX="5.25" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Provincia" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Sesion" Width="1.5" PointX="9.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Sesion_Estado" Width="1.5" PointX="11.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Turno" Width="1.5" PointX="7.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Usuario" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.comisione" Width="1.5" PointX="11.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Derivadore" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.foto" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Historial" Width="1.5" PointX="13.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.HorariosMedico" Width="1.5" PointX="13.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.opcione" Width="2.375" PointX="13.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.repeticionesMedico" Width="2.375" PointX="0.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Tratamiento" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="TurnosModel.FK_Agenda_Bloqueos_Agenda" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Agenda_Profesional" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Sesion_Agenda" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Agenda_Bloqueos_Consultorio" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Aseguradora_Plan_Aseguradora" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Aseguradora" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Aseguradora_Historico_Aseguradora_Plan" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Aseguradora_Plan" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Documento_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Imagen_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Localidad_Provincia" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Localidad" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Aseguradora_Historico_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Paciente_Provincia" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Turno_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosModel.FK_Sesion_Turno" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
