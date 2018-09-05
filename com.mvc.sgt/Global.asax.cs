@@ -24,6 +24,7 @@ namespace com.mvc.sgt
             config.Formatters.JsonFormatter
                 .SerializerSettings
                 .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            UnityConfig.RegisterComponents();
         }
     }
 }

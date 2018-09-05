@@ -1,0 +1,12 @@
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.services.dll
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.services.pdb
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\EntityFramework.dll
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.pdb
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll.config
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\EntityFramework.xml
+D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\es\EntityFramework.resources.dll
+D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csprojResolveAssemblyReference.cache
+D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCompileInputs.cache
+D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
+D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb

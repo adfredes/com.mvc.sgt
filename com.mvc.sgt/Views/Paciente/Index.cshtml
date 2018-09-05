@@ -1,0 +1,58 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/bootstrap", "~/bundles/modernizr")
+    @*@Scripts.Render("~/Scripts/angular.js", "~/Scripts/Angular/Module/SgtAseguradora.js",
+        "~/Scripts/Angular/Services/CrudService.js", "~/Scripts/Angular/Controllers/AseguradoraController.js",
+        "~/Scripts/Angular/Directives/AseguradoraDirectives.js")*@
+
+    @Scripts.Render("~/bundles/angularAseguradora")
+</head>
+<body ng-app="sgtApp">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div ng-controller="aseguradoraController" ng-init="GetAseguradoras()">
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Create()"><i class="fa fa-plus">&nbsp;</i> Add New</button>
+                </div>
+                <table class="table table-responsive-sm table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col" class="text-center">Color</th>
+                            <th scope="col" class="text-center">Habilitado</th>
+                            <th scope="col" class="text-center">Modificado</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="aseguradora in aseguradoras">
+                        <th scope="row">{{aseguradora.ID}}</th>
+                        <td>{{aseguradora.Descripcion}}</td>
+                        <td class="text-center"><span style="height:20px; width:20px; background:{{aseguradora.Color}}; display: inline-block"></span></td>
+                        <td class="text-center">
+                            <input type="checkbox" class="form-check-input" ng-model="aseguradora.Habilitado" disabled />
+                        </td>
+                        <td>{{aseguradora.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}</td>
+                        <td>
+                            <button class="btn btn-xs btn-default" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(aseguradora.ID)"><i class="fa fa-edit"></i></button>
+                            @*<button class="btn btn-xs btn-danger" ng-click="DeleteUser(employee.Id)"><i class="fa fa-trash"></i></button>*@
+                        </td>
+                    </tr>
+                </table>
+                <aseguradora-edit aseguradora="AseguradoraModel" save="Save"></aseguradora-edit>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

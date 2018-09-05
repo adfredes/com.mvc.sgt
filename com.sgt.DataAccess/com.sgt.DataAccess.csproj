@@ -91,6 +91,13 @@
     <Compile Include="Imagen.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IAseguradoraRepository.cs" />
+    <Compile Include="Interfaces\IDocumentoTipoRepository.cs" />
+    <Compile Include="Interfaces\ILocalidadRepository.cs" />
+    <Compile Include="Interfaces\IPacienteRepository.cs" />
+    <Compile Include="Interfaces\IProvinciaRepository.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Localidad.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
@@ -113,6 +120,12 @@
     <Compile Include="repeticionesMedico.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\AseguradoraRepository.cs" />
+    <Compile Include="Repositories\DocumentoTipoRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\LocalidadRepository.cs" />
+    <Compile Include="Repositories\PacienteRepository.cs" />
+    <Compile Include="Repositories\ProvinciaRepository.cs" />
     <Compile Include="Sesion.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
@@ -140,6 +153,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TurnosContext.edmx</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfWork.cs" />
     <Compile Include="Usuario.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>

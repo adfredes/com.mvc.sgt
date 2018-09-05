@@ -24,6 +24,13 @@ namespace com.mvc.sgt
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angularAseguradora").Include(
+                    "~/Scripts/angular.js",
+                    "~/Scripts/Angular/Module/SgtModule.js",
+                    "~/Scripts/Angular/Services/CrudService.js", 
+                    "~/Scripts/Angular/Controllers/AseguradoraController.js",
+                    "~/Scripts/Angular/Directives/AseguradoraDirectives.js"
+                ));            
             BundleTable.EnableOptimizations = true;
         }
     }

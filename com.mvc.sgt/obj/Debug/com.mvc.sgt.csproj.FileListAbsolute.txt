@@ -112,3 +112,8 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Unity.Mvc.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\WebActivatorEx.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Unity.AspNet.WebApi.xml
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Unity.Mvc.xml
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.dll
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.pdb
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.dll.config
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.services.dll
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.services.pdb

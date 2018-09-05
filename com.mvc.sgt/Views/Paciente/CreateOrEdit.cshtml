@@ -1,0 +1,52 @@
+﻿<div id="CreateOrUpdate" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Paciente</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" class="form-control" ng-model="aseguradora.ID">
+                <div class="container-fluid">
+                    <fieldset>
+                        <div class="form-row">
+                            <div class="form-group col-md-4"></div>
+                            <div class="form-group col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Nombre
+                                        <input type="text" value="" class="form-control" />
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Fecha Nacimiento
+                                        <input type="date" value="" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="form-group">
+                                    <label>
+                                        Apellido
+                                        <input type="text" value="" class="form-control" />
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Documento
+                                        <input type="number" value="" class="form-control" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                <button type="submit" class="btn btn-success" ng-click="save()"><i class="fa fa-save"></i> Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
