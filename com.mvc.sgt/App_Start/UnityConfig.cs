@@ -48,11 +48,31 @@ namespace com.mvc.sgt
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<ICrudService, CrudService>();
+            container.RegisterType<IAseguradoraService, AseguradoraService >();
             container.RegisterType<IAseguradoraRepository, AseguradoraRepository>();
+
+            container.RegisterType<IPacienteService, PacienteService>();
+            container.RegisterType<IPacienteRepository, PacienteRepository>();
+
+            container.RegisterType<IProvinciaService, ProvinciaService>();
+            container.RegisterType<IProvinciaRepository, ProvinciaRepository>();
+
+            container.RegisterType<ILocalidadService, LocalidadService>();
+            container.RegisterType<ILocalidadRepository, LocalidadRepository>();
+
+            container.RegisterType<IAgendaService, AgendaService>();
+            container.RegisterType<IFeriadoRepository, FeriadoRepository>();
+
+            container.RegisterType<IConsultorioService, ConsultorioService>();
+            container.RegisterType<IConsultorioRepository, IConsultorioRepository>();
+
+            container.RegisterType<IProfesionalService, ProfesionalService>();
+            container.RegisterType<IProfesionalRepository, ProfesionalRepository>();
 
             container.RegisterType<System.Data.Entity.DbContext, TurnosDB>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
+
+            
         }
 
         public static void RegisterComponents()

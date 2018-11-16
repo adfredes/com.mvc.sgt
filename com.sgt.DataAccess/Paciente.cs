@@ -46,6 +46,8 @@ namespace com.sgt.DataAccess
         public Nullable<bool> EsGravado { get; set; }
         public string ObraSocial { get; set; }
         public string CodigoSeguridad { get; set; }
+        public string Mail { get; set; }
+        public string Cuit { get; set; }
     
         public virtual Aseguradora Aseguradora { get; set; }
         public virtual Aseguradora_Plan Aseguradora_Plan { get; set; }

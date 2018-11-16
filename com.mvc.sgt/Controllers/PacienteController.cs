@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
 using com.sgt.DataAccess;
 using com.sgt.services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -23,7 +25,54 @@ namespace com.mvc.sgt.Controllers
         // GET: Paciente
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
+        }
+
+        [HttpGet]
+        public JsonResult GetAll()
+        {
+            var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().Take(10));
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Paciente/Listar/{page}/{count}")]
+        [HttpGet]
+        public JsonResult GetAll(int page, int count)
+        {
+            //var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido));
+            var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido).ThenBy(x=>x.Nombre).Skip((page - 1) * count).Take(count));
+            return Json(new { list = model, count = this.pacienteService.GetAll().Count}, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Paciente/Listar/{letter}/{page}/{count}")]
+        [HttpGet]
+        public JsonResult GetAllByLetter(string letter, int page, int count)
+        {
+            //var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido));
+            var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll()
+                .Where(x=>x.Apellido.Substring(0,1).ToUpper() ==letter)
+                .OrderBy(x => x.Apellido).ThenBy(x => x.Nombre).Skip((page - 1) * count).Take(count));
+            var regisCount = this.pacienteService.GetAll()
+                                .Where(x => x.Apellido.Substring(0, 1).ToUpper() == letter)
+                                .Count();
+            return Json(new { list = model, count = regisCount }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult QuickSearch()
+        {
+            return PartialView();
+        }
+
+        [Route("Paciente/Listar/Name/{name}")]
+        [HttpGet]
+        public JsonResult GetByNameOrLastName(string name)
+        {
+            name = name.ToLower();
+            var listModel = Mapper.Map<List<PacienteDto>>(this.pacienteService.GetAll()
+                .Where(x => x.Apellido.ToLower().StartsWith(name) || x.Nombre.ToLower().StartsWith(name)
+                        || (x.Apellido.ToLower() + " " + x.Nombre.ToLower()).StartsWith(name))
+                .OrderBy(x => x.Apellido).ThenBy(x => x.Nombre));
+            return Json(listModel, JsonRequestBehavior.AllowGet);
         }
 
         //GET
@@ -34,14 +83,37 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateOrEdit(PacienteModel model)
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult CreateOrEdit(PacienteDto model)
         {
-            if (model.ID.HasValue)
+            var resu = "";
+            try
             {
-                pacienteService.Edit(Mapper.Map<Paciente>(model));
+                if (model.ID.HasValue)
+                {
+                    pacienteService.Edit(Mapper.Map<Paciente>(model));
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                }
+                else
+                {
+                    pacienteService.Add(Mapper.Map<Paciente>(model));
+                    Response.StatusCode = (int)HttpStatusCode.Created;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                resu = ex.Message;
             }
 
-            return Json(model);
+            return Json(resu);
+        }
+
+        [HttpGet]
+        public JsonResult Get(int id)
+        {
+            PacienteDto model = Mapper.Map<PacienteDto>(pacienteService.Find(id));
+            return Json(model, JsonRequestBehavior.AllowGet);
         }
     }
 }

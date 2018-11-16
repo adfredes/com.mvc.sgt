@@ -1,43 +1,70 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nombre de aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
-    </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
     @RenderSection("scripts", required: false)
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body ng-app="sgtApp">
+    <header ng-controller="navbarController as nvCtr">      
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top fixed-index p-2">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" ng-class="{active: nvCtr.activeLink=='turnos'}">
+                        <a class="navbar-brand" href="#" ng-click="nvCtr.changeLink('turnos');">
+                            <img  src="~/Content/img/logo_calendar.png" 
+                                 class="d-inline-block align-middle img p-0" 
+                                 style="box-shadow: none; height:60px; " alt="" />                            
+                        </a>
+                    </li>
+                    <li class="nav-item p-3" ng-class="{active: nvCtr.activeLink=='turnos'}">
+                        <a class="nav-link" href="#!Turnos" ng-click="nvCtr.changeLink('turnos');">
+                            Turnos
+                        </a>
+                    </li>
+                    <li class="nav-item p-3" ng-class="{active: nvCtr.activeLink=='pacientes'}">
+                        <a class="nav-link" href="#!Pacientes" ng-click="nvCtr.changeLink('pacientes')">Pacientes</a>
+
+                    </li>
+                    <li class="nav-item dropdown p-3" ng-class="{active: nvCtr.activeLink=='configuracion'}">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Configuración
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#!Aseguradoras" ng-click="nvCtr.changeLink('configuracion')">Aseguradoras</a>
+                            <a class="dropdown-item" href="#!Feriados" ng-click="nvCtr.changeLink('configuracion')">Feriados</a>
+                            <a class="dropdown-item" href="#!Consultorios" ng-click="nvCtr.changeLink('configuracion')">Consultorios</a>
+                            <a class="dropdown-item" href="#!Profesionales" ng-click="nvCtr.changeLink('configuracion')">Profesionales</a>
+                        </div>
+                    </li>
+                    <li class="nav-item p-3">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+            <search-paciente></search-paciente>
+        </nav>
+    </header>
+    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">        
+        @RenderBody()
+    </main>
+    <hr />
+
+
+    <footer class="container-fluid body-content mt-1 pt-1">
+        <p>&copy; @DateTime.Now.Year - Gestión de Turnos</p>
+    </footer>
+
 </body>
 </html>

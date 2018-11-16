@@ -76,6 +76,7 @@
     <Compile Include="Documento_Tipo.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExtensionMethod\CollectionExtension.cs" />
     <Compile Include="Feriado.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
@@ -85,18 +86,22 @@
     <Compile Include="Historial.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="HorariosMedico.cs">
+    <Compile Include="HorariosProfesionale.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Imagen.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IAseguradoraRepository.cs" />
+    <Compile Include="Interfaces\IConsultorioRepository.cs" />
     <Compile Include="Interfaces\IDocumentoTipoRepository.cs" />
+    <Compile Include="Interfaces\IFeriadoRepository.cs" />
     <Compile Include="Interfaces\ILocalidadRepository.cs" />
     <Compile Include="Interfaces\IPacienteRepository.cs" />
+    <Compile Include="Interfaces\IProfesionalRepository.cs" />
     <Compile Include="Interfaces\IProvinciaRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ITipoSesionRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Localidad.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
@@ -113,6 +118,9 @@
     <Compile Include="Profesional.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Profesional_TipoSesion.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provincia.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
@@ -121,15 +129,22 @@
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\AseguradoraRepository.cs" />
+    <Compile Include="Repositories\ConsultorioRepository.cs" />
     <Compile Include="Repositories\DocumentoTipoRepository.cs" />
+    <Compile Include="Repositories\FeriadoRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\LocalidadRepository.cs" />
     <Compile Include="Repositories\PacienteRepository.cs" />
+    <Compile Include="Repositories\ProfesionalRepository.cs" />
     <Compile Include="Repositories\ProvinciaRepository.cs" />
+    <Compile Include="Repositories\TipoSesionRepository.cs" />
     <Compile Include="Sesion.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Sesion_Estado.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TipoSesion.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Tratamiento.cs">

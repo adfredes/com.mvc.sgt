@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agenda">
           <Key>
             <PropertyRef Name="ID" />
@@ -95,8 +95,9 @@ advertencia 6002: La tabla o vista 'SITK.dbo.comisiones' no tiene definida ningu
           <Property Name="Descripcion" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="TurnosSimultaneos" Type="smallint" Nullable="false" />
           <Property Name="Habilitado" Type="bit" Nullable="false" />
-          <Property Name="UsuarioModificaicon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+          <Property Name="TipoSesionID" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SITK.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -159,16 +160,16 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Historial' no tiene definida ningun
           <Property Name="idturno" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'SITK.dbo.HorariosMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="HorariosMedicos">
+advertencia 6002: La tabla o vista 'SITK.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="HorariosProfesionales">
           <Key>
-            <PropertyRef Name="idhorario" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="idMedico" Type="int" />
+          <Property Name="ProfesionalId" Type="int" />
           <Property Name="diasemana" Type="int" />
           <Property Name="desde" Type="datetime" />
           <Property Name="hasta" Type="datetime" />
-          <Property Name="idhorario" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Imagen">
           <Key>
@@ -254,6 +255,8 @@ advertencia 6002: La tabla o vista 'SITK.dbo.opciones' no tiene definida ninguna
           <Property Name="EsGravado" Type="bit" />
           <Property Name="ObraSocial" Type="varchar" MaxLength="50" />
           <Property Name="CodigoSeguridad" Type="varchar" MaxLength="5" />
+          <Property Name="Mail" Type="varchar" MaxLength="50" />
+          <Property Name="Cuit" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Paciente_Aseguradora_Historico">
           <Key>
@@ -278,6 +281,14 @@ advertencia 6002: La tabla o vista 'SITK.dbo.opciones' no tiene definida ninguna
           <Property Name="Habilitado" Type="bit" Nullable="false" />
           <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profesional_TipoSesion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProfesionalID" Type="int" Nullable="false" />
+          <Property Name="TipoSesionID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -336,11 +347,14 @@ advertencia 6002: La tabla o vista 'SITK.dbo.repeticionesMedicos' no tiene defin
           <Property Name="Descripcion" Type="varchar" MaxLength="255" />
           <Property Name="Prioridad" Type="smallint" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'SITK.dbo.test' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="test">
-          <Property Name="mensaje" Type="varchar" MaxLength="1000" />
-        </EntityType>-->
+        <EntityType Name="TipoSesion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="7" Nullable="false" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Tratamientos">
@@ -418,6 +432,20 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             </Principal>
             <Dependent Role="Aseguradora_Plan">
               <PropertyRef Name="AseguradoraID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Consultorio_TipoSesion">
+          <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Consultorio">
+              <PropertyRef Name="TipoSesionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -529,6 +557,48 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Profesional_Horarios">
+          <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HorariosProfesionales">
+              <PropertyRef Name="ProfesionalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesional_TipoSesion_Profesional">
+          <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Profesional_TipoSesion" Type="Self.Profesional_TipoSesion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Profesional_TipoSesion">
+              <PropertyRef Name="ProfesionalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesional_TipoSesion_TipoSesion">
+          <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Profesional_TipoSesion" Type="Self.Profesional_TipoSesion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Profesional_TipoSesion">
+              <PropertyRef Name="TipoSesionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sesion_Agenda">
           <End Role="Agenda" Type="Self.Agenda" Multiplicity="1" />
           <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
@@ -579,9 +649,11 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente_Aseguradora_Historico" EntityType="Self.Paciente_Aseguradora_Historico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profesional" EntityType="Self.Profesional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profesional_TipoSesion" EntityType="Self.Profesional_TipoSesion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sesion_Estado" EntityType="Self.Sesion_Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoSesion" EntityType="Self.TipoSesion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="comisiones" EntityType="Self.comisiones" store:Type="Tables" store:Schema="dbo">
@@ -624,14 +696,14 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     [Historial].[idturno] AS [idturno]
     FROM [dbo].[Historial] AS [Historial]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="HorariosMedicos" EntityType="Self.HorariosMedicos" store:Type="Tables" store:Schema="dbo">
+          <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [HorariosMedicos].[idMedico] AS [idMedico], 
-    [HorariosMedicos].[diasemana] AS [diasemana], 
-    [HorariosMedicos].[desde] AS [desde], 
-    [HorariosMedicos].[hasta] AS [hasta], 
-    [HorariosMedicos].[idhorario] AS [idhorario]
-    FROM [dbo].[HorariosMedicos] AS [HorariosMedicos]</DefiningQuery>
+    [HorariosProfesionales].[ProfesionalId] AS [ProfesionalId], 
+    [HorariosProfesionales].[diasemana] AS [diasemana], 
+    [HorariosProfesionales].[desde] AS [desde], 
+    [HorariosProfesionales].[hasta] AS [hasta], 
+    [HorariosProfesionales].[ID] AS [ID]
+    FROM [dbo].[HorariosProfesionales] AS [HorariosProfesionales]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="opciones" EntityType="Self.opciones" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -701,6 +773,10 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             <End Role="Aseguradora" EntitySet="Aseguradora" />
             <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
           </AssociationSet>
+          <AssociationSet Name="FK_Consultorio_TipoSesion" Association="Self.FK_Consultorio_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesion" />
+            <End Role="Consultorio" EntitySet="Consultorio" />
+          </AssociationSet>
           <AssociationSet Name="FK_Imagen_Paciente" Association="Self.FK_Imagen_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
             <End Role="Imagen" EntitySet="Imagen" />
@@ -737,6 +813,18 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Paciente" EntitySet="Paciente" />
           </AssociationSet>
+          <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
+            <End Role="Profesional" EntitySet="Profesional" />
+            <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
+            <End Role="Profesional" EntitySet="Profesional" />
+            <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesional_TipoSesion_TipoSesion" Association="Self.FK_Profesional_TipoSesion_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesion" />
+            <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+          </AssociationSet>
           <AssociationSet Name="FK_Sesion_Agenda" Association="Self.FK_Sesion_Agenda">
             <End Role="Agenda" EntitySet="Agenda" />
             <End Role="Sesion" EntitySet="Sesion" />
@@ -750,8 +838,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TurnosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -845,9 +932,11 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TurnosSimultaneos" Type="Int16" Nullable="false" />
           <Property Name="Habilitado" Type="Boolean" Nullable="false" />
-          <Property Name="UsuarioModificaicon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Agenda_Bloqueos" Relationship="Self.FK_Agenda_Bloqueos_Consultorio" FromRole="Consultorio" ToRole="Agenda_Bloqueos" />
+          <Property Name="TipoSesionID" Type="Int32" />
+          <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="Consultorio" ToRole="TipoSesion" />
+          <Property Name="UsuarioModificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Documento_Tipo">
           <Key>
@@ -931,6 +1020,8 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <NavigationProperty Name="Paciente_Aseguradora_Historico" Relationship="Self.FK_Paciente_Aseguradora_Historico_Paciente" FromRole="Paciente" ToRole="Paciente_Aseguradora_Historico" />
           <NavigationProperty Name="Provincia" Relationship="Self.FK_Paciente_Provincia" FromRole="Paciente" ToRole="Provincia" />
           <NavigationProperty Name="Turnoes" Relationship="Self.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Paciente_Aseguradora_Historico">
           <Key>
@@ -958,6 +1049,8 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Agenda" Relationship="Self.FK_Agenda_Profesional" FromRole="Profesional" ToRole="Agenda" />
+          <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional" ToRole="Profesional_TipoSesion" />
+          <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="Profesional" ToRole="HorariosProfesionale" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -1062,16 +1155,6 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="mes" Type="Byte" />
           <Property Name="ano" Type="Int16" />
           <Property Name="idturno" Type="Int32" />
-        </EntityType>
-        <EntityType Name="HorariosMedico">
-          <Key>
-            <PropertyRef Name="idhorario" />
-          </Key>
-          <Property Name="idMedico" Type="Int32" />
-          <Property Name="diasemana" Type="Int32" />
-          <Property Name="desde" Type="DateTime" Precision="3" />
-          <Property Name="hasta" Type="DateTime" Precision="3" />
-          <Property Name="idhorario" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="opcione">
           <Key>
@@ -1349,7 +1432,6 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySet Name="Derivadores" EntityType="Self.Derivadore" />
           <EntitySet Name="fotos" EntityType="Self.foto" />
           <EntitySet Name="Historials" EntityType="Self.Historial" />
-          <EntitySet Name="HorariosMedicos" EntityType="Self.HorariosMedico" />
           <EntitySet Name="opciones" EntityType="Self.opcione" />
           <EntitySet Name="repeticionesMedicos" EntityType="Self.repeticionesMedico" />
           <EntitySet Name="Tratamientos" EntityType="Self.Tratamiento" />
@@ -1417,7 +1499,113 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
             <End Role="Turno" EntitySet="Turnoes" />
             <End Role="Sesion" EntitySet="Sesions" />
           </AssociationSet>
+          <EntitySet Name="TipoSesions" EntityType="TurnosModel.TipoSesion" />
+          <AssociationSet Name="FK_Consultorio_TipoSesion" Association="TurnosModel.FK_Consultorio_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesions" />
+            <End Role="Consultorio" EntitySet="Consultorios" />
+          </AssociationSet>
+          <EntitySet Name="Profesional_TipoSesion" EntityType="TurnosModel.Profesional_TipoSesion" />
+          <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="TurnosModel.FK_Profesional_TipoSesion_Profesional">
+            <End Role="Profesional" EntitySet="Profesionals" />
+            <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesional_TipoSesion_TipoSesion" Association="TurnosModel.FK_Profesional_TipoSesion_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesions" />
+            <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+          </AssociationSet>
+          <EntitySet Name="HorariosProfesionales" EntityType="TurnosModel.HorariosProfesionale" />
+          <AssociationSet Name="FK_Profesional_Horarios" Association="TurnosModel.FK_Profesional_Horarios">
+            <End Role="Profesional" EntitySet="Profesionals" />
+            <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="TipoSesion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Consultorios" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="TipoSesion" ToRole="Consultorio" />
+          <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="TipoSesion" ToRole="Profesional_TipoSesion" />
+        </EntityType>
+        <Association Name="FK_Consultorio_TipoSesion">
+          <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TurnosModel.Consultorio" Role="Consultorio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Consultorio">
+              <PropertyRef Name="TipoSesionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Profesional_TipoSesion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+          <Property Name="TipoSesionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional_TipoSesion" ToRole="Profesional" />
+          <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="Profesional_TipoSesion" ToRole="TipoSesion" />
+        </EntityType>
+        <Association Name="FK_Profesional_TipoSesion_Profesional">
+          <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Profesional_TipoSesion">
+              <PropertyRef Name="ProfesionalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesional_TipoSesion_TipoSesion">
+          <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Profesional_TipoSesion">
+              <PropertyRef Name="TipoSesionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HorariosProfesionale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ProfesionalId" Type="Int32" />
+          <Property Name="diasemana" Type="Int32" />
+          <Property Name="desde" Type="DateTime" Precision="3" />
+          <Property Name="hasta" Type="DateTime" Precision="3" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="HorariosProfesionale" ToRole="Profesional" />
+        </EntityType>
+        <Association Name="FK_Profesional_Horarios">
+          <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TurnosModel.HorariosProfesionale" Role="HorariosProfesionale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HorariosProfesionale">
+              <PropertyRef Name="ProfesionalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1504,11 +1692,12 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySetMapping Name="Consultorios">
             <EntityTypeMapping TypeName="TurnosModel.Consultorio">
               <MappingFragment StoreEntitySet="Consultorio">
+                <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+                <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="TurnosSimultaneos" ColumnName="TurnosSimultaneos" />
                 <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
-                <ScalarProperty Name="UsuarioModificaicon" ColumnName="UsuarioModificaicon" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1562,6 +1751,8 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySetMapping Name="Pacientes">
             <EntityTypeMapping TypeName="TurnosModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Cuit" ColumnName="Cuit" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Apellido" ColumnName="Apellido" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -1722,17 +1913,6 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HorariosMedicos">
-            <EntityTypeMapping TypeName="TurnosModel.HorariosMedico">
-              <MappingFragment StoreEntitySet="HorariosMedicos">
-                <ScalarProperty Name="idMedico" ColumnName="idMedico" />
-                <ScalarProperty Name="diasemana" ColumnName="diasemana" />
-                <ScalarProperty Name="desde" ColumnName="desde" />
-                <ScalarProperty Name="hasta" ColumnName="hasta" />
-                <ScalarProperty Name="idhorario" ColumnName="idhorario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="opciones">
             <EntityTypeMapping TypeName="TurnosModel.opcione">
               <MappingFragment StoreEntitySet="opciones">
@@ -1788,6 +1968,35 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
                 <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
                 <ScalarProperty Name="cantsesiones" ColumnName="cantsesiones" />
                 <ScalarProperty Name="otros" ColumnName="otros" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoSesions">
+            <EntityTypeMapping TypeName="TurnosModel.TipoSesion">
+              <MappingFragment StoreEntitySet="TipoSesion">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profesional_TipoSesion">
+            <EntityTypeMapping TypeName="TurnosModel.Profesional_TipoSesion">
+              <MappingFragment StoreEntitySet="Profesional_TipoSesion">
+                <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
+                <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HorariosProfesionales">
+            <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
+              <MappingFragment StoreEntitySet="HorariosProfesionales">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="hasta" ColumnName="hasta" />
+                <ScalarProperty Name="desde" ColumnName="desde" />
+                <ScalarProperty Name="diasemana" ColumnName="diasemana" />
+                <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

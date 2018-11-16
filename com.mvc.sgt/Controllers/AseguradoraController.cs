@@ -7,22 +7,23 @@ using System.Web.Mvc;
 using com.sgt.DataAccess;
 using AutoMapper;
 using com.sgt.services.Interfaces;
+using com.mvc.sgt.Controllers.Filters;
 
 namespace com.mvc.sgt.Controllers
 {
     public class AseguradoraController : Controller
     {
 
-        private readonly ICrudService CrudService;
+        private readonly IAseguradoraService AseguradoraService;
 
-        public AseguradoraController(ICrudService CrudService)
+        public AseguradoraController(IAseguradoraService AseguradoraService)
         {
-            this.CrudService = CrudService;
+            this.AseguradoraService = AseguradoraService;
         }
         // GET: Aseguradora
         public ActionResult Index()
-        {            
-            return View();
+        {
+            return PartialView();
         }
 
         public ActionResult CreateOrEdit(int? id = null)
@@ -31,18 +32,19 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPost]
+        [CreateUpdateActionFilter("admin")]
         public JsonResult CreateOrEdit(AseguradoraModel model)
         {
             //model.FechaModificacion = DateTime.Now;
             model.UsuarioModificacion = User.Identity.Name;
             if (model.ID.HasValue)
             {
-                CrudService.Edit(Mapper.Map<Aseguradora>(model));
+                AseguradoraService.Edit(Mapper.Map<Aseguradora>(model));
             }
             else
             {
                 model.Habilitado = true;
-                CrudService.Add(Mapper.Map<Aseguradora>(model));
+                AseguradoraService.Add(Mapper.Map<Aseguradora>(model));
             }
             return Json(model);
         }
@@ -51,14 +53,14 @@ namespace com.mvc.sgt.Controllers
         public JsonResult GetAll()
         {
             List<AseguradoraModel> model;
-            model = Mapper.Map<List<AseguradoraModel>>(CrudService.GetAll());                                 
+            model = Mapper.Map<List<AseguradoraModel>>(AseguradoraService.GetAll());                                 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult Get(int id)
         {
-            AseguradoraModel model = Mapper.Map<AseguradoraModel>(CrudService.Find(id));            
+            AseguradoraModel model = Mapper.Map<AseguradoraModel>(AseguradoraService.Find(id));            
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

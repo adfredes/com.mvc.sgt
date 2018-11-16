@@ -81,11 +81,12 @@
     <EntitySetMapping Name="Consultorios">
       <EntityTypeMapping TypeName="TurnosModel.Consultorio">
         <MappingFragment StoreEntitySet="Consultorio">
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="TurnosSimultaneos" ColumnName="TurnosSimultaneos" />
           <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
-          <ScalarProperty Name="UsuarioModificaicon" ColumnName="UsuarioModificaicon" />
           <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -139,6 +140,8 @@
     <EntitySetMapping Name="Pacientes">
       <EntityTypeMapping TypeName="TurnosModel.Paciente">
         <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Cuit" ColumnName="Cuit" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Apellido" ColumnName="Apellido" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
@@ -299,17 +302,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="HorariosMedicos">
-      <EntityTypeMapping TypeName="TurnosModel.HorariosMedico">
-        <MappingFragment StoreEntitySet="HorariosMedicos">
-          <ScalarProperty Name="idMedico" ColumnName="idMedico" />
-          <ScalarProperty Name="diasemana" ColumnName="diasemana" />
-          <ScalarProperty Name="desde" ColumnName="desde" />
-          <ScalarProperty Name="hasta" ColumnName="hasta" />
-          <ScalarProperty Name="idhorario" ColumnName="idhorario" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="opciones">
       <EntityTypeMapping TypeName="TurnosModel.opcione">
         <MappingFragment StoreEntitySet="opciones">
@@ -365,6 +357,35 @@
           <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
           <ScalarProperty Name="cantsesiones" ColumnName="cantsesiones" />
           <ScalarProperty Name="otros" ColumnName="otros" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoSesions">
+      <EntityTypeMapping TypeName="TurnosModel.TipoSesion">
+        <MappingFragment StoreEntitySet="TipoSesion">
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profesional_TipoSesion">
+      <EntityTypeMapping TypeName="TurnosModel.Profesional_TipoSesion">
+        <MappingFragment StoreEntitySet="Profesional_TipoSesion">
+          <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
+          <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HorariosProfesionales">
+      <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
+        <MappingFragment StoreEntitySet="HorariosProfesionales">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="hasta" ColumnName="hasta" />
+          <ScalarProperty Name="desde" ColumnName="desde" />
+          <ScalarProperty Name="diasemana" ColumnName="diasemana" />
+          <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

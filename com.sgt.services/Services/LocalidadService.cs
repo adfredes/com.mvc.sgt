@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace com.sgt.services.Services
 {
-    class LocalidadService : ILocalidadService
+    public class LocalidadService : ILocalidadService
     {
         private IUnitOfWork unitOfWork;
 
@@ -20,7 +20,10 @@ namespace com.sgt.services.Services
 
         public ICollection<Localidad> getByProvincia(int idProvincia)
         {
-            throw new NotImplementedException();
+            return this.unitOfWork.RepoLocalidad.GetAll()
+                    .Where(l => l.ProvinciaID == idProvincia)
+                    .OrderBy(l => l.Descripcion)
+                    .ToList();
         }
     }
 }

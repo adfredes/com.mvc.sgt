@@ -14,5 +14,10 @@ namespace com.mvc.sgt.Controllers
 
             return View();
         }
+
+        public ActionResult FormElementError()
+        {
+            return PartialView();
+        }
     }
 }

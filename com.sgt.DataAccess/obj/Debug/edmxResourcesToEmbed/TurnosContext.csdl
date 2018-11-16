@@ -90,9 +90,11 @@
     <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="TurnosSimultaneos" Type="Int16" Nullable="false" />
     <Property Name="Habilitado" Type="Boolean" Nullable="false" />
-    <Property Name="UsuarioModificaicon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Agenda_Bloqueos" Relationship="Self.FK_Agenda_Bloqueos_Consultorio" FromRole="Consultorio" ToRole="Agenda_Bloqueos" />
+    <Property Name="TipoSesionID" Type="Int32" />
+    <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="Consultorio" ToRole="TipoSesion" />
+    <Property Name="UsuarioModificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Documento_Tipo">
     <Key>
@@ -176,6 +178,8 @@
     <NavigationProperty Name="Paciente_Aseguradora_Historico" Relationship="Self.FK_Paciente_Aseguradora_Historico_Paciente" FromRole="Paciente" ToRole="Paciente_Aseguradora_Historico" />
     <NavigationProperty Name="Provincia" Relationship="Self.FK_Paciente_Provincia" FromRole="Paciente" ToRole="Provincia" />
     <NavigationProperty Name="Turnoes" Relationship="Self.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+    <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Paciente_Aseguradora_Historico">
     <Key>
@@ -203,6 +207,8 @@
     <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Agenda" Relationship="Self.FK_Agenda_Profesional" FromRole="Profesional" ToRole="Agenda" />
+    <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional" ToRole="Profesional_TipoSesion" />
+    <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="Profesional" ToRole="HorariosProfesionale" />
   </EntityType>
   <EntityType Name="Provincia">
     <Key>
@@ -307,16 +313,6 @@
     <Property Name="mes" Type="Byte" />
     <Property Name="ano" Type="Int16" />
     <Property Name="idturno" Type="Int32" />
-  </EntityType>
-  <EntityType Name="HorariosMedico">
-    <Key>
-      <PropertyRef Name="idhorario" />
-    </Key>
-    <Property Name="idMedico" Type="Int32" />
-    <Property Name="diasemana" Type="Int32" />
-    <Property Name="desde" Type="DateTime" Precision="3" />
-    <Property Name="hasta" Type="DateTime" Precision="3" />
-    <Property Name="idhorario" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="opcione">
     <Key>
@@ -594,7 +590,6 @@
     <EntitySet Name="Derivadores" EntityType="Self.Derivadore" />
     <EntitySet Name="fotos" EntityType="Self.foto" />
     <EntitySet Name="Historials" EntityType="Self.Historial" />
-    <EntitySet Name="HorariosMedicos" EntityType="Self.HorariosMedico" />
     <EntitySet Name="opciones" EntityType="Self.opcione" />
     <EntitySet Name="repeticionesMedicos" EntityType="Self.repeticionesMedico" />
     <EntitySet Name="Tratamientos" EntityType="Self.Tratamiento" />
@@ -662,5 +657,111 @@
       <End Role="Turno" EntitySet="Turnoes" />
       <End Role="Sesion" EntitySet="Sesions" />
     </AssociationSet>
+    <EntitySet Name="TipoSesions" EntityType="TurnosModel.TipoSesion" />
+    <AssociationSet Name="FK_Consultorio_TipoSesion" Association="TurnosModel.FK_Consultorio_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesions" />
+      <End Role="Consultorio" EntitySet="Consultorios" />
+    </AssociationSet>
+    <EntitySet Name="Profesional_TipoSesion" EntityType="TurnosModel.Profesional_TipoSesion" />
+    <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="TurnosModel.FK_Profesional_TipoSesion_Profesional">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_TipoSesion_TipoSesion" Association="TurnosModel.FK_Profesional_TipoSesion_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesions" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <EntitySet Name="HorariosProfesionales" EntityType="TurnosModel.HorariosProfesionale" />
+    <AssociationSet Name="FK_Profesional_Horarios" Association="TurnosModel.FK_Profesional_Horarios">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Color" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Consultorios" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="TipoSesion" ToRole="Consultorio" />
+    <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="TipoSesion" ToRole="Profesional_TipoSesion" />
+  </EntityType>
+  <Association Name="FK_Consultorio_TipoSesion">
+    <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Consultorio" Role="Consultorio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Consultorio">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Profesional_TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+    <Property Name="TipoSesionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional_TipoSesion" ToRole="Profesional" />
+    <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="Profesional_TipoSesion" ToRole="TipoSesion" />
+  </EntityType>
+  <Association Name="FK_Profesional_TipoSesion_Profesional">
+    <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_TipoSesion_TipoSesion">
+    <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HorariosProfesionale">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ProfesionalId" Type="Int32" />
+    <Property Name="diasemana" Type="Int32" />
+    <Property Name="desde" Type="DateTime" Precision="3" />
+    <Property Name="hasta" Type="DateTime" Precision="3" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="HorariosProfesionale" ToRole="Profesional" />
+  </EntityType>
+  <Association Name="FK_Profesional_Horarios">
+    <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.HorariosProfesionale" Role="HorariosProfesionale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HorariosProfesionale">
+        <PropertyRef Name="ProfesionalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

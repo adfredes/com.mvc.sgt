@@ -12,12 +12,14 @@ namespace com.sgt.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class HorariosMedico
+    public partial class HorariosProfesionale
     {
-        public Nullable<int> idMedico { get; set; }
+        public Nullable<int> ProfesionalId { get; set; }
         public Nullable<int> diasemana { get; set; }
         public Nullable<System.DateTime> desde { get; set; }
         public Nullable<System.DateTime> hasta { get; set; }
-        public int idhorario { get; set; }
+        public int ID { get; set; }
+    
+        public virtual Profesional Profesional { get; set; }
     }
 }

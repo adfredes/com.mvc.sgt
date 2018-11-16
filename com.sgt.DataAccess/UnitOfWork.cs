@@ -18,6 +18,10 @@ namespace com.sgt.DataAccess
         private IPacienteRepository pacienteRepository;
         private IProvinciaRepository provinciaRepository;
         private ILocalidadRepository localidadRepository;
+        private IFeriadoRepository feriadoRepository;
+        private IConsultorioRepository consultorioRepository;
+        private ITipoSesionRepository tipoSesionRepository;
+        private IProfesionalRepository profesionalRepository;
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -43,44 +47,35 @@ namespace com.sgt.DataAccess
         }
 
 
-        public IAseguradoraRepository RepoAseguradora
-        {
-            get
-            {
-                if (aseguradoraRepository == null)
-                    aseguradoraRepository = new AseguradoraRepository(dbContext);
-                return aseguradoraRepository;
-            }
-        }            
+        public IAseguradoraRepository RepoAseguradora =>
+            aseguradoraRepository = aseguradoraRepository ?? new AseguradoraRepository(dbContext);
+            
 
-        public IPacienteRepository RepoPaciente
-        {
-            get
-            {
-                if (pacienteRepository == null)
-                    pacienteRepository = new PacienteRepository(dbContext);
-                return pacienteRepository;
-            }
-        }
+        public IPacienteRepository RepoPaciente =>
+            pacienteRepository = pacienteRepository ?? new PacienteRepository(dbContext);
+            
 
-        public ILocalidadRepository RepoLocalidad
-        {
-            get
-            {
-                if (localidadRepository == null)
-                    localidadRepository = new LocalidadRepository(dbContext);
-                return localidadRepository;
-            }
-        }
+        public ILocalidadRepository RepoLocalidad =>
+            localidadRepository = localidadRepository ?? new LocalidadRepository(dbContext);
+            
 
-        public IProvinciaRepository RepoProvincia
-        {
-            get
-            {
-                if (provinciaRepository == null)
-                    provinciaRepository = new ProvinciaRepository(dbContext);
-                return provinciaRepository;
-            }
-        }
+        public IProvinciaRepository RepoProvincia =>
+            provinciaRepository = provinciaRepository ?? new ProvinciaRepository(dbContext);
+            
+
+        public IFeriadoRepository RepoFeriado =>
+            feriadoRepository = feriadoRepository ?? new FeriadoRepository(dbContext);
+        
+        public IConsultorioRepository RepoConsultorio =>
+            consultorioRepository = consultorioRepository ?? new ConsultorioRepository(dbContext);
+
+        public ITipoSesionRepository RepoTipoSesion =>
+            tipoSesionRepository = tipoSesionRepository ?? new TipoSesionRepository(dbContext);
+
+        public IProfesionalRepository RepoProfesional =>
+            profesionalRepository = profesionalRepository ?? new ProfesionalRepository(dbContext);
+
+
+
     }
 }

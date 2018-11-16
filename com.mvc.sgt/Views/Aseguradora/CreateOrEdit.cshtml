@@ -1,77 +1,104 @@
 ﻿<div id="CreateOrUpdate" class="modal fade bd-example-modal-lg" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Aseguradora</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>                
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize"><span class="icon-hospital"></span>{{aseguradora.Descripcion}}</h4>
+                <button type="button" class="close" data-dismiss="modal" ng-click="close()">&times;</button>
             </div>
             <div class="modal-body">
-                <input type="hidden" class="form-control" ng-model="aseguradora.ID">
-                <div class="form-group">
-                    <label for="Descripcion">Descripcion:</label>
-                    <input type="text" class="form-control" id="Descripcion" ng-model="aseguradora.Descripcion" maxlength="50">
-                </div>
-                <div class="form-group">
-                    <label for="Descripcion">Color:</label>
-                    <input type="color" class="form-control" style="padding: 0px;" id="Color" ng-model="aseguradora.Color" value="{{aseguradora.Color}}">
-                </div>
-                <div class="form-group">
-                    <label>Plan
-                        <input type="text" ng-model="planModel.Descripcion" />
-                    </label>
-                    <button ng-click="AgregarPlan()" class="btn-secondary">Agregar</button>
-                </div>
-                
-                    <table class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="colgroup">*</th>
-                                <th scope="col" ng-show="true==false">
-                                    Id
-                                </th>
-                                <th scope="col">
-                                    Plan
-                                </th>
-                                <th scope="col">
-                                    Habilitado
-                                </th>
-                                <th>
-                                    Modificado
-                                </th>                                    
-                                <th>
+                <form name="frmAseguradora" id="frmAseguradora">
+                    <input type="hidden" class="form-control" ng-model="aseguradora.ID">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-9 form-group">
+                                <md-input-container class="md-block">
+                                    <label for="Descripcion">Descripcion:</label>
+                                    <input type="text" class="form-control" id="Descripcion" name="descripcion" ng-model="aseguradora.Descripcion" maxlength="50" required>
+                                    <div ng-show="frmAseguradora.descripcion.$touched" ng-messages="frmAseguradora.descripcion.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <md-input-container class="md-block">
+                                    <label for="Color">Color</label>
+                                    <input type="color" id="Color" name="color" ng-model="aseguradora.Color">
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-12">
+                            <form name="frmPlan" id="frmPlan" novalidate>
+                                <div class="form-group">
+                                    <md-input-container class="md-block">
+                                        <label for="plan">
+                                            Nuevo Plan
+                                        </label>
+                                        <input name="plan" id="plan" type="text" ng-model="planModel.Descripcion" required />
+                                        <md-icon ng-click="AgregarPlan()" class="icon-plus-circled" style="color:green;font-size:1.5rem"></md-icon>
 
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="(index, plan) in aseguradora.AseguradoraPlan track by index">
-                                <th scope="row">
-                                    {{index+1}}
-                                </th>
-                                <td ng-show="true==false">
-                                    {{plan.ID}}
-                                </td>
-                                <td>
-                                    {{plan.Descripcion}}
-                                </td>
-                                <td>
-                                    <input type="checkbox" class="form-check" disabled ng-model="plan.Habilitado" />
-                                </td>
-                                <td>
-                                    {{plan.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}
-                                </td>
-                                <td>
-                                    <button class="btn btn-secondary">Editar</button>
-                                    <button class="btn btn-danger" ng-click="EliminarPlan(plan, index)">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                
+                                    </md-input-container>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <table class="table" ng-show="aseguradora.AseguradoraPlan.length>0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="colgroup">*</th>
+                                    <th scope="col" ng-show="true==false">
+                                        Id
+                                    </th>
+                                    <th scope="col">
+                                        Plan
+                                    </th>
+                                    <th scope="col">
+                                        Habilitado
+                                    </th>
+                                    <th>
+                                        Modificado
+                                    </th>
+                                    <th>
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(index, plan) in aseguradora.AseguradoraPlan track by index">
+                                    <th scope="row">
+                                        {{index+1}}
+                                    </th>
+                                    <td ng-show="true==false">
+                                        <span ng-hide="planEdit==index">{{plan.ID}}</span>
+                                    </td>
+                                    <td>
+                                        <span ng-hide="planEdit==index">{{plan.Descripcion}}</span>
+                                        <input type="text" ng-show="planEdit==index" ng-model="plan.Descripcion">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="form-check" ng-disabled="planEdit!=index" ng-model="plan.Habilitado" />
+                                    </td>
+                                    <td>
+                                        {{plan.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}
+                                    </td>
+                                    <td>
+                                        <span class="icon-edit btn" ng-hide="planEdit==index" ng-click="setEditMode(index)"></span>
+                                        <span class="icon-floppy btn" ng-show="planEdit==index" ng-click="setEditMode(-1)"></span>
+                                        <span class="icon-trash-empty btn" ng-click="EliminarPlan(plan, index)"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                <button type="submit" class="btn btn-success" ng-click="save()"><i class="fa fa-save"></i> Submit</button>
+                <md-button type="button" class="md-raised md-warn" ng-click="close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="saveForm()"><span class="icon-floppy"></span> Guardar</md-button>
             </div>
         </div>
     </div>

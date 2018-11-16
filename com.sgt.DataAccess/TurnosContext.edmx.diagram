@@ -7,10 +7,10 @@
       <Diagram DiagramId="752d4ab0461d4bcea885963b0cb4180d" Name="Diagram1">
         <EntityTypeShape EntityType="TurnosModel.Agendum" Width="1.5" PointX="7.5" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Agenda_Bloqueos" Width="2" PointX="9.75" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TurnosModel.Agenda_Receso" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Agenda_Receso" Width="1.5" PointX="9" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Aseguradora" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Aseguradora_Plan" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TurnosModel.Consultorio" Width="1.5" PointX="7.5" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Consultorio" Width="1.875" PointX="7.5" PointY="20.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Documento_Tipo" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Feriado" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Imagen" Width="1.5" PointX="7.5" PointY="3.625" IsExpanded="true" />
@@ -27,7 +27,6 @@
         <EntityTypeShape EntityType="TurnosModel.Derivadore" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.foto" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Historial" Width="1.5" PointX="13.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TurnosModel.HorariosMedico" Width="1.5" PointX="13.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.opcione" Width="2.375" PointX="13.75" PointY="13.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.repeticionesMedico" Width="2.375" PointX="0.75" PointY="14.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Tratamiento" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
@@ -47,6 +46,13 @@
         <AssociationConnector Association="TurnosModel.FK_Paciente_Provincia" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosModel.FK_Turno_Paciente" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosModel.FK_Sesion_Turno" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TurnosModel.TipoSesion" Width="1.5" PointX="5.25" PointY="21.125" />
+        <AssociationConnector Association="TurnosModel.FK_Consultorio_TipoSesion" />
+        <EntityTypeShape EntityType="TurnosModel.Profesional_TipoSesion" Width="1.5" PointX="10.5" PointY="19.375" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_TipoSesion_Profesional" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" />
+        <EntityTypeShape EntityType="TurnosModel.HorariosProfesionale" Width="1.5" PointX="3.25" PointY="19.25" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_Horarios" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

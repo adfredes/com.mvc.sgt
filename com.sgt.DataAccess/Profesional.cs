@@ -18,6 +18,8 @@ namespace com.sgt.DataAccess
         public Profesional()
         {
             this.Agenda = new HashSet<Agendum>();
+            this.Profesional_TipoSesion = new HashSet<Profesional_TipoSesion>();
+            this.HorariosProfesionales = new HashSet<HorariosProfesionale>();
         }
     
         public int ID { get; set; }
@@ -30,5 +32,9 @@ namespace com.sgt.DataAccess
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agendum> Agenda { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Profesional_TipoSesion> Profesional_TipoSesion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HorariosProfesionale> HorariosProfesionales { get; set; }
     }
 }

@@ -12,6 +12,10 @@ namespace com.sgt.DataAccess.Interfaces
         IPacienteRepository RepoPaciente { get; }
         ILocalidadRepository RepoLocalidad { get; }
         IProvinciaRepository RepoProvincia { get; }
+        IFeriadoRepository RepoFeriado { get; }
+        IConsultorioRepository RepoConsultorio { get; }
+        ITipoSesionRepository RepoTipoSesion { get; }
+        IProfesionalRepository RepoProfesional { get; }
 
     }
 }

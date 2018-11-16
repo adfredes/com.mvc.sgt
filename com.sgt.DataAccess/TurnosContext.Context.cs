@@ -47,9 +47,11 @@ namespace com.sgt.DataAccess
         public virtual DbSet<Derivadore> Derivadores { get; set; }
         public virtual DbSet<foto> fotos { get; set; }
         public virtual DbSet<Historial> Historials { get; set; }
-        public virtual DbSet<HorariosMedico> HorariosMedicos { get; set; }
         public virtual DbSet<opcione> opciones { get; set; }
         public virtual DbSet<repeticionesMedico> repeticionesMedicos { get; set; }
         public virtual DbSet<Tratamiento> Tratamientos { get; set; }
+        public virtual DbSet<TipoSesion> TipoSesions { get; set; }
+        public virtual DbSet<Profesional_TipoSesion> Profesional_TipoSesion { get; set; }
+        public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
     }
 }

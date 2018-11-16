@@ -24,10 +24,12 @@ namespace com.sgt.DataAccess
         public string Descripcion { get; set; }
         public short TurnosSimultaneos { get; set; }
         public bool Habilitado { get; set; }
-        public string UsuarioModificaicon { get; set; }
         public System.DateTime FechaModificacion { get; set; }
+        public Nullable<int> TipoSesionID { get; set; }
+        public string UsuarioModificacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agenda_Bloqueos> Agenda_Bloqueos { get; set; }
+        public virtual TipoSesion TipoSesion { get; set; }
     }
 }

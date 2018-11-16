@@ -42,16 +42,22 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Interfaces\IAseguradoraService.cs" />
+    <Compile Include="Interfaces\IConsultorioService.cs" />
     <Compile Include="Interfaces\ICrudService.cs" />
     <Compile Include="Interfaces\IDocumentoTipoService.cs" />
+    <Compile Include="Interfaces\IAgendaService.cs" />
     <Compile Include="Interfaces\ILocalidadService.cs" />
     <Compile Include="Interfaces\IPacienteService.cs" />
+    <Compile Include="Interfaces\IProfesionalService.cs" />
     <Compile Include="Interfaces\IProvinciaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AgendaService.cs" />
     <Compile Include="Services\AseguradoraService.cs" />
+    <Compile Include="Services\ConsultorioService.cs" />
     <Compile Include="Services\DocumentoTipoService.cs" />
     <Compile Include="Services\LocalidadService.cs" />
     <Compile Include="Services\PacienteService.cs" />
+    <Compile Include="Services\ProfesionalService.cs" />
     <Compile Include="Services\ProvinciaService.cs" />
   </ItemGroup>
   <ItemGroup>

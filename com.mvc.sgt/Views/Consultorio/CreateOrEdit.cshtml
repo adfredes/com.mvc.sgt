@@ -1,0 +1,83 @@
+﻿<div id="CreateOrUpdate" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize"><span class="icon-briefcase badge-primary"></span> {{$ctrl.consultorio.Descripcion}}</h4>
+                <button type="button" ng-click="$ctrl.close()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body p-0">                 
+                <div ng-cloak>
+                    <md-content>
+                        <md-content>
+                            <div class="container-fluid p-0">
+                                <form name="frmConsultorio" id="frmConsultorio" ng-cloak novalidate>
+                                    <fieldset class="m-0 pb-0">
+                                        <div class="form-group">
+
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <md-input-container class="form-group md-block">
+                                                        <label for="descripcion">
+                                                            Descripción:
+                                                        </label>
+                                                        <input type="text" value="" class="form-control text-capitalize" id="descripcion"
+                                                               name="descripcion" ng-model="$ctrl.consultorio.Descripcion" autocomplete="off" required />
+                                                        <div ng-show="frmConsultorio.descripcion.$touched" ng-messages="frmConsultorio.descripcion.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-md-6">
+                                                    <md-input-container class="form-group md-block">
+                                                        <label for="turnos">
+                                                            Turnos Simultaneos:
+                                                        </label>
+
+                                                        <input required type="number" step="any" name="turnos" ng-model="$ctrl.consultorio.TurnosSimultaneos" min="1"
+                                                               max="99" id="turnos" />
+                                                        <span ng-show="frmConsultorio.turnos.$touched" ng-messages="frmConsultorio.turnos.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError"></span>
+                                                        </span>
+                                                    </md-input-container>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <md-input-container class="form-group md-block">
+                                                        <label>
+                                                            Tipo
+                                                        </label>
+                                                        <md-select id="tiposesion" name="tiposesion" ng-model="$ctrl.consultorio.TipoSesionID">
+                                                            <md-option ng-repeat="item in $ctrl.Tipos" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                                        </md-select>
+                                                    </md-input-container>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">                                                
+                                                <div class="col-md-12">                                                    
+                                                    <md-input-container class="md-block">
+                                                        <md-switch class="md-primary" name="special" ng-model="$ctrl.consultorio.Habilitado" required>
+                                                            <span ng-show="$ctrl.consultorio.Habilitado">Habilitado</span>
+                                                            <span ng-hide="$ctrl.consultorio.Habilitado">Deshabilitado</span>
+                                                        </md-switch>
+                                                    </md-input-container>                                                        
+                                                </div>
+                                            </div>
+                                            <div class="clear-fix"></div>
+                                            <span ng-show="$ctrl.error.length>0" role="alert">{{$ctrl.error}}</span>
+                                        </div>
+                                    </fieldset>
+                                    
+                                </form>
+                            </div>
+                        </md-content>
+                        
+                </div>
+            </div>
+            <div class="modal-footer">
+                <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.save($ctrl.consultorio)"><span class="icon-floppy"></span> Guardar</md-button>
+            </div>
+        </div>
+    </div>
+</div>

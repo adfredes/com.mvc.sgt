@@ -23,7 +23,9 @@ namespace com.sgt.DataAccess.Repositories
 
         public void Add(TEntity entity)
         {
-            Entity.Add(entity);
+            Entity.Add(entity);            
+
+            //_dbcontext.Entry(entity).State = EntityState.Added;
             Save();
         }
 
@@ -34,7 +36,7 @@ namespace com.sgt.DataAccess.Repositories
         }
 
         public virtual void Edit(TEntity entity)
-        {
+        {                        
             _dbcontext.Entry(entity).State = EntityState.Modified;
             Save();
         }
@@ -54,7 +56,15 @@ namespace com.sgt.DataAccess.Repositories
             return Entity.Find(id);
         }
 
-        public void Save()
+        protected void EntriesClear()
+        {
+            foreach (var entry in _dbcontext.ChangeTracker.Entries())
+            {
+                entry.State = EntityState.Detached;
+            }
+        }       
+
+        protected void Save()
         {
             try
             {

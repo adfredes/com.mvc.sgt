@@ -14,7 +14,6 @@ namespace com.sgt.DataAccess.Interfaces
         IQueryable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
         void Add(TEntity entity);
         void Delete(TEntity entity);
-        void Edit(TEntity entity);
-        void Save();
+        void Edit(TEntity entity);        
     }
 }

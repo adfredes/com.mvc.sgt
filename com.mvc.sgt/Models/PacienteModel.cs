@@ -39,6 +39,8 @@ namespace com.mvc.sgt.Models
         public bool? EsGravado { get; set; }
         public string ObraSocial { get; set; }
         public string CodigoSeguridad { get; set; }
+        public string Cuit { get; set; }
+        public string Mail { get; set; }
 
         public virtual AseguradoraModel Aseguradora { get; set; }
         public virtual AseguradoraPlanModel AseguradoraPlan { get; set; }

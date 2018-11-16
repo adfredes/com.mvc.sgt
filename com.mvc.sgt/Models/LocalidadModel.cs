@@ -7,5 +7,8 @@ namespace com.mvc.sgt.Models
 {
     public class LocalidadModel
     {
+        public int ID { get; set; }
+        public int ProvinciaID { get; set; }
+        public string Descripcion { get; set; }
     }
 }

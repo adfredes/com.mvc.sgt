@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace com.sgt.services.Services
 {
-    public class CrudService: ICrudService
+    public class AseguradoraService: IAseguradoraService
     {
         private IUnitOfWork unitOfWork;
 
-        public CrudService(IUnitOfWork unitOfWork)
+        public AseguradoraService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

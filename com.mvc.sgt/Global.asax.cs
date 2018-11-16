@@ -13,11 +13,11 @@ namespace com.mvc.sgt
     public class WebApiApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
+        {            
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);            
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.RegisterMappers();
             HttpConfiguration config = GlobalConfiguration.Configuration;

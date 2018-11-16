@@ -257,22 +257,36 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\ApiDefaultController.cs" />
     <Compile Include="Controllers\AseguradoraController.cs" />
+    <Compile Include="Controllers\ConsultorioController.cs" />
+    <Compile Include="Controllers\Filters\CreateUpdateActionFilter.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PacienteController.cs" />
+    <Compile Include="Controllers\ProfesionalController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AgendaModel.cs" />
     <Compile Include="Models\AseguradoraModel.cs" />
     <Compile Include="Models\AseguradoraPlanModel.cs" />
+    <Compile Include="Models\ConsultorioModel.cs" />
     <Compile Include="Models\DocumentoTipoModel.cs" />
+    <Compile Include="Models\DTO\ComboDTO.cs" />
+    <Compile Include="Models\FeriadoModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocalidadModel.cs" />
+    <Compile Include="Models\PacienteDto.cs" />
     <Compile Include="Models\PacienteModel.cs" />
+    <Compile Include="Models\PacienteSearchDto.cs" />
+    <Compile Include="Models\ProfesionalModel.cs" />
+    <Compile Include="Models\Profesional_TipoSesionModel.cs" />
     <Compile Include="Models\ProvinciaModel.cs" />
+    <Compile Include="Models\TipoSesionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -280,12 +294,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\addphoto-camera.svg" />
+    <Content Include="Content\angular-material.css" />
+    <Content Include="Content\angular-material.layout-attributes.css" />
+    <Content Include="Content\angular-material.layout-attributes.min.css" />
+    <Content Include="Content\angular-material.layouts.css" />
+    <Content Include="Content\angular-material.layouts.ie_fixes.css" />
+    <Content Include="Content\angular-material.layouts.min.css" />
+    <Content Include="Content\angular-material.min.css" />
+    <Content Include="Content\animation.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fontello.css" />
+    <Content Include="Content\font\fontello.svg" />
+    <Content Include="Content\img\logo_calendar.png" />
+    <Content Include="Content\Styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\angular-animate.js" />
@@ -297,6 +324,9 @@
     <Content Include="Scripts\angular-csp.css" />
     <Content Include="Scripts\angular-loader.js" />
     <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-material-mocks.js" />
+    <Content Include="Scripts\angular-material.js" />
+    <Content Include="Scripts\angular-material.min.js" />
     <Content Include="Scripts\angular-message-format.js" />
     <Content Include="Scripts\angular-message-format.min.js" />
     <Content Include="Scripts\angular-messages.js" />
@@ -337,8 +367,16 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Angular\Components\ConsultorioComponent.js" />
+    <Content Include="Scripts\Angular\Components\FeriadoComponent.js" />
+    <Content Include="Scripts\Angular\Components\PacienteSearch.js" />
+    <Content Include="Scripts\Angular\Components\ProfesionalComponent.js" />
+    <Content Include="Scripts\Angular\Controllers\AgendaController.js" />
+    <Content Include="Scripts\Angular\Controllers\ConsultorioController.js" />
+    <Content Include="Scripts\Angular\Controllers\NavBarController.js" />
     <Content Include="Scripts\Angular\Controllers\PacienteController.js" />
-    <Content Include="Scripts\Angular\Directives\PacienteDirective.js" />
+    <Content Include="Scripts\Angular\Controllers\ProfesionalController.js" />
+    <Content Include="Scripts\Angular\Directives\PacienteDirectives.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1114,6 +1152,10 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\font\fontello.eot" />
+    <Content Include="Content\font\fontello.ttf" />
+    <Content Include="Content\font\fontello.woff" />
+    <Content Include="Content\font\fontello.woff2" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -1128,6 +1170,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Angular\Module\SgtModule.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -1167,6 +1213,14 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Paciente\CreateOrEdit.cshtml" />
     <Content Include="Views\Paciente\Index.cshtml" />
+    <Content Include="Views\Home\FormElementError.cshtml" />
+    <Content Include="Views\Paciente\QuickSearch.cshtml" />
+    <Content Include="Views\Agenda\Feriados.cshtml" />
+    <Content Include="Views\Agenda\CreateOrEditFeriado.cshtml" />
+    <Content Include="Views\Consultorio\Index.cshtml" />
+    <Content Include="Views\Consultorio\CreateOrEdit.cshtml" />
+    <Content Include="Views\Profesional\CreateOrEdit.cshtml" />
+    <Content Include="Views\Profesional\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

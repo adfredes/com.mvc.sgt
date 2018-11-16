@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace com.sgt.services.Interfaces
 {
-    public interface ICrudService: ICrudService<Aseguradora>
+    public interface IAseguradoraService: ICrudService<Aseguradora>
     {
     }
 }
