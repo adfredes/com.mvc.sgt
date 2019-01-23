@@ -21,12 +21,12 @@ namespace com.sgt.DataAccess.Repositories
             this.Entity = this._dbcontext.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
             Entity.Add(entity);            
-
             //_dbcontext.Entry(entity).State = EntityState.Added;
             Save();
+            return entity;
         }
 
         public void Delete(TEntity entity)

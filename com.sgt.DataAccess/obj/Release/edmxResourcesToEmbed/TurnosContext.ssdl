@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TurnosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Agenda">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="HoraDesde" Type="datetime" Nullable="false" />
+    <Property Name="HoraHasta" Type="datetime" Nullable="false" />
+    <Property Name="AtiendeLunes" Type="bit" Nullable="false" />
+    <Property Name="AtiendeMartes" Type="bit" Nullable="false" />
+    <Property Name="AtiendeMiercoles" Type="bit" Nullable="false" />
+    <Property Name="AtiendeJueves" Type="bit" Nullable="false" />
+    <Property Name="AtiendeViernes" Type="bit" Nullable="false" />
+    <Property Name="AtiendeSabado" Type="bit" Nullable="false" />
+    <Property Name="AtiendeDomingo" Type="bit" Nullable="false" />
+    <Property Name="Frecuencia" Type="smallint" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Agenda_Bloqueos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AgendaId" Type="int" Nullable="false" />
+    <Property Name="ConsultorioId" Type="int" Nullable="false" />
+    <Property Name="TurnoSimultaneo" Type="smallint" Nullable="false" />
+    <Property Name="FechaDesde" Type="datetime" Nullable="false" />
+    <Property Name="FechaHasta" Type="datetime" Nullable="false" />
+    <Property Name="HoraDesde" Type="datetime" />
+    <Property Name="HoraHasta" Type="datetime" />
+    <Property Name="TodoElDia" Type="bit" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Agenda_Receso">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AgendaId" Type="int" Nullable="false" />
+    <Property Name="RecesoTipoId" Type="int" Nullable="false" />
+    <Property Name="FechaDesde" Type="datetime" Nullable="false" />
+    <Property Name="FechaHasta" Type="datetime" Nullable="false" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="255" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Aseguradora">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="15" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Aseguradora_Plan">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AseguradoraID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="comisiones">
+    <Key>
+      <PropertyRef Name="idcomision" />
+    </Key>
+    <Property Name="idcomision" Type="int" Nullable="false" />
+    <Property Name="idmedico" Type="int" />
+    <Property Name="comision" Type="int" />
+  </EntityType>
+  <EntityType Name="Consultorio">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="TurnosSimultaneos" Type="smallint" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="TipoSesionID" Type="int" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Derivadores">
+    <Key>
+      <PropertyRef Name="idDerivador" />
+    </Key>
+    <Property Name="idDerivador" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="50" />
+    <Property Name="telefono" Type="nvarchar" MaxLength="10" />
+    <Property Name="otros" Type="nvarchar(max)" />
+    <Property Name="especialidad" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Documento_Tipo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Feriado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fecha" Type="smalldatetime" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="fotos">
+    <Key>
+      <PropertyRef Name="idfoto" />
+    </Key>
+    <Property Name="idfoto" Type="int" Nullable="false" />
+    <Property Name="idpaciente" Type="int" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="100" />
+    <Property Name="observaciones" Type="nvarchar(max)" />
+    <Property Name="fecha" Type="datetime" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Historial">
+    <Key>
+      <PropertyRef Name="idHistorial" />
+    </Key>
+    <Property Name="idHistorial" Type="int" Nullable="false" />
+    <Property Name="IdPaciente" Type="int" />
+    <Property Name="IdMedico" Type="int" />
+    <Property Name="IdTratamiento" Type="int" />
+    <Property Name="idobrasocial" Type="int" />
+    <Property Name="pago" Type="money" />
+    <Property Name="tratamiento" Type="nvarchar" MaxLength="50" />
+    <Property Name="dia" Type="tinyint" />
+    <Property Name="mes" Type="tinyint" />
+    <Property Name="ano" Type="smallint" />
+    <Property Name="idturno" Type="int" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="HorariosProfesionales">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ProfesionalId" Type="int" />
+    <Property Name="diasemana" Type="int" />
+    <Property Name="desde" Type="datetime" />
+    <Property Name="hasta" Type="datetime" />
+    <Property Name="ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Imagen">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PacienteID" Type="int" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="100" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="1000" />
+    <Property Name="Archivo" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Localidad">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProvinciaID" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="opciones">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="pacientes_x_sobreturno" Type="int" />
+    <Property Name="nombre_registro" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="16" />
+    <Property Name="color_libre" Type="int" />
+    <Property Name="color_compartido" Type="int" />
+    <Property Name="color_ocupado" Type="int" />
+    <Property Name="color_sobreturno" Type="int" />
+    <Property Name="auto_refresh" Type="int" />
+    <Property Name="pacientes_x_primera_sesion" Type="int" />
+    <Property Name="color_rpg_libre" Type="int" />
+    <Property Name="color_rpg_vino" Type="int" />
+    <Property Name="color_rpg_ocupado" Type="int" />
+    <Property Name="NombreConsultorio" Type="nvarchar" MaxLength="100" />
+    <Property Name="PieReporte" Type="nvarchar" MaxLength="200" />
+    <Property Name="DatosConsultorio" Type="nvarchar" MaxLength="200" />
+    <Property Name="tamNombre" Type="nvarchar" MaxLength="2" />
+    <Property Name="tamPie" Type="nvarchar" MaxLength="2" />
+    <Property Name="tamDatos" Type="nvarchar" MaxLength="2" />
+    <Property Name="modo_15_minutos" Type="int" />
+    <Property Name="fecha_ultimo_backup" Type="datetime" />
+    <Property Name="conf_tiempo_tfk" Type="int" />
+    <Property Name="pacientes_x_turno" Type="int" />
+    <Property Name="limite_de_ausentes" Type="int" />
+  </EntityType>
+  <EntityType Name="Paciente">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
+    <Property Name="Telefono" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Telefono2" Type="varchar" MaxLength="255" />
+    <Property Name="Celular" Type="varchar" MaxLength="255" />
+    <Property Name="AseguradoraID" Type="int" Nullable="false" />
+    <Property Name="AseguradoraPlanID" Type="int" />
+    <Property Name="DocumentoNumero" Type="varchar" MaxLength="10" />
+    <Property Name="DocumentoTipoID" Type="int" />
+    <Property Name="Direccion" Type="varchar" MaxLength="150" />
+    <Property Name="CodigoPostal" Type="varchar" MaxLength="7" />
+    <Property Name="ProvinciaID" Type="int" />
+    <Property Name="LocalidadID" Type="int" />
+    <Property Name="NumeroAfiliado" Type="varchar" MaxLength="30" />
+    <Property Name="NumeroHC" Type="varchar" MaxLength="30" />
+    <Property Name="Observaciones" Type="varchar" MaxLength="8000" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="EsGravado" Type="bit" />
+    <Property Name="ObraSocial" Type="varchar" MaxLength="50" />
+    <Property Name="CodigoSeguridad" Type="varchar" MaxLength="5" />
+    <Property Name="Mail" Type="varchar" MaxLength="50" />
+    <Property Name="Cuit" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Paciente_Aseguradora_Historico">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="PacienteID" Type="int" Nullable="false" />
+    <Property Name="AseguradoraPlanID" Type="int" Nullable="false" />
+    <Property Name="FechaCambio" Type="datetime" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profesional">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="70" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="70" Nullable="false" />
+    <Property Name="Matricula" Type="varchar" MaxLength="20" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profesional_TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" Nullable="false" />
+    <Property Name="TipoSesionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Provincia">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="repeticionesMedicos">
+    <Key>
+      <PropertyRef Name="lun" />
+      <PropertyRef Name="mar" />
+      <PropertyRef Name="mie" />
+      <PropertyRef Name="jue" />
+      <PropertyRef Name="vie" />
+      <PropertyRef Name="sab" />
+      <PropertyRef Name="idrepeticion" />
+    </Key>
+    <Property Name="nombre" Type="nvarchar" MaxLength="50" />
+    <Property Name="idMedico" Type="int" />
+    <Property Name="lun" Type="bit" Nullable="false" />
+    <Property Name="mar" Type="bit" Nullable="false" />
+    <Property Name="mie" Type="bit" Nullable="false" />
+    <Property Name="jue" Type="bit" Nullable="false" />
+    <Property Name="vie" Type="bit" Nullable="false" />
+    <Property Name="sab" Type="bit" Nullable="false" />
+    <Property Name="idrepeticion" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AgendaID" Type="int" Nullable="false" />
+    <Property Name="TurnoID" Type="int" Nullable="false" />
+    <Property Name="Numero" Type="smallint" Nullable="false" />
+    <Property Name="ConsultorioID" Type="int" Nullable="false" />
+    <Property Name="TurnoSimultaneo" Type="smallint" Nullable="false" />
+    <Property Name="Estado" Type="smallint" Nullable="false" />
+    <Property Name="FechaHora" Type="datetime" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModifcacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sesion_Estado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Codigo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="255" />
+    <Property Name="Prioridad" Type="smallint" />
+  </EntityType>
+  <EntityType Name="TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="7" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Tratamientos">
+    <Key>
+      <PropertyRef Name="IdTratamiento" />
+    </Key>
+    <Property Name="IdTratamiento" Type="int" Nullable="false" />
+    <Property Name="IdPaciente" Type="int" />
+    <Property Name="derivador" Type="nvarchar" MaxLength="20" />
+    <Property Name="Diagnostico" Type="nvarchar" MaxLength="30" />
+    <Property Name="cantsesiones" Type="int" />
+    <Property Name="otros" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Turno">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PacienteID" Type="int" />
+    <Property Name="Estado" Type="smallint" />
+    <Property Name="Habilitado" Type="bit" Nullable="false" />
+    <Property Name="UsuarioModifcacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="CantidadSesiones" Type="int" />
+    <Property Name="Diagnostico" Type="varchar(max)" />
+    <Property Name="Fecha" Type="smalldatetime" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Clave" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Agenda_Bloqueos_Agenda">
+    <End Role="Agenda" Type="Self.Agenda" Multiplicity="1" />
+    <End Role="Agenda_Bloqueos" Type="Self.Agenda_Bloqueos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agenda">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda_Bloqueos">
+        <PropertyRef Name="AgendaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Agenda_Bloqueos_Consultorio">
+    <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+    <End Role="Agenda_Bloqueos" Type="Self.Agenda_Bloqueos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultorio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda_Bloqueos">
+        <PropertyRef Name="ConsultorioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Agenda_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+    <End Role="Agenda" Type="Self.Agenda" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Aseguradora_Plan_Aseguradora">
+    <End Role="Aseguradora" Type="Self.Aseguradora" Multiplicity="1" />
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Aseguradora_Plan">
+        <PropertyRef Name="AseguradoraID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Consultorio_TipoSesion">
+    <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Consultorio">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Imagen_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="Imagen" Type="Self.Imagen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Imagen">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Localidad_Provincia">
+    <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+    <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provincia">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Localidad">
+        <PropertyRef Name="ProvinciaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora">
+    <End Role="Aseguradora" Type="Self.Aseguradora" Multiplicity="1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="AseguradoraID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Historico_Aseguradora_Plan">
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="1" />
+    <End Role="Paciente_Aseguradora_Historico" Type="Self.Paciente_Aseguradora_Historico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora_Plan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente_Aseguradora_Historico">
+        <PropertyRef Name="AseguradoraPlanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Historico_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="Paciente_Aseguradora_Historico" Type="Self.Paciente_Aseguradora_Historico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente_Aseguradora_Historico">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Plan">
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora_Plan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="AseguradoraPlanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Documento_Tipo">
+    <End Role="Documento_Tipo" Type="Self.Documento_Tipo" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documento_Tipo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="DocumentoTipoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Localidad">
+    <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Localidad">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="LocalidadID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Provincia">
+    <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provincia">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="ProvinciaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_Horarios">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HorariosProfesionales">
+        <PropertyRef Name="ProfesionalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_TipoSesion_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Profesional_TipoSesion" Type="Self.Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_TipoSesion_TipoSesion">
+    <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Profesional_TipoSesion" Type="Self.Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sesion_Agenda">
+    <End Role="Agenda" Type="Self.Agenda" Multiplicity="1" />
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agenda">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="AgendaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sesion_Turno">
+    <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turno">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="TurnoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Turno_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TurnosModelStoreContainer">
+    <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Agenda_Bloqueos" EntityType="Self.Agenda_Bloqueos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Agenda_Receso" EntityType="Self.Agenda_Receso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Aseguradora" EntityType="Self.Aseguradora" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Aseguradora_Plan" EntityType="Self.Aseguradora_Plan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Consultorio" EntityType="Self.Consultorio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documento_Tipo" EntityType="Self.Documento_Tipo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Feriado" EntityType="Self.Feriado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Imagen" EntityType="Self.Imagen" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Paciente_Aseguradora_Historico" EntityType="Self.Paciente_Aseguradora_Historico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profesional" EntityType="Self.Profesional" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profesional_TipoSesion" EntityType="Self.Profesional_TipoSesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Sesion_Estado" EntityType="Self.Sesion_Estado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoSesion" EntityType="Self.TipoSesion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="comisiones" EntityType="Self.comisiones" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [comisiones].[idcomision] AS [idcomision], 
+    [comisiones].[idmedico] AS [idmedico], 
+    [comisiones].[comision] AS [comision]
+    FROM [dbo].[comisiones] AS [comisiones]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Derivadores" EntityType="Self.Derivadores" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Derivadores].[idDerivador] AS [idDerivador], 
+    [Derivadores].[nombre] AS [nombre], 
+    [Derivadores].[telefono] AS [telefono], 
+    [Derivadores].[otros] AS [otros], 
+    [Derivadores].[especialidad] AS [especialidad]
+    FROM [dbo].[Derivadores] AS [Derivadores]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="fotos" EntityType="Self.fotos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [fotos].[idfoto] AS [idfoto], 
+    [fotos].[idpaciente] AS [idpaciente], 
+    [fotos].[nombre] AS [nombre], 
+    [fotos].[observaciones] AS [observaciones], 
+    [fotos].[fecha] AS [fecha]
+    FROM [dbo].[fotos] AS [fotos]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Historial" EntityType="Self.Historial" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Historial].[idHistorial] AS [idHistorial], 
+    [Historial].[IdPaciente] AS [IdPaciente], 
+    [Historial].[IdMedico] AS [IdMedico], 
+    [Historial].[IdTratamiento] AS [IdTratamiento], 
+    [Historial].[idobrasocial] AS [idobrasocial], 
+    [Historial].[pago] AS [pago], 
+    [Historial].[tratamiento] AS [tratamiento], 
+    [Historial].[dia] AS [dia], 
+    [Historial].[mes] AS [mes], 
+    [Historial].[ano] AS [ano], 
+    [Historial].[idturno] AS [idturno]
+    FROM [dbo].[Historial] AS [Historial]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [HorariosProfesionales].[ProfesionalId] AS [ProfesionalId], 
+    [HorariosProfesionales].[diasemana] AS [diasemana], 
+    [HorariosProfesionales].[desde] AS [desde], 
+    [HorariosProfesionales].[hasta] AS [hasta], 
+    [HorariosProfesionales].[ID] AS [ID]
+    FROM [dbo].[HorariosProfesionales] AS [HorariosProfesionales]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="opciones" EntityType="Self.opciones" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [opciones].[Id] AS [Id], 
+    [opciones].[version] AS [version], 
+    [opciones].[pacientes_x_sobreturno] AS [pacientes_x_sobreturno], 
+    [opciones].[nombre_registro] AS [nombre_registro], 
+    [opciones].[password] AS [password], 
+    [opciones].[color_libre] AS [color_libre], 
+    [opciones].[color_compartido] AS [color_compartido], 
+    [opciones].[color_ocupado] AS [color_ocupado], 
+    [opciones].[color_sobreturno] AS [color_sobreturno], 
+    [opciones].[auto_refresh] AS [auto_refresh], 
+    [opciones].[pacientes_x_primera_sesion] AS [pacientes_x_primera_sesion], 
+    [opciones].[color_rpg_libre] AS [color_rpg_libre], 
+    [opciones].[color_rpg_vino] AS [color_rpg_vino], 
+    [opciones].[color_rpg_ocupado] AS [color_rpg_ocupado], 
+    [opciones].[NombreConsultorio] AS [NombreConsultorio], 
+    [opciones].[PieReporte] AS [PieReporte], 
+    [opciones].[DatosConsultorio] AS [DatosConsultorio], 
+    [opciones].[tamNombre] AS [tamNombre], 
+    [opciones].[tamPie] AS [tamPie], 
+    [opciones].[tamDatos] AS [tamDatos], 
+    [opciones].[modo_15_minutos] AS [modo_15_minutos], 
+    [opciones].[fecha_ultimo_backup] AS [fecha_ultimo_backup], 
+    [opciones].[conf_tiempo_tfk] AS [conf_tiempo_tfk], 
+    [opciones].[pacientes_x_turno] AS [pacientes_x_turno], 
+    [opciones].[limite_de_ausentes] AS [limite_de_ausentes]
+    FROM [dbo].[opciones] AS [opciones]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="repeticionesMedicos" EntityType="Self.repeticionesMedicos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [repeticionesMedicos].[nombre] AS [nombre], 
+    [repeticionesMedicos].[idMedico] AS [idMedico], 
+    [repeticionesMedicos].[lun] AS [lun], 
+    [repeticionesMedicos].[mar] AS [mar], 
+    [repeticionesMedicos].[mie] AS [mie], 
+    [repeticionesMedicos].[jue] AS [jue], 
+    [repeticionesMedicos].[vie] AS [vie], 
+    [repeticionesMedicos].[sab] AS [sab], 
+    [repeticionesMedicos].[idrepeticion] AS [idrepeticion]
+    FROM [dbo].[repeticionesMedicos] AS [repeticionesMedicos]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Tratamientos" EntityType="Self.Tratamientos" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Tratamientos].[IdTratamiento] AS [IdTratamiento], 
+    [Tratamientos].[IdPaciente] AS [IdPaciente], 
+    [Tratamientos].[derivador] AS [derivador], 
+    [Tratamientos].[Diagnostico] AS [Diagnostico], 
+    [Tratamientos].[cantsesiones] AS [cantsesiones], 
+    [Tratamientos].[otros] AS [otros]
+    FROM [dbo].[Tratamientos] AS [Tratamientos]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Agenda_Bloqueos_Agenda" Association="Self.FK_Agenda_Bloqueos_Agenda">
+      <End Role="Agenda" EntitySet="Agenda" />
+      <End Role="Agenda_Bloqueos" EntitySet="Agenda_Bloqueos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Agenda_Bloqueos_Consultorio" Association="Self.FK_Agenda_Bloqueos_Consultorio">
+      <End Role="Consultorio" EntitySet="Consultorio" />
+      <End Role="Agenda_Bloqueos" EntitySet="Agenda_Bloqueos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Agenda_Profesional" Association="Self.FK_Agenda_Profesional">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="Agenda" EntitySet="Agenda" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Aseguradora_Plan_Aseguradora" Association="Self.FK_Aseguradora_Plan_Aseguradora">
+      <End Role="Aseguradora" EntitySet="Aseguradora" />
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Consultorio_TipoSesion" Association="Self.FK_Consultorio_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesion" />
+      <End Role="Consultorio" EntitySet="Consultorio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Imagen_Paciente" Association="Self.FK_Imagen_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="Imagen" EntitySet="Imagen" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Localidad_Provincia" Association="Self.FK_Localidad_Provincia">
+      <End Role="Provincia" EntitySet="Provincia" />
+      <End Role="Localidad" EntitySet="Localidad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora" Association="Self.FK_Paciente_Aseguradora">
+      <End Role="Aseguradora" EntitySet="Aseguradora" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Historico_Aseguradora_Plan" Association="Self.FK_Paciente_Aseguradora_Historico_Aseguradora_Plan">
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+      <End Role="Paciente_Aseguradora_Historico" EntitySet="Paciente_Aseguradora_Historico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Historico_Paciente" Association="Self.FK_Paciente_Aseguradora_Historico_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="Paciente_Aseguradora_Historico" EntitySet="Paciente_Aseguradora_Historico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Plan" Association="Self.FK_Paciente_Aseguradora_Plan">
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Documento_Tipo" Association="Self.FK_Paciente_Documento_Tipo">
+      <End Role="Documento_Tipo" EntitySet="Documento_Tipo" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Localidad" Association="Self.FK_Paciente_Localidad">
+      <End Role="Localidad" EntitySet="Localidad" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Provincia" Association="Self.FK_Paciente_Provincia">
+      <End Role="Provincia" EntitySet="Provincia" />
+      <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_TipoSesion_TipoSesion" Association="Self.FK_Profesional_TipoSesion_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesion" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sesion_Agenda" Association="Self.FK_Sesion_Agenda">
+      <End Role="Agenda" EntitySet="Agenda" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sesion_Turno" Association="Self.FK_Sesion_Turno">
+      <End Role="Turno" EntitySet="Turno" />
+      <End Role="Sesion" EntitySet="Sesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="Turno" EntitySet="Turno" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

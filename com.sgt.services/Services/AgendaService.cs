@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace com.sgt.services.Services
 {
@@ -19,11 +20,13 @@ namespace com.sgt.services.Services
             this.unitOfWork = unitOfWork;
         }
 
+        #region Manejo de Feriado               
+
         public void AddFeriado(Feriado entity)
         {
             if (!ExisteFeriado(entity))
-            {               
-                entity.Habilitado = true;                
+            {
+                entity.Habilitado = true;
                 this.unitOfWork.RepoFeriado.Add(entity);
             }
             else
@@ -71,5 +74,106 @@ namespace com.sgt.services.Services
         {
             return this.unitOfWork.RepoFeriado.FindBy(x => x.Fecha == feriado.Fecha && x.ID != feriado.ID).FirstOrDefault() == null ? false : true;
         }
+
+        #endregion
+
+        #region Agenda
+        public Agendum GetAgenda()
+        {
+            return unitOfWork.RepoAgenda.GetAll()
+                .OrderBy(x => x.ID)
+                .FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Sesiones
+        public ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate)
+        {
+            
+            return unitOfWork.RepoSesion
+                .FindBy(x => DbFunctions.TruncateTime(x.FechaHora) >= DbFunctions.TruncateTime(beginDate) 
+                && DbFunctions.TruncateTime(x.FechaHora) < DbFunctions.TruncateTime(endDate)
+                && x.Estado !=3 && x.Estado !=6 && x.Estado !=8 && x.Estado !=9)
+                .OrderBy(x => x.ID)
+                .ThenBy(x => x.FechaHora)                
+                .ToList();
+        }
+
+        public Sesion SetSesionAnulada(int sesionID, string usuario) =>
+            ChangeStateSesion(sesionID, 3, usuario);
+
+        public Sesion SetSesionAsistio(int sesionID, string usuario) =>
+            ChangeStateSesion(sesionID, 4,usuario);               
+
+        public Sesion SetSesionNoAsistio(int sesionID, string usuario) =>
+            ChangeStateSesion(sesionID, 5, usuario);
+
+        public Sesion SetSesionConfirmado(int sesionID, string usuario) =>
+            ChangeStateSesion(sesionID, 2, usuario);
+
+        private ICollection<Sesion> SearchSesion(int sesionID)
+        {
+            Sesion sesion = unitOfWork.RepoSesion.Find(sesionID);
+            var sesiones = unitOfWork.RepoSesion
+                .FindBy(x => DbFunctions.TruncateTime(x.FechaHora) == DbFunctions.TruncateTime(sesion.FechaHora)
+                    && x.TurnoID==sesion.TurnoID && x.Numero == sesion.Numero).ToList();
+            return sesiones;
+        }
+
+        Sesion  ChangeStateSesion(int sesionID, short estado, string usuario)
+        {
+            Sesion rSesion;
+            ICollection<Sesion> sesiones = SearchSesion(sesionID);
+            foreach(Sesion sesion in sesiones)
+            {                
+                sesion.FechaModificacion = DateTime.Now;
+                sesion.UsuarioModificacion = usuario;
+                sesion.Estado = estado;
+                unitOfWork.RepoSesion.Edit(sesion);
+            }
+            rSesion = sesiones.FirstOrDefault(x => x.ID == sesionID);
+            return rSesion;
+            
+        }
+
+        public ICollection<Sesion> BloquearSesion(Turno turno)
+        {
+            foreach(var sesion in turno.Sesions)
+            {
+                sesion.FechaModificacion = turno.FechaModificacion;
+                sesion.UsuarioModificacion = turno.UsuarioModificacion;
+                
+            }
+            if (ValidarNuevasSesiones(turno.Sesions.ToList()))
+            {
+                turno = unitOfWork.RepoTurno.Add(turno);
+            }
+            else
+            {
+                throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+            }
+            
+            return turno.Sesions;
+        }
+
+
+        private bool ValidarNuevasSesiones (List<Sesion> sesiones)
+        {
+            bool isValid = true;
+            foreach (var sesion in sesiones)
+            {
+                if(unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
+                && x.TurnoSimultaneo == sesion.TurnoSimultaneo
+                 && x.Estado != 3 && x.Estado != 6 && x.Estado != 8 && x.Estado != 9).Count() > 0)
+                {
+                    isValid = false;
+                    break;
+                }
+            }
+            return isValid;            
+        }
+
+        #endregion
     }
 }

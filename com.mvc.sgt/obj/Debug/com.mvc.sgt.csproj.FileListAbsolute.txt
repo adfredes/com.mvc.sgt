@@ -4,6 +4,7 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.mvc.sgt.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.mvc.sgt.pdb
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Antlr3.Runtime.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\AutoMapper.dll
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.common.util.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.services.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\EntityFramework.dll
@@ -49,6 +50,7 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Unity.Container.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Unity.Mvc.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\WebActivatorEx.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\WebGrease.dll
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.common.util.pdb
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.pdb
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.DataAccess.dll.config
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\com.sgt.services.pdb
@@ -113,8 +115,8 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.Google.resource
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\System.Web.Http.Owin.resources.dll
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csprojAssemblyReference.cache
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CoreCompileInputs.cache
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.pdb
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csprojAssemblyReference.cache
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CopyComplete

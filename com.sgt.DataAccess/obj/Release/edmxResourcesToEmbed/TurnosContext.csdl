@@ -1,0 +1,770 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TurnosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Agendum">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HoraDesde" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="HoraHasta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="AtiendeLunes" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeMartes" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeMiercoles" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeJueves" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeViernes" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeSabado" Type="Boolean" Nullable="false" />
+    <Property Name="AtiendeDomingo" Type="Boolean" Nullable="false" />
+    <Property Name="Frecuencia" Type="Int16" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Agenda_Bloqueos" Relationship="Self.FK_Agenda_Bloqueos_Agenda" FromRole="Agenda" ToRole="Agenda_Bloqueos" />
+    <NavigationProperty Name="Profesional" Relationship="Self.FK_Agenda_Profesional" FromRole="Agenda" ToRole="Profesional" />
+    <NavigationProperty Name="Sesions" Relationship="Self.FK_Sesion_Agenda" FromRole="Agenda" ToRole="Sesion" />
+  </EntityType>
+  <EntityType Name="Agenda_Bloqueos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgendaId" Type="Int32" Nullable="false" />
+    <Property Name="ConsultorioId" Type="Int32" Nullable="false" />
+    <Property Name="TurnoSimultaneo" Type="Int16" Nullable="false" />
+    <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="HoraDesde" Type="DateTime" Precision="3" />
+    <Property Name="HoraHasta" Type="DateTime" Precision="3" />
+    <Property Name="TodoElDia" Type="Boolean" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Agendum" Relationship="Self.FK_Agenda_Bloqueos_Agenda" FromRole="Agenda_Bloqueos" ToRole="Agenda" />
+    <NavigationProperty Name="Consultorio" Relationship="Self.FK_Agenda_Bloqueos_Consultorio" FromRole="Agenda_Bloqueos" ToRole="Consultorio" />
+  </EntityType>
+  <EntityType Name="Agenda_Receso">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgendaId" Type="Int32" Nullable="false" />
+    <Property Name="RecesoTipoId" Type="Int32" Nullable="false" />
+    <Property Name="FechaDesde" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Observaciones" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Aseguradora">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Color" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Aseguradora_Plan" Relationship="Self.FK_Aseguradora_Plan_Aseguradora" FromRole="Aseguradora" ToRole="Aseguradora_Plan" />
+    <NavigationProperty Name="Pacientes" Relationship="Self.FK_Paciente_Aseguradora" FromRole="Aseguradora" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Aseguradora_Plan">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AseguradoraID" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Aseguradora" Relationship="Self.FK_Aseguradora_Plan_Aseguradora" FromRole="Aseguradora_Plan" ToRole="Aseguradora" />
+    <NavigationProperty Name="Paciente_Aseguradora_Historico" Relationship="Self.FK_Paciente_Aseguradora_Historico_Aseguradora_Plan" FromRole="Aseguradora_Plan" ToRole="Paciente_Aseguradora_Historico" />
+    <NavigationProperty Name="Pacientes" Relationship="Self.FK_Paciente_Aseguradora_Plan" FromRole="Aseguradora_Plan" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Consultorio">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TurnosSimultaneos" Type="Int16" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Agenda_Bloqueos" Relationship="Self.FK_Agenda_Bloqueos_Consultorio" FromRole="Consultorio" ToRole="Agenda_Bloqueos" />
+    <Property Name="TipoSesionID" Type="Int32" />
+    <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="Consultorio" ToRole="TipoSesion" />
+    <Property Name="UsuarioModificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Documento_Tipo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Pacientes" Relationship="Self.FK_Paciente_Documento_Tipo" FromRole="Documento_Tipo" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Feriado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <EntityType Name="Imagen">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PacienteID" Type="Int32" Nullable="false" />
+    <Property Name="Titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Archivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Imagen_Paciente" FromRole="Imagen" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Localidad">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProvinciaID" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Provincia" Relationship="Self.FK_Localidad_Provincia" FromRole="Localidad" ToRole="Provincia" />
+    <NavigationProperty Name="Pacientes" Relationship="Self.FK_Paciente_Localidad" FromRole="Localidad" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Paciente">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Celular" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="AseguradoraID" Type="Int32" Nullable="false" />
+    <Property Name="AseguradoraPlanID" Type="Int32" />
+    <Property Name="DocumentoNumero" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="DocumentoTipoID" Type="Int32" />
+    <Property Name="Direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CodigoPostal" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+    <Property Name="ProvinciaID" Type="Int32" />
+    <Property Name="LocalidadID" Type="Int32" />
+    <Property Name="NumeroAfiliado" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="NumeroHC" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Observaciones" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EsGravado" Type="Boolean" />
+    <Property Name="ObraSocial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CodigoSeguridad" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Aseguradora" Relationship="Self.FK_Paciente_Aseguradora" FromRole="Paciente" ToRole="Aseguradora" />
+    <NavigationProperty Name="Aseguradora_Plan" Relationship="Self.FK_Paciente_Aseguradora_Plan" FromRole="Paciente" ToRole="Aseguradora_Plan" />
+    <NavigationProperty Name="Documento_Tipo" Relationship="Self.FK_Paciente_Documento_Tipo" FromRole="Paciente" ToRole="Documento_Tipo" />
+    <NavigationProperty Name="Imagens" Relationship="Self.FK_Imagen_Paciente" FromRole="Paciente" ToRole="Imagen" />
+    <NavigationProperty Name="Localidad" Relationship="Self.FK_Paciente_Localidad" FromRole="Paciente" ToRole="Localidad" />
+    <NavigationProperty Name="Paciente_Aseguradora_Historico" Relationship="Self.FK_Paciente_Aseguradora_Historico_Paciente" FromRole="Paciente" ToRole="Paciente_Aseguradora_Historico" />
+    <NavigationProperty Name="Provincia" Relationship="Self.FK_Paciente_Provincia" FromRole="Paciente" ToRole="Provincia" />
+    <NavigationProperty Name="Turnoes" Relationship="Self.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+    <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Paciente_Aseguradora_Historico">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="PacienteID" Type="Int32" Nullable="false" />
+    <Property Name="AseguradoraPlanID" Type="Int32" Nullable="false" />
+    <Property Name="FechaCambio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Aseguradora_Plan" Relationship="Self.FK_Paciente_Aseguradora_Historico_Aseguradora_Plan" FromRole="Paciente_Aseguradora_Historico" ToRole="Aseguradora_Plan" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Aseguradora_Historico_Paciente" FromRole="Paciente_Aseguradora_Historico" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Profesional">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Apellido" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Matricula" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Agenda" Relationship="Self.FK_Agenda_Profesional" FromRole="Profesional" ToRole="Agenda" />
+    <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional" ToRole="Profesional_TipoSesion" />
+    <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="Profesional" ToRole="HorariosProfesionale" />
+  </EntityType>
+  <EntityType Name="Provincia">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Localidads" Relationship="Self.FK_Localidad_Provincia" FromRole="Provincia" ToRole="Localidad" />
+    <NavigationProperty Name="Pacientes" Relationship="Self.FK_Paciente_Provincia" FromRole="Provincia" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="Sesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AgendaID" Type="Int32" Nullable="false" />
+    <Property Name="TurnoID" Type="Int32" Nullable="false" />
+    <Property Name="Numero" Type="Int16" Nullable="false" />
+    <Property Name="ConsultorioID" Type="Int32" Nullable="false" />
+    <Property Name="TurnoSimultaneo" Type="Int16" Nullable="false" />
+    <Property Name="Estado" Type="Int16" Nullable="false" />
+    <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModifcacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Agendum" Relationship="Self.FK_Sesion_Agenda" FromRole="Sesion" ToRole="Agenda" />
+    <NavigationProperty Name="Turno" Relationship="Self.FK_Sesion_Turno" FromRole="Sesion" ToRole="Turno" />
+  </EntityType>
+  <EntityType Name="Sesion_Estado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Prioridad" Type="Int16" />
+  </EntityType>
+  <EntityType Name="Turno">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PacienteID" Type="Int32" />
+    <Property Name="Estado" Type="Int16" />
+    <Property Name="Habilitado" Type="Boolean" Nullable="false" />
+    <Property Name="UsuarioModifcacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
+    <NavigationProperty Name="Sesions" Relationship="Self.FK_Sesion_Turno" FromRole="Turno" ToRole="Sesion" />
+    <Property Name="CantidadSesiones" Type="Int32" />
+    <Property Name="Diagnostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Guid" Nullable="false" />
+    <Property Name="Usuario1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Clave" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="comisione">
+    <Key>
+      <PropertyRef Name="idcomision" />
+    </Key>
+    <Property Name="idcomision" Type="Int32" Nullable="false" />
+    <Property Name="idmedico" Type="Int32" />
+    <Property Name="comision" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Derivadore">
+    <Key>
+      <PropertyRef Name="idDerivador" />
+    </Key>
+    <Property Name="idDerivador" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="otros" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="especialidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="foto">
+    <Key>
+      <PropertyRef Name="idfoto" />
+    </Key>
+    <Property Name="idfoto" Type="Int32" Nullable="false" />
+    <Property Name="idpaciente" Type="Int32" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="observaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="fecha" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Historial">
+    <Key>
+      <PropertyRef Name="idHistorial" />
+    </Key>
+    <Property Name="idHistorial" Type="Int32" Nullable="false" />
+    <Property Name="IdPaciente" Type="Int32" />
+    <Property Name="IdMedico" Type="Int32" />
+    <Property Name="IdTratamiento" Type="Int32" />
+    <Property Name="idobrasocial" Type="Int32" />
+    <Property Name="pago" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="tratamiento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="dia" Type="Byte" />
+    <Property Name="mes" Type="Byte" />
+    <Property Name="ano" Type="Int16" />
+    <Property Name="idturno" Type="Int32" />
+  </EntityType>
+  <EntityType Name="opcione">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="pacientes_x_sobreturno" Type="Int32" />
+    <Property Name="nombre_registro" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="color_libre" Type="Int32" />
+    <Property Name="color_compartido" Type="Int32" />
+    <Property Name="color_ocupado" Type="Int32" />
+    <Property Name="color_sobreturno" Type="Int32" />
+    <Property Name="auto_refresh" Type="Int32" />
+    <Property Name="pacientes_x_primera_sesion" Type="Int32" />
+    <Property Name="color_rpg_libre" Type="Int32" />
+    <Property Name="color_rpg_vino" Type="Int32" />
+    <Property Name="color_rpg_ocupado" Type="Int32" />
+    <Property Name="NombreConsultorio" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PieReporte" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DatosConsultorio" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="tamNombre" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="tamPie" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="tamDatos" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="modo_15_minutos" Type="Int32" />
+    <Property Name="fecha_ultimo_backup" Type="DateTime" Precision="3" />
+    <Property Name="conf_tiempo_tfk" Type="Int32" />
+    <Property Name="pacientes_x_turno" Type="Int32" />
+    <Property Name="limite_de_ausentes" Type="Int32" />
+  </EntityType>
+  <EntityType Name="repeticionesMedico">
+    <Key>
+      <PropertyRef Name="lun" />
+      <PropertyRef Name="mar" />
+      <PropertyRef Name="mie" />
+      <PropertyRef Name="jue" />
+      <PropertyRef Name="vie" />
+      <PropertyRef Name="sab" />
+      <PropertyRef Name="idrepeticion" />
+    </Key>
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="idMedico" Type="Int32" />
+    <Property Name="lun" Type="Boolean" Nullable="false" />
+    <Property Name="mar" Type="Boolean" Nullable="false" />
+    <Property Name="mie" Type="Boolean" Nullable="false" />
+    <Property Name="jue" Type="Boolean" Nullable="false" />
+    <Property Name="vie" Type="Boolean" Nullable="false" />
+    <Property Name="sab" Type="Boolean" Nullable="false" />
+    <Property Name="idrepeticion" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tratamiento">
+    <Key>
+      <PropertyRef Name="IdTratamiento" />
+    </Key>
+    <Property Name="IdTratamiento" Type="Int32" Nullable="false" />
+    <Property Name="IdPaciente" Type="Int32" />
+    <Property Name="derivador" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Diagnostico" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="cantsesiones" Type="Int32" />
+    <Property Name="otros" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Agenda_Bloqueos_Agenda">
+    <End Role="Agenda" Type="Self.Agendum" Multiplicity="1" />
+    <End Role="Agenda_Bloqueos" Type="Self.Agenda_Bloqueos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agenda">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda_Bloqueos">
+        <PropertyRef Name="AgendaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Agenda_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+    <End Role="Agenda" Type="Self.Agendum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sesion_Agenda">
+    <End Role="Agenda" Type="Self.Agendum" Multiplicity="1" />
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Agenda">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="AgendaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Agenda_Bloqueos_Consultorio">
+    <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+    <End Role="Agenda_Bloqueos" Type="Self.Agenda_Bloqueos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultorio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Agenda_Bloqueos">
+        <PropertyRef Name="ConsultorioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Aseguradora_Plan_Aseguradora">
+    <End Role="Aseguradora" Type="Self.Aseguradora" Multiplicity="1" />
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Aseguradora_Plan">
+        <PropertyRef Name="AseguradoraID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora">
+    <End Role="Aseguradora" Type="Self.Aseguradora" Multiplicity="1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="AseguradoraID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Historico_Aseguradora_Plan">
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="1" />
+    <End Role="Paciente_Aseguradora_Historico" Type="Self.Paciente_Aseguradora_Historico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora_Plan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente_Aseguradora_Historico">
+        <PropertyRef Name="AseguradoraPlanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Plan">
+    <End Role="Aseguradora_Plan" Type="Self.Aseguradora_Plan" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aseguradora_Plan">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="AseguradoraPlanID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Documento_Tipo">
+    <End Role="Documento_Tipo" Type="Self.Documento_Tipo" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Documento_Tipo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="DocumentoTipoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Imagen_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="Imagen" Type="Self.Imagen" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Imagen">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Localidad_Provincia">
+    <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+    <End Role="Localidad" Type="Self.Localidad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provincia">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Localidad">
+        <PropertyRef Name="ProvinciaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Localidad">
+    <End Role="Localidad" Type="Self.Localidad" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Localidad">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="LocalidadID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Aseguradora_Historico_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="Paciente_Aseguradora_Historico" Type="Self.Paciente_Aseguradora_Historico" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente_Aseguradora_Historico">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Paciente_Provincia">
+    <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provincia">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Paciente">
+        <PropertyRef Name="ProvinciaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Turno_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sesion_Turno">
+    <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+    <End Role="Sesion" Type="Self.Sesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turno">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Sesion">
+        <PropertyRef Name="TurnoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TurnosDB" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Agenda" EntityType="Self.Agendum" />
+    <EntitySet Name="Agenda_Bloqueos" EntityType="Self.Agenda_Bloqueos" />
+    <EntitySet Name="Agenda_Receso" EntityType="Self.Agenda_Receso" />
+    <EntitySet Name="Aseguradoras" EntityType="Self.Aseguradora" />
+    <EntitySet Name="Aseguradora_Plan" EntityType="Self.Aseguradora_Plan" />
+    <EntitySet Name="Consultorios" EntityType="Self.Consultorio" />
+    <EntitySet Name="Documento_Tipo" EntityType="Self.Documento_Tipo" />
+    <EntitySet Name="Feriadoes" EntityType="Self.Feriado" />
+    <EntitySet Name="Imagens" EntityType="Self.Imagen" />
+    <EntitySet Name="Localidads" EntityType="Self.Localidad" />
+    <EntitySet Name="Pacientes" EntityType="Self.Paciente" />
+    <EntitySet Name="Paciente_Aseguradora_Historico" EntityType="Self.Paciente_Aseguradora_Historico" />
+    <EntitySet Name="Profesionals" EntityType="Self.Profesional" />
+    <EntitySet Name="Provincias" EntityType="Self.Provincia" />
+    <EntitySet Name="Sesions" EntityType="Self.Sesion" />
+    <EntitySet Name="Sesion_Estado" EntityType="Self.Sesion_Estado" />
+    <EntitySet Name="Turnoes" EntityType="Self.Turno" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
+    <EntitySet Name="comisiones" EntityType="Self.comisione" />
+    <EntitySet Name="Derivadores" EntityType="Self.Derivadore" />
+    <EntitySet Name="fotos" EntityType="Self.foto" />
+    <EntitySet Name="Historials" EntityType="Self.Historial" />
+    <EntitySet Name="opciones" EntityType="Self.opcione" />
+    <EntitySet Name="repeticionesMedicos" EntityType="Self.repeticionesMedico" />
+    <EntitySet Name="Tratamientos" EntityType="Self.Tratamiento" />
+    <AssociationSet Name="FK_Agenda_Bloqueos_Agenda" Association="Self.FK_Agenda_Bloqueos_Agenda">
+      <End Role="Agenda" EntitySet="Agenda" />
+      <End Role="Agenda_Bloqueos" EntitySet="Agenda_Bloqueos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Agenda_Profesional" Association="Self.FK_Agenda_Profesional">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="Agenda" EntitySet="Agenda" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sesion_Agenda" Association="Self.FK_Sesion_Agenda">
+      <End Role="Agenda" EntitySet="Agenda" />
+      <End Role="Sesion" EntitySet="Sesions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Agenda_Bloqueos_Consultorio" Association="Self.FK_Agenda_Bloqueos_Consultorio">
+      <End Role="Consultorio" EntitySet="Consultorios" />
+      <End Role="Agenda_Bloqueos" EntitySet="Agenda_Bloqueos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Aseguradora_Plan_Aseguradora" Association="Self.FK_Aseguradora_Plan_Aseguradora">
+      <End Role="Aseguradora" EntitySet="Aseguradoras" />
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora" Association="Self.FK_Paciente_Aseguradora">
+      <End Role="Aseguradora" EntitySet="Aseguradoras" />
+      <End Role="Paciente" EntitySet="Pacientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Historico_Aseguradora_Plan" Association="Self.FK_Paciente_Aseguradora_Historico_Aseguradora_Plan">
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+      <End Role="Paciente_Aseguradora_Historico" EntitySet="Paciente_Aseguradora_Historico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Plan" Association="Self.FK_Paciente_Aseguradora_Plan">
+      <End Role="Aseguradora_Plan" EntitySet="Aseguradora_Plan" />
+      <End Role="Paciente" EntitySet="Pacientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Documento_Tipo" Association="Self.FK_Paciente_Documento_Tipo">
+      <End Role="Documento_Tipo" EntitySet="Documento_Tipo" />
+      <End Role="Paciente" EntitySet="Pacientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Imagen_Paciente" Association="Self.FK_Imagen_Paciente">
+      <End Role="Paciente" EntitySet="Pacientes" />
+      <End Role="Imagen" EntitySet="Imagens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Localidad_Provincia" Association="Self.FK_Localidad_Provincia">
+      <End Role="Provincia" EntitySet="Provincias" />
+      <End Role="Localidad" EntitySet="Localidads" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Localidad" Association="Self.FK_Paciente_Localidad">
+      <End Role="Localidad" EntitySet="Localidads" />
+      <End Role="Paciente" EntitySet="Pacientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Aseguradora_Historico_Paciente" Association="Self.FK_Paciente_Aseguradora_Historico_Paciente">
+      <End Role="Paciente" EntitySet="Pacientes" />
+      <End Role="Paciente_Aseguradora_Historico" EntitySet="Paciente_Aseguradora_Historico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Paciente_Provincia" Association="Self.FK_Paciente_Provincia">
+      <End Role="Provincia" EntitySet="Provincias" />
+      <End Role="Paciente" EntitySet="Pacientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
+      <End Role="Paciente" EntitySet="Pacientes" />
+      <End Role="Turno" EntitySet="Turnoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sesion_Turno" Association="Self.FK_Sesion_Turno">
+      <End Role="Turno" EntitySet="Turnoes" />
+      <End Role="Sesion" EntitySet="Sesions" />
+    </AssociationSet>
+    <EntitySet Name="TipoSesions" EntityType="TurnosModel.TipoSesion" />
+    <AssociationSet Name="FK_Consultorio_TipoSesion" Association="TurnosModel.FK_Consultorio_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesions" />
+      <End Role="Consultorio" EntitySet="Consultorios" />
+    </AssociationSet>
+    <EntitySet Name="Profesional_TipoSesion" EntityType="TurnosModel.Profesional_TipoSesion" />
+    <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="TurnosModel.FK_Profesional_TipoSesion_Profesional">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_TipoSesion_TipoSesion" Association="TurnosModel.FK_Profesional_TipoSesion_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesions" />
+      <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
+    </AssociationSet>
+    <EntitySet Name="HorariosProfesionales" EntityType="TurnosModel.HorariosProfesionale" />
+    <AssociationSet Name="FK_Profesional_Horarios" Association="TurnosModel.FK_Profesional_Horarios">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Color" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Consultorios" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="TipoSesion" ToRole="Consultorio" />
+    <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="TipoSesion" ToRole="Profesional_TipoSesion" />
+  </EntityType>
+  <Association Name="FK_Consultorio_TipoSesion">
+    <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Consultorio" Role="Consultorio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Consultorio">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Profesional_TipoSesion">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+    <Property Name="TipoSesionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional_TipoSesion" ToRole="Profesional" />
+    <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="Profesional_TipoSesion" ToRole="TipoSesion" />
+  </EntityType>
+  <Association Name="FK_Profesional_TipoSesion_Profesional">
+    <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_TipoSesion_TipoSesion">
+    <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.Profesional_TipoSesion" Role="Profesional_TipoSesion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_TipoSesion">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HorariosProfesionale">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ProfesionalId" Type="Int32" />
+    <Property Name="diasemana" Type="Int32" />
+    <Property Name="desde" Type="DateTime" Precision="3" />
+    <Property Name="hasta" Type="DateTime" Precision="3" />
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="HorariosProfesionale" ToRole="Profesional" />
+  </EntityType>
+  <Association Name="FK_Profesional_Horarios">
+    <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="TurnosModel.HorariosProfesionale" Role="HorariosProfesionale" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HorariosProfesionale">
+        <PropertyRef Name="ProfesionalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

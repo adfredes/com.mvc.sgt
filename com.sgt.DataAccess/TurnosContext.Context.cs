@@ -39,9 +39,7 @@ namespace com.sgt.DataAccess
         public virtual DbSet<Paciente_Aseguradora_Historico> Paciente_Aseguradora_Historico { get; set; }
         public virtual DbSet<Profesional> Profesionals { get; set; }
         public virtual DbSet<Provincia> Provincias { get; set; }
-        public virtual DbSet<Sesion> Sesions { get; set; }
         public virtual DbSet<Sesion_Estado> Sesion_Estado { get; set; }
-        public virtual DbSet<Turno> Turnoes { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<comisione> comisiones { get; set; }
         public virtual DbSet<Derivadore> Derivadores { get; set; }
@@ -53,5 +51,7 @@ namespace com.sgt.DataAccess
         public virtual DbSet<TipoSesion> TipoSesions { get; set; }
         public virtual DbSet<Profesional_TipoSesion> Profesional_TipoSesion { get; set; }
         public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
+        public virtual DbSet<Sesion> Sesions { get; set; }
+        public virtual DbSet<Turno> Turnoes { get; set; }
     }
 }

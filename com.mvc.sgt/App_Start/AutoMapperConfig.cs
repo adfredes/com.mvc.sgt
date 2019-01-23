@@ -83,6 +83,15 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d=> d.TipoDeSesion, o=>o.MapFrom(s => s.TipoSesion.Descripcion));
                 mapper.CreateMap<ConsultorioModel, Consultorio>();
 
+                mapper.CreateMap<Sesion, SesionGrillaModel>()
+                .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))                
+                .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
+                .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
+                .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
+                .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
+                .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.Diagnostico))
+                .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion));
+
                 mapper.CreateMap<TipoSesion, ComboDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.ID))
                 .ForMember(d => d.Text, o => o.MapFrom(s => s.Descripcion));
@@ -92,9 +101,16 @@ namespace com.mvc.sgt.App_Start
 
                 mapper.CreateMap<Profesional, ProfesionalModel>()
                 .ForMember(d => d.TiposDeSesiones, o => o.MapFrom(s => s.Profesional_TipoSesion))
+                .ForMember(d=> d.Agenda, o => o.MapFrom(s => s.Agenda))
                 .ReverseMap();
 
                 mapper.CreateMap<Agendum, AgendaModel>()
+                .ReverseMap();
+
+                mapper.CreateMap<Sesion, SesionModel>()
+                .ReverseMap();
+
+                mapper.CreateMap<Turno, TurnoModel>()
                 .ReverseMap();
 
             });

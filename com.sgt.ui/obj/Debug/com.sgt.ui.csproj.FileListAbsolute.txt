@@ -99,7 +99,8 @@ D:\GitHub\com.mvc.sgt\com.sgt.ui\bin\es\Microsoft.Owin.Security.Facebook.resourc
 D:\GitHub\com.mvc.sgt\com.sgt.ui\bin\es\Microsoft.Owin.Security.Google.resources.dll
 D:\GitHub\com.mvc.sgt\com.sgt.ui\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 D:\GitHub\com.mvc.sgt\com.sgt.ui\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.csprojResolveAssemblyReference.cache
+D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.csprojAssemblyReference.cache
 D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.csproj.CoreCompileInputs.cache
+D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.dll
 D:\GitHub\com.mvc.sgt\com.sgt.ui\obj\Debug\com.sgt.ui.pdb

@@ -16,6 +16,13 @@ namespace com.sgt.services.Interfaces
         void EditFeriado(Feriado entity);        
         Feriado FindFeriado(int id);
         ICollection<Feriado> FindNextFeriado();
+        Agendum GetAgenda();
+        ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate);
+        Sesion SetSesionAnulada(int sesionID, string usuario);
+        Sesion SetSesionAsistio(int sesionID, string usuario);
+        Sesion SetSesionNoAsistio(int sesionID, string usuario);
+        Sesion SetSesionConfirmado(int sesionID, string usuario);
+        ICollection<Sesion> BloquearSesion(Turno turno);
 
     }
 }

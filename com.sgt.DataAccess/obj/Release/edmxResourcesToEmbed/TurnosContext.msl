@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TurnosModelStoreContainer" CdmEntityContainer="TurnosDB">
+    <EntitySetMapping Name="Agenda">
+      <EntityTypeMapping TypeName="TurnosModel.Agendum">
+        <MappingFragment StoreEntitySet="Agenda">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="HoraDesde" ColumnName="HoraDesde" />
+          <ScalarProperty Name="HoraHasta" ColumnName="HoraHasta" />
+          <ScalarProperty Name="AtiendeLunes" ColumnName="AtiendeLunes" />
+          <ScalarProperty Name="AtiendeMartes" ColumnName="AtiendeMartes" />
+          <ScalarProperty Name="AtiendeMiercoles" ColumnName="AtiendeMiercoles" />
+          <ScalarProperty Name="AtiendeJueves" ColumnName="AtiendeJueves" />
+          <ScalarProperty Name="AtiendeViernes" ColumnName="AtiendeViernes" />
+          <ScalarProperty Name="AtiendeSabado" ColumnName="AtiendeSabado" />
+          <ScalarProperty Name="AtiendeDomingo" ColumnName="AtiendeDomingo" />
+          <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Agenda_Bloqueos">
+      <EntityTypeMapping TypeName="TurnosModel.Agenda_Bloqueos">
+        <MappingFragment StoreEntitySet="Agenda_Bloqueos">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AgendaId" ColumnName="AgendaId" />
+          <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+          <ScalarProperty Name="TurnoSimultaneo" ColumnName="TurnoSimultaneo" />
+          <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
+          <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
+          <ScalarProperty Name="HoraDesde" ColumnName="HoraDesde" />
+          <ScalarProperty Name="HoraHasta" ColumnName="HoraHasta" />
+          <ScalarProperty Name="TodoElDia" ColumnName="TodoElDia" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Agenda_Receso">
+      <EntityTypeMapping TypeName="TurnosModel.Agenda_Receso">
+        <MappingFragment StoreEntitySet="Agenda_Receso">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AgendaId" ColumnName="AgendaId" />
+          <ScalarProperty Name="RecesoTipoId" ColumnName="RecesoTipoId" />
+          <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
+          <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Aseguradoras">
+      <EntityTypeMapping TypeName="TurnosModel.Aseguradora">
+        <MappingFragment StoreEntitySet="Aseguradora">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Aseguradora_Plan">
+      <EntityTypeMapping TypeName="TurnosModel.Aseguradora_Plan">
+        <MappingFragment StoreEntitySet="Aseguradora_Plan">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AseguradoraID" ColumnName="AseguradoraID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Consultorios">
+      <EntityTypeMapping TypeName="TurnosModel.Consultorio">
+        <MappingFragment StoreEntitySet="Consultorio">
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="TurnosSimultaneos" ColumnName="TurnosSimultaneos" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Documento_Tipo">
+      <EntityTypeMapping TypeName="TurnosModel.Documento_Tipo">
+        <MappingFragment StoreEntitySet="Documento_Tipo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feriadoes">
+      <EntityTypeMapping TypeName="TurnosModel.Feriado">
+        <MappingFragment StoreEntitySet="Feriado">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Imagens">
+      <EntityTypeMapping TypeName="TurnosModel.Imagen">
+        <MappingFragment StoreEntitySet="Imagen">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+          <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Archivo" ColumnName="Archivo" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Localidads">
+      <EntityTypeMapping TypeName="TurnosModel.Localidad">
+        <MappingFragment StoreEntitySet="Localidad">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ProvinciaID" ColumnName="ProvinciaID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pacientes">
+      <EntityTypeMapping TypeName="TurnosModel.Paciente">
+        <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Cuit" ColumnName="Cuit" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+          <ScalarProperty Name="Celular" ColumnName="Celular" />
+          <ScalarProperty Name="AseguradoraID" ColumnName="AseguradoraID" />
+          <ScalarProperty Name="AseguradoraPlanID" ColumnName="AseguradoraPlanID" />
+          <ScalarProperty Name="DocumentoNumero" ColumnName="DocumentoNumero" />
+          <ScalarProperty Name="DocumentoTipoID" ColumnName="DocumentoTipoID" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+          <ScalarProperty Name="ProvinciaID" ColumnName="ProvinciaID" />
+          <ScalarProperty Name="LocalidadID" ColumnName="LocalidadID" />
+          <ScalarProperty Name="NumeroAfiliado" ColumnName="NumeroAfiliado" />
+          <ScalarProperty Name="NumeroHC" ColumnName="NumeroHC" />
+          <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="EsGravado" ColumnName="EsGravado" />
+          <ScalarProperty Name="ObraSocial" ColumnName="ObraSocial" />
+          <ScalarProperty Name="CodigoSeguridad" ColumnName="CodigoSeguridad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paciente_Aseguradora_Historico">
+      <EntityTypeMapping TypeName="TurnosModel.Paciente_Aseguradora_Historico">
+        <MappingFragment StoreEntitySet="Paciente_Aseguradora_Historico">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+          <ScalarProperty Name="AseguradoraPlanID" ColumnName="AseguradoraPlanID" />
+          <ScalarProperty Name="FechaCambio" ColumnName="FechaCambio" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profesionals">
+      <EntityTypeMapping TypeName="TurnosModel.Profesional">
+        <MappingFragment StoreEntitySet="Profesional">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Provincias">
+      <EntityTypeMapping TypeName="TurnosModel.Provincia">
+        <MappingFragment StoreEntitySet="Provincia">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sesions">
+      <EntityTypeMapping TypeName="TurnosModel.Sesion">
+        <MappingFragment StoreEntitySet="Sesion">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
+          <ScalarProperty Name="TurnoID" ColumnName="TurnoID" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="ConsultorioID" ColumnName="ConsultorioID" />
+          <ScalarProperty Name="TurnoSimultaneo" ColumnName="TurnoSimultaneo" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModifcacion" ColumnName="UsuarioModifcacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sesion_Estado">
+      <EntityTypeMapping TypeName="TurnosModel.Sesion_Estado">
+        <MappingFragment StoreEntitySet="Sesion_Estado">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Prioridad" ColumnName="Prioridad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turnoes">
+      <EntityTypeMapping TypeName="TurnosModel.Turno">
+        <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="CantidadSesiones" ColumnName="CantidadSesiones" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="UsuarioModifcacion" ColumnName="UsuarioModifcacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="TurnosModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+          <ScalarProperty Name="Clave" ColumnName="Clave" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="comisiones">
+      <EntityTypeMapping TypeName="TurnosModel.comisione">
+        <MappingFragment StoreEntitySet="comisiones">
+          <ScalarProperty Name="idcomision" ColumnName="idcomision" />
+          <ScalarProperty Name="idmedico" ColumnName="idmedico" />
+          <ScalarProperty Name="comision" ColumnName="comision" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Derivadores">
+      <EntityTypeMapping TypeName="TurnosModel.Derivadore">
+        <MappingFragment StoreEntitySet="Derivadores">
+          <ScalarProperty Name="idDerivador" ColumnName="idDerivador" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="otros" ColumnName="otros" />
+          <ScalarProperty Name="especialidad" ColumnName="especialidad" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="fotos">
+      <EntityTypeMapping TypeName="TurnosModel.foto">
+        <MappingFragment StoreEntitySet="fotos">
+          <ScalarProperty Name="idfoto" ColumnName="idfoto" />
+          <ScalarProperty Name="idpaciente" ColumnName="idpaciente" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Historials">
+      <EntityTypeMapping TypeName="TurnosModel.Historial">
+        <MappingFragment StoreEntitySet="Historial">
+          <ScalarProperty Name="idHistorial" ColumnName="idHistorial" />
+          <ScalarProperty Name="IdPaciente" ColumnName="IdPaciente" />
+          <ScalarProperty Name="IdMedico" ColumnName="IdMedico" />
+          <ScalarProperty Name="IdTratamiento" ColumnName="IdTratamiento" />
+          <ScalarProperty Name="idobrasocial" ColumnName="idobrasocial" />
+          <ScalarProperty Name="pago" ColumnName="pago" />
+          <ScalarProperty Name="tratamiento" ColumnName="tratamiento" />
+          <ScalarProperty Name="dia" ColumnName="dia" />
+          <ScalarProperty Name="mes" ColumnName="mes" />
+          <ScalarProperty Name="ano" ColumnName="ano" />
+          <ScalarProperty Name="idturno" ColumnName="idturno" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opciones">
+      <EntityTypeMapping TypeName="TurnosModel.opcione">
+        <MappingFragment StoreEntitySet="opciones">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="pacientes_x_sobreturno" ColumnName="pacientes_x_sobreturno" />
+          <ScalarProperty Name="nombre_registro" ColumnName="nombre_registro" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="color_libre" ColumnName="color_libre" />
+          <ScalarProperty Name="color_compartido" ColumnName="color_compartido" />
+          <ScalarProperty Name="color_ocupado" ColumnName="color_ocupado" />
+          <ScalarProperty Name="color_sobreturno" ColumnName="color_sobreturno" />
+          <ScalarProperty Name="auto_refresh" ColumnName="auto_refresh" />
+          <ScalarProperty Name="pacientes_x_primera_sesion" ColumnName="pacientes_x_primera_sesion" />
+          <ScalarProperty Name="color_rpg_libre" ColumnName="color_rpg_libre" />
+          <ScalarProperty Name="color_rpg_vino" ColumnName="color_rpg_vino" />
+          <ScalarProperty Name="color_rpg_ocupado" ColumnName="color_rpg_ocupado" />
+          <ScalarProperty Name="NombreConsultorio" ColumnName="NombreConsultorio" />
+          <ScalarProperty Name="PieReporte" ColumnName="PieReporte" />
+          <ScalarProperty Name="DatosConsultorio" ColumnName="DatosConsultorio" />
+          <ScalarProperty Name="tamNombre" ColumnName="tamNombre" />
+          <ScalarProperty Name="tamPie" ColumnName="tamPie" />
+          <ScalarProperty Name="tamDatos" ColumnName="tamDatos" />
+          <ScalarProperty Name="modo_15_minutos" ColumnName="modo_15_minutos" />
+          <ScalarProperty Name="fecha_ultimo_backup" ColumnName="fecha_ultimo_backup" />
+          <ScalarProperty Name="conf_tiempo_tfk" ColumnName="conf_tiempo_tfk" />
+          <ScalarProperty Name="pacientes_x_turno" ColumnName="pacientes_x_turno" />
+          <ScalarProperty Name="limite_de_ausentes" ColumnName="limite_de_ausentes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="repeticionesMedicos">
+      <EntityTypeMapping TypeName="TurnosModel.repeticionesMedico">
+        <MappingFragment StoreEntitySet="repeticionesMedicos">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idMedico" ColumnName="idMedico" />
+          <ScalarProperty Name="lun" ColumnName="lun" />
+          <ScalarProperty Name="mar" ColumnName="mar" />
+          <ScalarProperty Name="mie" ColumnName="mie" />
+          <ScalarProperty Name="jue" ColumnName="jue" />
+          <ScalarProperty Name="vie" ColumnName="vie" />
+          <ScalarProperty Name="sab" ColumnName="sab" />
+          <ScalarProperty Name="idrepeticion" ColumnName="idrepeticion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tratamientos">
+      <EntityTypeMapping TypeName="TurnosModel.Tratamiento">
+        <MappingFragment StoreEntitySet="Tratamientos">
+          <ScalarProperty Name="IdTratamiento" ColumnName="IdTratamiento" />
+          <ScalarProperty Name="IdPaciente" ColumnName="IdPaciente" />
+          <ScalarProperty Name="derivador" ColumnName="derivador" />
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="cantsesiones" ColumnName="cantsesiones" />
+          <ScalarProperty Name="otros" ColumnName="otros" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoSesions">
+      <EntityTypeMapping TypeName="TurnosModel.TipoSesion">
+        <MappingFragment StoreEntitySet="TipoSesion">
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profesional_TipoSesion">
+      <EntityTypeMapping TypeName="TurnosModel.Profesional_TipoSesion">
+        <MappingFragment StoreEntitySet="Profesional_TipoSesion">
+          <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
+          <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HorariosProfesionales">
+      <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
+        <MappingFragment StoreEntitySet="HorariosProfesionales">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="hasta" ColumnName="hasta" />
+          <ScalarProperty Name="desde" ColumnName="desde" />
+          <ScalarProperty Name="diasemana" ColumnName="diasemana" />
+          <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

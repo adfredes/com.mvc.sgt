@@ -16,6 +16,9 @@ namespace com.sgt.DataAccess.Interfaces
         IConsultorioRepository RepoConsultorio { get; }
         ITipoSesionRepository RepoTipoSesion { get; }
         IProfesionalRepository RepoProfesional { get; }
+        IAgendaRepository RepoAgenda { get; }
+        ISesionRepository RepoSesion { get; }
+        ITurnoRepository RepoTurno { get; }
 
     }
 }

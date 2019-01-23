@@ -35,8 +35,7 @@ namespace com.mvc.sgt.Controllers
         [CreateUpdateActionFilter("admin")]
         public JsonResult CreateOrEdit(AseguradoraModel model)
         {
-            //model.FechaModificacion = DateTime.Now;
-            model.UsuarioModificacion = User.Identity.Name;
+            //model.FechaModificacion = DateTime.Now;            
             if (model.ID.HasValue)
             {
                 AseguradoraService.Edit(Mapper.Map<Aseguradora>(model));

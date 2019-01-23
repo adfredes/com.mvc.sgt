@@ -330,7 +330,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.repeticionesMedicos' no tiene defin
     <Property Name="Estado" Type="smallint" Nullable="false" />
     <Property Name="FechaHora" Type="datetime" Nullable="false" />
     <Property Name="Habilitado" Type="bit" Nullable="false" />
-    <Property Name="UsuarioModifcacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Sesion_Estado">
@@ -371,8 +371,11 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <Property Name="PacienteID" Type="int" />
     <Property Name="Estado" Type="smallint" />
     <Property Name="Habilitado" Type="bit" Nullable="false" />
-    <Property Name="UsuarioModifcacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="CantidadSesiones" Type="int" />
+    <Property Name="Diagnostico" Type="varchar(max)" />
+    <Property Name="Fecha" Type="smalldatetime" />
   </EntityType>
   <EntityType Name="Usuario">
     <Key>

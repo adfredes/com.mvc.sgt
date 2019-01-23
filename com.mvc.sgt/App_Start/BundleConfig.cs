@@ -9,7 +9,8 @@ namespace com.mvc.sgt
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.contextMenu.min.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información sobre los formularios. De este modo, estará
             // para la producción, use la herramienta de compilación disponible en https://modernizr.com para seleccionar solo las pruebas que necesite.
@@ -27,7 +28,8 @@ namespace com.mvc.sgt
                       "~/Content/site.css",
                       "~/Content/fontello.css",                      
                       "~/Content/animation.css",
-                      "~/Content/Styles.css"));
+                      "~/Content/Styles.css",
+                      "~/Content/jquery.contextMenu.min.css"));
 
             //bundles.Add(new ScriptBundle("~/bundles/angularAseguradora").Include(
             //      "~/Scripts/angular.js",
@@ -61,8 +63,8 @@ namespace com.mvc.sgt
                     "~/Scripts/Angular/Controllers/ConsultorioController.js",
                     "~/Scripts/Angular/Components/ConsultorioComponent.js",
                     "~/Scripts/Angular/Controllers/ProfesionalController.js",
-                    "~/Scripts/Angular/Components/ProfesionalComponent.js"
-
+                    "~/Scripts/Angular/Components/ProfesionalComponent.js",
+                    "~/Scripts/Angular/Components/CalendarPopUpComponet.js"
                 ));
 
             //bundles.Add(new ScriptBundle("~/bundles/angularPaciente").Include(

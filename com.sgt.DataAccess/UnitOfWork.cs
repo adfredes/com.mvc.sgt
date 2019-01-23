@@ -22,6 +22,9 @@ namespace com.sgt.DataAccess
         private IConsultorioRepository consultorioRepository;
         private ITipoSesionRepository tipoSesionRepository;
         private IProfesionalRepository profesionalRepository;
+        private IAgendaRepository agendaRepository;
+        private ISesionRepository sesionRepository;
+        private ITurnoRepository turnoRepository;
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -75,7 +78,13 @@ namespace com.sgt.DataAccess
         public IProfesionalRepository RepoProfesional =>
             profesionalRepository = profesionalRepository ?? new ProfesionalRepository(dbContext);
 
+        public IAgendaRepository RepoAgenda =>
+            agendaRepository = agendaRepository ?? new AgendaRepository(dbContext);
 
+        public ISesionRepository RepoSesion =>
+            sesionRepository = sesionRepository?? new SesionRepository(dbContext);
 
+        public ITurnoRepository RepoTurno =>
+            turnoRepository = turnoRepository ?? new TurnoRepository(dbContext);
     }
 }

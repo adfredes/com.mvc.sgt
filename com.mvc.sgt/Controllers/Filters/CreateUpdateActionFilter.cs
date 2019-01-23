@@ -39,7 +39,7 @@ namespace com.mvc.sgt.Controllers.Filters
             }
 
             PropertyInfo prop2 = model.GetType().GetProperty("UsuarioModificacion", BindingFlags.Public | BindingFlags.Instance);
-            if (null != prop2 && prop1.CanWrite)
+            if (null != prop2 && prop2.CanWrite)
             {
                 if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {

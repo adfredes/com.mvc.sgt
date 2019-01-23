@@ -40,9 +40,13 @@ namespace com.sgt.services.Services
         private Profesional SetAgendaFechaUsuario(Profesional entity)
         {
             entity.Agenda.ToList().ForEach(a => {
-                    a.UsuarioModificacion = entity.UsuarioModificacion;
-                a.FechaModificacion = entity.FechaModificacion; 
-                });
+                a.UsuarioModificacion = entity.UsuarioModificacion;
+                a.FechaModificacion = entity.FechaModificacion;
+                a.ProfesionalID = entity.ID;
+                a.Descripcion = "Agenda " + entity.Nombre + " " + entity.Apellido;
+                a.Habilitado = entity.Habilitado;
+                a.Frecuencia = 30;
+            });
             return entity;
         }
         

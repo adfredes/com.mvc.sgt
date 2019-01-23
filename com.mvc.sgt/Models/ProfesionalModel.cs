@@ -12,7 +12,7 @@ namespace com.mvc.sgt.Models
         {
             //this.Agenda = new HashSet<Agendum>();
             this.TiposDeSesiones = new HashSet<Profesional_TipoSesionModel>();
-            //this.Agenda = new HashSet<AgendaModel>();
+            this.Agenda = new HashSet<AgendaModel>();
         }
 
         public int? ID { get; set; }
@@ -28,7 +28,7 @@ namespace com.mvc.sgt.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profesional_TipoSesionModel> TiposDeSesiones { get; set; }
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<AgendaModel> Agenda { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AgendaModel> Agenda { get; set; }
     }
 }

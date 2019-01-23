@@ -206,23 +206,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Sesions">
-      <EntityTypeMapping TypeName="TurnosModel.Sesion">
-        <MappingFragment StoreEntitySet="Sesion">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
-          <ScalarProperty Name="TurnoID" ColumnName="TurnoID" />
-          <ScalarProperty Name="Numero" ColumnName="Numero" />
-          <ScalarProperty Name="ConsultorioID" ColumnName="ConsultorioID" />
-          <ScalarProperty Name="TurnoSimultaneo" ColumnName="TurnoSimultaneo" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
-          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
-          <ScalarProperty Name="UsuarioModifcacion" ColumnName="UsuarioModifcacion" />
-          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Sesion_Estado">
       <EntityTypeMapping TypeName="TurnosModel.Sesion_Estado">
         <MappingFragment StoreEntitySet="Sesion_Estado">
@@ -230,18 +213,6 @@
           <ScalarProperty Name="Codigo" ColumnName="Codigo" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
           <ScalarProperty Name="Prioridad" ColumnName="Prioridad" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Turnoes">
-      <EntityTypeMapping TypeName="TurnosModel.Turno">
-        <MappingFragment StoreEntitySet="Turno">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
-          <ScalarProperty Name="UsuarioModifcacion" ColumnName="UsuarioModifcacion" />
-          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -386,6 +357,38 @@
           <ScalarProperty Name="desde" ColumnName="desde" />
           <ScalarProperty Name="diasemana" ColumnName="diasemana" />
           <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sesions">
+      <EntityTypeMapping TypeName="TurnosModel.Sesion">
+        <MappingFragment StoreEntitySet="Sesion">
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="TurnoSimultaneo" ColumnName="TurnoSimultaneo" />
+          <ScalarProperty Name="ConsultorioID" ColumnName="ConsultorioID" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="TurnoID" ColumnName="TurnoID" />
+          <ScalarProperty Name="AgendaID" ColumnName="AgendaID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turnoes">
+      <EntityTypeMapping TypeName="TurnosModel.Turno">
+        <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="CantidadSesiones" ColumnName="CantidadSesiones" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

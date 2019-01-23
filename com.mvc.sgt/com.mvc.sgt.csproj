@@ -259,6 +259,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
     <Compile Include="Controllers\ApiDefaultController.cs" />
+    <Compile Include="Controllers\ApiGrillaController.cs" />
     <Compile Include="Controllers\AseguradoraController.cs" />
     <Compile Include="Controllers\ConsultorioController.cs" />
     <Compile Include="Controllers\Filters\CreateUpdateActionFilter.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Models\ConsultorioModel.cs" />
     <Compile Include="Models\DocumentoTipoModel.cs" />
     <Compile Include="Models\DTO\ComboDTO.cs" />
+    <Compile Include="Models\FechaModel.cs" />
     <Compile Include="Models\FeriadoModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LocalidadModel.cs" />
@@ -286,7 +288,10 @@
     <Compile Include="Models\ProfesionalModel.cs" />
     <Compile Include="Models\Profesional_TipoSesionModel.cs" />
     <Compile Include="Models\ProvinciaModel.cs" />
+    <Compile Include="Models\SesionGrillaModel.cs" />
+    <Compile Include="Models\SesionModel.cs" />
     <Compile Include="Models\TipoSesionModel.cs" />
+    <Compile Include="Models\TurnoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -312,6 +317,8 @@
     <Content Include="Content\fontello.css" />
     <Content Include="Content\font\fontello.svg" />
     <Content Include="Content\img\logo_calendar.png" />
+    <Content Include="Content\jquery.contextMenu.css" />
+    <Content Include="Content\jquery.contextMenu.min.css" />
     <Content Include="Content\Styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -367,6 +374,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Angular\Components\CalendarPopUpComponet.js" />
     <Content Include="Scripts\Angular\Components\ConsultorioComponent.js" />
     <Content Include="Scripts\Angular\Components\FeriadoComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteSearch.js" />
@@ -1156,6 +1164,12 @@
     <Content Include="Content\font\fontello.ttf" />
     <Content Include="Content\font\fontello.woff" />
     <Content Include="Content\font\fontello.woff2" />
+    <Content Include="font\context-menu-icons.woff2" />
+    <Content Include="font\context-menu-icons.woff" />
+    <Content Include="font\context-menu-icons.ttf" />
+    <Content Include="font\context-menu-icons.eot" />
+    <Content Include="Content\jquery.contextMenu.min.css.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -1163,7 +1177,12 @@
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="Scripts\jquery.contextMenu.js" />
+    <Content Include="Scripts\jquery.contextMenu.min.js" />
+    <Content Include="Scripts\jquery.contextMenu.min.js.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.ui.position.js" />
+    <Content Include="Scripts\jquery.ui.position.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1221,6 +1240,7 @@
     <Content Include="Views\Consultorio\CreateOrEdit.cshtml" />
     <Content Include="Views\Profesional\CreateOrEdit.cshtml" />
     <Content Include="Views\Profesional\Index.cshtml" />
+    <Content Include="Views\Agenda\Semanal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1229,6 +1249,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\com.sgt.common.util\com.sgt.common.util.csproj">
+      <Project>{050ed3cb-b03d-4b43-94a0-2c19f7e067d5}</Project>
+      <Name>com.sgt.common.util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\com.sgt.DataAccess\com.sgt.DataAccess.csproj">
       <Project>{b60993e5-6344-4cc3-98bb-75bc78091d3b}</Project>
       <Name>com.sgt.DataAccess</Name>

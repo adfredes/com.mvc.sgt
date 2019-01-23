@@ -23,7 +23,7 @@ namespace com.sgt.DataAccess
         public short Estado { get; set; }
         public System.DateTime FechaHora { get; set; }
         public bool Habilitado { get; set; }
-        public string UsuarioModifcacion { get; set; }
+        public string UsuarioModificacion { get; set; }
         public System.DateTime FechaModificacion { get; set; }
     
         public virtual Agendum Agendum { get; set; }
