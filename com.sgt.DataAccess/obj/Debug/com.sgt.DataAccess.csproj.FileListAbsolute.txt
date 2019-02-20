@@ -12,3 +12,17 @@ D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.Cop
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.pdb
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\com.sgt.DataAccess.dll.config
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\com.sgt.DataAccess.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\com.sgt.DataAccess.pdb
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.xml
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.resources.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.SqlServer.resources.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache
+C:\github\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
+C:\github\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CopyComplete
+C:\github\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.dll
+C:\github\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.pdb

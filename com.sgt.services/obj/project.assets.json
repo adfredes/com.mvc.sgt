@@ -104,14 +104,17 @@
   },
   "libraries": {
     "EntityFramework/6.2.0": {
-      "sha512": "ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
+      "sha512": "+aB/cnEAr9KqVMjmZwu+Fzy3EOPjCIzNsPAUyn19WbB2u3LFHd2OB3X56ohAj7EBf2hppl9M27nlRnkQxOhoAA==",
       "type": "package",
       "path": "entityframework/6.2.0",
+      "hasTools": true,
       "files": [
-        "EntityFramework.6.2.0.nupkg.sha512",
-        "EntityFramework.nuspec",
+        ".nupkg.metadata",
+        ".signature.p7s",
         "content/net40/App.config.transform",
         "content/net40/Web.config.transform",
+        "entityframework.6.2.0.nupkg.sha512",
+        "entityframework.nuspec",
         "lib/net40/EntityFramework.SqlServer.dll",
         "lib/net40/EntityFramework.SqlServer.xml",
         "lib/net40/EntityFramework.dll",
@@ -143,20 +146,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\afredes\\.nuget\\packages\\": {}
+    "C:\\Users\\Alejandro\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "projectUniqueName": "C:\\github\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
       "projectName": "com.sgt.services",
-      "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
-      "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\obj\\",
+      "projectPath": "C:\\github\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
+      "outputPath": "C:\\github\\com.mvc.sgt\\com.sgt.services\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\afredes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -164,14 +167,13 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://reactjs.net/packages/": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "C:\\github\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "C:\\github\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             }
           }
         }

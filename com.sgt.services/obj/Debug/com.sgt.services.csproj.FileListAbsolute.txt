@@ -10,3 +10,7 @@ D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCom
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb
+C:\github\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csprojAssemblyReference.cache
+C:\github\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCompileInputs.cache
+C:\github\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
+C:\github\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb
