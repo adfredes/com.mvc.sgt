@@ -7,10 +7,10 @@
 
         
 
-        vm.changeLink= function (link){
-            console.log("ok");
+        vm.changeLink = function (link) {
+
             vm.activeLink = link;
-        }
-        console.log(vm.activeLink);
+        };
+        
     }
 })();

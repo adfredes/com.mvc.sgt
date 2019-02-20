@@ -21,8 +21,9 @@ namespace com.sgt.services.Services
 
         public void Add(Paciente entity)
         {
-            if (!ExistPaciente(entity)){ 
-                entity.DocumentoTipoID = 1;                
+            if (!ExistPaciente(entity))
+            {
+                entity.DocumentoTipoID = 1;
                 this.unitOfWork.RepoPaciente.Add(entity);
             }
             else
@@ -71,7 +72,47 @@ namespace com.sgt.services.Services
                 && x.ID != paciente.ID);
             int pp = resu.Count();
             return resu.Count() == 0 ? false : true;
-            
+
+        }
+
+        public ICollection<Turno> ListarTurnos(int PacienteID)
+        {
+            var resu = unitOfWork.RepoTurno
+                .FindBy(t => t.PacienteID == PacienteID)
+                .OrderByDescending(t => t.ID)
+                .Select(x => new
+                {
+                    ID = x.ID,
+                    CantidadSesiones = x.CantidadSesiones,
+                    Estado = x.Estado,
+                    Diagnostico = x.Diagnostico,
+                    Fecha = x.Fecha,
+                    FechaModificacion = x.FechaModificacion,
+                    Habilitado = x.Habilitado,
+                    Paciente = x.Paciente,
+                    PacienteID = x.PacienteID,
+                    UsuarioModificacion = x.UsuarioModificacion,
+                    Sesions = x.Sesions.Where(s => s.Estado != 3).ToList()
+                }).ToList();
+
+            var final = resu.Where(x => x.Sesions.Count > 0)
+                .Select(x => new Turno
+                {
+                    ID = x.ID,
+                    CantidadSesiones = x.CantidadSesiones,
+                    Estado = x.Estado,
+                    Diagnostico = x.Diagnostico,
+                    Fecha = x.Fecha,
+                    FechaModificacion = x.FechaModificacion,
+                    Habilitado = x.Habilitado,
+                    Paciente = x.Paciente,
+                    PacienteID = x.PacienteID,
+                    UsuarioModificacion = x.UsuarioModificacion,
+                    Sesions = x.Sesions
+                }).ToList();
+
+            return final;
+            //resu.ToList();
         }
     }
 }

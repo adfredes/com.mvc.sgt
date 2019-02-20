@@ -12,7 +12,7 @@
                 datatype: 'json'
             });
             return request;
-        }
+        };
 
         $this.GetAll = function (controlador) {
             var request = $http({
@@ -20,7 +20,7 @@
                 url: Domain + controlador + '/GetAll'
             });
             return request;
-        }
+        };
 
         $this.Get = function (id, controlador) {
             var request = $http({
@@ -28,7 +28,7 @@
                 url: Domain + controlador + '/Get/' + id
             });
             return request;
-        }
+        };
 
         $this.GetAllPaging = function (controlador, page, size) {
             var request = $http({
@@ -36,7 +36,7 @@
                 url: Domain + controlador + '/Listar/' + page + '/' + size
             });
             return request;
-        }
+        };
 
         $this.GetHttp = function (_url) {
             var request = $http({
@@ -44,7 +44,7 @@
                 url: Domain + _url
             });
             return request;
-        }
+        };
 
         $this.GetPHttp = function (_url) {
             var defered = $q.defer();
@@ -57,7 +57,7 @@
                 });
 
             return promise;
-        }
+        };
 
         $this.PostHttp = function (_url, data) {
             let defered = $q.defer();
@@ -69,11 +69,40 @@
                 datatype: 'json'
             })
                 .then(
-                    function (response) { defered.resolve(response.data) },
-                    function (err) { defered.reject(err) }
-            );
+                function (response) { defered.resolve(response.data); },
+                function (err) { defered.reject(err); }
+                );
             return promise;
-        }
+        };
+
+        $this.PutHttp = function (_url, data) {
+            let defered = $q.defer();
+            let promise = defered.promise;
+            $http({
+                method: 'PUT',
+                url: Domain + _url,
+                data: JSON.stringify(data),
+                datatype: 'json'
+            })
+                .then(
+                function (response) { defered.resolve(response.data); },
+                function (err) { defered.reject(err); }
+                );
+            return promise;
+        };
+
+        $this.GetPHttpParse = function (_url) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+            $http({ method: 'GET', url: Domain + _url })
+                .then(function (response) {
+                    defered.resolve(JSON.parse(response.data));
+                }, function (err) {
+                    defered.reject(err);
+                });
+
+            return promise;
+        };
 
     }]);
 })();

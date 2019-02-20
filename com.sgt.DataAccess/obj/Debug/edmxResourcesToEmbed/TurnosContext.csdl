@@ -180,6 +180,7 @@
     <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Turnoes" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+    <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Paciente_Aseguradora_Historico">
     <Key>

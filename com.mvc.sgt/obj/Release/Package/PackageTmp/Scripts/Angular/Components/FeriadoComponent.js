@@ -14,8 +14,7 @@
         var vm = this;
         vm.error = "";
 
-        vm.save = function (data) {
-            console.log(data);
+        vm.save = function (data) {          
             var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', data);
             promise.then(function (data) {
                 $('#CreateOrUpdate').modal('hide');

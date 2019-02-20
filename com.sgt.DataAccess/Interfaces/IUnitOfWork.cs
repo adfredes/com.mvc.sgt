@@ -19,6 +19,9 @@ namespace com.sgt.DataAccess.Interfaces
         IAgendaRepository RepoAgenda { get; }
         ISesionRepository RepoSesion { get; }
         ITurnoRepository RepoTurno { get; }
+        IAgendaBloqueosRepository RepoAgendaBloqueos { get; }
+        IAgendaRecesoRepository RepoAgendaReceso { get; }
+        ISesionEstadosRepository RepoSesionEstados { get; }
 
     }
 }

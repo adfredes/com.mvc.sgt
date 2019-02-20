@@ -22,12 +22,12 @@
                     var provincias = [];
                 });
             return provincias;
-        }
+        };
 
         $scope.setLetter = function (letter) {
             $scope.selectedLetter = letter;
             $scope.setPage(0);
-        }
+        };
 
         $scope.setPage = function (page) {
             $scope.currentPage = page;
@@ -46,28 +46,32 @@
             }
 
             $scope.initPage = $scope.initPage < 0 ? 0 : $scope.initPage;
-        }
+        };
 
-        $scope.Save = function () {
-            var requestResponse = crudService.CreateOrEdit($scope.PacienteModel, 'Paciente');
-            Message(requestResponse);
-        }
+        $scope.Save = function (newPaciente) {            
+            if (newPaciente) {
+                $scope.PacienteModel = newPaciente;
+                $scope.GetPacientes();
+            }                                       
+            //var requestResponse = crudService.CreateOrEdit($scope.PacienteModel, 'Paciente');
+            //Message(requestResponse);
+        };
 
         $scope.Edit = function (id) {
             var getData = crudService.Get(id, 'Paciente');
             getData.then(function (response) {
-                $scope.PacienteModel = response.data;
-                $scope.PacienteModel.FechaModificacion = moment($scope.PacienteModel.FechaModificacion).toDate();
-                $scope.PacienteModel.FechaNacimiento = moment($scope.PacienteModel.FechaNacimiento).toDate();
+                $scope.PacienteModel = JSON.parse(response.data);
+                //$scope.PacienteModel.FechaModificacion = moment($scope.PacienteModel.FechaModificacion).toDate();
+                //$scope.PacienteModel.FechaNacimiento = moment($scope.PacienteModel.FechaNacimiento).toDate();
             },
                 function () {
                     alert('Error al obtener los registros');
-                })
-        }
+                });
+        };
 
         $scope.Create = function () {
             $scope.PacienteModel = {};
-        }
+        };
 
         $scope.GetPacientes = function () {
             let _url = '';
@@ -77,8 +81,9 @@
             var requestResponse = crudService.GetHttp(_url);
 
             requestResponse.then(function (response) {
-                $scope.registerCount = response.data.count;
-                $scope.pacientes = response.data.list;
+                let data = JSON.parse(response.data);
+                $scope.registerCount = data.count;
+                $scope.pacientes = data.list;
                 $scope.pages = [];
                 for (x = 0; (x * $scope.pageSize) < $scope.registerCount; x++) {
                     $scope.pages.push(x + 1);
@@ -87,8 +92,8 @@
                 function () {
                     $scope.pages = [];
                     $scope.pacientes = [];
-                })
-        }
+                });
+        };
 
         function Message(requestResponse) {
             requestResponse.then(function successCallback(response) {
@@ -115,5 +120,5 @@
             return dt;
         }
     }
-    ])
+    ]);
 })();

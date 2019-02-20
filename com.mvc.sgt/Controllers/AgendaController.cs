@@ -3,6 +3,7 @@ using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
 using com.sgt.DataAccess;
 using com.sgt.services.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,26 @@ namespace com.mvc.sgt.Controllers
             {
                 resu = new SesionGrillaModel();
             }
-            return Json(resu);
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        [Route("Sesion/Pendiente/Anular")]
+        public JsonResult AnularSesionesPendientes(int id)
+        {
+            string resu;            
+            try
+            {
+                var turno = this.AgendaService.CancelarSesionesPendientes(id);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                resu = JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno));
+            }
+            catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(resu, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPut]
@@ -114,7 +134,7 @@ namespace com.mvc.sgt.Controllers
             {
                 resu = new SesionGrillaModel();
             }
-            return Json(resu);
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPut]
@@ -131,7 +151,7 @@ namespace com.mvc.sgt.Controllers
             {
                 resu = new SesionGrillaModel();
             }
-            return Json(resu);
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPut]
@@ -148,8 +168,9 @@ namespace com.mvc.sgt.Controllers
             {
                 resu = new SesionGrillaModel();
             }
-            return Json(resu);
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
         }
+
 
         [HttpPost]
         [CreateUpdateActionFilter("admin")]
@@ -158,6 +179,27 @@ namespace com.mvc.sgt.Controllers
             try
             {
                 var sesiones = Mapper.Map<List<SesionGrillaModel>>(this.AgendaService.BloquearSesion(Mapper.Map<Turno>(model)));
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(JsonConvert.SerializeObject(sesiones), JsonRequestBehavior.AllowGet);
+                //return Json(sesiones);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+
+
+        }
+
+        [HttpPost]
+        [Route("Sesion/Reservar")]
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult ReservarSesion(TurnoModel model)
+        {
+            try
+            {
+                var sesiones = Mapper.Map<TurnoModel>(this.AgendaService.ReservarSesiones(Mapper.Map<Turno>(model)));
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json(sesiones);
             }
@@ -168,6 +210,51 @@ namespace com.mvc.sgt.Controllers
             }
 
 
+        }
+
+        [HttpDelete]
+        [Route("Sesion/Reserva/Delete")]
+        public JsonResult CancelarReserva(int turnoID)
+        {
+            try
+            {
+                this.AgendaService.CancelarReserva(turnoID);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json("ok");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Sesion/CambiarFecha")]
+        public JsonResult ModificarSesion(List<SesionModel> model)
+        {
+            try
+            {
+                var sesiones = Mapper.Map<ICollection<Sesion>>(model);
+                sesiones = this.AgendaService.CambiarFechaSesion(sesiones);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(sesiones);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("Sesion/ChangeDate")]
+        public ActionResult EditSesion()
+        {
+            return PartialView();
         }
 
 

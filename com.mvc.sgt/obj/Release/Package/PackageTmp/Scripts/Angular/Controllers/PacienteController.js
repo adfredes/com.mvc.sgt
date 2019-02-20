@@ -22,12 +22,12 @@
                     var provincias = [];
                 });
             return provincias;
-        }
+        };
 
         $scope.setLetter = function (letter) {
             $scope.selectedLetter = letter;
             $scope.setPage(0);
-        }
+        };
 
         $scope.setPage = function (page) {
             $scope.currentPage = page;
@@ -46,12 +46,16 @@
             }
 
             $scope.initPage = $scope.initPage < 0 ? 0 : $scope.initPage;
-        }
+        };
 
-        $scope.Save = function () {
-            var requestResponse = crudService.CreateOrEdit($scope.PacienteModel, 'Paciente');
-            Message(requestResponse);
-        }
+        $scope.Save = function (newPaciente) {            
+            if (newPaciente) {
+                $scope.PacienteModel = newPaciente;
+                $scope.GetPacientes();
+            }                                       
+            //var requestResponse = crudService.CreateOrEdit($scope.PacienteModel, 'Paciente');
+            //Message(requestResponse);
+        };
 
         $scope.Edit = function (id) {
             var getData = crudService.Get(id, 'Paciente');
@@ -62,12 +66,12 @@
             },
                 function () {
                     alert('Error al obtener los registros');
-                })
-        }
+                });
+        };
 
         $scope.Create = function () {
             $scope.PacienteModel = {};
-        }
+        };
 
         $scope.GetPacientes = function () {
             let _url = '';
@@ -87,8 +91,8 @@
                 function () {
                     $scope.pages = [];
                     $scope.pacientes = [];
-                })
-        }
+                });
+        };
 
         function Message(requestResponse) {
             requestResponse.then(function successCallback(response) {
@@ -115,5 +119,5 @@
             return dt;
         }
     }
-    ])
+    ]);
 })();

@@ -7,8 +7,8 @@ D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.xml
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.resources.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.SqlServer.resources.dll
-D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.pdb
+D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache

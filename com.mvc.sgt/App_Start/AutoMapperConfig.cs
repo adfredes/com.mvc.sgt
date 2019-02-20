@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using com.sgt.DataAccess.Enums;
 
 namespace com.mvc.sgt.App_Start
 {
@@ -83,15 +84,23 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d=> d.TipoDeSesion, o=>o.MapFrom(s => s.TipoSesion.Descripcion));
                 mapper.CreateMap<ConsultorioModel, Consultorio>();
 
+                mapper.CreateMap<Consultorio, ConsultorioHorariosModel>()
+                .ReverseMap();
+
                 mapper.CreateMap<Sesion, SesionGrillaModel>()
                 .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))                
                 .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
                 .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
                 .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
                 .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
+                .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
                 .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.Diagnostico))
-                .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion));
-
+                .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
+                .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Paciente.Turnoes
+                    .Where(t=> t.Sesions
+                        .Where(se=> (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre).Count()>0)
+                    .Count() > 0? true:false));
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 mapper.CreateMap<TipoSesion, ComboDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.ID))
                 .ForMember(d => d.Text, o => o.MapFrom(s => s.Descripcion));

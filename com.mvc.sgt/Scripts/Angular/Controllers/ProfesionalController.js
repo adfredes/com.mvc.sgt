@@ -10,12 +10,12 @@
         $scope.pages = [];
         $scope.arrayLetter = ["TODOS", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
         $scope.selectedLetter = 'TODOS';
-        $scope.ProfesionalModel = {};        
+        $scope.ProfesionalModel = {};
 
         $scope.setLetter = function (letter) {
             $scope.selectedLetter = letter;
             $scope.setPage(0);
-        }
+        };
 
         $scope.setPage = function (page) {
             $scope.currentPage = page;
@@ -34,31 +34,31 @@
             }
 
             $scope.initPage = $scope.initPage < 0 ? 0 : $scope.initPage;
-        }
+        };
 
-                               
+
         $scope.Edit = function (id) {
             var getData = crudService.Get(id, 'Profesional');
             getData.then(function (response) {
-                $scope.ProfesionalModel = response.data;     
+                $scope.ProfesionalModel = response.data;
                 if (!$scope.ProfesionalModel.Agenda || !$scope.ProfesionalModel.Agenda[0]) {
                     $scope.ProfesionalModel.Agenda.push({});
                 }
                 else {
-                    $scope.ProfesionalModel.Agenda[0].HoraDesde = moment($scope.ProfesionalModel.Agenda[0].HoraDesde).toDate(); 
-                    $scope.ProfesionalModel.Agenda[0].HoraHasta = moment($scope.ProfesionalModel.Agenda[0].HoraHasta).toDate(); 
+                    $scope.ProfesionalModel.Agenda[0].HoraDesde = moment($scope.ProfesionalModel.Agenda[0].HoraDesde).toDate();
+                    $scope.ProfesionalModel.Agenda[0].HoraHasta = moment($scope.ProfesionalModel.Agenda[0].HoraHasta).toDate();
                 }
             },
                 function () {
                     alert('Error al obtener los registros');
-                })
-        }
-        
+                });
+        };
+
 
         $scope.Create = function () {
             $scope.ProfesionalModel = {};
             $scope.ProfesionalModel.Agenda.push({});
-        }
+        };
 
         $scope.GetProfesionales = function () {
             let _url = '';
@@ -68,8 +68,8 @@
             var requestResponse = crudService.GetHttp(_url);
 
             requestResponse.then(function (response) {
-                $scope.registerCount = response.data.count;                
-                $scope.profesionales = response.data.list;             
+                $scope.registerCount = response.data.count;
+                $scope.profesionales = response.data.list;
                 $scope.pages = [];
                 for (x = 0; (x * $scope.pageSize) < $scope.registerCount; x++) {
                     $scope.pages.push(x + 1);
@@ -78,8 +78,8 @@
                 function () {
                     $scope.pages = [];
                     $scope.profesionales = [];
-                })
-        }
+                });
+        };
 
         function Message(requestResponse) {
             requestResponse.then(function successCallback(response) {
@@ -92,7 +92,7 @@
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
             });
-        }              
+        }
     }
-    ])
+    ]);
 })();

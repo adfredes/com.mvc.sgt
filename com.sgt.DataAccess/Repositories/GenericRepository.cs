@@ -23,6 +23,7 @@ namespace com.sgt.DataAccess.Repositories
 
         public TEntity Add(TEntity entity)
         {
+            EntriesClear();
             Entity.Add(entity);            
             //_dbcontext.Entry(entity).State = EntityState.Added;
             Save();
@@ -31,12 +32,14 @@ namespace com.sgt.DataAccess.Repositories
 
         public void Delete(TEntity entity)
         {
+            EntriesClear();
             _dbcontext.Entry(entity).State = EntityState.Deleted;
             Save();
         }
 
         public virtual void Edit(TEntity entity)
-        {                        
+        {
+            EntriesClear();
             _dbcontext.Entry(entity).State = EntityState.Modified;
             Save();
         }

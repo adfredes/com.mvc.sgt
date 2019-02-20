@@ -3,10 +3,9 @@
                      md-search-text="$ctrl.searchText"
                      md-items="item in $ctrl.search()"
                      md-item-text="item.Apellido + ' ' + item.Nombre"
-                     md-selected-item-change="$ctrl.UpdateDate()"
+                     @*md-selected-item-change="$ctrl.UpdateDate()"*@
                      md-min-length="3"
-                     placeholder="Paciente"                     
-                     >
+                     placeholder="Paciente">
         <md-item-template style="background-color:aquamarine">
             <span md-highlight-text="$ctrl.searchText" md-highlight-flags="^i" style="z-index:9999">{{item.Apellido + ' ' + item.Nombre}}</span>
         </md-item-template>
@@ -15,11 +14,17 @@
         </md-not-found>
     </md-autocomplete>
 
-    
-    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0" type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null"><span class="icon-search"></span></button>   
-</div>
 
-    <paciente-edit paciente="$ctrl.Paciente" save="Save" div-id="ViewPaciente"></paciente-edit>
+    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0" 
+            type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
+        <span class="icon-search"></span>
+    </button>
+    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0" 
+            type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.addEnabled">
+        <span class="icon-user-plus "></span>
+    </button>
+</div>    
+    <paciente-view paciente="$ctrl.Paciente" divid="ViewPaciente"></paciente-view>
 
 <!--
 md-search-text-change="$ctrl.search()"

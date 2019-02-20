@@ -2,7 +2,7 @@
 .modal-fixed{
     position: fixed;
     top:0 !important;
-    z-index:3000;
+    /*z-index:3000;*/
 
 }
 
@@ -162,3 +162,271 @@ md-content{
 .md-autocomplete-suggestions-container{
     z-index: 2000 !important;
 }
+
+.md-dialog-container{
+    z-index: 1500;
+}
+
+.loader-content{
+    width:100%;
+    text-align: center;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 60px;
+    height: 60px;    
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 0.5s linear infinite;    
+}
+
+input[readonly]{
+    background: inherit !important;
+}
+
+
+/*********Semanal***********/
+.reservas {
+    position: fixed;
+    top: 80px;
+    left: 0px;
+    display: none;
+    height: auto;
+    width: auto;
+    padding: 15px 0px 10px 1rem;
+    background: rgb(71,119,168);
+    opacity: 0.6;
+    border-bottom-right-radius: 10px;
+    color: white;
+    transition: all 0.4s;
+    max-height: 50vh;
+    overflow: auto;
+}
+
+#btnDivReservasCancelar {
+    color: red;
+    cursor: pointer;
+    border: 1px solid red;
+    border-radius: 50%;
+    margin-left: 3rem;
+}
+
+    #btnDivReservasCancelar:hover {
+        color: rgb(71,119,168);
+        background: red;
+    }
+
+#btnDivReservasAceptar {
+    color: blue;
+    cursor: pointer;
+    border: 1px solid blue;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+    #btnDivReservasAceptar:hover {
+        color: rgb(71,119,168);
+        background: blue;
+    }
+
+.reservas > p {
+    margin: 0px;
+}
+
+.reservas li {
+    list-style: none;
+    display: none;
+    margin: 0rem 1rem;
+}
+
+.reservas:hover {
+    opacity: 1;
+}
+
+    .reservas:hover li {
+        display: block;
+    }
+
+    .reservas:hover ul {
+        display: block;
+    }
+
+.reservas.show {
+    display: block;
+}
+
+.reservas ul {
+    margin: 2px;
+    padding: 0px;
+    display: none;
+}
+
+.reservas > p:first-child {
+    display: block;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.grillaTurnos {
+    width: 100%;
+    height: 1px;
+    font-size: .7rem !important;
+}
+
+    .grillaTurnos, .grillaTurnos th, .grillaTurnos td {
+        border: 1px solid #000;
+        border-collapse: collapse;
+        font-size: .6rem;
+        line-height: 1em !important;
+    }
+
+        .grillaTurnos th, .grillaTurnos td {
+            text-align: center;
+        }
+
+.etiqueta-dia {
+    text-transform: capitalize;
+}
+
+.center {
+    text-align: center;
+}
+
+.celda-turno.turno-tomado {
+    transition: all 0.4s;
+}
+
+.celda-turno.turno-vacio:hover {
+    border: 2px solid #000;
+}
+
+/*.celda-turno.turno-tomado:hover {
+            transform: scale(1.2);
+            border-radius: 3px;
+            box-shadow: 2px 2px 2px #000;
+        }*/
+
+.celda-turno.turno-bloqueado {
+    background: linear-gradient(to bottom right, #f5050c, #aaa);
+}
+
+.turno-receso {
+    background: linear-gradient(to bottom right, #2d367c, #aaa);
+    cursor: not-allowed;
+}
+
+    .turno-receso > p {
+        transform: rotate(-45deg);
+        font-weight: bold;
+        color: #ccc;
+        font-size: 2rem;
+        text-shadow: 2px 2px 2px #000;
+        cursor: not-allowed;
+    }
+
+.turno-feriado {
+    background: linear-gradient(to bottom right, #1e4f54, #aaa);
+    cursor: not-allowed;
+}
+
+    .turno-feriado > p {
+        transform: rotate(-45deg);
+        font-weight: bold;
+        color: #ccc;
+        font-size: 2rem;
+        text-shadow: 2px 2px 2px #000;
+        cursor: not-allowed;
+    }
+
+.celda-turno p {
+    padding: 0px;
+    margin: 0px;
+}
+
+/*.turno-tomado{
+        position: relative;
+    }
+
+        .turno-tomado div:nth-last-child(2) {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+        }*/
+
+
+.div-turno {
+    margin: 0px;
+    /*height: 100%;
+        width: 100%;*/
+    transition: all 0.4s;
+    padding: .2rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.tabla-consultorio {
+    font-weight: 600;
+    cursor: not-allowed;
+}
+
+.tabla-horario {
+    padding: 0.1rem;
+    cursor: not-allowed;
+}
+
+.div-turno:hover {
+    transform: scale(1.2);
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px #000;
+    z-index:500;
+}
+
+.div-turno[data-estado="2"]:hover {
+    cursor: pointer !important;
+}
+
+.hover-title {
+    /*font-weight: bold;*/
+    /*box-shadow: 2px 2px 2px #000 inset;*/
+    color: red;
+}
+
+.dragenter {
+    background-color: #222 !important;
+    cursor: cell !important;
+}
+
+.procesando {
+    width: 100%;
+    z-index: 9999;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: none;
+    cursor: progress;
+}
+
+.sin-fecha{
+    background: #fff;
+    color:red;
+    border-radius: .5rem;
+    display: block;
+    cursor:pointer;
+    transition: all linear .2s;
+}
+
+    .sin-fecha:hover {
+        color: #fff;
+        background: red;
+    }

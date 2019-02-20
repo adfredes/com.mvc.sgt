@@ -3,6 +3,7 @@ using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
 using com.sgt.DataAccess;
 using com.sgt.services.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace com.mvc.sgt.Controllers
         {
             //var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido));
             var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido).ThenBy(x=>x.Nombre).Skip((page - 1) * count).Take(count));
-            return Json(new { list = model, count = this.pacienteService.GetAll().Count}, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(new { list = model, count = this.pacienteService.GetAll().Count}), JsonRequestBehavior.AllowGet);
         }
 
         [Route("Paciente/Listar/{letter}/{page}/{count}")]
@@ -55,7 +56,7 @@ namespace com.mvc.sgt.Controllers
             var regisCount = this.pacienteService.GetAll()
                                 .Where(x => x.Apellido.Substring(0, 1).ToUpper() == letter)
                                 .Count();
-            return Json(new { list = model, count = regisCount }, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(new { list = model, count = regisCount }), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult QuickSearch()
@@ -72,12 +73,37 @@ namespace com.mvc.sgt.Controllers
                 .Where(x => x.Apellido.ToLower().StartsWith(name) || x.Nombre.ToLower().StartsWith(name)
                         || (x.Apellido.ToLower() + " " + x.Nombre.ToLower()).StartsWith(name))
                 .OrderBy(x => x.Apellido).ThenBy(x => x.Nombre));
-            return Json(listModel, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(listModel), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ViewTurnos()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        public JsonResult ListTurnos(int? id)
+        {
+            List<TurnoModel> turnos = null;
+            if (id.HasValue)
+            {
+                turnos = Mapper.Map<List<TurnoModel>>(pacienteService.ListarTurnos(id.Value));                
+            }
+
+            return Json(JsonConvert.SerializeObject(turnos), JsonRequestBehavior.AllowGet);
+            //return Json(turnos, JsonRequestBehavior.AllowGet);
         }
 
         //GET
         [HttpGet]
         public ActionResult CreateOrEdit(int? id)
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        public ActionResult View(int? id)
         {
             return PartialView();
         }
@@ -113,7 +139,7 @@ namespace com.mvc.sgt.Controllers
         public JsonResult Get(int id)
         {
             PacienteDto model = Mapper.Map<PacienteDto>(pacienteService.Find(id));
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿(function () {    
-    window.Domain = 'http://localhost:52316/';
+    //window.Domain = 'http://localhost:52316/';
+    window.Domain = '../../';
     //window.Domain = 'http://sitk.socialpics.com.ar/';
     var sgtApp = angular.module("sgtApp", ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
 
@@ -69,6 +70,6 @@
             leave: function (element, doneFn) {
                 jQuery(element).fadeOut(1000, doneFn);
             }
-        }
+        };
     }]);
 })();

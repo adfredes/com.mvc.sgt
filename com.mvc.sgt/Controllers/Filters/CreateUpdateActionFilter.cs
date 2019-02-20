@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,32 +27,48 @@ namespace com.mvc.sgt.Controllers.Filters
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var model = filterContext.ActionParameters["model"];
+            
             if (model == null)
             {
-                // The action didn't have an argument called "model" or this argument
-                // wasn't of the expected type => no need to continue any further
                 return;
             }
-            PropertyInfo prop1 = model.GetType().GetProperty("FechaModificacion", BindingFlags.Public | BindingFlags.Instance);
+
+            if ((model is IList || model is ICollection) && model.GetType().IsGenericType)
+            {
+                foreach(var m in (IList)model)
+                {
+                    var p = m;
+                        SetObjectUserDate(ref p);                   
+                }
+            }
+            else
+            {
+                SetObjectUserDate(ref model);              
+            }            
+        }
+
+        private void SetObjectUserDate(ref object m)
+        {
+            PropertyInfo prop1 = m.GetType().GetProperty("FechaModificacion", BindingFlags.Public | BindingFlags.Instance);
             if (null != prop1 && prop1.CanWrite)
-            {                
-                prop1.SetValue(model, DateTime.Now);
+            {
+                prop1.SetValue(m, DateTime.Now);
             }
 
-            PropertyInfo prop2 = model.GetType().GetProperty("UsuarioModificacion", BindingFlags.Public | BindingFlags.Instance);
+            PropertyInfo prop2 = m.GetType().GetProperty("UsuarioModificacion", BindingFlags.Public | BindingFlags.Instance);
             if (null != prop2 && prop2.CanWrite)
             {
                 if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    prop2.SetValue(model, HttpContext.Current.User.Identity.Name.Trim());
+                    prop2.SetValue(m, HttpContext.Current.User.Identity.Name.Trim());
                 }
                 else
                 {
-                    prop2.SetValue(model, _usuario);
+                    prop2.SetValue(m, _usuario);
                 }
-                
-            }
 
+            }            
         }
+       
     }
 }

@@ -32,6 +32,7 @@ namespace com.mvc.sgt.Models
         public string ObraSocial { get; set; }
         public string CodigoSeguridad { get; set; }
         public string Cuit { get; set; }
-        public string Mail { get; set; }        
+        public string Mail { get; set; }
+        public string Foto { get; set; }
     }
 }

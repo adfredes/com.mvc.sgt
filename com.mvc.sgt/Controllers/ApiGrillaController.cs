@@ -39,6 +39,13 @@ namespace com.mvc.sgt.Controllers
             return Ok(horarios);
         }
 
+        [Route("api/grilla/Estados")]
+        public IHttpActionResult GetEstados()
+        {
+            var estados = Mapper.Map<List<SesionEstadoModel>>(agendaService.GetSesionEstados());
+            return Ok(estados);
+        }
+
         [Route("api/grilla/Consultorios")]
         public IHttpActionResult GetConsultorios()
         {
@@ -53,7 +60,7 @@ namespace com.mvc.sgt.Controllers
             //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime fecha = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
 
-            fecha.NextDays(vista.ToString() =="s"?7:1).ForEach(day =>
+            fecha.NextDays(vista =='s'?7:1).ForEach(day =>
             {
                 var newDate = new FechaModel();
                 newDate.Fecha = day.ToString("dd/MM/yyyy");
@@ -61,7 +68,53 @@ namespace com.mvc.sgt.Controllers
                 fechas.Add(newDate);
             });            
             return Ok(fechas);
+        }
 
+        [Route("api/grilla/Receso/{dia}/{mes}/{anio}/{vista}")]
+        public IHttpActionResult GetRecesosGrilla(string dia, string mes, string anio, char vista)
+        {
+            List<FechaModel> fechas = new List<FechaModel>();
+            //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
+            DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
+            var recesos = agendaService.SearchRecesos(desde, hasta);
+
+            recesos.ToList().ForEach(receso =>
+            {
+                DateTime finicio = receso.FechaDesde > desde ? receso.FechaDesde : desde;
+                int total = receso.FechaHasta < hasta ? (receso.FechaHasta - finicio).Days : (hasta - finicio).Days;
+                total++;
+                finicio.NextDays(total).ForEach(day =>
+                {
+                    var newDate = new FechaModel();
+                    newDate.Fecha = day.ToString("dd/MM/yyyy");
+                    newDate.Name = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(day.DayOfWeek);
+                    fechas.Add(newDate);
+                });
+            });
+
+            
+            return Ok(fechas);
+        }
+
+        [Route("api/grilla/Feriado/{dia}/{mes}/{anio}/{vista}")]
+        public IHttpActionResult GetFeriadoGrilla(string dia, string mes, string anio, char vista)
+        {
+            List<FechaModel> fechas = new List<FechaModel>();
+            //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
+            DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
+
+            agendaService.SearchFeriado(desde, hasta)
+                .ToList()
+                .ForEach(feriado => {
+                    var newDate = new FechaModel();
+                    newDate.Fecha = feriado.Fecha.ToString("dd/MM/yyyy");
+                    newDate.Name = CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(feriado.Fecha.DayOfWeek);
+                    fechas.Add(newDate);
+                });           
+
+            return Ok(fechas);
         }
 
         [Route("api/grilla/sesiones/{dia}/{mes}/{anio}/{vista}")]
@@ -70,6 +123,13 @@ namespace com.mvc.sgt.Controllers
             DateTime beginDate = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
             DateTime endDate = vista == 's' ? beginDate.AddDays(7) : beginDate.AddDays(1);
             var sesiones = Mapper.Map<List<SesionGrillaModel>>(agendaService.SearchSesions(beginDate, endDate));
+            return Ok(sesiones);
+        }
+
+        [Route("api/sesiones/{id}")]
+        public IHttpActionResult GetSesion(int id)
+        {
+            var sesiones = Mapper.Map<List<SesionGrillaModel>>(agendaService.FindSesion(id));
             return Ok(sesiones);
         }
 

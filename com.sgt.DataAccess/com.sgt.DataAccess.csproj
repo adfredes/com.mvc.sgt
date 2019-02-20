@@ -76,6 +76,9 @@
     <Compile Include="Documento_Tipo.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enums\EstadoSesion.cs" />
+    <Compile Include="Enums\EstadoSesionLibre.cs" />
+    <Compile Include="Enums\EstadoTurno.cs" />
     <Compile Include="ExtensionMethod\CollectionExtension.cs" />
     <Compile Include="Feriado.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
@@ -94,6 +97,7 @@
     </Compile>
     <Compile Include="Interfaces\IAgendaRepository.cs" />
     <Compile Include="Interfaces\IAseguradoraRepository.cs" />
+    <Compile Include="Interfaces\IAgendaBloqueosRepository.cs" />
     <Compile Include="Interfaces\IConsultorioRepository.cs" />
     <Compile Include="Interfaces\IDocumentoTipoRepository.cs" />
     <Compile Include="Interfaces\IFeriadoRepository.cs" />
@@ -101,7 +105,9 @@
     <Compile Include="Interfaces\IPacienteRepository.cs" />
     <Compile Include="Interfaces\IProfesionalRepository.cs" />
     <Compile Include="Interfaces\IProvinciaRepository.cs" />
+    <Compile Include="Interfaces\IAgendaRecesoRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ISesionEstadosRepository.cs" />
     <Compile Include="Interfaces\ISesionRepository.cs" />
     <Compile Include="Interfaces\ITipoSesionRepository.cs" />
     <Compile Include="Interfaces\ITurnoRepository.cs" />
@@ -131,6 +137,8 @@
     <Compile Include="repeticionesMedico.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\AgendaBloqueosRepository.cs" />
+    <Compile Include="Repositories\AgendaRecesoRepository.cs" />
     <Compile Include="Repositories\AgendaRepository.cs" />
     <Compile Include="Repositories\AseguradoraRepository.cs" />
     <Compile Include="Repositories\ConsultorioRepository.cs" />
@@ -141,6 +149,7 @@
     <Compile Include="Repositories\PacienteRepository.cs" />
     <Compile Include="Repositories\ProfesionalRepository.cs" />
     <Compile Include="Repositories\ProvinciaRepository.cs" />
+    <Compile Include="Repositories\SesionEstadosRepository.cs" />
     <Compile Include="Repositories\SesionRepository.cs" />
     <Compile Include="Repositories\TipoSesionRepository.cs" />
     <Compile Include="Repositories\TurnoRepository.cs" />

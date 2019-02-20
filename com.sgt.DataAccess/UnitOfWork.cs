@@ -25,6 +25,9 @@ namespace com.sgt.DataAccess
         private IAgendaRepository agendaRepository;
         private ISesionRepository sesionRepository;
         private ITurnoRepository turnoRepository;
+        private IAgendaBloqueosRepository agendaBloqueosRepository;
+        private IAgendaRecesoRepository agendaRecesoRepository;
+        private ISesionEstadosRepository sesionEstadosRepository;
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -86,5 +89,14 @@ namespace com.sgt.DataAccess
 
         public ITurnoRepository RepoTurno =>
             turnoRepository = turnoRepository ?? new TurnoRepository(dbContext);
+
+        public IAgendaBloqueosRepository RepoAgendaBloqueos => 
+            agendaBloqueosRepository = agendaBloqueosRepository ?? new AgendaBloqueosRepository(dbContext);
+
+        public IAgendaRecesoRepository RepoAgendaReceso => 
+            agendaRecesoRepository = agendaRecesoRepository ?? new AgendaRecesoRepository(dbContext);
+
+        public ISesionEstadosRepository RepoSesionEstados =>
+            sesionEstadosRepository = sesionEstadosRepository ?? new SesionEstadosRepository(dbContext);
     }
 }

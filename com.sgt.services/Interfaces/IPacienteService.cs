@@ -9,5 +9,6 @@ namespace com.sgt.services.Interfaces
 {
     public interface IPacienteService:ICrudService<Paciente>
     {
+        ICollection<Turno> ListarTurnos(int PacienteID);        
     }
 }

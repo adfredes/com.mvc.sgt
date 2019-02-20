@@ -1,0 +1,45 @@
+﻿<div class="container-fluid overflow-auto p-2 vh-50">
+    @*<table class="table table-responsive-sm table-hover slide table-sm table-bordered mt-0 pt-0" style="caption-side: top">
+
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" class="text-center w-25">Número</th>
+                <th scope="col" class="text-center w-25">Fecha</th>
+                <th scope="col" class="text-center w-25">Horario</th>
+                <th scope="col" class="text-center w-25">Consultorio</th>
+                <th scope="col" class="text-center w-25">Estado</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="turno in $ctrl.turnos" class="animate-table-repeat">
+            <td colspan="5">*@
+    <div ng-repeat="turno in $ctrl.turnos" class="border border-info p-0 m-0">
+        <table class="table table-sm table-responsive-sm table-hover table table-bordered m-0 p-1" style="caption-side:top;">
+            <caption style="caption-side:top;cursor:pointer;" class="m-0 p-1 text-left" ng-click="turno.visible = !turno.visible">
+                <span>Turno {{turno.ID}} - {{$ctrl.toDate(turno.begin)}} a {{$ctrl.toDate(turno.end)}} - {{turno.CantidadSesiones}} Sesiones</span>
+            </caption>
+            <thead>
+                @*<tr class="bg-white">
+                    <th scope="col" colspan="5" class="text-left w-auto" style="cursor:pointer;" ng-click="turno.visible = !turno.visible">
+                        <span>Turno {{turno.ID}} - {{$ctrl.toDate(turno.begin)}} a {{$ctrl.toDate(turno.end)}} - {{turno.CantidadSesiones}} Sesiones</span></th>
+                </tr>*@
+                <tr ng-show="turno.visible" class="bg-light">
+                    <th scope="col" class="text-center w-auto">Número</th>
+                    <th scope="col" class="text-center w-25">Fecha</th>
+                    <th scope="col" class="text-center w-25">Horario</th>
+                    <th scope="col" class="text-center w-25">Consultorio</th>
+                    <th scope="col" class="text-center w-25">Estado</th>
+                </tr>
+            </thead>
+            <tr ng-show="turno.visible" ng-repeat="sesion in turno.Sesions track by $index" ng-click="$ctrl.sesionClick(sesion.FechaHora)" style="cursor:pointer">
+                <td class="text-center w-auto">{{sesion.Numero}}</td>
+                <td class="text-center w-25">{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                <td class="text-center w-25">{{$ctrl.toHour(sesion.FechaHora)}} a {{$ctrl.nextHour(sesion.FechaHora, sesion.sesiones)}}</td>
+                <td class="text-center w-25">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                <td class="text-center w-25">{{$ctrl.getNombreEstado(sesion.Estado)}}</td>
+            </tr>
+        </table>
+    </div>
+    @*</td>
+            </tr>
+        </table>*@
+</div>

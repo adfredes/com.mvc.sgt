@@ -252,6 +252,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.opciones' no tiene definida ninguna
     <Property Name="CodigoSeguridad" Type="varchar" MaxLength="5" />
     <Property Name="Mail" Type="varchar" MaxLength="50" />
     <Property Name="Cuit" Type="varchar" MaxLength="20" />
+    <Property Name="Foto" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="Paciente_Aseguradora_Historico">
     <Key>

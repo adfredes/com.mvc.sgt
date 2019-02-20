@@ -8,10 +8,10 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div ng-controller="pacienteController" ng-init="GetPacientes()">
-                
+
                 <table class="table table-responsive-sm table-hover slide table-sm table-bordered mt-0 pt-0" style="caption-side: top">
                     @*<caption><p>Pagina {{currentPage+1}} / {{pages.length}}</p></caption>*@
-                    <caption style="caption-side:top;" class="mb-0 pb-0" >
+                    <caption style="caption-side:top;" class="mb-0 pb-0">
                         <nav class="mb-0 pb-0 badge-light">
                             <ul class="pagination justify-content-center mb-0 pb-0 badge-light">
                                 <li class="page-item mb-0 badge-light w-100 text-center" ng-class="{active:letter==selectedLetter}" ng-repeat="letter in arrayLetter">
@@ -76,14 +76,15 @@
                         </tr>
                     </tfoot>
                 </table>
-                                
-                <div class="form-group">                        
+
+                <div class="form-group">
                     <md-button type="button" class="md-fab md-primary" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Create()">
                         <md-tooltip md-direction="right">Nuevo Paciente</md-tooltip>
                         <span class="icon-user-plus" style="font-size:1rem"></span>
-                    </md-button>                                        
+                    </md-button>
                 </div>
-                <paciente-edit paciente="PacienteModel" save="Save" div-id="CreateOrUpdate"></paciente-edit>
+                @*<paciente-edit paciente="PacienteModel" save="Save" div-id="CreateOrUpdate"></paciente-edit>*@
+                <paciente-view paciente="PacienteModel" save="Save(newPaciente)" divid="CreateOrUpdate"></paciente-view>
             </div>
 
         </div>

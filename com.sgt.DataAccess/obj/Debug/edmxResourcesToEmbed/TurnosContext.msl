@@ -140,6 +140,7 @@
     <EntitySetMapping Name="Pacientes">
       <EntityTypeMapping TypeName="TurnosModel.Paciente">
         <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Foto" ColumnName="Foto" />
           <ScalarProperty Name="Cuit" ColumnName="Cuit" />
           <ScalarProperty Name="Mail" ColumnName="Mail" />
           <ScalarProperty Name="ID" ColumnName="ID" />
