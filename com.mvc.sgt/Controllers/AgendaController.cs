@@ -248,6 +248,25 @@ namespace com.mvc.sgt.Controllers
             }
         }
 
+        [HttpPut]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Sesion/Posponer")]
+        public JsonResult PosponerSesion(List<SesionModel> model)
+        {
+            try
+            {
+                var sesiones = Mapper.Map<ICollection<Sesion>>(model);
+                sesiones = this.AgendaService.PosponerSesion(sesiones);                
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(sesiones);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
 
 
         [HttpGet]

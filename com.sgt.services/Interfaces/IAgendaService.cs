@@ -33,6 +33,7 @@ namespace com.sgt.services.Interfaces
         void CancelarReserva(Turno turno);
         Turno CancelarSesionesPendientes(int idTurno);
         Turno CancelarSesionesPendientes(Turno turno);
+        ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones);
 
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);
 

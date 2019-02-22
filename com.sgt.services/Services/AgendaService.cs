@@ -260,6 +260,93 @@ namespace com.sgt.services.Services
 
         }
 
+        public ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones)
+        {
+            sesiones.ToList().ForEach(s => unitOfWork.RepoSesion.Edit(s));
+
+            var sesionPospuesta = sesiones.ToList()[0];
+
+            var turnos = unitOfWork.RepoTurno.FindBy(t => t.Sesions
+                  .Where(s => DbFunctions.TruncateTime(s.FechaHora) >= DbFunctions.TruncateTime(sesionPospuesta.FechaHora))
+                  .Count() > 0).ToList();
+
+            var turnoPospuesto = turnos.Where(t => t.ID == sesionPospuesta.TurnoID).FirstOrDefault();
+            turnoPospuesto.Sesions.Where(s => s.Numero > sesionPospuesta.Numero)
+                .ToList().ForEach(s => {
+                    s.Numero -= 1;
+                    unitOfWork.RepoSesion.Edit(s);
+                });
+
+            
+            /***********************/
+                /*var diasSemana = turnoPospuesto.Sesions
+                    .GroupBy(x => new { x.FechaHora.DayOfWeek, x.Numero })
+                    .Select(x => x.Key)
+                    .OrderBy(x => x.Numero);
+
+
+                
+                    DateTime ultimaSesion = turnoPospuesto.Sesions
+                                            .Where(s=>EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)) 
+                                            .Max(x => x.FechaHora);
+
+            short posicion = (short)((nroSesion - 1) % cantidadSesionesAsignadas + 1);
+                    var oldSesiones = turno.Sesions
+                        .Where(x => x.Numero == posicion).ToList();
+
+                    do
+                    {
+                        ultimaSesion = ultimaSesion.AddDays(1);
+                    } while (ultimaSesion.DayOfWeek != oldSesiones[0].FechaHora.DayOfWeek);
+
+                    int cantidadDias = (int)(ultimaSesion.Date - oldSesiones[0].FechaHora.Date).TotalDays;
+                    oldSesiones.ToList().ForEach(s =>
+                    {
+                        Sesion sesion = new Sesion();
+                        sesion.AgendaID = s.AgendaID;
+                        sesion.ConsultorioID = s.ConsultorioID;
+                        sesion.Estado = s.Estado;
+                        sesion.FechaHora = s.FechaHora.AddDays(cantidadDias);
+                        sesion.Habilitado = s.Habilitado;
+                        sesion.Numero = (short)nroSesion;
+                        sesion.TurnoID = s.TurnoID;
+                        sesion.TurnoSimultaneo = s.TurnoSimultaneo;
+                        turno.Sesions.Add(sesion);
+                    });
+               
+
+            */
+            /*var sesionesNuevas = sesiones.Where(x => x.ID == 0).ToList();
+            DateTime beginDate = sesionesNuevas.Min(x => x.FechaHora);
+            DateTime endDate = sesionesNuevas.Max(x => x.FechaHora);
+            short simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, sesionesNuevas[0].ConsultorioID);
+
+            if (simultaneo == 0)
+            {
+                throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+            }
+            else
+            {
+                sesionesNuevas.ForEach(_s => _s.TurnoSimultaneo = (short)simultaneo);
+            }
+
+            if (ValidarNuevasSesiones(sesiones.Where(x => x.ID == 0).ToList()))
+            {
+                var sesion = sesiones.ToList()[0];                
+                sesiones.ToList().ForEach(s =>
+                {
+                    if (s.ID > 0)
+                        unitOfWork.RepoSesion.Edit(s);
+                    else
+                        unitOfWork.RepoSesion.Add(s);
+                });                
+            }
+            else
+                throw new Exception("Existen sesiones ya asignadas a su seleccion.");*/
+            return sesiones;
+
+        }
+
         public Turno CancelarSesionesPendientes(int idTurno)
         {
             var turno = unitOfWork.RepoTurno.Find(idTurno);
