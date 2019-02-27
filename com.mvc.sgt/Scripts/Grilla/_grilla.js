@@ -290,12 +290,10 @@
     }
 
     function getNextDate(currentDate) {
-        currentDate.setDate(currentDate.getDate() + (options.vista == 's' ? 7 : 1));
-
-        while (currentDate.getDay() == 0 || currentDate.getDay() == 6) {
-            currentDate.setDate(currentDate.getDate() + 1);
+        currentDate.setDate((currentDate.getDate() + (options.vista == 's' ? 7 : 1)));
+        if (currentDate.getDay() == 0 || currentDate.getDay() == 6) {
+            currentDate = getNextDate(currentDate);
         }
-
         return currentDate;
     }
 
@@ -484,7 +482,7 @@
             });
         })();
 
-
+        
 
 
         let btnPosponerSesion_click = e => {
@@ -1528,7 +1526,7 @@
                 let headerTable = [];
                 headerTable.push({
                     text: table.rows[0].cells[num + 1].innerText.split(" ")[0] + ' '
-                        + table.rows[0].cells[num + 1].innerText.substr(table.rows[0].cells[num + 1].innerText.length - 10, 10),
+                    + table.rows[0].cells[num + 1].innerText.substr(table.rows[0].cells[num + 1].innerText.length - 10, 10),
                     colSpan: totalConsultorios + 1,
                     fontSize: 10,
                     bold: true,
