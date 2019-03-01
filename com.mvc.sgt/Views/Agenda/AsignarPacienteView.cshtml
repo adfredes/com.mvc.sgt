@@ -1,0 +1,52 @@
+﻿
+<div id="{{$ctrl.divid}}" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
+                <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="border border-info p-0 m-0">
+                    <fieldset class="m-0 p-0">
+                        <div class="form-inline bg-light">
+                            <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()"><i class="icon-user"></i> Asignar Paciente</md-button>
+                            <md-button type="button" class="m-0" ng-disabled="$ctrl.turno.PacienteID > 0 || $ctrl.paciente.ID == null" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-ok"></i> Confirmar Turno</md-button>
+                            <md-button type="button" class="m-0" ng-disabled="$ctrl.turno.PacienteID > 0 || $ctrl.paciente.ID == null" ng-click="$ctrl.sinPaciente()"><i class="icon-user"></i> Reserver sin Paciente</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()"><i class="icon-cancel"></i> Cancelar Turno</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()"><i class="icon-print"></i> Imprimir</md-button>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <search-paciente on-change="$ctrl.SelectPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">
+                        </search-paciente>
+                    </fieldset>
+                    
+                    <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.turno.ID" ng-change="$ctrl.turnoChange()" />
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr class="bg-light">
+                                <th scope="col" class="text-center w-auto">Número</th>
+                                <th scope="col" class="text-center w-auto">Fecha</th>
+                                <th scope="col" class="text-center w-auto">Horario</th>
+                                <th scope="col" class="text-center w-auto">Consultorio</th>
+                                <th scope="col" class="text-center w-auto">Estado</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" style="cursor:pointer">
+                            <td class="text-center w-auto">{{sesion.Numero}}</td>
+                            <td class="text-center w-auto">{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                            <td class="text-center w-auto">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
+                            <td class="text-center w-auto">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                            <td class="text-center w-auto">{{$ctrl.getNombreEstado(sesion.Estado)}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cerrar</md-button>                
+            </div>
+        </div>
+    </div>
+</div>
+

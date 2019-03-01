@@ -103,6 +103,12 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpGet]
+        public ActionResult QuickCreate()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
         public ActionResult View(int? id)
         {
             return PartialView();

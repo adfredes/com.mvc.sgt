@@ -7,7 +7,10 @@
         controller: 'searchPacienteController',
         bindings: {
             addEnabled: "@?",
-            viewEnabled: "@?"
+            viewEnabled: "@?", 
+            addQuick: "@?",
+            onChange: "&?",
+            onAdd: "&?"
         }
     });
 
@@ -29,6 +32,14 @@
             return promesa;
 
             //Paciente/Listar/Name/
+        };
+
+        vm.changeSelectedItem = () => {
+            console.log('change');
+            if (vm.onChange) {
+                let data = vm.Paciente;                
+                vm.onChange()(data);                
+            }
         };
 
         /*vm.UpdateDate = function () {

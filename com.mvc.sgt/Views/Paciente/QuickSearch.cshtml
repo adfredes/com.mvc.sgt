@@ -1,9 +1,9 @@
 ﻿<div class="form-inline my-2 my-lg-0">
-    <md-autocomplete class="mr-sm-2" md-selected-item="$ctrl.Paciente"
+    <md-autocomplete class="mr-sm-2" ng-class="{'w-100':!($ctrl.addEnabled || $ctrl.viewEnabled || $ctrl.addQuick), 'w-75':($ctrl.addEnabled || $ctrl.viewEnabled || $ctrl.addQuick)}" md-selected-item="$ctrl.Paciente"
                      md-search-text="$ctrl.searchText"
                      md-items="item in $ctrl.search()"
                      md-item-text="item.Apellido + ' ' + item.Nombre"
-                     @*md-selected-item-change="$ctrl.UpdateDate()"*@
+                     md-selected-item-change="$ctrl.changeSelectedItem()"
                      md-min-length="3"
                      placeholder="Paciente">
         <md-item-template style="background-color:aquamarine">
@@ -15,17 +15,20 @@
     </md-autocomplete>
 
 
-    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0" 
+    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"
             type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
         <span class="icon-search"></span>
     </button>
-    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0" 
-            type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.addEnabled">
+    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"
+            type="submit" ng-click="$('#basicModal').modal('show');" ng-show="$ctrl.addEnabled">
         <span class="icon-user-plus "></span>
     </button>
+    <button data-target="#ViewPaciente" class="btn btn-outline-dark  my-2 my-sm-0"
+            type="submit" ng-show="$ctrl.addQuick">
+        <span class="icon-user-plus "></span>
+    </button>    
 </div>    
-    <paciente-view paciente="$ctrl.Paciente" divid="ViewPaciente"></paciente-view>
-
+    <paciente-view paciente="$ctrl.Paciente" divid="ViewPaciente" ng-if="$ctrl.addEnabled || $ctrl.viewEnabled"></paciente-view>    
 <!--
 md-search-text-change="$ctrl.search()"
 -->

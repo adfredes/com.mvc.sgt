@@ -37,5 +37,6 @@ namespace com.sgt.services.Interfaces
 
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);
 
+        Turno GetTurno(int id);
     }
 }

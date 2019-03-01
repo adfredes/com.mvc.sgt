@@ -61,6 +61,7 @@ namespace com.mvc.sgt
                     "~/Scripts/Angular/Services/CrudService.js",
                     "~/Scripts/Angular/Services/PdfService.js",
                     "~/Scripts/Angular/Services/EventService.js",
+                    "~/Scripts/Angular/Services/TurnoService.js",
                     "~/Scripts/Angular/Controllers/NavBarController.js",
                     "~/Scripts/Angular/Controllers/AseguradoraController.js",
                     "~/Scripts/Angular/Directives/AseguradoraDirectives.js",
@@ -77,7 +78,8 @@ namespace com.mvc.sgt
                     "~/Scripts/Angular/Components/CalendarPopUpComponet.js",
                     "~/Scripts/Angular/Components/PacienteView.js",
                     "~/Scripts/Angular/Components/PacienteTurnosComponent.js",
-                    "~/Scripts/Angular/Components/SesionEditComponent.js"
+                    "~/Scripts/Angular/Components/SesionEditComponent.js",
+                    "~/Scripts/Angular/Components/AsignarPacienteComponent.js"
                 ));
 
             //bundles.Add(new ScriptBundle("~/bundles/angularPaciente").Include(

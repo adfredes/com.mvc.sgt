@@ -301,6 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
+    <Content Include="Scripts\Angular\Services\TurnoService.js" />
+    <Content Include="SqlScript\turnos-scripts.txt" />
     <Content Include="Content\addphoto-camera.svg" />
     <Content Include="Content\angular-material.css" />
     <Content Include="Content\angular-material.layout-attributes.css" />
@@ -1351,6 +1354,8 @@
     <Content Include="Views\Paciente\View.cshtml" />
     <Content Include="Views\Paciente\ViewTurnos.cshtml" />
     <Content Include="Views\Agenda\EditSesion.cshtml" />
+    <Content Include="Views\Paciente\QuickCreate.cshtml" />
+    <Content Include="Views\Agenda\AsignarPacienteView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

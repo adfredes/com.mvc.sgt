@@ -1,14 +1,14 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
 
-    sgtApp.controller('pacienteTurnosController', ['eventService','pdfService', 'crudService', '$window', '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController]);
+    //sgtApp.controller('pacienteTurnosController', ['eventService','pdfService', 'crudService', '$window', '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController]);
 
     sgtApp.component('pacienteTurnos', {
         transclude: {
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/ViewTurnos',
-        controller: pacienteTurnosController,
+        controller: ['eventService', 'pdfService', 'crudService', '$window', '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController],
         bindings: {
             paciente: "<?",
             onClose: "&?"
@@ -222,34 +222,34 @@
 
         vm.showModal = function (ev) {            
             let modalHtml = `
-<md-dialog aria-label="Turnos">
-  <form ng-cloak>
-    <md-toolbar>
-      <div class="md-toolbar-tools  badge-warning">
-        <h5 class="modal-title">Turnos</h5>        
-      </div>
-    </md-toolbar>
-    <md-dialog-content>
-      <div class="md-dialog-content">        
-        <p>
-          Esta seguro que desea cancelar el turno ${vm.selectedTurno.ID}?
-        </p>
-      </div>
-    </md-dialog-content>
+                <md-dialog aria-label="Turnos">
+                  <form ng-cloak>
+                    <md-toolbar>
+                      <div class="md-toolbar-tools  badge-warning">
+                        <h5 class="modal-title">Turnos</h5>        
+                      </div>
+                    </md-toolbar>
+                    <md-dialog-content>
+                      <div class="md-dialog-content">        
+                        <p>
+                          Esta seguro que desea cancelar el turno ${vm.selectedTurno.ID}?
+                        </p>
+                      </div>
+                    </md-dialog-content>
 
-    <md-dialog-actions layout="row">      
-      <span flex></span>
-      <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>
-      <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>
-    </md-dialog-actions>
-  </form>
-</md-dialog>
-`;
+                    <md-dialog-actions layout="row">      
+                      <span flex></span>
+                      <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>
+                      <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>
+                    </md-dialog-actions>
+                  </form>
+                </md-dialog>
+                `;
 
             // Appending dialog to document.body to cover sidenav in docs app
             $mdDialog.show({
                 template: modalHtml,
-                controller: DialogController,
+                controller:  DialogController,
                 targetEvent: ev,
                 clickOutsideToClose: true,
                 fullscreen: false,

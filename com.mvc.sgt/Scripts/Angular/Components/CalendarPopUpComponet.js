@@ -12,7 +12,7 @@
     });
 
     function calendarPopUpController() {
-        var vm = this;
+        let vm = this;
         vm.error = "";
 
         vm.onlyWeekendsPredicate = function (date) {

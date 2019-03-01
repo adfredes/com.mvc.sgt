@@ -276,6 +276,22 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [HttpGet]
+        [Route("Turno/AsignarPaciente")]
+        public ActionResult AsignarPacienteView()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        [Route("Turno/{id}")]
+        public JsonResult GetTurno(int id)
+        {
+            TurnoModel turno = null;            
+            turno = Mapper.Map<TurnoModel>(this.AgendaService.GetTurno(id));            
+            return Json(JsonConvert.SerializeObject(turno), JsonRequestBehavior.AllowGet);
+            //return Json(turnos, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

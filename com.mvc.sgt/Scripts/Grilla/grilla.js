@@ -1,7 +1,6 @@
 ﻿(function () {
 
     let options = {};
-
     let presetSessionStorage = () => {
         sessionStorage.setItem('FechaGrillaTurnos', new Date(2018, 2, 20));
         sessionStorage.setItem('VistaGrillaTurnos', 's');
@@ -374,7 +373,7 @@
 
             //Reservado Confirmado
             $.contextMenu({
-                selector: '.celda-turno[data-estado=1]',
+                selector: '.div-turno[data-estado=1][data-turnoid!=0]',
                 callback: contextMenuClick,
                 items: {
                     "asignarPaciente": { name: "Asignar Paciente", icon: "" },
@@ -384,7 +383,7 @@
 
             //Reservado sin Confirmar
             $.contextMenu({
-                selector: '.celda-turno[data-estado=1]',
+                selector: '.div-turno[data-estado=1][data-turnoid=0]',
                 callback: contextMenuClick,
                 items: {
                     "cancelar": { name: "Cancelar", icon: "" }
@@ -403,7 +402,8 @@
                     "posponer": { name: "Posponer", icon: "" },
                     "sep1": "---------",
                     "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" }
+                    "datosSesiones": { name: "Sesiones", icon: "" },
+                    "datosTurno": { name: "Turno", icon: "" }
                 }
             });
 
@@ -416,7 +416,8 @@
                     "noAsistio": { name: "No Asistio", icon: "" },
                     "sep1": "---------",
                     "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" }
+                    "datosSesiones": { name: "Sesiones", icon: "" },
+                    "datosTurno": { name: "Turno", icon: "" }
                 }
             });
 
@@ -429,7 +430,8 @@
                     "asistio": { name: "Asistio", icon: "" },
                     "sep1": "---------",
                     "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" }
+                    "datosSesiones": { name: "Sesiones", icon: "" },
+                    "datosTurno": { name: "Turno", icon: "" }
                 }
             });
 
@@ -479,7 +481,8 @@
                     "asignarPaciente": { name: "Asignar Paciente", icon: "" },
                     "sep1": "---------",
                     "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" }
+                    "datosSesiones": { name: "Sesiones", icon: "" },
+                    "datosTurno": { name: "Turno", icon: "" }
                 }
             });
         })();
@@ -671,8 +674,10 @@
 
 
 
-        function CancelarReserva(celda) {
-            let divReserva = celda.children[0];
+        //function CancelarReserva(celda) {
+        function CancelarReserva(divReserva) {
+            //let divReserva = celda.children[0];
+            console.dir(divReserva);
             if (divReserva.dataset.turnoid > 0) {
                 let url = Domain + 'Sesion/Reserva/Delete'
                 let param = {};
@@ -685,6 +690,7 @@
                     });
             }
             else {
+                let celda = divReserva.parentElement;
                 deleteSesionGrilla(celda);
                 let id = CeldaIdToObject(celda.id);
                 options.sesionesReservadas = options.sesionesReservadas.filter(sesion => sesion.fecha != id.fecha || sesion.hora != id.hora
@@ -776,7 +782,23 @@
                         $("#agendaViewPaciente").modal("show");
                     }
                     break;
-                case 'datosSesiones':
+                case 'datosSesiones':                    
+                    break;
+                case 'datosTurno':
+                    modal = options.divGrilla.querySelector('#TurnoAsignarPacienteModal');
+                    if (modal) {
+                        let turnoID = modal.querySelector("#TurnoID");
+                        if (turnoID) {
+                            console.dir(opt.$trigger[0].dataset);
+                            turnoID.value = opt.$trigger[0].dataset.turnoid;
+
+                            let evt = document.createEvent("HTMLEvents");
+                            evt.initEvent("input", false, true);
+                            turnoID.dispatchEvent(evt);
+                            $("#TurnoAsignarPacienteModal").modal("show");
+                        }
+                        //TurnoAsignarPacienteModal
+                    }
                     break;
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
@@ -792,6 +814,19 @@
                     setEstadoConfirmado(opt.$trigger[0].dataset.id);
                     break;
                 case 'asignarPaciente':
+                    modal = options.divGrilla.querySelector('#TurnoAsignarPacienteModal');
+                    if (modal) {
+                        let turnoID = modal.querySelector("#TurnoID");
+                        if (turnoID) {
+                            console.dir(opt.$trigger[0].dataset);
+                            turnoID.value = opt.$trigger[0].dataset.turnoid;
+
+                            let evt = document.createEvent("HTMLEvents");
+                            evt.initEvent("input", false, true);
+                            turnoID.dispatchEvent(evt);
+                            $("#TurnoAsignarPacienteModal").modal("show");
+                        }
+                    }
                     break;
             }
         }
@@ -1528,7 +1563,7 @@
                 let headerTable = [];
                 headerTable.push({
                     text: table.rows[0].cells[num + 1].innerText.split(" ")[0] + ' '
-                        + table.rows[0].cells[num + 1].innerText.substr(table.rows[0].cells[num + 1].innerText.length - 10, 10),
+                    + table.rows[0].cells[num + 1].innerText.substr(table.rows[0].cells[num + 1].innerText.length - 10, 10),
                     colSpan: totalConsultorios + 1,
                     fontSize: 10,
                     bold: true,
