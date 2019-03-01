@@ -103,7 +103,9 @@
         };
 
         vm.asignarPaciente = () => {
-            vm.paciente = vm.pacienteSeleccionado;            
+            vm.paciente = vm.pacienteSeleccionado;    
+            vm.turno.PacienteID = vm.paciente.ID;            
+            turnoService.asignarPaciente(vm.turno);
         };
 
         vm.cancelarTurno = () => {

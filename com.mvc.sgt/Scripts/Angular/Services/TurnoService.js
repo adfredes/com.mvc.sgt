@@ -117,6 +117,12 @@
             return promise;
         };*/
 
+        $this.asignarPaciente = (turno) => {
+            let url = "Turno/AsignarPaciente";                        
+            let promise = crudService.PutHttp(url, turno);
+            return promise;
+
+        };
 
         $this.cancelarTurno = (TurnoID, success) => {
             let modalHtml = `<md-dialog aria-label="Turnos">

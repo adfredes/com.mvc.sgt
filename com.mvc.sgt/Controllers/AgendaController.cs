@@ -283,6 +283,24 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [HttpPut]
+        [Route("Turno/AsignarPaciente")]
+        public ActionResult AsignarPaciente(TurnoModel model)
+        {
+            try
+            {
+                var turno = Mapper.Map<Turno>(model);
+                this.AgendaService.AsignarPacienteTurno(turno);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(turno);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("Turno/{id}")]
         public JsonResult GetTurno(int id)

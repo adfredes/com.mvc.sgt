@@ -573,6 +573,17 @@ namespace com.sgt.services.Services
         {
             return this.unitOfWork.RepoTurno.Find(id);
         }
+
+        public Turno AsignarPacienteTurno(Turno turno)
+        {
+            var oldTurno = this.unitOfWork.RepoTurno.Find(turno.ID);
+            if(oldTurno.PacienteID.HasValue && oldTurno.PacienteID > 0)
+            {
+                throw new Exception("La reserva ya fue asignada a " + oldTurno.Paciente.Nombre + " " + oldTurno.Paciente.Apellido);
+            }
+            unitOfWork.RepoTurno.Edit(turno);
+            return turno;
+        }
         #endregion
 
 
