@@ -11,7 +11,7 @@
                     <fieldset class="m-0 p-0">
                         <div class="form-inline bg-light">
                             <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()"><i class="icon-user"></i> Asignar Paciente</md-button>
-                            <md-button type="button" class="m-0" ng-disabled="$ctrl.turno.PacienteID > 0 || $ctrl.paciente.ID == null" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-ok"></i> Confirmar Turno</md-button>
+                            <md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-ok"></i> Confirmar Turno</md-button>
                             <md-button type="button" class="m-0" ng-disabled="$ctrl.turno.PacienteID > 0 || $ctrl.paciente.ID == null" ng-click="$ctrl.sinPaciente()"><i class="icon-user"></i> Reserver sin Paciente</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()"><i class="icon-cancel"></i> Cancelar Turno</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()"><i class="icon-print"></i> Imprimir</md-button>

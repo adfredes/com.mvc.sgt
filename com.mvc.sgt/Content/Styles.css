@@ -203,6 +203,7 @@ input[readonly]{
     transition: all 0.4s;
     max-height: 50vh;
     overflow: auto;
+    z-index:500;
 }
 
 #btnDivReservasCancelar {
