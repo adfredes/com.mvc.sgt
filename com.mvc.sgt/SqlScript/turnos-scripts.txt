@@ -85,3 +85,5 @@ insert into sitk.dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (12,'LIBRE','Pospuesto No Aviso', 1)
+
+
