@@ -1,15 +1,10 @@
-﻿<md-dialog aria-label="Turnos">
-    <md-toolbar>
-        <div class="md-toolbar-tools  badge-warning">
-            <h5 class="modal-title">Turnos</h5>
-        </div>
-    </md-toolbar>
+﻿
     <md-dialog-content>
         <div class="md-dialog-content">
-            <form name="frmPaciente" id="frmPaciente" ng-cloak novalidate>
+            <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate>
 
-                <div class="form-row">
-                    <md-input-container class="form-group md-block">
+                <div class="form-row m-0">
+                    <md-input-container class="form-group md-block m-0">
                         <label for="nombre">
                             Nombre
                         </label>
@@ -21,8 +16,8 @@
                     </md-input-container>
                 </div>
 
-                <div class="form-row">
-                    <md-input-container class="form-group md-block">
+                <div class="form-row m-0">
+                    <md-input-container class="form-group md-block m-0">
                         <label for="apellido">
                             Apellido
                         </label>
@@ -35,8 +30,8 @@
                 </div>
 
 
-                <div class="form-row">
-                    <md-input-container class="form-group md-block">
+                <div class="form-row m-0">
+                    <md-input-container class="form-group md-block m-0">
                         <label for="documento">
                             Documento
                         </label>
@@ -48,12 +43,25 @@
                     </md-input-container>
                 </div>
 
-                <div class="form-group form-row">
-                    <md-input-container class="form-group md-block">
+                <div class="form-row m-0">
+                    <md-input-container class="form-group md-block m-0">
+                        <label for="nacimiento">
+                            Fecha Nacimiento
+                        </label>
+
+                        <md-datepicker ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" md-open-on-focus></md-datepicker>
+                        <div ng-show="frmPaciente.nacimiento.$touched" ng-messages="frmPaciente.nacimiento.$error" role="alert">
+                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <div class="form-row m-0 mb-4">
+                    <md-input-container class="form-group md-block w-100 m-0">
                         <label>
                             Aseguradora
                         </label>
-                        <md-select id="aseguradora" name="aseguradora" ng-model="$ctrl.paciente.AseguradoraID" ng-change="$ctrl.getPlanes()" required>
+                        <md-select id="aseguradora" name="aseguradora" ng-model="$ctrl.paciente.AseguradoraID" ng-change="$ctrl.getPlanes()" required class="w-100">
                             <md-option ng-repeat="item in $ctrl.ObrasSociales" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                         </md-select>
                         <div ng-show="frmPaciente.aseguradora.$touched" ng-messages="frmPaciente.aseguradora.$error" role="alert">
@@ -62,12 +70,12 @@
                     </md-input-container>
                 </div>
 
-                <div class="form-group form-row">
-                    <md-input-container class="form-group md-block">
+                <div class="form-row m-0 mb-4">
+                    <md-input-container class="form-group md-block w-100 m-0">
                         <label>
                             Plan
                         </label>
-                        <md-select id="plan" name="plan" ng-model="$ctrl.paciente.AseguradoraPlanID" required>
+                        <md-select id="plan" name="plan" ng-model="$ctrl.paciente.AseguradoraPlanID" required class="w-100">
                             <md-option ng-repeat="item in $ctrl.Planes" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                         </md-select>
                         <div ng-show="frmPaciente.plan.$touched" ng-messages="frmPaciente.plan.$error" role="alert">
@@ -76,12 +84,12 @@
                     </md-input-container>
                 </div>
 
-                <div class="form-group for-row">
-                    <md-input-container class="form-group md-block">
-                        <label for="celular">Celular</label>
+                <div class="form-row m-0">
+                    <md-input-container class="form-group md-block m-0">
+                        <label for="telefono">Teléfono</label>
                         <input type="tel" class="form-control" id="celular" autocomplete="off"
-                               name="celular" ng-model="$ctrl.paciente.Celular" />
-                        <div ng-show="frmPaciente.celular.$touched" ng-messages="frmPaciente.celular.$error" role="alert">
+                               name="telefono" ng-model="$ctrl.paciente.Telefono" requireda />
+                        <div ng-show="frmPaciente.Telefono.$touched" ng-messages="frmPaciente.Telefono.$error" role="alert">
                             <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                         </div>
                     </md-input-container>
@@ -91,7 +99,6 @@
     </md-dialog-content>
     <md-dialog-actions layout="row">
         <span flex></span>
-        <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>
-        <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>
+        <md-button type='button' class='md-raised md-warn' ng-click='$ctrl.close()'><i class='icon-cancel'></i> Cancelar</md-button>
+        <md-button type='button' class='md-raised md-primary' ng-click='$ctrl.save()'><span class='icon-ok'></span> Aceptar</md-button>
     </md-dialog-actions>
-</md-dialog>

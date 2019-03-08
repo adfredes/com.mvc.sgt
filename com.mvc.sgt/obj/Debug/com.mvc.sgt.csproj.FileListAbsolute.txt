@@ -364,3 +364,8 @@ C:\Git\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CoreCompileInputs.ca
 C:\Git\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CopyComplete
 C:\Git\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.dll
 C:\Git\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.pdb
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.svg
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.eot
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.ttf
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.woff
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.woff2

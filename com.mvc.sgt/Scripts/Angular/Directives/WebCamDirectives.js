@@ -24,7 +24,7 @@
                     scope.takeFoto = true;
                     video = angular.element(element).find('video')[0];
                     canvas = angular.element(element).find('canvas')[0];
-                    console.dir(video);
+                   
                     
                     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                         navigator.mediaDevices.getUserMedia({ video: true })

@@ -23,8 +23,8 @@
             type="submit" ng-click="$('#basicModal').modal('show');" ng-show="$ctrl.addEnabled">
         <span class="icon-user-plus "></span>
     </button>
-    <button data-target="#ViewPaciente" class="btn btn-outline-dark  my-2 my-sm-0"
-            type="submit" ng-show="$ctrl.addQuick">
+    <button class="btn btn-outline-dark  my-2 my-sm-0"
+            type="submit" ng-show="$ctrl.addQuick" ng-click="$ctrl.openQuickCreate()">
         <span class="icon-user-plus "></span>
     </button>    
 </div>    

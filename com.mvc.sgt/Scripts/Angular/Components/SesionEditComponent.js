@@ -71,12 +71,12 @@
         let loadSesion = () => {
             let promise = crudService.GetPHttp(`api/sesiones/${vm.sesion.ID}`);
             promise.then(data => {
-                console.log(data);
+              
                 vm.sesion = data[0];
                 vm.sesion.FechaTurno = moment(vm.sesion.FechaHora).toDate();
                 vm.sesion.sesiones = data;
                 vm.selectedDate = moment(vm.sesion.FechaHora).toDate();
-                console.log(vm.sesion.sesiones.length);
+             
                 vm.modulos = vm.sesion.sesiones.length;
                 getConsultorios(vm.selectedDate);
             })

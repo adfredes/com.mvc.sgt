@@ -7,13 +7,14 @@ namespace com.mvc.sgt.Models
 {
     public class PacienteModel
     {
-        /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Paciente()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PacienteModel()
         {
-            this.Imagens = new HashSet<Imagen>();
+           // this.Diagnosticos = new HashSet<DiagnosticoModel>();
+            /*this.Imagens = new HashSet<Imagen>();
             this.Paciente_Aseguradora_Historico = new HashSet<Paciente_Aseguradora_Historico>();
-            this.Turnoes = new HashSet<Turno>();
-        }*/
+            this.Turnoes = new HashSet<Turno>();*/
+        }
 
         public int? ID { get; set; }
         public string Apellido { get; set; }
@@ -52,6 +53,9 @@ namespace com.mvc.sgt.Models
         /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paciente_Aseguradora_Historico> Paciente_Aseguradora_Historico { get; set; }*/
         public virtual ProvinciaModel Provincia { get; set; }
+
+        /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DiagnosticoModel> Diagnosticos { get; set; }*/
         /*
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turno> Turnoes { get; set; }*/

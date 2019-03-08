@@ -584,6 +584,30 @@ namespace com.sgt.services.Services
             unitOfWork.RepoTurno.Edit(turno);
             return turno;
         }
+
+        public Turno ConfirmarTurno(Turno turno)
+        {
+            var oldTurno = GetTurno(turno.ID);
+            oldTurno.UsuarioModificacion = turno.UsuarioModificacion;
+            oldTurno.FechaModificacion = turno.FechaModificacion;
+            oldTurno.Estado = (short)EstadoTurno.Confirmado;
+            oldTurno.Sesions
+                .Where(x => (EstadoSesion)x.Estado == EstadoSesion.Reservado || (EstadoSesion)x.Estado == EstadoSesion.Bloqueado)
+                .ToList().ForEach(x =>
+                {
+                    x.Estado = (short)EstadoSesion.Confirmado;
+                    x.UsuarioModificacion = oldTurno.UsuarioModificacion;
+                    x.FechaModificacion = oldTurno.FechaModificacion;
+                    unitOfWork.RepoSesion.Edit(x);
+                });
+            unitOfWork.RepoTurno.Edit(oldTurno);
+            return oldTurno;
+        }
+
+        public void EditDiagnosticoTurno(Turno turno)
+        {
+            unitOfWork.RepoTurno.Edit(turno);
+        }
         #endregion
 
 

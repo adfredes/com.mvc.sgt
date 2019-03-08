@@ -9,12 +9,21 @@
             <div class="modal-body p-0">
                 <div class="border border-info p-0 m-0">
                     <fieldset class="m-0 p-0">
-                        <div class="form-inline bg-light">
+                        <div class="form-inline bg-light" ng-if="$ctrl.turno.Estado == 1">
                             <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()"><i class="icon-user"></i> Asignar Paciente</md-button>
-                            <md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-ok"></i> Confirmar Turno</md-button>
-                            <md-button type="button" class="m-0" ng-disabled="$ctrl.turno.PacienteID > 0 || $ctrl.paciente.ID == null" ng-click="$ctrl.sinPaciente()"><i class="icon-user"></i> Reserver sin Paciente</md-button>
+                            <md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.confirmarTurno()"><i class="icon-ok"></i> Confirmar Turno</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()"><i class="icon-cancel"></i> Cancelar Turno</md-button>
+                            <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID == null" ng-click="$ctrl.openDiagnostico()"><i class="icon-stethoscope"></i> Diagnóstico</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()"><i class="icon-print"></i> Imprimir</md-button>
+                        </div>
+                        <div class="form-inline bg-light" ng-if="$ctrl.turno.Estado == 2">
+                            <md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i> Asistio</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i> No Asistio</md-button>
+                            <md-button type="button" class="m-0" ng-click="" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i> Posponer</md-button>
+                            <md-button type="button" class="m-0" ng-click="" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i> Agregar</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()" title="Cancelar Turno"><i class="icon-cancel"></i> Cancelar</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i> Diagnóstico</md-button>
+                            <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i> Imprimir</md-button>
                         </div>
                     </fieldset>
                     <fieldset>
@@ -26,19 +35,23 @@
                     <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                         <thead class="thead-light">
                             <tr class="bg-light">
-                                <th scope="col" class="text-center w-auto">Número</th>
-                                <th scope="col" class="text-center w-auto">Fecha</th>
-                                <th scope="col" class="text-center w-auto">Horario</th>
-                                <th scope="col" class="text-center w-auto">Consultorio</th>
-                                <th scope="col" class="text-center w-auto">Estado</th>
+                                <th scope="col" class="text-center w-auto p-2">Número</th>
+                                <th scope="col" class="text-center w-auto p-2">Fecha</th>
+                                <th scope="col" class="text-center w-auto p-2">Horario</th>
+                                <th scope="col" class="text-center w-auto p-2">Consultorio</th>
+                                <th scope="col" class="text-center w-auto p-2">Estado</th>
+                                <th ng-if="$ctrl.turno.Estado == 2"></th>
                             </tr>
                         </thead>
                         <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" style="cursor:pointer">
-                            <td class="text-center w-auto">{{sesion.Numero}}</td>
-                            <td class="text-center w-auto">{{$ctrl.toDate(sesion.FechaHora)}}</td>
-                            <td class="text-center w-auto">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
-                            <td class="text-center w-auto">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
-                            <td class="text-center w-auto">{{$ctrl.getNombreEstado(sesion.Estado)}}</td>
+                            <td class="text-center w-auto p-1">{{sesion.Numero}}</td>
+                            <td class="text-center w-auto p-1">{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                            <td class="text-center w-auto p-1">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
+                            <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                            <td class="text-center w-auto p-1">{{$ctrl.getNombreEstado(sesion.Estado)}}</td>
+                            <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">
+                                <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
+                            </td>
                         </tr>
                     </table>
                 </div>

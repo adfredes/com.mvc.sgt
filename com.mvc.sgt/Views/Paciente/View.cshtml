@@ -20,10 +20,10 @@
                                     <div class="container-fluid p-0">
                                         <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate>
                                             <fieldset class="m-0 pb-0">
-                                                <input type="text" id="hPacienteID" ng-model="$ctrl.paciente.ID" ng-change="$ctrl.hiddenChange()" ng-show="true==false"/>
+                                                <input type="text" id="hPacienteID" ng-model="$ctrl.paciente.ID" ng-change="$ctrl.hiddenChange()" ng-show="true==false" />
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-3 pr-4">                                                       
-                                                       <webcam base64="$ctrl.paciente.Foto" on-take="$ctrl.takedPhoto(data)"></webcam>
+                                                    <div class="form-group col-md-3 pr-4">
+                                                        <webcam base64="$ctrl.paciente.Foto" on-take="$ctrl.takedPhoto(data)"></webcam>
                                                         @*<img class="img-fluid" src="../content/addphoto-camera.svg" />*@
                                                     </div>
                                                     <div class="form-group col-md-9">
@@ -282,6 +282,25 @@
                             <md-tab label="Turnos">
                                 <md-content>
                                     <paciente-turnos paciente="$ctrl.paciente" on-close="$ctrl.close()"></paciente-turnos>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Diagnosticos">
+                                <md-content>
+                                    <table ng-if="$ctrl.diagnosticos.length>0" class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="p-2">Fecha</th>
+                                                <th scope="col" class="p-2">Diagnóstico</th>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="diagnostico in $ctrl.diagnosticos">
+                                            <td class="text-left w-auto p-1">{{diagnostico.Fecha.substr(0,10) | date: "dd/MM/yyyy"}}</td>
+                                            <td class="text-left w-100 p-1">
+                                                {{diagnostico.Diagnostico}}
+                                            </td>
+                                        </tr>
+                                    </table>
+
                                 </md-content>
                             </md-tab>
                         </md-tabs>

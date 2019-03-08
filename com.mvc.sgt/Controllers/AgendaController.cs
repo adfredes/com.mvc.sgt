@@ -171,6 +171,46 @@ namespace com.mvc.sgt.Controllers
             return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPut]
+        [Route("Sesion/Estados/Asistio")]
+        public JsonResult setSesionesAsistio(List<int> ids)
+        {
+            List<SesionGrillaModel> resu = new List<SesionGrillaModel>();
+            try
+            {
+                ids.ForEach(id =>
+                {
+                    resu.Add(Mapper.Map<SesionGrillaModel>(this.AgendaService.SetSesionAsistio(id, User.Identity.Name ?? "admin")));
+                });                
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {                
+            }
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        [Route("Sesion/Estados/NoAsistio")]
+        public JsonResult setSesionesNoAsistio(List<int> ids)
+        {
+            List<SesionGrillaModel> resu = new List<SesionGrillaModel>();
+            try
+            {
+                ids.ForEach(id =>
+                {
+                    resu.Add(Mapper.Map<SesionGrillaModel>(this.AgendaService.SetSesionNoAsistio(id, User.Identity.Name ?? "admin")));
+                });
+                
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         [CreateUpdateActionFilter("admin")]
@@ -284,7 +324,46 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPut]
+        [Route("Turno/Diagnostico")]
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult SetDiagnosticoTurno(TurnoModel model)
+        {
+            try
+            {
+                var turno = Mapper.Map<Turno>(model);
+                this.AgendaService.EditDiagnosticoTurno(turno);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json("ok");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("Turno/Confirmar")]
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult ConfirmarTurno(TurnoModel model)
+        {
+            try
+            {
+                var turno = Mapper.Map<Turno>(model);
+                turno = this.AgendaService.ConfirmarTurno(turno);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno)));
+            }
+            catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
+        [HttpPut]
         [Route("Turno/AsignarPaciente")]
+        [CreateUpdateActionFilter("admin")]
         public ActionResult AsignarPaciente(TurnoModel model)
         {
             try
@@ -292,7 +371,7 @@ namespace com.mvc.sgt.Controllers
                 var turno = Mapper.Map<Turno>(model);
                 this.AgendaService.AsignarPacienteTurno(turno);
                 Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(turno);
+                return Json(JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno)));
             }
             catch (Exception ex)
             {

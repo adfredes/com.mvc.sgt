@@ -43,9 +43,19 @@
                 vm.paciente = JSON.parse(data);
                 vm.getLocalidades();
                 vm.getPlanes();
+                loadDiagnostico(id);
             })
                 .catch(err => vm.paciente = {});
         };   
+
+        let loadDiagnostico = (id) => {
+            let promise = crudService.GetPHttp(`Paciente/${id}/Diagnostico`);
+            promise.then(data => {                
+                vm.diagnosticos = JSON.parse(data);                          
+            })
+                .catch(err => vm.diagnosticos = {});
+
+        };
 
         vm.hiddenChange = (e) => {
             if (!vm.paciente.ID || vm.paciente.ID === 0) {
@@ -88,7 +98,7 @@
         };
 
         vm.takedPhoto = (data) => {
-            console.log('pasoFoto');
+          
             vm.paciente.Foto = data;
         };
         //Manejo de Provincia Localidad                
@@ -168,7 +178,7 @@
             }));
         };
 
-        vm.savePaciente = () => {
+        vm.savePaciente = () => {            
             vm.setTouch();
             if (vm.frmPaciente.$valid) {
                 let requestResponse = crudService.CreateOrEdit(vm.paciente, 'Paciente');

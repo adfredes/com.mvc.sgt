@@ -97,10 +97,10 @@
 
         vm.changeHour = function (setValue, element) {
             //let setTimeValue = $filter('date')(setValue, 'HH:mm');
-            //console.log(element);
+          
             //vm.profesional.Agenda[0].HoraDesde = new Date('1970', '01', '01', setTimeValue.split(':')[0], setTimeValue.split(':')[1]);
             //element = setTimeValue;
-            //console.log(element);
+        
         };
     }
 })();

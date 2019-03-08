@@ -36,6 +36,24 @@ namespace com.mvc.sgt.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("Paciente/{id}/Diagnostico")]
+        [HttpGet]
+        public JsonResult getDiagnostico(int id)
+        {
+            var model = new List<DiagnosticoModel>();
+            var paciente = this.pacienteService.Find(id);
+            Response.StatusCode = (int) HttpStatusCode.OK;
+            paciente.Turnoes
+                .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0)
+                .OrderBy(p => p.Fecha).ToList()
+                .ForEach(t => model.Add(new DiagnosticoModel
+                {
+                    Fecha = t.Fecha.Value,
+                    Diagnostico = t.Diagnostico
+                }));
+            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
+        }
+
         [Route("Paciente/Listar/{page}/{count}")]
         [HttpGet]
         public JsonResult GetAll(int page, int count)
@@ -78,6 +96,12 @@ namespace com.mvc.sgt.Controllers
 
         [HttpGet]
         public ActionResult ViewTurnos()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        public ActionResult ViewSesiones()
         {
             return PartialView();
         }

@@ -1,11 +1,11 @@
-﻿@font-face {
+@font-face {
   font-family: 'fontello';
-  src: url('font/fontello.eot?82753655');
-  src: url('font/fontello.eot?82753655#iefix') format('embedded-opentype'),
-       url('font/fontello.woff2?82753655') format('woff2'),
-       url('font/fontello.woff?82753655') format('woff'),
-       url('font/fontello.ttf?82753655') format('truetype'),
-       url('font/fontello.svg?82753655#fontello') format('svg');
+  src: url('font/fontello.eot?19954702');
+  src: url('font/fontello.eot?19954702#iefix') format('embedded-opentype'),
+       url('font/fontello.woff2?19954702') format('woff2'),
+       url('font/fontello.woff?19954702') format('woff'),
+       url('font/fontello.ttf?19954702') format('truetype'),
+       url('font/fontello.svg?19954702#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'fontello';
-    src: url('font/fontello.svg?82753655#fontello') format('svg');
+    src: url('../font/fontello.svg?19954702#fontello') format('svg');
   }
 }
 */
@@ -85,19 +85,43 @@
 .icon-mobile:before { content: '\e81b'; } /* '' */
 .icon-plus:before { content: '\e81c'; } /* '' */
 .icon-plus-circled:before { content: '\e81d'; } /* '' */
+.icon-block:before { content: '\e81e'; } /* '' */
+.icon-lock-open:before { content: '\e81f'; } /* '' */
+.icon-chat:before { content: '\e820'; } /* '' */
+.icon-comment:before { content: '\e821'; } /* '' */
+.icon-cog-alt:before { content: '\e822'; } /* '' */
+.icon-left-open:before { content: '\e823'; } /* '' */
+.icon-right-open:before { content: '\e824'; } /* '' */
+.icon-inbox:before { content: '\e825'; } /* '' */
+.icon-fast-fw:before { content: '\e826'; } /* '' */
+.icon-fast-bw:before { content: '\e827'; } /* '' */
+.icon-to-start-alt:before { content: '\e828'; } /* '' */
+.icon-to-end-alt:before { content: '\e829'; } /* '' */
 .icon-facebook:before { content: '\f09a'; } /* '' */
 .icon-table:before { content: '\f0ce'; } /* '' */
 .icon-gplus:before { content: '\f0d5'; } /* '' */
+.icon-comment-empty:before { content: '\f0e5'; } /* '' */
+.icon-chat-empty:before { content: '\f0e6'; } /* '' */
 .icon-user-md:before { content: '\f0f0'; } /* '' */
 .icon-stethoscope:before { content: '\f0f1'; } /* '' */
+.icon-bell-alt:before { content: '\f0f3'; } /* '' */
 .icon-hospital:before { content: '\f0f8'; } /* '' */
 .icon-spinner:before { content: '\f110'; } /* '' */
 .icon-folder-empty:before { content: '\f114'; } /* '' */
 .icon-folder-open-empty:before { content: '\f115'; } /* '' */
 .icon-info:before { content: '\f129'; } /* '' */
+.icon-attention-alt:before { content: '\f12a'; } /* '' */
 .icon-calendar-empty:before { content: '\f133'; } /* '' */
+.icon-thumbs-up-alt:before { content: '\f164'; } /* '' */
+.icon-thumbs-down-alt:before { content: '\f165'; } /* '' */
 .icon-database:before { content: '\f1c0'; } /* '' */
+.icon-file-pdf:before { content: '\f1c1'; } /* '' */
+.icon-file-image:before { content: '\f1c5'; } /* '' */
 .icon-binoculars:before { content: '\f1e5'; } /* '' */
+.icon-cc-visa:before { content: '\f1f0'; } /* '' */
+.icon-cc-mastercard:before { content: '\f1f1'; } /* '' */
+.icon-cc-amex:before { content: '\f1f3'; } /* '' */
+.icon-bell-off:before { content: '\f1f6'; } /* '' */
 .icon-bell-off-empty:before { content: '\f1f7'; } /* '' */
 .icon-at:before { content: '\f1fa'; } /* '' */
 .icon-toggle-off:before { content: '\f204'; } /* '' */
@@ -105,6 +129,10 @@
 .icon-whatsapp:before { content: '\f232'; } /* '' */
 .icon-user-plus:before { content: '\f234'; } /* '' */
 .icon-user-times:before { content: '\f235'; } /* '' */
+.icon-calendar-plus-o:before { content: '\f271'; } /* '' */
+.icon-calendar-minus-o:before { content: '\f272'; } /* '' */
+.icon-calendar-times-o:before { content: '\f273'; } /* '' */
+.icon-calendar-check-o:before { content: '\f274'; } /* '' */
 .icon-credit-card-alt:before { content: '\f283'; } /* '' */
 .icon-address-book-o:before { content: '\f2ba'; } /* '' */
 .icon-user-circle-o:before { content: '\f2be'; } /* '' */

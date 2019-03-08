@@ -241,7 +241,7 @@
         calendario.addEventListener("change", function (e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log(options.fecha);
+            
             //options.fecha = getPrevDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
             //dibujarGrilla();
         });
@@ -677,7 +677,7 @@
         //function CancelarReserva(celda) {
         function CancelarReserva(divReserva) {
             //let divReserva = celda.children[0];
-            console.dir(divReserva);
+            
             if (divReserva.dataset.turnoid > 0) {
                 let url = Domain + 'Sesion/Reserva/Delete'
                 let param = {};
@@ -718,7 +718,7 @@
             modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickBloquear);
 
             modal.querySelector('#btnBloquearReservarModal').addEventListener('click', bloquear ? clickBloquear : clickReservar);
-            console.log('1');
+            
             $('#bloquearReservarModal').modal();
         };
 
@@ -782,14 +782,26 @@
                         $("#agendaViewPaciente").modal("show");
                     }
                     break;
-                case 'datosSesiones':                    
+                case 'datosSesiones':                                        
+                    modal = options.divGrilla.querySelector('#sesionesPacienteModal');                    
+                    if (modal) {
+                        let pacienteID = modal.querySelector("#PacienteID");                       
+                        if (pacienteID) {                            
+                            pacienteID.value = opt.$trigger[0].dataset.pacienteid;
+
+                            let evt = document.createEvent("HTMLEvents");
+                            evt.initEvent("input", false, true);
+                            pacienteID.dispatchEvent(evt);
+                            $("#sesionesPacienteModal").modal("show");
+                        }
+                        //TurnoAsignarPacienteModal
+                    }
                     break;
                 case 'datosTurno':
                     modal = options.divGrilla.querySelector('#TurnoAsignarPacienteModal');
                     if (modal) {
                         let turnoID = modal.querySelector("#TurnoID");
-                        if (turnoID) {
-                            console.dir(opt.$trigger[0].dataset);
+                        if (turnoID) {                            
                             turnoID.value = opt.$trigger[0].dataset.turnoid;
 
                             let evt = document.createEvent("HTMLEvents");
@@ -807,7 +819,7 @@
                     btn.addEventListener('click', btnPosponerSesion_click);
                     modal.dataset.turnoid = opt.$trigger[0].dataset.turnoid;
                     modal.dataset.numero = opt.$trigger[0].dataset.numero;
-                    console.dir(modal);
+                    
                     $('#posponerTurnoModal').modal('show');
                     break;
                 case 'confirmado':
@@ -818,7 +830,7 @@
                     if (modal) {
                         let turnoID = modal.querySelector("#TurnoID");
                         if (turnoID) {
-                            console.dir(opt.$trigger[0].dataset);
+                            
                             turnoID.value = opt.$trigger[0].dataset.turnoid;
 
                             let evt = document.createEvent("HTMLEvents");
@@ -1017,11 +1029,8 @@
                     }
                 }
                 else {
-                    if (celda.id == "F20190308H1000C5S1") {
-                        console.dir(sesion);
-                    }
-                    if (celda.dataset.parentid || celda.innerHTML.includes("div")) {
-                        console.log('turno-tomado');
+                    
+                    if (celda.dataset.parentid || celda.innerHTML.includes("div")) {                        
                         //options.divGrilla.querySelector(celSesionID).rowSpan = i;
                         i = t;
                     }
@@ -1045,7 +1054,8 @@
                             data-id=${_sesion.ID} data-estado=${_sesion.Estado}
                             data-turnoid=${_sesion.TurnoID} data-estadoturno=${_sesion.EstadoTurno}
                             data-pacienteid=${_sesion.PacienteId}
-                            data-numero=${_sesion.Numero}>
+                            data-numero=${_sesion.Numero}
+                            title="${_sesion.Paciente}">
                             ${getDivTurnoInnerHTML(_sesion)}</div>`;
         return divCelda;
     }
@@ -1416,7 +1426,7 @@
 
     function changeEstadoOK(data) {
         let _sesion = JSON.parse(JSON.parse(data));
-        console.log(_sesion);
+        
         let _divSesion = options.tabla.querySelector(`div[data-id='${_sesion.ID}']`);
 
         _divSesion.innerHTML = getDivTurnoInnerHTML(_sesion);
@@ -1634,7 +1644,7 @@
                     }
                     body.push(row);
                 }
-                console.dir(body);
+                
                 content.push({
                     style: 'tableExample',
                     table: {

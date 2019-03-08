@@ -8,7 +8,8 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/ViewTurnos',
-        controller: ['eventService', 'pdfService', 'crudService', '$window', '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController],
+        controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController],
         bindings: {
             paciente: "<?",
             onClose: "&?"
@@ -25,7 +26,8 @@
 
     //sgtApp.controller('DialogController', ['$scope', '$mdDialog', DialogController]);
 
-    function pacienteTurnosController(eventService,pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog) {
+    function pacienteTurnosController(turnoService, eventService, pdfService, crudService,
+        $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog) {
         let vm = this;
         vm.turnos = [];
         let Estados = [];
@@ -93,7 +95,7 @@
 
         vm.turnoPrint = function (turno) {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);
-            console.dir(turno);
+            
             let body = [];
             let estadosImprimible = [2, 4, 5];
             turno.Sesions.forEach(sesion => {
@@ -217,6 +219,14 @@
             Consultorios = [];
             vm.deleteTurno = false;
             getConsultorios();
+        };
+
+        vm.openDiagnostico = (turno) => {
+            turnoService.openDiagnostico(turno,
+                (promise) =>
+                    promise.then(data => turno = turnoService.sesionesOrder(JSON.parse(data)))
+                        .catch(error => { })
+            );
         };
 
 

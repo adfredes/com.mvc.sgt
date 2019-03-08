@@ -55,7 +55,7 @@
         $this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
-            let estadosImprimible = [2, 4, 5];
+            let estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(sesion => {
                 let row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
@@ -83,8 +83,23 @@
 
         $this.getTurno = id => crudService.GetPHttp(`Turno/${id}`);
 
+        $this.getTurnosPaciente = (id) => crudService.GetPHttp(`Paciente/ListTurnos/${id}`);            
+
         $this.getPaciente = id => crudService.GetPHttp(`Paciente/Get/${id}`);
 
+        $this.turnosSesionesOrder = (data) => {
+            data.forEach(turno => {
+                turno = $this.sesionesOrder(turno);
+                let fechaActual = new Date();
+                if (fechaActual.getTime() <= moment(turno.Sesions[0].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime())
+                    turno.visible = true;
+                else
+                    turno.visible = false;
+                turno.begin = turno.Sesions[turno.Sesions.length - 1].FechaHora;
+                turno.end = turno.Sesions[0].FechaHora;
+            });
+            return data;
+        };
 
         $this.sesionesOrder = (data) => {
             let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) =>
@@ -178,6 +193,81 @@
 
         };
 
+        $this.confirmarTurno = (turno) => {
+            let url = "Turno/Confirmar";
+            let promise = crudService.PutHttp(url, turno);
+            return promise;
+        };
+
+
+        $this.openDiagnostico = (turno, success) => {
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Turno - Diagnóstico</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">        
+                                    <md-input-container class="md-block">
+                                        <label>Diagnóstico</label>
+                                            <textarea ng-model="diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
+                                    </md-input-container>
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+                $scope.diagnostico = turno.Diagnostico;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { turno: turno }
+            })
+                .then(answer => {                                                            
+                    turno.Diagnostico = answer;                    
+                    let url = "Turno/Diagnostico";                         
+                    let promise = crudService.PutHttp(url, turno);                    
+                    success(promise);                    
+                })
+                .catch(() => undefined);
+        };        
+
+        $this.setEstadoAsistio = sesionsID => {
+            let url = "Sesion/Estados/Asistio";
+            let params = {};
+            params.ids = sesionsID;
+            let promise = crudService.PutHttp(url, params);
+            return promise;
+        };
+
+        $this.setEstadoNoAsistio = sesionsID => {
+            let url = "Sesion/Estados/NoAsistio";
+            let params = {};
+            params.ids = sesionsID;
+            let promise = crudService.PutHttp(url, params);
+            return promise;
+        };
 
     }
 }

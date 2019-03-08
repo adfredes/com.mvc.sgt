@@ -35,19 +35,40 @@ namespace com.mvc.sgt
                       "~/Content/animation.css",
                       "~/Content/Styles.css",
                       "~/Content/jquery.contextMenu.min.css",
-                      "~/Content/bootstrap-datepicker.min.css"));
+                      "~/Content/bootstrap-datepicker.min.css"));            
 
-            //bundles.Add(new ScriptBundle("~/bundles/angularAseguradora").Include(
-            //      "~/Scripts/angular.js",
-            //      "~/Scripts/angular-animate.min.js",
-            //      "~/Scripts/angular-messages.js",
-            //      "~/Scripts/angular-aria.js",
-            //      "~/Scripts/angular-material.js",
-            //      "~/Scripts/Angular/Module/SgtModule.js",
-            //      "~/Scripts/Angular/Services/CrudService.js"
-            //  "~/Scripts/Angular/Controllers/AseguradoraController.js",
-            //  "~/Scripts/Angular/Directives/AseguradoraDirectives.js"
-            //  ));
+            //bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+            //        "~/Scripts/angular.js",
+            //        "~/Scripts/angular-locale_es-ar.js",
+            //        "~/Scripts/angular-animate.min.js",
+            //        "~/Scripts/angular-messages.js",
+            //        "~/Scripts/angular-route.min.js",
+            //        "~/Scripts/angular-aria.js",
+            //        "~/Scripts/angular-material.js",
+            //        "~/Scripts/Angular/Module/SgtModule.js",
+            //        "~/Scripts/Angular/Services/CrudService.js",
+            //        "~/Scripts/Angular/Services/PdfService.js",
+            //        "~/Scripts/Angular/Services/EventService.js",
+            //        "~/Scripts/Angular/Services/TurnoService.js",
+            //        "~/Scripts/Angular/Controllers/NavBarController.js",
+            //        "~/Scripts/Angular/Controllers/AseguradoraController.js",
+            //        "~/Scripts/Angular/Directives/AseguradoraDirectives.js",
+            //        "~/Scripts/Angular/Controllers/PacienteController.js",
+            //        "~/Scripts/Angular/Directives/PacienteDirectives.js",
+            //        "~/Scripts/Angular/Directives/WebCamDirectives.js",
+            //        "~/Scripts/Angular/Components/PacienteSearch.js",
+            //        "~/Scripts/Angular/Controllers/AgendaController.js",
+            //        "~/Scripts/Angular/Components/FeriadoComponent.js",
+            //        "~/Scripts/Angular/Controllers/ConsultorioController.js",
+            //        "~/Scripts/Angular/Components/ConsultorioComponent.js",
+            //        "~/Scripts/Angular/Controllers/ProfesionalController.js",
+            //        "~/Scripts/Angular/Components/ProfesionalComponent.js",
+            //        "~/Scripts/Angular/Components/CalendarPopUpComponet.js",
+            //        "~/Scripts/Angular/Components/PacienteView.js",
+            //        "~/Scripts/Angular/Components/PacienteTurnosComponent.js",
+            //        "~/Scripts/Angular/Components/SesionEditComponent.js",
+            //        "~/Scripts/Angular/Components/AsignarPacienteComponent.js"
+            //    ));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                     "~/Scripts/angular.js",
@@ -57,31 +78,14 @@ namespace com.mvc.sgt
                     "~/Scripts/angular-route.min.js",
                     "~/Scripts/angular-aria.js",
                     "~/Scripts/angular-material.js",
-                    "~/Scripts/Angular/Module/SgtModule.js",
-                    "~/Scripts/Angular/Services/CrudService.js",
-                    "~/Scripts/Angular/Services/PdfService.js",
-                    "~/Scripts/Angular/Services/EventService.js",
-                    "~/Scripts/Angular/Services/TurnoService.js",
-                    "~/Scripts/Angular/Controllers/NavBarController.js",
-                    "~/Scripts/Angular/Controllers/AseguradoraController.js",
-                    "~/Scripts/Angular/Directives/AseguradoraDirectives.js",
-                    "~/Scripts/Angular/Controllers/PacienteController.js",
-                    "~/Scripts/Angular/Directives/PacienteDirectives.js",
-                    "~/Scripts/Angular/Directives/WebCamDirectives.js",
-                    "~/Scripts/Angular/Components/PacienteSearch.js",
-                    "~/Scripts/Angular/Controllers/AgendaController.js",
-                    "~/Scripts/Angular/Components/FeriadoComponent.js",
-                    "~/Scripts/Angular/Controllers/ConsultorioController.js",
-                    "~/Scripts/Angular/Components/ConsultorioComponent.js",
-                    "~/Scripts/Angular/Controllers/ProfesionalController.js",
-                    "~/Scripts/Angular/Components/ProfesionalComponent.js",
-                    "~/Scripts/Angular/Components/CalendarPopUpComponet.js",
-                    "~/Scripts/Angular/Components/PacienteView.js",
-                    "~/Scripts/Angular/Components/PacienteTurnosComponent.js",
-                    "~/Scripts/Angular/Components/SesionEditComponent.js",
-                    "~/Scripts/Angular/Components/AsignarPacienteComponent.js"
+                    "~/Scripts/Angular/Module/*.js",
+                    "~/Scripts/Angular/Services/*.js",                    
+                    "~/Scripts/Angular/Controllers/*.js",
+                    "~/Scripts/Angular/Directives/*.js",                    
+                    "~/Scripts/Angular/Components/*.js"                    
                 ));
 
+            //PacienteQuickCreateComponent.js
             //bundles.Add(new ScriptBundle("~/bundles/angularPaciente").Include(
             //        "~/Scripts/angular.js",
             //        "~/Scripts/angular-animate.min.js",
