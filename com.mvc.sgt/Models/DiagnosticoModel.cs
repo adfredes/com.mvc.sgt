@@ -7,7 +7,7 @@ namespace com.mvc.sgt.Models
 {
     public class DiagnosticoModel
     {
-        public DateTime Fecha { get; set; }
+        public DateTime? Fecha { get; set; }
         public String Diagnostico { get; set; }
     }
 }

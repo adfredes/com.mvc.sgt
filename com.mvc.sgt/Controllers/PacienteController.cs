@@ -48,7 +48,7 @@ namespace com.mvc.sgt.Controllers
                 .OrderBy(p => p.Fecha).ToList()
                 .ForEach(t => model.Add(new DiagnosticoModel
                 {
-                    Fecha = t.Fecha.Value,
+                    Fecha = t.Fecha,
                     Diagnostico = t.Diagnostico
                 }));
             return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
