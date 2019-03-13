@@ -27,6 +27,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> FindSesion(int sesionID);
         ICollection<Sesion> BloquearSesion(Turno turno);
         ICollection<Sesion> CambiarFechaSesion(ICollection<Sesion> sesiones);
+        ICollection<Sesion> CambiarFechaSesionSobreturno(ICollection<Sesion> sesiones);
         ICollection<Sesion_Estado> GetSesionEstados();
         Turno ReservarSesiones(Turno turno);
         void CancelarReserva(int idTurno);

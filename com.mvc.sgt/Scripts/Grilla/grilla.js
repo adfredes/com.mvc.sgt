@@ -679,7 +679,8 @@
             //let divReserva = celda.children[0];
             
             if (divReserva.dataset.turnoid > 0) {
-                let url = Domain + 'Sesion/Reserva/Delete'
+                anularSesionesPendientes(divReserva.dataset.turnoid);
+                /*let url = Domain + 'Sesion/Reserva/Delete';
                 let param = {};
                 param.turnoID = divReserva.dataset.turnoid;
                 let promise = ajaxPromise('DELETE', url, param);
@@ -687,7 +688,7 @@
                     , data => {
                         showErrorMessage('Cancelar Reserva', data);
                         //dibujarGrilla();
-                    });
+                    });*/
             }
             else {
                 let celda = divReserva.parentElement;
@@ -701,7 +702,7 @@
         }
 
         async function CancelarBloqueo(opt) {
-            let idSesion = opt.$trigger[0].dataset.id
+            let idSesion = opt.$trigger[0].dataset.id;
             setEstadoAnulado(idSesion);
             deleteSesionGrilla(options.tabla.querySelector(`#${opt.$trigger[0].id.split('D')[0]}`));
             options.sesiones = await getSesiones();
@@ -999,13 +1000,14 @@
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             `${sesion.Paciente}\n${sesion.Numero} / ${sesion.CantidadSesiones}`;
-                        rCelda = options.tabla.querySelector(idCelda);
-
+                        celda.dataset.sobreturno = "true";
+                        rCelda = options.tabla.querySelector(idCelda);                        
                         let divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML += getDivTurno(divId, sesion);
                         celda.innerHTML = celda.innerHTML.replace(/h-100/g, "h-50");
                         setElementMarkRowCol(options.tabla.querySelector('#' + divId));
                         i = t;
+                        removeCeldaDroppable(celda);
                     }
                     else {
 
@@ -1014,14 +1016,15 @@
                         celda.dataset.estado = sesion.Estado;
                         celda.classList.remove('turno-vacio');
                         celda.dataset.parentid = idCelda;
+                        celda.dataset.sobreturno = "false";
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             `${sesion.Paciente}\n${sesion.Numero} / ${sesion.CantidadSesiones}`;
 
 
-                        if (sesion.Estado != 2) {
-                            removeCeldaDroppable(celda);
-                        }
+                        //if (sesion.Estado == 2) {
+                        //    removeCeldaDroppable(celda);
+                        //}
                         celda.rowSpan = rowSpan;
                         let divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML = getDivTurno(divId, sesion);
@@ -1260,61 +1263,110 @@
 
         let btnCambiar_click = e => {
             btnGuardar.removeEventListener('click', btnCambiar_click);
+            if (!sobreturno) {
+                let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
+                let _estado = parseInt(_sesiones[0].Estado);
 
+                let _newSesiones = [];
+                let _hora = celda.id.substr(celda.id.indexOf('H') + 1, 4);
+                let _fecha = celda.id.substr(celda.id.indexOf('F') + 1, 8);
+                let _turnoSimultaneo = celda.id.split('S')[1];
+                let _consultorioID = celda.id.substr(celda.id.indexOf('C') + 1, celda.id.indexOf('S') - celda.id.indexOf('C') - 1);
 
-            let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
-            let _estado = parseInt(_sesiones[0].Estado);
-
-            let _newSesiones = [];
-            let _hora = celda.id.substr(celda.id.indexOf('H') + 1, 4);
-            let _fecha = celda.id.substr(celda.id.indexOf('F') + 1, 8);
-            let _turnoSimultaneo = celda.id.split('S')[1];
-            let _consultorioID = celda.id.substr(celda.id.indexOf('C') + 1, celda.id.indexOf('S') - celda.id.indexOf('C') - 1);
-
-            for (let i = 0; i < parseInt(cmbSesiones.value); i++) {
-                let _newSesion = {
-                    ID: null,
-                    AgendaID: _sesiones[0].AgendaID,
-                    TurnoID: _sesiones[0].TurnoID,
-                    Numero: _sesiones[0].Numero,
-                    ConsultorioID: _consultorioID,
-                    TurnoSimultaneo: _turnoSimultaneo,
-                    Estado: _estado,
-                    FechaHora: parseFechaHora(_fecha, _hora),
-                    Habilitado: true,
-                    fecha: _fecha,
-                    hora: _hora
+                for (let i = 0; i < parseInt(cmbSesiones.value); i++) {
+                    let _newSesion = {
+                        ID: null,
+                        AgendaID: _sesiones[0].AgendaID,
+                        TurnoID: _sesiones[0].TurnoID,
+                        Numero: _sesiones[0].Numero,
+                        ConsultorioID: _consultorioID,
+                        TurnoSimultaneo: _turnoSimultaneo,
+                        Estado: _estado,
+                        FechaHora: parseFechaHora(_fecha, _hora),
+                        Habilitado: true,
+                        fecha: _fecha,
+                        hora: _hora
+                    };
+                    _newSesiones.push(_newSesion);
+                    _hora = sesionSiguiente(_hora);
                 }
-                _newSesiones.push(_newSesion);
-                _hora = sesionSiguiente(_hora);
-            }
 
-            /*let _id = options.sesiones.findIndex(se =>
-                se.ConsultorioID == _newSesiones[0].ConsultorioID &&
-                se.TurnoSimultaneo == _newSesiones[0].TurnoSimultaneo &&
-                se.fecha == _newSesiones[0].fecha &&
-                parseInt(se.hora) >= parseInt(_newSesiones[0].hora) &&
-                parseInt(se.hora) <= parseInt(_newSesiones[_newSesiones.length - 1].hora));*/
+                /*let _id = options.sesiones.findIndex(se =>
+                    se.ConsultorioID == _newSesiones[0].ConsultorioID &&
+                    se.TurnoSimultaneo == _newSesiones[0].TurnoSimultaneo &&
+                    se.fecha == _newSesiones[0].fecha &&
+                    parseInt(se.hora) >= parseInt(_newSesiones[0].hora) &&
+                    parseInt(se.hora) <= parseInt(_newSesiones[_newSesiones.length - 1].hora));*/
 
-            if (validarSesiones(_newSesiones)) {
-                _sesiones.forEach(s => {
-                    s.Estado = motivo.value;
-                    delete (s.sesiones);
-                });
-                _newSesiones = _newSesiones.concat(_sesiones);
-                let url = Domain + "Sesion/CambiarFecha";
-
-                let promise = ajaxPromise("PUT", url, _newSesiones);
-                promise.then(data => dibujarGrilla()
-                    , data => {
-                        showErrorMessage('Cambio de Turno', data);
-                        dibujarGrilla();
+                if (validarSesiones(_newSesiones)) {
+                    _sesiones.forEach(s => {
+                        s.Estado = motivo.value;
+                        delete (s.sesiones);
                     });
+                    _newSesiones = _newSesiones.concat(_sesiones);
+                    let url = Domain + "Sesion/CambiarFecha";
 
+                    let promise = ajaxPromise("PUT", url, _newSesiones);
+                    promise.then(data => dibujarGrilla()
+                        , data => {
+                            showErrorMessage('Cambio de Turno', data);
+                            dibujarGrilla();
+                        });
+
+                }
+                else {
+                    showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
+                }
             }
             else {
-                showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
+                alert("sobreturno");
+                let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
+                let _estado = parseInt(_sesiones[0].Estado);
+
+                let _newSesiones = [];
+                let _hora = celda.id.substr(celda.id.indexOf('H') + 1, 4);
+                let _fecha = celda.id.substr(celda.id.indexOf('F') + 1, 8);
+                let _turnoSimultaneo = celda.id.split('S')[1];
+                let _consultorioID = celda.id.substr(celda.id.indexOf('C') + 1, celda.id.indexOf('S') - celda.id.indexOf('C') - 1);
+
+                for (let i = 0; i < parseInt(cmbSesiones.value); i++) {
+                    let _newSesion = {
+                        ID: null,
+                        AgendaID: _sesiones[0].AgendaID,
+                        TurnoID: _sesiones[0].TurnoID,
+                        Numero: _sesiones[0].Numero,
+                        ConsultorioID: _consultorioID,
+                        TurnoSimultaneo: _turnoSimultaneo,
+                        Estado: _estado,
+                        FechaHora: parseFechaHora(_fecha, _hora),
+                        Habilitado: true,
+                        fecha: _fecha,
+                        hora: _hora
+                    };
+                    _newSesiones.push(_newSesion);
+                    _hora = sesionSiguiente(_hora);
+                }
+
+
+               
+                    _sesiones.forEach(s => {
+                        s.Estado = motivo.value;
+                        delete (s.sesiones);
+                    });
+                    _newSesiones = _newSesiones.concat(_sesiones);
+                    let url = Domain + "Sesion/CambiarFecha/SobreTurno";
+
+                    let promise = ajaxPromise("PUT", url, _newSesiones);
+                    promise.then(data => dibujarGrilla()
+                        , data => {
+                            showErrorMessage('Cambio de Turno', data);
+                            dibujarGrilla();
+                        });
+
+               
             }
+
+            
 
 
             $("#cambiarTurnoDroppedModal").modal('hide');
@@ -1326,8 +1378,7 @@
             btnCancelar.removeEventListener('click', btnCancelar_click);
             $("#cambiarTurnoDroppedModal").modal('hide');
         };
-
-
+        
         let modal = options.divGrilla.querySelector('#cambiarTurnoDroppedModal');
         let btnGuardar = modal.querySelector('#btnCambiarTurnoDropped');
         let btnCancelar = modal.querySelector('#btnCancelarCambiarTurnoDropped');
@@ -1335,7 +1386,21 @@
         let cmbSesiones = modal.querySelector('#cmbSesionesCambiarTurnoDropped');
         let motivo = modal.querySelector('#cmbMotivoCambiarTurnoDropped');
         let _sesionAnterior = options.sesiones.find(s => s.ID == options.tabla.querySelector('#' + divId).dataset.id);
-        cmbSesiones.value = options.tabla.querySelector(`#${divId.split('D')[0]}`).rowSpan;
+
+        let sobreturno;
+
+        if (celda.classList.contains('turno-tomado')) {
+            cmbSesiones.value = celda.rowSpan;
+            cmbSesiones.disabled = true;            
+            sobreturno = true;
+        }
+        else {
+            cmbSesiones.disabled = false;
+            cmbSesiones.value = options.tabla.querySelector(`#${divId.split('D')[0]}`).rowSpan;
+            sobreturno = false;
+        }
+
+        
 
         btnGuardar.addEventListener('click', btnCambiar_click);
         btnCancelar.addEventListener('click', btnCancelar_click);

@@ -53,6 +53,9 @@
         <AssociationConnector Association="TurnosModel.FK_Sesion_Agenda" />
         <AssociationConnector Association="TurnosModel.FK_Turno_Paciente" />
         <AssociationConnector Association="TurnosModel.FK_Sesion_Turno" />
+        <EntityTypeShape EntityType="TurnosModel.Turno_Repeticiones" Width="1.5" PointX="13.125" PointY="20.375" />
+        <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Consu__3F6663D5" />
+        <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

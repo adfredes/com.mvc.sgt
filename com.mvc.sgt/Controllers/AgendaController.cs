@@ -56,6 +56,13 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [HttpGet]
+        [Route ("Sesion/ChangeDateModal")]
+        public ActionResult CambiarFechaSesion()
+        {
+            return PartialView();
+        }
+
         [HttpPost]
         [CreateUpdateActionFilter("admin")]
         public JsonResult CreateOrEditFeriado(FeriadoModel model)
@@ -265,6 +272,25 @@ namespace com.mvc.sgt.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Sesion/CambiarFecha/SobreTurno")]
+        public JsonResult ModificarSesionSobreturno(List<SesionModel> model)
+        {
+            try
+            {
+                var sesiones = Mapper.Map<ICollection<Sesion>>(model);
+                sesiones = this.AgendaService.CambiarFechaSesionSobreturno(sesiones);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(sesiones);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
                 return Json(ex.Message);
             }
         }

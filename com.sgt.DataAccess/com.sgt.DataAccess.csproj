@@ -110,6 +110,7 @@
     <Compile Include="Interfaces\ISesionEstadosRepository.cs" />
     <Compile Include="Interfaces\ISesionRepository.cs" />
     <Compile Include="Interfaces\ITipoSesionRepository.cs" />
+    <Compile Include="Interfaces\ITurnoRepeticionesRepository.cs" />
     <Compile Include="Interfaces\ITurnoRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Localidad.cs">
@@ -152,6 +153,7 @@
     <Compile Include="Repositories\SesionEstadosRepository.cs" />
     <Compile Include="Repositories\SesionRepository.cs" />
     <Compile Include="Repositories\TipoSesionRepository.cs" />
+    <Compile Include="Repositories\TurnoRepeticionesRepository.cs" />
     <Compile Include="Repositories\TurnoRepository.cs" />
     <Compile Include="Sesion.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
@@ -182,6 +184,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TurnosContext.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Turno_Repeticiones.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="Usuario.cs">

@@ -77,11 +77,17 @@
 
         $this.getConsultorios = () => crudService.GetPHttp(`api/grilla/Consultorios`);
 
+        //Obtengo los horarios libres de los consultorios en una fecha específica
+        $this.getConsultoriosFecha = (fechaConsultorio) => crudService.GetPHttp(`Consultorio/ListarHorarios/${fechaConsultorio.getFullYear()}/${fechaConsultorio.getMonth() + 1}/${fechaConsultorio.getDate()}`);
+            
+
         $this.getNombreEstado = (idEstado, Estados) => Estados.find(estado => estado.ID === idEstado).Descripcion;
 
         $this.getNombreConsultorio = (idConsultorio, Consultorios) => Consultorios.find(consultorio => consultorio.ID === idConsultorio).Descripcion;
 
         $this.getTurno = id => crudService.GetPHttp(`Turno/${id}`);
+
+        $this.getSesion = id => crudService.GetPHttp(`api/sesiones/${id}`);
 
         $this.getTurnosPaciente = (id) => crudService.GetPHttp(`Paciente/ListTurnos/${id}`);            
 
@@ -199,7 +205,95 @@
             return promise;
         };
 
+        $this.openCambiarSesionModal = (sesion, success) => {
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Turno - Diagnóstico</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">        
+                                    <md-input-container class="md-block">
+                                        <label>Diagnóstico</label>
+                                            <textarea ng-model="diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
+                                    </md-input-container>
+                                  </div>
+                                </md-dialog-content>
 
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+                $scope.diagnostico = turno.Diagnostico;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { turno: turno }
+            })
+                .then(answer => {
+                    turno.Diagnostico = answer;
+                    let url = "Turno/Diagnostico";
+                    let promise = crudService.PutHttp(url, turno);
+                    success(promise);
+                })
+                .catch(() => undefined);
+        };        
+        
+        $this.openCambiarSesionModal = (sesion) => {
+            let modalHtml = `<md-dialog aria-label="Paciente">
+                                <md-toolbar>
+                                    <div class="md-toolbar-tools  badge-warning">
+                                        <h5 class="modal-title">Cambiar Turno</h5>
+                                    </div>
+                                </md-toolbar>
+                                <sesion-edit-modal sesion="sesion" on-save="answer" on-cancel="cancel" />
+                            </md-dialog>`;
+
+            function DialogController($scope, $mdDialog) {
+                $scope.sesion = sesion;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false
+                //,
+                //locals: { turno: turno }
+            })
+                .then(answer => {
+
+                })
+                .catch(() => undefined);
+        };
         $this.openDiagnostico = (turno, success) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>

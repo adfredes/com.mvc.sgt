@@ -18,6 +18,7 @@ namespace com.sgt.DataAccess
         public Turno()
         {
             this.Sesions = new HashSet<Sesion>();
+            this.Turno_Repeticiones = new HashSet<Turno_Repeticiones>();
         }
     
         public int ID { get; set; }
@@ -33,5 +34,7 @@ namespace com.sgt.DataAccess
         public virtual Paciente Paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sesion> Sesions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Turno_Repeticiones> Turno_Repeticiones { get; set; }
     }
 }

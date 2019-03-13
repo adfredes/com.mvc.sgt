@@ -1,6 +1,6 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller('sesionEditController', ['eventService','crudService', '$mdDialog', sesionEditController]);
+    sgtApp.controller('sesionEditController', ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController]);
 
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
@@ -11,7 +11,17 @@
         }
     });
 
-    function sesionEditController(eventService, crudService, $mdDialog) {
+    sgtApp.component('sesionEditModal', {
+        templateUrl: Domain + 'Sesion/ChangeDateModal',
+        controller: 'sesionEditController',
+        bindings: {
+            sesion: "<?",
+            onSave: "&?",
+            onCancel: "&?"
+        }
+    });
+
+    function sesionEditController(turnoService, eventService, crudService, $mdDialog) {
         let vm = this;
 
         vm.selectedDate = null;
@@ -20,71 +30,32 @@
         let ConsultorioID;
 
 
-        vm.toDate = function (value) {
-            let dateValue = moment(value).toDate();
-            return angular.isDate(dateValue) ? getDayName(dateValue) + ' ' + toShortDate(dateValue) : '';
-        };
+        vm.toDate = turnoService.toDate;
 
-        let getDayName = (value) => {
-            let weekday = new Array(7);
-            weekday[0] = "Domingo";
-            weekday[1] = "Lunes";
-            weekday[2] = "Martes";
-            weekday[3] = "Miércoles";
-            weekday[4] = "Jueves";
-            weekday[5] = "Viernes";
-            weekday[6] = "Sábado";
-            return weekday[value.getDay()];
-        };
+        vm.toHourRange = turnoService.toHourRange;
 
-        let toShortDate = (value) => {
-            let sDia = addZero(value.getDate());
-            let sMes = addZero(value.getMonth() + 1);
-            let sAnio = value.getFullYear();
+        vm.toHour = turnoService.toHour;
 
-            let sFecha = sDia + "/" + sMes + "/" + sAnio;
-
-            return sFecha;
-        };
-
-        let addZero = (i) =>
-            i < 10 ? '0' + i : i;
-
-        vm.toHourRange = function (value, sesiones) {
-            return vm.toHour(value) + ' a ' + vm.nextHour(value, sesiones);
-        };
-
-        vm.toHour = function (value) {
-            let dateValue = moment(value).toDate();
-            /*value.setHours(value.getHours() - 3);*/
-            return angular.isDate(dateValue) ? addZero(dateValue.getHours()) + ':' + addZero(dateValue.getMinutes()) : '';
-        };
-
-        vm.nextHour = function (value, sesiones) {
-            let dateValue = moment(value).toDate();
-            /*value.setHours(value.getHours() - 3);*/
-            if (angular.isDate(dateValue))
-                dateValue.setMinutes(dateValue.getMinutes() + 30 * sesiones);
-            return angular.isDate(dateValue) ? addZero(dateValue.getHours()) + ':' + addZero(dateValue.getMinutes()) : '';
-        };
+        vm.nextHour = turnoService.nextHour;
 
         let loadSesion = () => {
-            let promise = crudService.GetPHttp(`api/sesiones/${vm.sesion.ID}`);
+            let promise = turnoService.getSesion(vm.sesion.ID);
             promise.then(data => {
-              
+
                 vm.sesion = data[0];
                 vm.sesion.FechaTurno = moment(vm.sesion.FechaHora).toDate();
                 vm.sesion.sesiones = data;
                 vm.selectedDate = moment(vm.sesion.FechaHora).toDate();
-             
+
                 vm.modulos = vm.sesion.sesiones.length;
                 getConsultorios(vm.selectedDate);
             })
                 .catch(err => vm.paciente = {});
         };
 
+
         let getConsultorios = (fechaConsultorio) => {
-            let promise = crudService.GetPHttp(`Consultorio/ListarHorarios/${fechaConsultorio.getFullYear()}/${fechaConsultorio.getMonth() + 1}/${fechaConsultorio.getDate()}`);
+            let promise = turnoService.getConsultoriosFecha(fechaConsultorio);
             promise.then(data => {
                 vm.Consultorios = data;
             })
@@ -93,19 +64,27 @@
 
 
         vm.$onInit = () => {
-            vm.Consultorios = [];
-            if (!vm.sesion) {
-                vm.sesion = {};
-            }
             vm.modulos = 1;
             vm.motivo = 9;
+
+            if (!vm.sesion || !vm.sesion.ID || vm.sesion.ID === 0) {
+                vm.sesion = {};
+            }
+            else {
+                loadSesion();
+            }
+
         };
 
         vm.$onChange = (changes) => {
-            loadSesion();
             vm.modulos = 1;
             vm.motivo = 9;
-            getConsultorios();
+            if (!vm.sesion.ID || vm.sesion.ID === 0) {
+                vm.sesion = {};
+            }
+            else {
+                loadSesion();
+            }
         };
 
 
@@ -130,6 +109,13 @@
             }
             else {
                 loadSesion();
+            }
+        };
+
+        vm.closeChange = () => {
+            console.dir(vm.onCancel);
+            if (vm.onCancel) {
+                vm.onCancel()();
             }
         };
 
@@ -175,11 +161,16 @@
             let promise = crudService.PutHttp(url, _sesiones);
 
             promise.then(data => {
-                //vm.showModal(ev, 'Se modifico correctamente el turno');
-                eventService.UpdateTurnos();
-                $('#' + vm.divid).modal('hide');
+                if (vm.onSave) {
+                    vm.onSave()(data);
+                }
+                else {
+                    eventService.UpdateTurnos();
+                    $('#' + vm.divid).modal('hide');
+                }
+                //vm.showModal(ev, 'Se modifico correctamente el turno');                
             })
-                .catch(err => {                    
+                .catch(err => {
                     vm.showModal(ev, err.data);
                 });
 
@@ -225,27 +216,27 @@
             })
                 .then(answer => {
                 })
-                .catch(err => { });        
-    };
-
-    function DialogController($scope, $mdDialog) {
-
-        $scope.hide = function () {
-            $mdDialog.hide();
+                .catch(err => { });
         };
 
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
+        function DialogController($scope, $mdDialog) {
 
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
-        };
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            $scope.answer = function (answer) {
+                $mdDialog.hide(answer);
+            };
+        }
+
+
+
+
+
     }
-
-
-
-
-
-}
 })();

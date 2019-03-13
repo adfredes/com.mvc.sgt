@@ -86,4 +86,17 @@ insert into sitk.dbo.Sesion_Estado
 values
 (12,'LIBRE','Pospuesto No Aviso', 1)
 
+create table Turno_Repeticiones(
+	ID int IDENTITY(1,1) primary key not null,
+	TurnoID int FOREIGN KEY REFERENCES Turno (ID) not null,
+	Posicion int not null,
+	DiaSemana int not null,
+	ConsultorioID int FOREIGN KEY REFERENCES Consultorio (ID) not null,
+	Hora datetime not null,
+	Modulos int not null,
+	Frecuencia int not null,
+	UsuarioModificacion varchar(50) not null,
+	FechaModificacion datetime not null
+);
+
 

@@ -378,6 +378,21 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <Property Name="Diagnostico" Type="varchar(max)" />
     <Property Name="Fecha" Type="smalldatetime" />
   </EntityType>
+  <EntityType Name="Turno_Repeticiones">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TurnoID" Type="int" Nullable="false" />
+    <Property Name="Posicion" Type="int" Nullable="false" />
+    <Property Name="DiaSemana" Type="int" Nullable="false" />
+    <Property Name="ConsultorioID" Type="int" Nullable="false" />
+    <Property Name="Hora" Type="datetime" Nullable="false" />
+    <Property Name="Modulos" Type="int" Nullable="false" />
+    <Property Name="Frecuencia" Type="int" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+  </EntityType>
   <EntityType Name="Usuario">
     <Key>
       <PropertyRef Name="ID" />
@@ -386,6 +401,30 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <Property Name="Usuario" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="Clave" Type="varchar" MaxLength="255" Nullable="false" />
   </EntityType>
+  <Association Name="FK__Turno_Rep__Consu__4336F4B9">
+    <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+    <End Role="Turno_Repeticiones" Type="Self.Turno_Repeticiones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultorio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno_Repeticiones">
+        <PropertyRef Name="ConsultorioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Turno_Rep__Turno__4242D080">
+    <End Role="Turno" Type="Self.Turno" Multiplicity="1" />
+    <End Role="Turno_Repeticiones" Type="Self.Turno_Repeticiones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turno">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno_Repeticiones">
+        <PropertyRef Name="TurnoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Agenda_Bloqueos_Agenda">
     <End Role="Agenda" Type="Self.Agenda" Multiplicity="1" />
     <End Role="Agenda_Bloqueos" Type="Self.Agenda_Bloqueos" Multiplicity="*" />
@@ -654,6 +693,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <EntitySet Name="Sesion_Estado" EntityType="Self.Sesion_Estado" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoSesion" EntityType="Self.TipoSesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Turno_Repeticiones" EntityType="Self.Turno_Repeticiones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="comisiones" EntityType="Self.comisiones" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -756,6 +796,14 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     [Tratamientos].[otros] AS [otros]
     FROM [dbo].[Tratamientos] AS [Tratamientos]</DefiningQuery>
     </EntitySet>
+    <AssociationSet Name="FK__Turno_Rep__Consu__4336F4B9" Association="Self.FK__Turno_Rep__Consu__4336F4B9">
+      <End Role="Consultorio" EntitySet="Consultorio" />
+      <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Turno_Rep__Turno__4242D080" Association="Self.FK__Turno_Rep__Turno__4242D080">
+      <End Role="Turno" EntitySet="Turno" />
+      <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
+    </AssociationSet>
     <AssociationSet Name="FK_Agenda_Bloqueos_Agenda" Association="Self.FK_Agenda_Bloqueos_Agenda">
       <End Role="Agenda" EntitySet="Agenda" />
       <End Role="Agenda_Bloqueos" EntitySet="Agenda_Bloqueos" />

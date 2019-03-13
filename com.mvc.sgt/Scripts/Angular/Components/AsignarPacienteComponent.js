@@ -130,6 +130,8 @@
             
         };
 
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion);
+
         vm.changeSesionState = (asistio) => {
             let sesiones = [];            
             vm.turno.Sesions.filter(s => s.selected === true)

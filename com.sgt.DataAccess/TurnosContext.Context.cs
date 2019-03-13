@@ -53,5 +53,6 @@ namespace com.sgt.DataAccess
         public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
         public virtual DbSet<Sesion> Sesions { get; set; }
         public virtual DbSet<Turno> Turnoes { get; set; }
+        public virtual DbSet<Turno_Repeticiones> Turno_Repeticiones { get; set; }
     }
 }

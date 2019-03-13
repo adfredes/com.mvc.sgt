@@ -50,7 +50,7 @@
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreEstado(sesion.Estado)}}
                             <span ng-show="sesion.Estado == 8" class="icon-calendar text-danger" 
-                                  ng-click="alert(sesion.ID)"></span>
+                                  ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
                             </td>
                             <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">
                                 <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />

@@ -393,5 +393,21 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Turno_Repeticiones">
+      <EntityTypeMapping TypeName="TurnosModel.Turno_Repeticiones">
+        <MappingFragment StoreEntitySet="Turno_Repeticiones">
+          <ScalarProperty Name="Modulos" ColumnName="Modulos" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+          <ScalarProperty Name="Hora" ColumnName="Hora" />
+          <ScalarProperty Name="ConsultorioID" ColumnName="ConsultorioID" />
+          <ScalarProperty Name="DiaSemana" ColumnName="DiaSemana" />
+          <ScalarProperty Name="Posicion" ColumnName="Posicion" />
+          <ScalarProperty Name="TurnoID" ColumnName="TurnoID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

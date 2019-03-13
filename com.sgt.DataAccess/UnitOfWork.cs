@@ -28,6 +28,7 @@ namespace com.sgt.DataAccess
         private IAgendaBloqueosRepository agendaBloqueosRepository;
         private IAgendaRecesoRepository agendaRecesoRepository;
         private ISesionEstadosRepository sesionEstadosRepository;
+        private ITurnoRepeticionesRepository turnoRepeticionesRepository;
 
         public UnitOfWork(DbContext dbContext)
         {
@@ -98,5 +99,8 @@ namespace com.sgt.DataAccess
 
         public ISesionEstadosRepository RepoSesionEstados =>
             sesionEstadosRepository = sesionEstadosRepository ?? new SesionEstadosRepository(dbContext);
+
+        public ITurnoRepeticionesRepository RepoTurnoRepeticiones =>
+            turnoRepeticionesRepository= turnoRepeticionesRepository ?? new TurnoRepeticionesRepository(dbContext);
     }
 }
