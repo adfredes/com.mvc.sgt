@@ -17,7 +17,7 @@
         bindings: {
             sesion: "<?",
             onSave: "&?",
-            onCancel: "&?"
+            onCancel: "&?"            
         }
     });
 
@@ -87,8 +87,6 @@
             }
         };
 
-
-
         vm.horaClick = (hora, consultorioID) => {
             //vm.sesion.FechaHora = moment(vm.sesion.FechaHora).getDate()
             ConsultorioID = consultorioID;
@@ -133,7 +131,7 @@
                     Numero: vm.sesion.Numero,
                     ConsultorioID: ConsultorioID,
                     TurnoSimultaneo: 0,
-                    Estado: vm.sesion.Estado,
+                    Estado: vm.sesion.Estado == 8 ? vm.sesion.Estado : 2,
                     FechaHora: _fechaHora,
                     Habilitado: true
                 };

@@ -74,9 +74,15 @@
 
         vm.turnoChange = () =>
         {
-            Estados = [];
-            Consultorios = [];
-            getConsultorios();
+            console.log(vm.turno.ID);
+            if (vm.turno.ID == 0) {
+                vm.turno = {};
+            }
+            else {
+                Estados = [];
+                Consultorios = [];
+                getConsultorios();
+            }                                   
         };
 
         vm.$onChanges = (change) => {

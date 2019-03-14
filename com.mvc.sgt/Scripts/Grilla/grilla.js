@@ -241,7 +241,7 @@
         calendario.addEventListener("change", function (e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             //options.fecha = getPrevDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
             //dibujarGrilla();
         });
@@ -677,7 +677,7 @@
         //function CancelarReserva(celda) {
         function CancelarReserva(divReserva) {
             //let divReserva = celda.children[0];
-            
+
             if (divReserva.dataset.turnoid > 0) {
                 anularSesionesPendientes(divReserva.dataset.turnoid);
                 /*let url = Domain + 'Sesion/Reserva/Delete';
@@ -719,7 +719,7 @@
             modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickBloquear);
 
             modal.querySelector('#btnBloquearReservarModal').addEventListener('click', bloquear ? clickBloquear : clickReservar);
-            
+
             $('#bloquearReservarModal').modal();
         };
 
@@ -731,6 +731,27 @@
             modal.querySelector('#btnCancelarSesionModal').removeEventListener('click', clickCancelarSesion);
             modal.querySelector('#btnCancelarSesionModal').addEventListener('click', clickCancelarSesion);
             $('#cancelarSesionModal').modal();
+        };
+
+        let showModalAngularComponent = (modalName, elementName, value) => {
+            modal = options.divGrilla.querySelector(modalName);
+            if (modal) {
+                let elementID = modal.querySelector(elementName);
+                if (elementID) {
+                    let evt = document.createEvent("HTMLEvents");
+                    evt.initEvent("input", false, true);
+                    if (elementID.value == value) {
+                        elementID.value = 0;
+                        elementID.dispatchEvent(evt);
+                    }
+
+
+                    elementID.value = value;
+                    elementID.dispatchEvent(evt);
+
+                    $(modalName).modal("show");
+                }
+            }
         };
 
         function contextMenuClick(key, opt, e) {
@@ -759,60 +780,21 @@
                     showModalCancelarSesion(opt.$trigger[0].dataset.id, opt.$trigger[0].dataset.turnoid);
                     break;
                 case 'cambiarTurno':
-                    let sesionView = options.divGrilla.querySelector('#ctrlEditSesionGrilla');
-                    let dSesionID = sesionView.querySelector("#dSesionID");
-                    if (dSesionID) {
-                        dSesionID.value = opt.$trigger[0].dataset.id;
-
-                        let evt = document.createEvent("HTMLEvents");
-                        evt.initEvent("input", false, true);
-                        dSesionID.dispatchEvent(evt);
-                        $("#EditSesionGrilla").modal("show");
-                    }
+                    showModalAngularComponent('#EditSesionGrilla', '#dSesionID', opt.$trigger[0].dataset.id);
                     break;
 
                 case 'datosPaciente':
-                    let pacienteView = options.divGrilla.querySelector('#ctrlPacienteViewAgenda');
-                    let hPacienteID = pacienteView.querySelector("#hPacienteID");
-                    if (hPacienteID) {
-                        hPacienteID.value = opt.$trigger[0].dataset.pacienteid;
-
-                        let evt = document.createEvent("HTMLEvents");
-                        evt.initEvent("input", false, true);
-                        pacienteView.querySelector("#hPacienteID").dispatchEvent(evt);
-                        $("#agendaViewPaciente").modal("show");
-                    }
+                    showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
-                case 'datosSesiones':                                        
-                    modal = options.divGrilla.querySelector('#sesionesPacienteModal');                    
-                    if (modal) {
-                        let pacienteID = modal.querySelector("#PacienteID");                       
-                        if (pacienteID) {                            
-                            pacienteID.value = opt.$trigger[0].dataset.pacienteid;
 
-                            let evt = document.createEvent("HTMLEvents");
-                            evt.initEvent("input", false, true);
-                            pacienteID.dispatchEvent(evt);
-                            $("#sesionesPacienteModal").modal("show");
-                        }
-                        //TurnoAsignarPacienteModal
-                    }
+                case 'datosSesiones':
+                    showModalAngularComponent('#sesionesPacienteModal', '#PacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
+
                 case 'datosTurno':
-                    modal = options.divGrilla.querySelector('#TurnoAsignarPacienteModal');
-                    if (modal) {
-                        let turnoID = modal.querySelector("#TurnoID");
-                        if (turnoID) {                            
-                            turnoID.value = opt.$trigger[0].dataset.turnoid;
-
-                            let evt = document.createEvent("HTMLEvents");
-                            evt.initEvent("input", false, true);
-                            turnoID.dispatchEvent(evt);
-                            $("#TurnoAsignarPacienteModal").modal("show");
-                        }
-                        //TurnoAsignarPacienteModal
-                    }
+                    showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', opt.$trigger[0].dataset.turnoid);
                     break;
+
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
                     let btn = modal.querySelector('#btnPosponerTurno');
@@ -820,26 +802,15 @@
                     btn.addEventListener('click', btnPosponerSesion_click);
                     modal.dataset.turnoid = opt.$trigger[0].dataset.turnoid;
                     modal.dataset.numero = opt.$trigger[0].dataset.numero;
-                    
                     $('#posponerTurnoModal').modal('show');
                     break;
+
                 case 'confirmado':
                     setEstadoConfirmado(opt.$trigger[0].dataset.id);
                     break;
-                case 'asignarPaciente':
-                    modal = options.divGrilla.querySelector('#TurnoAsignarPacienteModal');
-                    if (modal) {
-                        let turnoID = modal.querySelector("#TurnoID");
-                        if (turnoID) {
-                            
-                            turnoID.value = opt.$trigger[0].dataset.turnoid;
 
-                            let evt = document.createEvent("HTMLEvents");
-                            evt.initEvent("input", false, true);
-                            turnoID.dispatchEvent(evt);
-                            $("#TurnoAsignarPacienteModal").modal("show");
-                        }
-                    }
+                case 'asignarPaciente':
+                    showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', opt.$trigger[0].dataset.turnoid);
                     break;
             }
         }
@@ -1001,7 +972,7 @@
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             `${sesion.Paciente}\n${sesion.Numero} / ${sesion.CantidadSesiones}`;
                         celda.dataset.sobreturno = "true";
-                        rCelda = options.tabla.querySelector(idCelda);                        
+                        rCelda = options.tabla.querySelector(idCelda);
                         let divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML += getDivTurno(divId, sesion);
                         celda.innerHTML = celda.innerHTML.replace(/h-100/g, "h-50");
@@ -1032,8 +1003,8 @@
                     }
                 }
                 else {
-                    
-                    if (celda.dataset.parentid || celda.innerHTML.includes("div")) {                        
+
+                    if (celda.dataset.parentid || celda.innerHTML.includes("div")) {
                         //options.divGrilla.querySelector(celSesionID).rowSpan = i;
                         i = t;
                     }
@@ -1084,16 +1055,19 @@
     }
 
     function deleteSesionGrilla(celda) {
-        let id = CeldaIdToObject(celda.id);
-        let hora = id.hora;
-        let idCelda = celda.id;
-        setCeldaDroppable(options.tabla.querySelector(`#${idCelda}`));
-        for (let rs = celda.rowSpan; rs >= 1; rs--) {
-            let nuevaHora = sesionSiguiente(hora);
-            CleanCelda(options.tabla.querySelector(`#${idCelda}`));
-            idCelda = idCelda.replace('H' + hora, 'H' + nuevaHora);
-            hora = nuevaHora;
+        if (celda) {
+            let id = CeldaIdToObject(celda.id);
+            let hora = id.hora;
+            let idCelda = celda.id;
+            setCeldaDroppable(options.tabla.querySelector(`#${idCelda}`));
+            for (let rs = celda.rowSpan; rs >= 1; rs--) {
+                let nuevaHora = sesionSiguiente(hora);
+                CleanCelda(options.tabla.querySelector(`#${idCelda}`));
+                idCelda = idCelda.replace('H' + hora, 'H' + nuevaHora);
+                hora = nuevaHora;
+            }
         }
+
     }
 
     function CleanCelda(celda) {
@@ -1348,25 +1322,25 @@
                 }
 
 
-               
-                    _sesiones.forEach(s => {
-                        s.Estado = motivo.value;
-                        delete (s.sesiones);
+
+                _sesiones.forEach(s => {
+                    s.Estado = motivo.value;
+                    delete (s.sesiones);
+                });
+                _newSesiones = _newSesiones.concat(_sesiones);
+                let url = Domain + "Sesion/CambiarFecha/SobreTurno";
+
+                let promise = ajaxPromise("PUT", url, _newSesiones);
+                promise.then(data => dibujarGrilla()
+                    , data => {
+                        showErrorMessage('Cambio de Turno', data);
+                        dibujarGrilla();
                     });
-                    _newSesiones = _newSesiones.concat(_sesiones);
-                    let url = Domain + "Sesion/CambiarFecha/SobreTurno";
 
-                    let promise = ajaxPromise("PUT", url, _newSesiones);
-                    promise.then(data => dibujarGrilla()
-                        , data => {
-                            showErrorMessage('Cambio de Turno', data);
-                            dibujarGrilla();
-                        });
 
-               
             }
 
-            
+
 
 
             $("#cambiarTurnoDroppedModal").modal('hide');
@@ -1378,7 +1352,7 @@
             btnCancelar.removeEventListener('click', btnCancelar_click);
             $("#cambiarTurnoDroppedModal").modal('hide');
         };
-        
+
         let modal = options.divGrilla.querySelector('#cambiarTurnoDroppedModal');
         let btnGuardar = modal.querySelector('#btnCambiarTurnoDropped');
         let btnCancelar = modal.querySelector('#btnCancelarCambiarTurnoDropped');
@@ -1391,7 +1365,7 @@
 
         if (celda.classList.contains('turno-tomado')) {
             cmbSesiones.value = celda.rowSpan;
-            cmbSesiones.disabled = true;            
+            cmbSesiones.disabled = true;
             sobreturno = true;
         }
         else {
@@ -1400,7 +1374,7 @@
             sobreturno = false;
         }
 
-        
+
 
         btnGuardar.addEventListener('click', btnCambiar_click);
         btnCancelar.addEventListener('click', btnCancelar_click);
@@ -1491,7 +1465,7 @@
 
     function changeEstadoOK(data) {
         let _sesion = JSON.parse(JSON.parse(data));
-        
+
         let _divSesion = options.tabla.querySelector(`div[data-id='${_sesion.ID}']`);
 
         _divSesion.innerHTML = getDivTurnoInnerHTML(_sesion);
@@ -1709,7 +1683,7 @@
                     }
                     body.push(row);
                 }
-                
+
                 content.push({
                     style: 'tableExample',
                     table: {

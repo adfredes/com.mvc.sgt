@@ -43,6 +43,7 @@ namespace com.mvc.sgt.Controllers
             var model = new List<DiagnosticoModel>();
             var paciente = this.pacienteService.Find(id);
             Response.StatusCode = (int) HttpStatusCode.OK;
+            if (paciente != null) { 
             paciente.Turnoes
                 .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0)
                 .OrderBy(p => p.Fecha).ToList()
@@ -51,6 +52,7 @@ namespace com.mvc.sgt.Controllers
                     Fecha = t.Fecha,
                     Diagnostico = t.Diagnostico
                 }));
+            }
             return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
         }
 

@@ -79,6 +79,12 @@ namespace com.mvc.sgt.Controllers
             List <string> horarios = new List<string>();            
             DateTime horaInicio = agenda.HoraDesde;
             DateTime horaFin = agenda.HoraHasta;
+            
+            if (agendaService.SearchFeriado(fecha,fecha).Count>0 || agendaService.SearchRecesos(fecha, fecha).Count > 0)
+            {
+                horaInicio = agenda.HoraHasta;
+                horaFin = agenda.HoraDesde;
+            }
             while (horaInicio <= horaFin)
             {
                 horarios.Add(horaInicio.ToString("HH:mm"));
