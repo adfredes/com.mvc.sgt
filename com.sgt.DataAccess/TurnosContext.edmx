@@ -382,6 +382,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="CantidadSesiones" Type="int" />
           <Property Name="Diagnostico" Type="varchar(max)" />
           <Property Name="Fecha" Type="smalldatetime" />
+          <Property Name="TipoSesionID" Type="int" />
         </EntityType>
         <EntityType Name="Turno_Repeticiones">
           <Key>
@@ -1636,6 +1637,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <NavigationProperty Name="Paciente" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
           <NavigationProperty Name="Sesions" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Turno" ToRole="Sesion" />
           <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
+          <Property Name="TipoSesionID" Type="Int32" />
         </EntityType>
         <Association Name="FK_Sesion_Agenda">
           <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -2100,6 +2102,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySetMapping Name="Turnoes">
             <EntityTypeMapping TypeName="TurnosModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
                 <ScalarProperty Name="CantidadSesiones" ColumnName="CantidadSesiones" />

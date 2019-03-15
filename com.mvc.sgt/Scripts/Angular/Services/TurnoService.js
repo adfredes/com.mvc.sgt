@@ -145,6 +145,63 @@
 
         };
 
+        $this.AgregarSesionesTurno = (turno, success) => {
+            
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-warning">
+                                    <h5 class="modal-title">Agregar Sesiones</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">                                            
+                                        <input type="number" ng-model="cantidad"/>                                                                        
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer()'><span class='icon-ok'></span> Aceptar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+                $scope.cantidad = 4;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function () {
+                    $mdDialog.hide($scope.cantidad);
+                };
+            }
+
+            $mdDialog.show({
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { turno: turno }
+            })
+                .then(answer => {
+                    let url = "Turno/AgregarSesiones";
+                    let params = {};
+                    
+                    turno.CantidadSesiones = turno.CantidadSesiones + answer;
+                    params.modal = turno;                    
+                    console.dir(turno);
+                    let promise = crudService.PutHttp(url, turno);
+                    success(promise);
+                })
+                .catch(() => undefined);
+
+
+        };
+
         $this.cancelarTurno = (TurnoID, success) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>

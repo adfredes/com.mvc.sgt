@@ -14,7 +14,7 @@
             sessionStorage.removeItem('VistaGrillaTurnos');
             sessionStorage.removeItem('FechaGrillaTurnos');
         }
-        return (sesionST);
+        return sesionST;
     };
 
 
@@ -201,7 +201,7 @@
                 let _desde = e.hora.substr(0, 2) + ':' + e.hora.substr(2, 2);
                 let _hasta = sesionSiguiente(e.sesiones[e.sesiones.length - 1].hora);
                 _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);
-                innerDiv += `<li>${_fecha} ${_desde} a ${_hasta} </li >`
+                innerDiv += `<li>${_fecha} ${_desde} a ${_hasta} </li >`;
             });
             innerDiv += "</ul>";
             divReservas.innerHTML = innerDiv;
@@ -299,7 +299,7 @@
     }
 
     function getPrevDate(currentDate) {
-        currentDate.setDate((currentDate.getDate() - (options.vista == 's' ? 7 : 1)));
+        currentDate.setDate(currentDate.getDate() - (options.vista == 's' ? 7 : 1));
         if (currentDate.getDay() == 0 || currentDate.getDay() == 6) {
             currentDate = getPrevDate(currentDate);
         }
@@ -536,7 +536,7 @@
                 showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
             }
             else {
-                let _celdaID = CeldaIdToObject(modal.dataset.id)
+                let _celdaID = CeldaIdToObject(modal.dataset.id);
                 let _hora = _celdaID.hora;
                 let sesionReserva = {
                     "AgendaID": 1,
@@ -849,13 +849,13 @@
                                 </li>
                             </ul>
                         </nav>
-                    </caption>`
+                    </caption>`;
     }
 
     function renderGrilla() {
         let tablaInner = '<thead>';
         let totalCol = 0;
-        tablaInner += `<tr><td rowspan="2" style="width:auto;margin:0px;padding:0px">Hora</td>`
+        tablaInner += `<tr><td rowspan="2" style="width:auto;margin:0px;padding:0px">Hora</td>`;
         options.dias.forEach(d => {
             tablaInner += `<td colspan=${getTotalConsultorios(options.consultorios)} class="center"><span class='etiqueta-dia'>${d.Name}</span> <br> <a href="#" class='ref-dia' data-fecha="${d.Fecha}">${d.Fecha}</a></td>`;
         });
@@ -865,7 +865,7 @@
         options.dias.forEach(d => {
             let fechaID = d.Fecha.split('/')[2] + d.Fecha.split('/')[1] + d.Fecha.split('/')[0];
             options.consultorios.forEach(e => {
-                tablaInner += `<td class="tabla-consultorio" id="F${fechaID}C${e.ID}" colspan="${e.TurnosSimultaneos}">${e.Descripcion}</td>`
+                tablaInner += `<td class="tabla-consultorio" id="F${fechaID}C${e.ID}" colspan="${e.TurnosSimultaneos}">${e.Descripcion}</td>`;
                 totalCol += e.TurnosSimultaneos;
             });
         });
@@ -883,7 +883,7 @@
                         tablaInner += `<td class="turno-receso"
                                         id="${d.Fecha}R$"
                                         width:${100 / options.dias.length}%'
-                                        rowSpan="${options.horarios.length}" colSpan="${totalCol / options.dias.length}"><p>RECESO</p></td>`
+                                        rowSpan="${options.horarios.length}" colSpan="${totalCol / options.dias.length}"><p>RECESO</p></td>`;
                     }
                 }
                 else {
@@ -892,7 +892,7 @@
                             tablaInner += `<td class="turno-feriado"
                                         id="${d.Fecha}R$"
                                         width:${100 / options.dias.length}%'
-                                        rowSpan="${options.horarios.length}" colSpan="${totalCol / options.dias.length}"><p>FERIADO</p></td>`
+                                        rowSpan="${options.horarios.length}" colSpan="${totalCol / options.dias.length}"><p>FERIADO</p></td>`;
                         }
                     }
                     else {
@@ -902,7 +902,7 @@
                             for (let i = 1; i <= c.TurnosSimultaneos; i++) {
                                 tablaInner += `<td class="celda-turno turno-vacio celda-droppable"
                                         id="${celdaID}S${i}" style='background-color:${c.Color};
-                                        width:${100 / totalCol}%' data-estado="0" data-bk="${c.Color}"></td>`
+                                        width:${100 / totalCol}%' data-estado="0" data-bk="${c.Color}"></td>`;
                             }
                         });
                     }
@@ -912,7 +912,7 @@
 
             tablaInner += '</tr>';
         });
-        tablaInner += '</tbody>'
+        tablaInner += '</tbody>';
 
         options.tabla.innerHTML = getCaption() + tablaInner;
         addListener();
@@ -1075,10 +1075,10 @@
         celda.innerHTML = '';
         celda.className = "celda-turno turno-vacio";
         celda.style.display = 'table-cell';
-        celda.draggable = "false"
+        celda.draggable = "false";
         celda.rowSpan = 1;
         for (let item in celda.dataset) {
-            delete (celda.dataset[item]);
+            delete celda.dataset[item];
         }
         celda.dataset.estado = "0";
         celda.dataset.bk = celda.style.backgroundColor;
@@ -1114,7 +1114,7 @@
     }
 
     function dragEndEvent(e) {
-        let celdaId = e.target.id.split('D')[0]
+        let celdaId = e.target.id.split('D')[0];
         let celda = options.tabla.querySelector(celdaId);
     }
 
@@ -1122,7 +1122,7 @@
         celda.removeEventListener('dragenter', dragenterEvent);
         celda.removeEventListener('dragleave', dragleaveEvent);
         celda.removeEventListener('dragover', dragoverEvent);
-        celda.removeEventListener('drop', dropEvent)
+        celda.removeEventListener('drop', dropEvent);
         celda.classList.remove('celda-droppable');
     }
 
@@ -1275,7 +1275,7 @@
                 if (validarSesiones(_newSesiones)) {
                     _sesiones.forEach(s => {
                         s.Estado = motivo.value;
-                        delete (s.sesiones);
+                        delete s.sesiones;
                     });
                     _newSesiones = _newSesiones.concat(_sesiones);
                     let url = Domain + "Sesion/CambiarFecha";
@@ -1325,7 +1325,7 @@
 
                 _sesiones.forEach(s => {
                     s.Estado = motivo.value;
-                    delete (s.sesiones);
+                    delete s.sesiones;
                 });
                 _newSesiones = _newSesiones.concat(_sesiones);
                 let url = Domain + "Sesion/CambiarFecha/SobreTurno";
@@ -1469,7 +1469,7 @@
         let _divSesion = options.tabla.querySelector(`div[data-id='${_sesion.ID}']`);
 
         _divSesion.innerHTML = getDivTurnoInnerHTML(_sesion);
-        _divSesion.dataset.estado = _sesion.Estado
+        _divSesion.dataset.estado = _sesion.Estado;
         _divSesion.draggable = _sesion.Estado == 2 ? true : false;
     }
 
@@ -1581,7 +1581,7 @@
 
             function xhr_error(e) {
                 //JSONP: Json con Padding
-                reject("Network Error")
+                reject("Network Error");
 
             }
 
@@ -1596,7 +1596,7 @@
         });
 
 
-    /****PDF******/
+    //PDF
     function createPDF(data) {
 
         function createTableDoc(_tabla) {
@@ -1665,7 +1665,7 @@
                         //rowSpan: table.rows[y].cells[0].rowSpan,
                         fontSize: 7
                     });
-                    for (let x = (num * totalConsultorios) + 1; x < ((num + 1) * totalConsultorios) + 1; x++) {
+                    for (let x = num * totalConsultorios + 1; x < (num + 1) * totalConsultorios + 1; x++) {
                         if (table.rows[y].cells[x].style.display != "none")
                             row.push({
                                 text: table.rows[y].cells[x].dataset.print ? table.rows[y].cells[x].dataset.print : "",
@@ -1691,10 +1691,10 @@
                         // you can declare how many rows should be treated as headers
                         headerRows: 2,
                         widths: widths,
-                        body: body,
+                        body: body
                     }
                 });
-                content.push({ text: '', pageBreak: 'after' })
+                content.push({ text: '', pageBreak: 'after' });
             }
 
 

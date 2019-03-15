@@ -377,6 +377,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <Property Name="CantidadSesiones" Type="int" />
     <Property Name="Diagnostico" Type="varchar(max)" />
     <Property Name="Fecha" Type="smalldatetime" />
+    <Property Name="TipoSesionID" Type="int" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>

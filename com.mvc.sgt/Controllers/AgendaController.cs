@@ -342,6 +342,24 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [HttpPut]
+        [Route("Turno/AgregarSesiones")]
+        public JsonResult AgregarSesiones(Turno model)
+        {
+            try
+            {
+                var turno = Mapper.Map<Turno>(model);
+                this.AgendaService.AgregarSesiones(turno,true);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json("ok");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("Turno/AsignarPaciente")]
         public ActionResult AsignarPacienteView()

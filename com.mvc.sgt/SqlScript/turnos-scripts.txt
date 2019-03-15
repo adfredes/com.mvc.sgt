@@ -68,6 +68,10 @@ alter table dbo.Turno
   alter table dbo.Turno
   add Fecha smalldatetime;
 
+  alter table dbo.Turno
+add TipoSesionID int;
+
+
 alter table dbo.Paciente 
 add Foto varchar(MAX)
 

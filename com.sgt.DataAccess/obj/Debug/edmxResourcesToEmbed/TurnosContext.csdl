@@ -742,6 +742,7 @@
     <NavigationProperty Name="Paciente" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
     <NavigationProperty Name="Sesions" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Turno" ToRole="Sesion" />
     <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
+    <Property Name="TipoSesionID" Type="Int32" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />

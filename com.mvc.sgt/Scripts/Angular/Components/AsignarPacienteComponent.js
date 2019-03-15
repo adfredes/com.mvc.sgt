@@ -159,6 +159,13 @@
 
         };
 
+        vm.agregarSesiones = () => {
+            turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
+                promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                    .catch(error => { });
+            });
+        };
+
         
 
 
