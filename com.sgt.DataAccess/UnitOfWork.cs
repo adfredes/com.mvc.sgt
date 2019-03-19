@@ -30,7 +30,7 @@ namespace com.sgt.DataAccess
         private ISesionEstadosRepository sesionEstadosRepository;
         private ITurnoRepeticionesRepository turnoRepeticionesRepository;
 
-        public UnitOfWork(DbContext dbContext)
+        public UnitOfWork(TurnosDB dbContext)
         {
             this.dbContext = dbContext;
         }

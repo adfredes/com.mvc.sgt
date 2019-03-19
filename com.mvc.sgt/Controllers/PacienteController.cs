@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace com.mvc.sgt.Controllers
 {
+    [Authorize]
     public class PacienteController : Controller
     {
 

@@ -14,6 +14,7 @@ using com.sgt.DataAccess.ExtensionMethod;
 
 namespace com.mvc.sgt.Controllers
 {
+    [Authorize]
     public class ConsultorioController : Controller
     {
         private IConsultorioService consultorioService;

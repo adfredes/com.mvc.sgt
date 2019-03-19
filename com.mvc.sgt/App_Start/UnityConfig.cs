@@ -3,10 +3,16 @@ using com.sgt.DataAccess.Interfaces;
 using com.sgt.DataAccess.Repositories;
 using com.sgt.services.Interfaces;
 using com.sgt.services.Services;
+using IdentitySample.Controllers;
+using IdentitySample.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Data.Entity;
 using System.Web.Http;
 using System.Web.Mvc;
 using Unity;
+using Unity.Injection;
 
 namespace com.mvc.sgt
 {
@@ -72,7 +78,13 @@ namespace com.mvc.sgt
             container.RegisterType<System.Data.Entity.DbContext, TurnosDB>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
 
-            
+            container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
+            container.RegisterType<UserManager<ApplicationUser>>();
+            container.RegisterType<DbContext, ApplicationDbContext>();
+            container.RegisterType<ApplicationUserManager>();
+            container.RegisterType<AccountController>(new InjectionConstructor());
+
+
         }
 
         public static void RegisterComponents()

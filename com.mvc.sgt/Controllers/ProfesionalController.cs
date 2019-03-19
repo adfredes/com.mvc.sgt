@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace com.mvc.sgt.Controllers
 {
+    [Authorize]
     public class ProfesionalController : Controller
     {
         private readonly IProfesionalService profesionalService;

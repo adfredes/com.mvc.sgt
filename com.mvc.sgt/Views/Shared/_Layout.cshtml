@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,7 +15,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body ng-app="sgtApp">
-    <header ng-controller="navbarController as nvCtr">      
+    <header ng-controller="navbarController as nvCtr">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top fixed-index p-2">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,9 +24,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" ng-class="{active: nvCtr.activeLink=='turnos'}">
                         <a class="navbar-brand" href="#" ng-click="nvCtr.changeLink('turnos');">
-                            <img  src="~/Content/img/logo_calendar.png" 
-                                 class="d-inline-block align-middle img p-0" 
-                                 style="box-shadow: none; height:60px; " alt="" />                            
+                            <img src="~/Content/img/logo_calendar.png"
+                                 class="d-inline-block align-middle img p-0"
+                                 style="box-shadow: none; height:60px; " alt="" />
                         </a>
                     </li>
                     <li class="nav-item p-3" ng-class="{active: nvCtr.activeLink=='turnos'}">
@@ -51,13 +52,33 @@
                     <li class="nav-item p-3">
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        {
+                            @Html.AntiForgeryToken()                           
+                            <li class="nav-item p-3"><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link">Log out</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="nav-item p-3">
+                            @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link" })
+                        </li>
+                    }
                 </ul>
+
+                
+
             </div>
-            <search-paciente view-enabled="true">                                            
-            </search-paciente>
+            @if (Request.IsAuthenticated)
+            {
+                <search-paciente view-enabled="true">
+                </search-paciente>
+            }
         </nav>
     </header>
-    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">        
+    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">
         @RenderBody()
     </main>
     <hr />
@@ -65,6 +86,6 @@
 
     <footer class="container-fluid body-content mt-1 pt-1">
         <p class="text-center">&copy; @DateTime.Now.Year - Gestión de Turnos{{4+5}}</p>
-    </footer>    
+    </footer>
 </body>
 </html>

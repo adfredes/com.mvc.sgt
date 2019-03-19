@@ -11,6 +11,7 @@ using com.mvc.sgt.Controllers.Filters;
 
 namespace com.mvc.sgt.Controllers
 {
+    [Authorize]
     public class AseguradoraController : Controller
     {
 
