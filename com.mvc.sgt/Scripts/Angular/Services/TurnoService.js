@@ -168,7 +168,7 @@
                               </form>
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
-                $scope.cantidad = 4;
+                $scope.cantidad = 0;
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
@@ -189,8 +189,7 @@
             })
                 .then(answer => {
                     let url = "Turno/AgregarSesiones";
-                    let params = {};
-                    
+                    let params = {};                    
                     turno.CantidadSesiones = turno.CantidadSesiones + answer;
                     params.modal = turno;                    
                     console.dir(turno);

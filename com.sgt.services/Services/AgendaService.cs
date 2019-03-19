@@ -182,6 +182,19 @@ namespace com.sgt.services.Services
         public ICollection<Sesion> BloquearSesion(Turno turno)
         {
             turno.Estado = (short)EstadoTurno.Bloqueado;
+            turno.Turno_Repeticiones.Add(
+                new Turno_Repeticiones
+                {
+                    ConsultorioID = turno.Sesions.ToList()[0].ConsultorioID,
+                    DiaSemana =(int) turno.Sesions.ToList()[0].FechaHora.DayOfWeek,
+                    FechaModificacion=turno.FechaModificacion,
+                    Frecuencia=7,
+                    Modulos= turno.Sesions.ToList().Count(),
+                    Posicion=1,
+                    UsuarioModificacion=turno.UsuarioModificacion,
+                    Hora= turno.Sesions.ToList()[0].FechaHora
+                }
+                );
             foreach (var sesion in turno.Sesions)
             {
                 sesion.Estado = (short)EstadoSesion.Bloqueado;
@@ -423,18 +436,32 @@ namespace com.sgt.services.Services
         {
             bool isValid = true;
             int cantidad = sobreturno ? 1 : 0;
-            foreach (var sesion in sesiones)
+            var pp = GetAgenda();
+                                    
+            if (sesiones.Where(s => s.FechaHora.Hour > pp.HoraHasta.Hour
+                || (s.FechaHora.Hour == pp.HoraHasta.Hour && s.FechaHora.Minute > pp.HoraHasta.Minute)
+                ).ToList().Count() > 0)
             {
-                if (unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
-                 && x.TurnoSimultaneo == sesion.TurnoSimultaneo &&
-                 EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)).Count() > cantidad)
-                {
-                    isValid = false;
-                    break;
-                }
+                isValid = false;
+                throw new Exception("La sesión finaliza despues del horario de cierre del consultorio.");
             }
-            isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
-            isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+            else
+            {
+                foreach (var sesion in sesiones)
+                {
+                    if (unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
+                     && x.TurnoSimultaneo == sesion.TurnoSimultaneo &&
+                     EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)).Count() > cantidad)
+                    {
+                        isValid = false;
+                        break;
+                    }
+                }
+                isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+                isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+            }
+
+                        
             return isValid;
         }
 

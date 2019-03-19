@@ -25,8 +25,7 @@
             vm.initPage = 0;            
             vm.registerCount = 0;
             vm.turnos = [];
-            vm.turno = {};
-            console.log("************" + vm.PacienteID);
+            vm.turno = {};            
             getConsultorios();
         };
 
@@ -83,8 +82,7 @@
             let promise = turnoService.getTurnosPaciente(id);
             promise.then(data => {   
                 
-                vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));
-                console.log("**************");
+                vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                
                 vm.turno = vm.turnos[0];
                 vm.registerCount = vm.turnos.length;
             })
@@ -143,6 +141,13 @@
             })
                 .catch(err => { });
 
+        };
+
+        vm.agregarSesiones = () => {
+            turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
+                promise.then(data => { eventService.UpdateTurnos(); })
+                    .catch(error => { });
+            });
         };
     }
 })();

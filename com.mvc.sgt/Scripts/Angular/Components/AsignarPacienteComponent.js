@@ -161,7 +161,7 @@
 
         vm.agregarSesiones = () => {
             turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
-                promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                promise.then(data => { getTurno(vm.turno.ID); eventService.UpdateTurnos(); })
                     .catch(error => { });
             });
         };
