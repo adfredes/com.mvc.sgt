@@ -6,7 +6,8 @@
         templateUrl: Domain + 'Turno/AsignarPaciente',
         bindings: {
             turno: "<?",
-            divid: "@"  
+            divid: "@", 
+            onChanges: "&?"
         },
         controller: ['turnoService', 'eventService', asignarPacienteController]
     });
@@ -73,9 +74,8 @@
         };
 
         vm.turnoChange = () =>
-        {
-            console.log(vm.turno.ID);
-            if (vm.turno.ID == 0) {
+        {            
+            if (!vm.turno || !vm.turno.ID || vm.turno.ID == 0) {
                 vm.turno = {};
             }
             else {
@@ -86,9 +86,8 @@
         };
 
         vm.$onChanges = (change) => {
-            Estados = [];
-            Consultorios = [];
-            getConsultorios();
+            console.dir(change);
+            vm.turnoChange();
         };
 
         vm.SelectPaciente = data => {            
@@ -122,6 +121,9 @@
                 .then(data => {
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                     eventService.UpdateTurnos();
+                    if (vm.onChanges) {
+                        vm.onChanges()();
+                    }
                 })
                 .catch(error => { });
         };
@@ -131,12 +133,21 @@
                 promise.then(data => {
                     getTurno(vm.turno.ID);
                     eventService.UpdateTurnos();
+                    if (vm.onChanges) {
+                        vm.onChanges()();
+                    }
                 });
             });
             
         };
 
-        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion);
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {            
+                getTurno(vm.turno.ID);
+                console.dir(data);
+                if (vm.onChanges) {
+                    vm.onChanges()();
+                }            
+        });
 
         vm.changeSesionState = (asistio) => {
             let sesiones = [];            
@@ -154,6 +165,9 @@
             promise.then(data => {
                 getTurno(vm.turno.ID);
                 eventService.UpdateTurnos();
+                if (vm.onChanges) {
+                    vm.onChanges()();
+                }
             })
                 .catch(err => { });
 
@@ -161,7 +175,13 @@
 
         vm.agregarSesiones = () => {
             turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
-                promise.then(data => { getTurno(vm.turno.ID); eventService.UpdateTurnos(); })
+                promise.then(data => {
+                    getTurno(vm.turno.ID);
+                    eventService.UpdateTurnos();
+                    if (vm.onChanges) {
+                        vm.onChanges()();
+                    }
+                })
                     .catch(error => { });
             });
         };

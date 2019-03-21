@@ -192,7 +192,8 @@
             let innerDiv = `<p><span class='icon-calendar'></span>
                                     Reservas
                                     <span id="btnDivReservasCancelar" class="icon-cancel"></span>
-                                    <span id="btnDivReservasAceptar" class="icon-ok">
+                                    <span id="btnDivReservasAceptar" class="icon-ok"></span>
+                                    <span>&nbsp</span>
                                 </p>
                                 <ul>`;
             options.sesionesReservadas.sort((a, b) => parseInt(a.fecha) - parseInt(b.fecha));
@@ -1179,61 +1180,7 @@
     */
 
     /*Cambiar Turno*/
-    function cambiarTurnoDropped(celda, divId) {
-        /*let btnCambiar_click = e => {
-            btnGuardar.removeEventListener('click', btnCambiar_click);
-
-            let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
-            let _newSesiones = [];
-            let _hora = celda.id.substr(celda.id.indexOf('H') + 1, 4);
-            let _fecha = celda.id.substr(celda.id.indexOf('F') + 1, 8);
-            let _turnoSimultaneo = celda.id.split('S')[1];
-            let _consultorioID = celda.id.substr(celda.id.indexOf('C') + 1, celda.id.indexOf('S') - celda.id.indexOf('C') - 1);
-
-            for (let i = 0; i < parseInt(cmbSesiones.value); i++) {
-                let _sesion = i < _sesiones.length ? _sesiones[i] : _sesiones[0];
-                delete (_sesion.sesiones);
-
-                let _newSesion = JSON.parse(JSON.stringify(_sesion));
-                _newSesion.FechaHora = parseFechaHora(_fecha, _hora);
-                _newSesion.ConsultorioID = _consultorioID;
-                _newSesion.TurnoSimultaneo = _turnoSimultaneo;
-                _newSesion.ID = i < _sesiones.length ? _sesion.ID : null;
-                _newSesion.fecha = _fecha;
-                _newSesion.hora = _hora;
-                _newSesion.Habilitado = true;
-                _newSesiones.push(_newSesion);
-                _hora = sesionSiguiente(_hora);
-
-            }
-
-            let _id = options.sesiones.findIndex(se =>
-                se.ConsultorioID == _newSesiones[0].ConsultorioID &&
-                se.TurnoSimultaneo == _newSesiones[0].TurnoSimultaneo &&
-                se.fecha == _newSesiones[0].fecha &&
-                parseInt(se.hora) >= parseInt(_newSesiones[0].hora) &&
-                parseInt(se.hora) <= parseInt(_newSesiones[_newSesiones.length - 1].hora));
-
-            if (validarSesiones(_newSesiones)) {
-                let url = Domain + "Sesion/CambiarFecha";
-
-                let promise = ajaxPromise("PUT", url, _newSesiones);
-                promise.then(data => dibujarGrilla()
-                    , data => {
-                        showErrorMessage('Cambio de Turno', data);
-                        dibujarGrilla();
-                    });
-
-            }
-            else {
-                showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
-            }
-
-
-            $("#cambiarTurnoDroppedModal").modal('hide');
-
-
-        }*/
+    function cambiarTurnoDropped(celda, divId) {      
 
         let btnCambiar_click = e => {
             btnGuardar.removeEventListener('click', btnCambiar_click);
@@ -1265,12 +1212,7 @@
                     _hora = sesionSiguiente(_hora);
                 }
 
-                /*let _id = options.sesiones.findIndex(se =>
-                    se.ConsultorioID == _newSesiones[0].ConsultorioID &&
-                    se.TurnoSimultaneo == _newSesiones[0].TurnoSimultaneo &&
-                    se.fecha == _newSesiones[0].fecha &&
-                    parseInt(se.hora) >= parseInt(_newSesiones[0].hora) &&
-                    parseInt(se.hora) <= parseInt(_newSesiones[_newSesiones.length - 1].hora));*/
+
 
                 if (validarSesiones(_newSesiones)) {
                     _sesiones.forEach(s => {
@@ -1292,8 +1234,7 @@
                     showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
                 }
             }
-            else {
-                alert("sobreturno");
+            else {               
                 let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
                 let _estado = parseInt(_sesiones[0].Estado);
 

@@ -921,6 +921,18 @@ namespace com.sgt.services.Services
 
             return turno;
         }
+
+        public List<Turno> GetTurnosSinFecha()
+        {
+            var sesiones = unitOfWork.RepoSesion.FindBy(s => (EstadoSesion)s.Estado == EstadoSesion.SinFechaLibre)
+                .Select(s => s.TurnoID).Distinct().ToList();
+            return unitOfWork.RepoTurno.FindBy(x =>
+                sesiones.Contains(x.ID)
+            )
+                .Distinct()
+                .OrderBy(t => t.Paciente.Apellido)
+                .ThenBy(t => t.Paciente.Nombre).ToList();
+        }
         #endregion
 
 

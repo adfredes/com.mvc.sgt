@@ -122,6 +122,9 @@ namespace com.mvc.sgt.App_Start
                 mapper.CreateMap<Turno, TurnoModel>()
                 .ReverseMap();
 
+                mapper.CreateMap<Turno, TurnoSinFecha>()
+                .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Paciente.Apellido + ", " + s.Paciente.Nombre));
+
             });
         }
     }

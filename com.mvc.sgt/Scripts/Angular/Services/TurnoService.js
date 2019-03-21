@@ -138,6 +138,8 @@
             return promise;
         };*/
 
+        $this.getTurnosSinFechaAsignada = () => crudService.GetPHttp('api/turno/SinFechaAsignada');
+
         $this.asignarPaciente = (turno) => {
             let url = "Turno/AsignarPaciente";                        
             let promise = crudService.PutHttp(url, turno);
@@ -155,8 +157,16 @@
                                   </div>
                                 </md-toolbar>
                                 <md-dialog-content>
-                                  <div class="md-dialog-content">                                            
-                                        <input type="number" ng-model="cantidad"/>                                                                        
+                                  <div class="md-dialog-content">                                                                                    
+                                        <div class="form-group">
+                                            <label >Sesiones
+                                                <input type="number" class="form-control" ng-model="cantidad" placeholder="">
+                                            </label>
+                                          </div>
+                                          <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="chkAgregarDias" ng-model="continuar">
+                                            <label class="form-check-label" for="chkAgregarDias">Continuar sesiones anteriores.</label>
+                                          </div>
                                   </div>
                                 </md-dialog-content>
 
@@ -169,6 +179,7 @@
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
                 $scope.cantidad = 0;
+                $scope.continuar = true;
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
@@ -176,7 +187,7 @@
                     $mdDialog.cancel();
                 };
                 $scope.answer = function () {
-                    $mdDialog.hide($scope.cantidad);
+                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar : $scope.continuar });
                 };
             }
 
@@ -190,10 +201,10 @@
                 .then(answer => {
                     let url = "Turno/AgregarSesiones";
                     let params = {};                    
-                    turno.CantidadSesiones = turno.CantidadSesiones + answer;
-                    params.modal = turno;                    
-                    console.dir(turno);
-                    let promise = crudService.PutHttp(url, turno);
+                    params.model = turno;
+                    params.sesiones = answer.cantidad;
+                    params.continuar = answer.continuar;                                        
+                    let promise = crudService.PutHttp(url, params);
                     success(promise);
                 })
                 .catch(() => undefined);
@@ -260,7 +271,7 @@
             let promise = crudService.PutHttp(url, turno);
             return promise;
         };
-
+        /*
         $this.openCambiarSesionModal = (sesion, success) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
@@ -313,8 +324,8 @@
                 })
                 .catch(() => undefined);
         };        
-        
-        $this.openCambiarSesionModal = (sesion) => {
+        */
+        $this.openCambiarSesionModal = (sesion, success) => {
             let modalHtml = `<md-dialog aria-label="Paciente">
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">
@@ -346,10 +357,11 @@
                 //locals: { turno: turno }
             })
                 .then(answer => {
-
+                    success(answer);
                 })
-                .catch(() => undefined);
+                .catch(() => success(undefined));
         };
+
         $this.openDiagnostico = (turno, success) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>

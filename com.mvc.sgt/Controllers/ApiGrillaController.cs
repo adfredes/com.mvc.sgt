@@ -133,5 +133,13 @@ namespace com.mvc.sgt.Controllers
             return Ok(sesiones);
         }
 
+        [HttpGet]
+        [Route("api/turno/SinFechaAsignada")]
+        public IHttpActionResult TurnoSinFecha()
+        {
+            var turnos = Mapper.Map<List<TurnoSinFecha>>(agendaService.GetTurnosSinFecha());
+            return Ok(turnos);
+        }
+
     }
 }

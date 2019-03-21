@@ -345,10 +345,11 @@ namespace com.mvc.sgt.Controllers
 
         [HttpPut]
         [Route("Turno/AgregarSesiones")]
-        public JsonResult AgregarSesiones(Turno model)
+        public JsonResult AgregarSesiones(Turno model, int sesiones, bool continuar)
         {
             try
             {
+                model.CantidadSesiones += sesiones;
                 var turno = Mapper.Map<Turno>(model);
                 this.AgendaService.AgregarSesiones(turno,true);
                 Response.StatusCode = (int)HttpStatusCode.OK;
@@ -367,6 +368,13 @@ namespace com.mvc.sgt.Controllers
         {
             return PartialView();
         }
+
+        [HttpGet]
+        [Route("Turno/SinFechaAsignada")]
+        public ActionResult TurnoSinFechaAsignada()
+        {
+            return PartialView();
+        }    
 
         [HttpPut]
         [Route("Turno/Diagnostico")]

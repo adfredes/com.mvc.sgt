@@ -43,5 +43,6 @@ namespace com.sgt.services.Interfaces
         Turno ConfirmarTurno(Turno turno);
         void EditDiagnosticoTurno(Turno turno);
         Turno AgregarSesiones(Turno turno, bool continuar);
+        List<Turno> GetTurnosSinFecha();
     }
 }

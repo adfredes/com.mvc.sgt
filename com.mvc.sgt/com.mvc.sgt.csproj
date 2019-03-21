@@ -300,6 +300,7 @@
     <Compile Include="Models\TipoSesionModel.cs" />
     <Compile Include="Models\TurnoModel.cs" />
     <Compile Include="Models\TurnoRepeticionesModel.cs" />
+    <Compile Include="Models\TurnoSinFecha.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
@@ -311,6 +312,7 @@
     </Content>
     <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteQuickCreateComponent.js" />
+    <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
     <Content Include="SqlScript\turnos-scripts.txt" />
@@ -1408,6 +1410,7 @@
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Agenda\TurnoSinFechaAsignada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

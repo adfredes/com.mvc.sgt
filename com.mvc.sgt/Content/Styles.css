@@ -186,6 +186,72 @@ input[readonly]{
     background: inherit !important;
 }
 
+/**********TurnoSinFechaComponent****************/
+.sinFechaComponent {
+    position: fixed;
+    top: 80px;
+    right: 0px;   
+    height: auto;
+    width: auto;
+    padding: 15px 1rem 10px 1rem;
+    background: rgb(71,119,168);
+    opacity: 0.6;
+    border-bottom-left-radius: 10px;
+    color: white;
+    transition: all 0.4s;
+    z-index: 500;
+}
+
+    .sinFechaComponent .boton {
+        color: #ccc;
+        cursor: pointer;                        
+    }
+
+        .sinFechaComponent .boton:hover {
+            color: #fff;            
+        }
+
+.sinFechaComponent > p {
+    margin: 0px;
+}
+
+.sinFechaComponent li {
+    list-style: none;
+    display: none;
+    margin: 0rem 1rem;
+}
+
+.sinFechaComponent:hover {
+    opacity: 1;
+}
+
+    .sinFechaComponent:hover > p:first-child > span:last-child::after {
+        content: "Hay Sesiones sin asignar.";
+        margin-left: 0.4rem;
+
+    }
+
+    .sinFechaComponent:hover li {
+        display: block;
+    }
+
+    .sinFechaComponent:hover ul {
+        display: block;
+        max-height: 40vh;
+        overflow: auto;
+    }
+
+.sinFechaComponent ul {
+    margin: 0px;
+    padding: 0px;
+    display: none;
+}
+
+.sinFechaComponent > p:first-child {
+    display: block;
+}
+
+
 
 /*********Semanal***********/
 .reservas {
@@ -203,7 +269,7 @@ input[readonly]{
     transition: all 0.4s;
     max-height: 50vh;
     overflow: auto;
-    z-index:500;
+    z-index: 500;
 }
 
 #btnDivReservasCancelar {
