@@ -77,16 +77,17 @@
         {            
             if (!vm.turno || !vm.turno.ID || vm.turno.ID == 0) {
                 vm.turno = {};
+                vm.continuar = false;
             }
             else {
+                vm.continuar = false;
                 Estados = [];
                 Consultorios = [];
                 getConsultorios();
             }                                   
         };
 
-        vm.$onChanges = (change) => {
-            console.dir(change);
+        vm.$onChanges = (change) => {            
             vm.turnoChange();
         };
 
@@ -117,7 +118,7 @@
         };
 
         vm.confirmarTurno = () => {
-            turnoService.confirmarTurno(vm.turno)
+            turnoService.confirmarTurno(vm.turno, vm.continuar)
                 .then(data => {
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                     eventService.UpdateTurnos();

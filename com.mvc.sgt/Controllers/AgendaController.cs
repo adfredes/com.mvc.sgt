@@ -344,14 +344,14 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPut]
+        [CreateUpdateActionFilter("admin")]
         [Route("Turno/AgregarSesiones")]
         public JsonResult AgregarSesiones(Turno model, int sesiones, bool continuar)
         {
             try
-            {
-                model.CantidadSesiones += sesiones;
+            {                
                 var turno = Mapper.Map<Turno>(model);
-                this.AgendaService.AgregarSesiones(turno,true);
+                this.AgendaService.AgregarSesiones(turno, sesiones, continuar);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json("ok");
             }
@@ -398,12 +398,12 @@ namespace com.mvc.sgt.Controllers
         [HttpPut]
         [Route("Turno/Confirmar")]
         [CreateUpdateActionFilter("admin")]
-        public JsonResult ConfirmarTurno(TurnoModel model)
+        public JsonResult ConfirmarTurno(TurnoModel model, bool continuar)
         {
             try
             {
                 var turno = Mapper.Map<Turno>(model);
-                turno = this.AgendaService.ConfirmarTurno(turno);
+                turno = this.AgendaService.ConfirmarTurno(turno, continuar);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json(JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno)));
             }

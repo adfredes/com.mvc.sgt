@@ -55,7 +55,7 @@ namespace com.sgt.DataAccess.Repositories
         }
 
         public TEntity Find(int id)
-        {
+        {            
             return Entity.Find(id);
         }
 

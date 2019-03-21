@@ -29,6 +29,10 @@
                     <fieldset>
                         <search-paciente on-change="$ctrl.SelectPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">
                         </search-paciente>
+                        <div class="form-check" ng-show="$ctrl.turno.Estado == 1 && $ctrl.turno.PacienteID > 0">
+                            <input type="checkbox" class="form-check-input" ng-model="$ctrl.continuar" id="checkContinuar">
+                            <label class="form-check-label" for="checkContinuar">Continuar sesiones anteriores.</label>
+                        </div>
                     </fieldset>
                     
                     <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.turno.ID" ng-change="$ctrl.turnoChange()" />

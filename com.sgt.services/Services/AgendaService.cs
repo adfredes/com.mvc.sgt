@@ -186,13 +186,13 @@ namespace com.sgt.services.Services
                 new Turno_Repeticiones
                 {
                     ConsultorioID = turno.Sesions.ToList()[0].ConsultorioID,
-                    DiaSemana =(int) turno.Sesions.ToList()[0].FechaHora.DayOfWeek,
-                    FechaModificacion=turno.FechaModificacion,
-                    Frecuencia=7,
-                    Modulos= turno.Sesions.ToList().Count(),
-                    Posicion=1,
-                    UsuarioModificacion=turno.UsuarioModificacion,
-                    Hora= turno.Sesions.ToList()[0].FechaHora
+                    DiaSemana = (int)turno.Sesions.ToList()[0].FechaHora.DayOfWeek,
+                    FechaModificacion = turno.FechaModificacion,
+                    Frecuencia = 7,
+                    Modulos = turno.Sesions.ToList().Count(),
+                    Posicion = 1,
+                    UsuarioModificacion = turno.UsuarioModificacion,
+                    Hora = turno.Sesions.ToList()[0].FechaHora
                 }
                 );
             foreach (var sesion in turno.Sesions)
@@ -216,7 +216,8 @@ namespace com.sgt.services.Services
 
         private short SearchTurnosSimultaneoByDate(DateTime begin, DateTime end, int consultorioID)
         {
-            int cantidad = unitOfWork.RepoConsultorio.Find(consultorioID).TurnosSimultaneos;
+            var consultorio = unitOfWork.RepoConsultorio.Find(consultorioID);
+            int cantidad = consultorio.TurnosSimultaneos;
             short simultaneo = 0;
             for (short t = 1; t <= cantidad; t++)
             {
@@ -437,7 +438,7 @@ namespace com.sgt.services.Services
             bool isValid = true;
             int cantidad = sobreturno ? 1 : 0;
             var pp = GetAgenda();
-                                    
+
             if (sesiones.Where(s => s.FechaHora.Hour > pp.HoraHasta.Hour
                 || (s.FechaHora.Hour == pp.HoraHasta.Hour && s.FechaHora.Minute > pp.HoraHasta.Minute)
                 ).ToList().Count() > 0)
@@ -461,7 +462,7 @@ namespace com.sgt.services.Services
                 isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
             }
 
-                        
+
             return isValid;
         }
 
@@ -820,23 +821,60 @@ namespace com.sgt.services.Services
             return turno;
         }
 
-        public Turno ConfirmarTurno(Turno turno)
+        public Turno ConfirmarTurno(Turno turno, bool continuar)
         {
-            var oldTurno = GetTurno(turno.ID);
-            oldTurno.UsuarioModificacion = turno.UsuarioModificacion;
-            oldTurno.FechaModificacion = turno.FechaModificacion;
-            oldTurno.Estado = (short)EstadoTurno.Confirmado;
-            oldTurno.Sesions
-                .Where(x => (EstadoSesion)x.Estado == EstadoSesion.Reservado || (EstadoSesion)x.Estado == EstadoSesion.Bloqueado)
-                .ToList().ForEach(x =>
+            Turno oldTurno = GetTurno(turno.ID);
+            var sesiones = oldTurno.Sesions.ToList();
+            Turno saveTurno;
+
+            if (continuar)
+            {
+                var lastTurno = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == turno.PacienteID
+                && (EstadoTurno)t.Estado == EstadoTurno.Confirmado)
+                .OrderByDescending(t => t.ID)
+                .Take(1).FirstOrDefault();
+                
+                if (lastTurno != null)
+                {                    
+                    lastTurno.CantidadSesiones += oldTurno.CantidadSesiones;
+                    saveTurno = lastTurno;
+
+                    oldTurno.UsuarioModificacion = turno.UsuarioModificacion;
+                    oldTurno.FechaModificacion = turno.FechaModificacion;
+                    oldTurno.Estado = (short)EstadoTurno.Cancelado;
+                    unitOfWork.RepoTurno.Edit(oldTurno);
+                }
+                else
                 {
-                    x.Estado = (short)EstadoSesion.Confirmado;
-                    x.UsuarioModificacion = oldTurno.UsuarioModificacion;
-                    x.FechaModificacion = oldTurno.FechaModificacion;
-                    unitOfWork.RepoSesion.Edit(x);
-                });
-            unitOfWork.RepoTurno.Edit(oldTurno);
-            return oldTurno;
+                    saveTurno = oldTurno;
+                }
+
+            }
+            else
+            {
+                saveTurno = oldTurno;                
+            }
+
+            saveTurno.UsuarioModificacion = turno.UsuarioModificacion;
+            saveTurno.FechaModificacion = turno.FechaModificacion;
+            saveTurno.Estado = (short)EstadoTurno.Confirmado;
+
+            sesiones.ForEach(x =>
+            {
+                x.Estado = (EstadoSesion)x.Estado == EstadoSesion.Reservado || 
+                (EstadoSesion)x.Estado == EstadoSesion.Bloqueado ? 
+                (short)EstadoSesion.Confirmado:
+                x.Estado;
+                x.Numero = continuar ? (short)(x.Numero + saveTurno.CantidadSesiones-oldTurno.CantidadSesiones) : x.Numero;
+                x.TurnoID = saveTurno.ID;
+                x.UsuarioModificacion = saveTurno.UsuarioModificacion;
+                x.FechaModificacion = saveTurno.FechaModificacion;
+                unitOfWork.RepoSesion.Edit(x);
+            });
+
+            unitOfWork.RepoTurno.Edit(saveTurno);
+
+            return saveTurno;
         }
 
         public void EditDiagnosticoTurno(Turno turno)
@@ -844,40 +882,66 @@ namespace com.sgt.services.Services
             unitOfWork.RepoTurno.Edit(turno);
         }
 
-        public Turno AgregarSesiones(Turno turno, bool continuar)
-        {            
+        public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
+        {
             var oldTurno = unitOfWork.RepoTurno.Find(turno.ID);
             List<Sesion> newSesiones = new List<Sesion>();
-            if (continuar)
+
+            turno.CantidadSesiones = continuar ? oldTurno.CantidadSesiones + cantidadSesiones : cantidadSesiones;
+
+            if (!continuar)
             {
-                for (int nroSesion = oldTurno.CantidadSesiones.Value + 1; nroSesion <= turno.CantidadSesiones; nroSesion++)
+                turno.ID = 0;
+                turno.Fecha = DateTime.Now;
+                oldTurno.Turno_Repeticiones.ToList().ForEach(r =>
                 {
-                    getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
-                        .ForEach(s =>
-                        {
-                            s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
-                            s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado? (short)EstadoSesion.Reservado: (short)EstadoSesion.Confirmado;
-                            s.Habilitado = true;
-                            s.Numero = (short)nroSesion;
-                            s.TurnoID = oldTurno.ID;
-                            s.TurnoSimultaneo = 0;
-                            s.UsuarioModificacion = turno.UsuarioModificacion;
-                            s.FechaModificacion = turno.FechaModificacion;
-                            oldTurno.Sesions.Add(s);
-                        });
-                }
+                    turno.Turno_Repeticiones.Add(new Turno_Repeticiones
+                    {
+                        FechaModificacion = turno.FechaModificacion,
+                        UsuarioModificacion = turno.UsuarioModificacion,
+                        ConsultorioID = r.ConsultorioID,
+                        DiaSemana = r.DiaSemana,
+                        Frecuencia = r.Frecuencia,
+                        Hora = r.Hora,
+                        Modulos = r.Modulos,
+                        Posicion = r.Posicion
+                    });
+                });
             }
+
+            for (int nroSesion = continuar ? oldTurno.CantidadSesiones.Value + 1 : 1; nroSesion <= turno.CantidadSesiones; nroSesion++)
+            {
+                getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
+                    .ForEach(s =>
+                    {
+                        s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
+                        s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
+                        s.Habilitado = true;
+                        s.Numero = (short)nroSesion;
+                        s.TurnoID = turno.ID;
+                        s.TurnoSimultaneo = 0;
+                        s.UsuarioModificacion = turno.UsuarioModificacion;
+                        s.FechaModificacion = turno.FechaModificacion;
+                        newSesiones.Add(s);
+                        oldTurno.Sesions.Add(s);
+                    });
+            }
+
+
+            turno.Sesions = newSesiones;
+
+
             var consultorios = unitOfWork.RepoConsultorio.GetAll();
-            var sesiones = oldTurno.Sesions
-                .Where(x=>x.ID==0)
+            var sesiones = turno.Sesions
                 .GroupBy(x => x.Numero)
                 .Select(x => x.Key)
                 .OrderBy(x => x);
+
             sesiones.ToList().ForEach(se =>
             {
-                DateTime beginDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Min(x => x.FechaHora);
-                DateTime endDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Max(x => x.FechaHora);
-                int idconsultorio = oldTurno.Sesions.Where(s => s.Numero == se).Max(s => s.ConsultorioID);
+                DateTime beginDate = turno.Sesions.Where(x => x.Numero == (short)se).Min(x => x.FechaHora);
+                DateTime endDate = turno.Sesions.Where(x => x.Numero == (short)se).Max(x => x.FechaHora);
+                int idconsultorio = turno.Sesions.Where(s => s.Numero == se).Max(s => s.ConsultorioID);
                 short simultaneo = 0;
 
                 int? tipoSesionId = consultorios.Where(x => x.ID == idconsultorio)
@@ -893,7 +957,7 @@ namespace com.sgt.services.Services
                             if (simultaneo > 0)
                             {
                                 idconsultorio = simultaneo > 0 ? x.ID : 0;
-                                oldTurno.Sesions.Where(tu => tu.Numero == se).ToList()
+                                turno.Sesions.Where(tu => tu.Numero == se).ToList()
                                     .ForEach(tu =>
                                     {
                                         tu.TurnoSimultaneo = simultaneo;
@@ -904,23 +968,151 @@ namespace com.sgt.services.Services
                         }
                     });
 
-                if (!ValidarNuevasSesiones(oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList()))
+                if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList()))
                 {
-                    oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+                    turno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
                 }
 
             });
 
-            oldTurno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
-            oldTurno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
+            turno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+            if (continuar)
             {
-                unitOfWork.RepoSesion.Add(s);
-            });
-            unitOfWork.RepoTurno.Edit(turno);
-            
-
+                turno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
+                {
+                    unitOfWork.RepoSesion.Add(s);
+                });
+                unitOfWork.RepoTurno.Edit(turno);
+            }
+            else
+            {
+                unitOfWork.RepoTurno.Add(turno);
+            }
+            turno.Sesions = oldTurno.Sesions.Concat(turno.Sesions).ToList();
             return turno;
         }
+
+        //public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
+        //{
+        //    var oldTurno = unitOfWork.RepoTurno.Find(turno.ID);
+        //    List<Sesion> newSesiones = new List<Sesion>();
+        //    if (continuar)
+        //    {
+        //        for (int nroSesion = oldTurno.CantidadSesiones.Value + 1; nroSesion <= oldTurno.CantidadSesiones + cantidadSesiones; nroSesion++)
+        //        {
+        //            getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
+        //                .ForEach(s =>
+        //                {
+        //                    s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
+        //                    s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
+        //                    s.Habilitado = true;
+        //                    s.Numero = (short)nroSesion;
+        //                    s.TurnoID = oldTurno.ID;
+        //                    s.TurnoSimultaneo = 0;
+        //                    s.UsuarioModificacion = turno.UsuarioModificacion;
+        //                    s.FechaModificacion = turno.FechaModificacion;
+        //                    newSesiones.Add(s);
+        //                });
+        //        }
+        //        turno.Sesions = newSesiones;
+        //        turno.CantidadSesiones += cantidadSesiones;
+        //    }
+        //    else
+        //    {
+        //        turno.Sesions.Clear();
+        //        turno.ID = 0;
+        //        turno.Turno_Repeticiones = oldTurno.Turno_Repeticiones;
+        //        turno.Turno_Repeticiones.ToList().ForEach(r =>
+        //        {
+        //            r.ID = 0;
+        //            r.TurnoID = 0;
+        //            r.Turno = null;
+        //            r.FechaModificacion = turno.FechaModificacion;
+        //            r.UsuarioModificacion = turno.UsuarioModificacion;
+        //        });
+        //        for (int nroSesion = 1; nroSesion <= cantidadSesiones; nroSesion++)
+        //        {
+        //            getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
+        //                .ForEach(s =>
+        //                {
+        //                    s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
+        //                    s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
+        //                    s.Habilitado = true;
+        //                    s.Numero = (short)nroSesion;
+        //                    s.TurnoSimultaneo = 0;
+        //                    s.UsuarioModificacion = turno.UsuarioModificacion;
+        //                    s.FechaModificacion = turno.FechaModificacion;
+        //                    turno.Sesions.Add(s);
+        //                });
+        //        }
+        //        turno.CantidadSesiones = cantidadSesiones;
+        //    }
+
+        //    oldTurno = continuar ? oldTurno : turno;
+
+        //    var consultorios = unitOfWork.RepoConsultorio.GetAll();
+        //    var sesiones = oldTurno.Sesions
+        //        .Where(x => x.ID == 0)
+        //        .GroupBy(x => x.Numero)
+        //        .Select(x => x.Key)
+        //        .OrderBy(x => x);
+
+        //    sesiones.ToList().ForEach(se =>
+        //    {
+        //        DateTime beginDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Min(x => x.FechaHora);
+        //        DateTime endDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Max(x => x.FechaHora);
+        //        int idconsultorio = oldTurno.Sesions.Where(s => s.Numero == se).Max(s => s.ConsultorioID);
+        //        short simultaneo = 0;
+
+        //        int? tipoSesionId = consultorios.Where(x => x.ID == idconsultorio)
+        //                    .Max(x => x.TipoSesionID);
+
+        //        idconsultorio = 0;
+        //        consultorios.Where(x => x.TipoSesionID == tipoSesionId).ToList()
+        //            .ForEach(x =>
+        //            {
+        //                if (idconsultorio == 0)
+        //                {
+        //                    simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, x.ID);
+        //                    if (simultaneo > 0)
+        //                    {
+        //                        idconsultorio = simultaneo > 0 ? x.ID : 0;
+        //                        oldTurno.Sesions.Where(tu => tu.Numero == se).ToList()
+        //                            .ForEach(tu =>
+        //                            {
+        //                                tu.TurnoSimultaneo = simultaneo;
+        //                                tu.ConsultorioID = idconsultorio;
+        //                            });
+        //                    }
+
+        //                }
+        //            });
+
+        //        if (!ValidarNuevasSesiones(oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList()))
+        //        {
+        //            oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+        //        }
+
+        //    });
+
+        //    oldTurno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+        //    if (continuar)
+        //    {
+        //        oldTurno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
+        //        {
+        //            unitOfWork.RepoSesion.Add(s);
+        //        });
+        //        unitOfWork.RepoTurno.Edit(turno);
+        //    }
+        //    else
+        //    {
+        //        unitOfWork.RepoTurno.Add(oldTurno);
+        //    }
+
+
+
+        //    return turno;
+        //}
 
         public List<Turno> GetTurnosSinFecha()
         {

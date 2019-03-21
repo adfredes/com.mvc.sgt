@@ -266,9 +266,12 @@
 
         };
 
-        $this.confirmarTurno = (turno) => {
+        $this.confirmarTurno = (turno, continuar) => {
+            let params = {};
             let url = "Turno/Confirmar";
-            let promise = crudService.PutHttp(url, turno);
+            params.model = turno;
+            params.continuar = continuar;
+            let promise = crudService.PutHttp(url, params);
             return promise;
         };
         /*

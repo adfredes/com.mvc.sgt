@@ -40,9 +40,9 @@ namespace com.sgt.services.Interfaces
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);
-        Turno ConfirmarTurno(Turno turno);
+        Turno ConfirmarTurno(Turno turno, bool continuar);
         void EditDiagnosticoTurno(Turno turno);
-        Turno AgregarSesiones(Turno turno, bool continuar);
+        Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar);
         List<Turno> GetTurnosSinFecha();
     }
 }
