@@ -842,6 +842,9 @@ namespace com.sgt.services.Services
                     oldTurno.UsuarioModificacion = turno.UsuarioModificacion;
                     oldTurno.FechaModificacion = turno.FechaModificacion;
                     oldTurno.Estado = (short)EstadoTurno.Cancelado;
+                    oldTurno.Paciente = null;
+                    oldTurno.PacienteID = null;
+                    oldTurno.Habilitado = false;
                     unitOfWork.RepoTurno.Edit(oldTurno);
                 }
                 else
