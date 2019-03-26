@@ -1,0 +1,148 @@
+﻿<div ng-cloak ng-controller="agendaController as ctr" ng-init="ctr.init()">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-left-tabs>
+            <md-tab label="Agenda">
+                <md-content class="md-padding">
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border" ng-init="ctr.init()">
+                        <thead class="thead-light">
+                            <tr>
+                                @*<th scope="col" class="w-25">Descripcion</th>*@
+                                <th scope="col" class="text-center">Hora Desde</th>
+                                <th scope="col" class="text-center">Hora Hasta</th>
+                                <th ng-repeat="dia in ctr.dias" class="text-center">{{dia}}</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            @*<td>{{ctr.agenda.Descripcion}}</td>*@
+                            <td class="text-center">{{ctr.agenda.HoraDesde | date: "HH:mm"}}</td>
+                            <td class="text-center">{{ctr.agenda.HoraHasta | date: "HH:mm"}}</td>
+
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeLunes" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeMartes" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeMiercoles" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeJueves" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeViernes" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeSabado" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeDomingo" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdateAgenda" data-toggle="modal" ng-click="ctr.EditAgenda(ctr.Agenda)"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+            <md-tab label="feriados">
+                <md-content class="md-padding">
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr>
+                                @*<th scope="col">Id</th>*@
+                                <th scope="col" class="w-50">Descripcion</th>
+                                <th scope="col" class="text-center">Fecha</th>
+                                <th scope="col" class="text-center">Habilitado</th>
+                                <th scope="col" class="text-center">Modificado</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="feriado in ctr.feriados">
+                            @*<th scope="row">{{feriado.ID}}</th>*@
+                            <td>{{feriado.Descripcion}}</td>
+                            <td class="text-center">{{feriado.Fecha.substr(6,13) | date: "dd/MM/yyyy"}}</td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="feriado.Habilitado" disabled />
+                            </td>
+                            <td class="text-center">{{feriado.FechaModificacion.substr(6,13) | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdateFeriado" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-group">
+                        <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdateFeriado" data-toggle="modal" ng-click="CreateFeriado()">
+                            <md-tooltip md-direction="right">Nuevo feriado</md-tooltip>
+                            <span class="icon-calendar-empty"></span>
+                        </md-button>
+                    </div>                    
+                </md-content>
+            </md-tab>
+            <md-tab label="Recesos">
+                <md-content class="md-padding">
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr>
+                                @*<th scope="col">Id</th>*@
+                                <th scope="col">Tipo</th>
+                                <th scope="col" class="text-center">Fecha Desde</th>
+                                <th scope="col" class="text-center">Fecha Hasta</th>
+                                <th scope="col" class="w-25">Observaciones</th>
+                                <th scope="col" class="text-center">Habilitado</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="receso in ctr.recesos">
+                            @*<th scope="row">{{feriado.ID}}</th>*@
+                            <td>Vacaciones</td>
+                            <td class="text-center">{{receso.FechaDesde | date: "dd/MM/yyyy"}}</td>
+                            <td class="text-center">{{receso.FechaHasta | date: "dd/MM/yyyy"}}</td>
+                            <td>{{receso.Observaciones}}</td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="receso.Habilitado" disabled />
+                            </td>
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+            <md-tab label="Bloqueos">
+                <md-content class="md-padding">
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr>                                
+                                <th scope="col" class="text-center">Consultorio</th>
+                                <th scope="col" class="text-center">Simultáneo</th>
+                                <th scope="col" class="text-center">Fecha Desde</th>
+                                <th scope="col" class="text-center">Fecha Hasta</th>
+                                <th scope="col" class="text-center">Todo el día</th>
+                                <th scope="col" class="text-center">Hora Desde</th>
+                                <th scope="col" class="text-center">Hora Hasta</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="bloqueo in ctr.bloqueos">
+                            <td class="text-center">{{bloqueo.Consultorio}}</td>
+                            <td class="text-center">{{bloqueo.TurnoSimultaneo}}</td>
+                            <td class="text-center">{{bloqueo.FechaDesde | date: "dd/MM/yyyy"}}</td>
+                            <td class="text-center">{{bloqueo.FechaHasta | date: "dd/MM/yyyy"}}</td>
+                            <td class="text-center align-middle">
+                                <input type="checkbox" class="form-control" ng-model="bloqueo.TodoElDia" disabled />
+                            </td>
+                            <td class="text-center">{{bloqueo.HoraDesde | date: "HH:mm"}}</td>
+                            <td class="text-center">{{bloqueo.HoraHasta | date: "HH:mm"}}</td>
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <feriado-edit feriado="ctr.feriado" on-save="ctr.GetFeriados"></feriado-edit>
+</div>

@@ -40,6 +40,7 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [Route("Agenda/Feriados")]
         public ActionResult Feriados()
         {
             return PartialView();
@@ -443,5 +444,31 @@ namespace com.mvc.sgt.Controllers
             //return Json(turnos, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("Agenda/JSON")]
+        public JsonResult GetAgenda()
+        {            
+            var agenda = Mapper.Map<AgendaModel>(this.AgendaService.GetAgenda());
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(JsonConvert.SerializeObject(agenda), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Agenda/Receso")]
+        public JsonResult GetRecesos()
+        {
+            var recesos = Mapper.Map<List<AgendaRecesoModel>>(this.AgendaService.SearchRecesos(DateTime.Now.AddYears(-10), DateTime.Now.AddYears(5)));
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(JsonConvert.SerializeObject(recesos), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Agenda/Bloqueos")]
+        public JsonResult GetBloqueos()
+        {
+            var bloqueos = Mapper.Map<List<AgendaBloqueosModel>>(this.AgendaService.GetAgenda().Agenda_Bloqueos);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(JsonConvert.SerializeObject(bloqueos), JsonRequestBehavior.AllowGet);
+        }
     }
 }

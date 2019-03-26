@@ -113,8 +113,16 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d=> d.Agenda, o => o.MapFrom(s => s.Agenda))
                 .ReverseMap();
 
-                mapper.CreateMap<Agendum, AgendaModel>()
+                mapper.CreateMap<Agendum, AgendaModel>()                
                 .ReverseMap();
+
+                mapper.CreateMap<AgendaRecesoModel, Agenda_Receso>()
+                .ReverseMap();
+
+                mapper.CreateMap<Agenda_Bloqueos, AgendaBloqueosModel>()
+                .ForMember(d => d.Consultorio, o => o.MapFrom(s => s.Consultorio.Descripcion));
+
+                mapper.CreateMap<AgendaBloqueosModel, Agenda_Bloqueos>();
 
                 mapper.CreateMap<Sesion, SesionModel>()
                 .ReverseMap();

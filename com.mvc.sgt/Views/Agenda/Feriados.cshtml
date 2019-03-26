@@ -29,13 +29,13 @@
                         </td>
                         <td class="text-center">{{feriado.FechaModificacion.substr(6,13) | date: "dd/MM/yyyy HH:mm:ss"}}</td>
                         <td class="text-center align-middle">
-                            <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
+                            <span class="icon-edit btn" data-target="#CreateOrUpdateFeriado" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
                         </td>
                     </tr>
                 </table>
 
                 <div class="form-group">
-                    <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="CreateFeriado()">
+                    <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdateFeriado" data-toggle="modal" ng-click="CreateFeriado()">
                         <md-tooltip md-direction="right">Nuevo feriado</md-tooltip>                       
                         <span class="icon-calendar-empty"></span>
                     </md-button>
@@ -43,7 +43,7 @@
                 <feriado-edit feriado="ctr.feriado"></feriado-edit>
             </div>
 
-        </div>
+       </div>
     </div>
 
 </div>

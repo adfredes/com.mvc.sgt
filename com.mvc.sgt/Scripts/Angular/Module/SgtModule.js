@@ -15,6 +15,9 @@
             .when('/Pacientes', {
                 templateUrl: window.Domain + 'Paciente'
             })
+            .when('/Agenda', {
+                templateUrl: window.Domain + 'Agenda'
+            })
             .when('/Aseguradoras', {
                 templateUrl: window.Domain + 'Aseguradora'
             })

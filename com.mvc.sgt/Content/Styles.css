@@ -272,13 +272,18 @@ input[readonly]{
     z-index: 500;
 }
 
-#btnDivReservasCancelar {
-    color: red;
-    cursor: pointer;
-    border: 1px solid red;
-    border-radius: 50%;
-    margin-left: 3rem;
-}
+    .reservas:hover #btnDivReservasCancelar{
+        display: inline-block;
+    }
+
+    #btnDivReservasCancelar {
+        color: red;
+        cursor: pointer;
+        border: 1px solid red;
+        border-radius: 50%;
+        margin-left: 3rem;
+        display: none;
+    }
 
     #btnDivReservasCancelar:hover {
         color: rgb(71,119,168);
@@ -291,6 +296,11 @@ input[readonly]{
     border: 1px solid blue;
     border-radius: 50%;
     margin-right: 1rem;
+    display: none;
+}
+
+.reservas:hover #btnDivReservasAceptar {
+    display: inline-block;
 }
 
     #btnDivReservasAceptar:hover {
@@ -497,3 +507,28 @@ input[readonly]{
         color: #fff;
         background: red;
     }
+
+
+.notification-bar {
+    position: fixed;
+    top: 80px;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    padding: 15px 1rem 10px 1rem;
+    background: rgb(71,119,168);
+    opacity: 0;
+    z-index: 400;
+}
+
+@media only screen and (max-width: 992px) and (min-width: 576px){
+    .notification-bar {        
+        top: 60px;        
+    }
+    .reservas {
+        top: 60px;
+    }
+    .sinFechaComponent {
+        top: 60px;
+    }
+}

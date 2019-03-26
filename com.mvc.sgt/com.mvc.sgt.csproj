@@ -275,7 +275,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\AgendaBloqueosModel.cs" />
     <Compile Include="Models\AgendaModel.cs" />
+    <Compile Include="Models\AgendaRecesoModel.cs" />
     <Compile Include="Models\AseguradoraModel.cs" />
     <Compile Include="Models\AseguradoraPlanModel.cs" />
     <Compile Include="Models\ConsultorioHorariosModel.cs" />
@@ -1411,6 +1413,7 @@
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Agenda\TurnoSinFechaAsignada.cshtml" />
+    <Content Include="Views\Agenda\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
