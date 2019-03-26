@@ -312,8 +312,10 @@
     <Content Include="Content\font\fontello.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\Angular\Components\AgendaComponent.js" />
     <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteQuickCreateComponent.js" />
+    <Content Include="Scripts\Angular\Components\RecesoComponent.js" />
     <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
@@ -1414,6 +1416,8 @@
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Agenda\TurnoSinFechaAsignada.cshtml" />
     <Content Include="Views\Agenda\Index.cshtml" />
+    <Content Include="Views\Agenda\CreateOrEditReceso.cshtml" />
+    <Content Include="Views\Agenda\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,78 @@
+﻿<div id="CreateOrUpdateAgenda" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize"><span class="icon-calendar badge-primary"></span> Datos Agenda</h4>
+                <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body p-0">
+                <input type="hidden" class="form-control" ng-model="$ctrl.feriado.ID">
+                <div ng-cloak>
+                    <md-content>
+                        <div class="container-fluid p-1">
+                            <form name="frmAgenda" id="frmAgenda" ng-cloak novalidate>
+                                <fieldset>                                    
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="Desde">Hora Desde:</label>
+                                                <input type="time" class="form-control" id="Desde" name="desde" ng-model="$ctrl.agenda.HoraDesde" required>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="Hasta">Hora Hasta:</label>
+                                                <input type="time" class="form-control" id="Hasta" name="hasta" ng-model="$ctrl.agenda.HoraHasta" required>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="Frecuencia">Frecuencia:</label>
+                                                <input type="number" class="form-control" id="Frecuencia" name="frecuencia" ng-model="$ctrl.agenda.Frecuencia" max="59" min="1" required>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md12 form-group">
+                                            <md-input-container class="md-block">
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeLunes" aria-label="Lunes">
+                                                    Lunes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeMartes" aria-label="Martes">
+                                                    Martes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeMiercoles" aria-label="Miercoles">
+                                                    Miercoles
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeJueves" aria-label="Jueves">
+                                                    Jueves
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeViernes" aria-label="Viernes">
+                                                    Viernes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeSabado" aria-label="Sabado">
+                                                    Sabado
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.agenda.AtiendeDomingo" aria-label="Domingo">
+                                                    Domingo
+                                                </md-checkbox>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="clearfix"></div>
+                                <span ng-show="$ctrl.error.length>0" role="alert">{{$ctrl.error}}</span>
+                            </form>
+                        </div>
+                    </md-content>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.save($ctrl.agenda)"><span class="icon-floppy"></span> Guardar</md-button>
+            </div>
+        </div>
+    </div>
+</div>

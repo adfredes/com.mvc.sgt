@@ -18,6 +18,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Feriado> FindNextFeriado();
         ICollection<Feriado> SearchFeriado(DateTime desde, DateTime hasta);
         Agendum GetAgenda();
+        void EditAgenda(Agendum entity);
         ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate);
         Sesion SetSesionAnulada(int sesionID, string usuario);
         Sesion SetSesionAsistio(int sesionID, string usuario);
@@ -37,6 +38,11 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones);
 
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);
+        Agenda_Receso GetReceso(int id);
+        void AddReceso(Agenda_Receso entity);
+        void EditReceso(Agenda_Receso entity);
+        void DelReceso(int id);
+        void DelReceso(Agenda_Receso entity);
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);

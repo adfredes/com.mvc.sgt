@@ -463,12 +463,58 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpGet]
+        [Route("Agenda/CreateOrEditReceso")]
+        public ActionResult CreateOrEditReceso(int? id)
+        {
+
+            var receso = id.HasValue? Mapper.Map<AgendaRecesoModel>(this.AgendaService.GetReceso(id.Value)) : 
+                new AgendaRecesoModel {AgendaId=1,
+                    Habilitado =true,
+                    RecesoTipoId =1 };
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return PartialView(receso);
+        }
+
+        [HttpPost]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Agenda/CreateOrEditReceso")]
+        public JsonResult CreateOrEditReceso(AgendaRecesoModel model)
+        {
+            if (model.ID > 0)
+            {
+                AgendaService.EditReceso(Mapper.Map<Agenda_Receso>(model));
+            }
+            else
+            {
+                AgendaService.AddReceso(Mapper.Map<Agenda_Receso>(model));
+            }            
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         [Route("Agenda/Bloqueos")]
         public JsonResult GetBloqueos()
         {
             var bloqueos = Mapper.Map<List<AgendaBloqueosModel>>(this.AgendaService.GetAgenda().Agenda_Bloqueos);
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(JsonConvert.SerializeObject(bloqueos), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Agenda/Edit")]
+        public ActionResult Edit()
+        {
+            return PartialView();
+        }
+
+        [HttpPut]
+        [Route("Agenda/Edit")]
+        public JsonResult Edit(AgendaModel model)
+        {
+            AgendaService.EditAgenda(Mapper.Map<Agendum>(model));
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json("ok", JsonRequestBehavior.AllowGet);
         }
     }
 }

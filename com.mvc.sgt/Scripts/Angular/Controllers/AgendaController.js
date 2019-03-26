@@ -5,6 +5,8 @@
     function agendaController (crudService) {
         var vm = this;                
         vm.feriado = {};
+        vm.receso = {};
+        vm.bloqueo = {};
 
         vm.init = () => {
             vm.feriados = [];
@@ -32,7 +34,11 @@
         let GetAgenda = () => {
             let _url = 'Agenda/JSON';
             crudService.GetPHttp(_url)
-                .then(data => vm.agenda = JSON.parse(data))
+                .then(data => {
+                vm.agenda = JSON.parse(data);
+                vm.agenda.HoraDesde = moment(vm.agenda.HoraDesde).toDate();
+                vm.agenda.HoraHasta = moment(vm.agenda.HoraHasta).toDate();
+                })
                 .catch(err => vm.agenda = {});
         };
         
@@ -55,9 +61,36 @@
             vm.feriado = feriado;
         };
 
+        vm.DeleteFeriado = (feriado) => {
+            feriado.Habilitado = false;
+            var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', feriado);
+            promise.then(data => vm.GetFeriados());                                
+        };
+
         vm.CreateFeriado = function (feriado) {
             vm.feriado = {};
         };
+
+        vm.EditReceso = function (receso) {            
+            vm.receso = receso;
+        };
+
+        vm.DeleteReceso = receso => {
+            receso.Habilitado = false;
+            var promise = crudService.PostHttp('/Agenda/CreateOrEditReceso', receso);
+            promise.then(data => vm.GetFeriados());
+            vm.GetRecesos();
+        };
+
+        vm.CreateReceso = function (feriado) {
+            vm.receso = {};
+        };
+
+        vm.saveAgenda = agenda => vm.agenda = agenda;
+
+        vm.EditBloqueo = bloqueo => vm.bloqueo = bloqueo;
+
+        vm.CreateBloqueo = bloqueo => vm.bloqueo = {};
 
     }
 

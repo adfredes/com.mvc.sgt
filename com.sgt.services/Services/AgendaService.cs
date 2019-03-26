@@ -96,6 +96,10 @@ namespace com.sgt.services.Services
                 .FirstOrDefault();
         }
 
+        void IAgendaService.EditAgenda(Agendum entity)
+        {
+            unitOfWork.RepoAgenda.Edit(entity);
+        }
         #endregion
 
         #region Sesiones
@@ -1128,6 +1132,34 @@ namespace com.sgt.services.Services
                 .OrderBy(t => t.Paciente.Apellido)
                 .ThenBy(t => t.Paciente.Nombre).ToList();
         }
+
+        public Agenda_Receso GetReceso(int id)
+        {
+            return unitOfWork.RepoAgendaReceso.Find(id);
+        }
+
+        public void AddReceso(Agenda_Receso entity)
+        {
+            entity.AgendaId = 1;
+            unitOfWork.RepoAgendaReceso.Add(entity);            
+        }
+
+        public void EditReceso(Agenda_Receso entity)
+        {
+            entity.AgendaId = 1;
+            unitOfWork.RepoAgendaReceso.Edit(entity);
+        }
+
+        public void DelReceso(int id)
+        {
+            DelReceso(GetReceso(id));
+        }
+
+        public void DelReceso(Agenda_Receso entity)
+        {
+            unitOfWork.RepoAgendaReceso.Delete(entity);
+        }
+        
         #endregion
 
 
