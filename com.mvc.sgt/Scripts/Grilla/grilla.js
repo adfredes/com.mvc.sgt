@@ -37,6 +37,7 @@
         options.dias = [];
         options.rangoDias = [];
         options.recesos = [];
+        options.bloqueosAgenda = [];
         options.feriados = [];
         options.vista = 's';//'d'
         options.fecha = new Date();
@@ -108,6 +109,7 @@
         options.dias = await getRangoFecha();
         options.sesiones = await getSesiones();
         options.recesos = await getRecesos();
+        options.bloqueosAgenda = await getBloqueosAgenda();
         options.feriados = await getFeriados();
         renderGrilla();
         renderReservado();
@@ -918,6 +920,7 @@
         options.tabla.innerHTML = getCaption() + tablaInner;
         addListener();
         renderSesiones();
+        renderBloqueosAgenda();
     }
 
     function renderReservado() {
@@ -1053,6 +1056,41 @@
         }
 
         return innerHTML;
+    }
+
+    function renderBloqueosAgenda() {        
+        if (options.bloqueosAgenda) {
+            options.bloqueosAgenda.forEach(bloqueo => {
+                let rCelda;
+                let rowSpan = 1;
+                bloqueo.fecha = bloqueo.fecha ? bloqueo.fecha : bloqueo.FechaHora.split('T')[0].replace(/-/g, '');
+                bloqueo.hora = bloqueo.hora ? bloqueo.hora : bloqueo.FechaHora.split('T')[1].substr(0, 5).replace(':', '');
+                let sDesde = bloqueo.TurnoSimultaneo;
+                let sHasta = bloqueo.TurnoSimultaneo;
+                if (bloqueo.TurnoSimultaneo == 0) {
+                    sDesde = 1;
+                    sHasta = options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioID).TurnosSimultaneos;
+                }                
+                //console.dir(options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioId));
+                for (let ts = sDesde; ts <= sHasta; ts++) {
+                    let celSesionID = `#F${bloqueo.fecha}H${bloqueo.hora}C${bloqueo.ConsultorioID}S${ts}`;
+                    let celda = options.divGrilla.querySelector(celSesionID);                    
+                    if (celda) {
+                        celda.innerHTML = '';
+                        celda.rowSpan = 1;
+                        celda.style.display = 'table-cell';
+                        celda.className = "celda-turno turno-bloqueo-agenda";
+                        celda.style.backgroundColor = 'orangered';
+                        celda.draggable = "false";
+                        for (let item in celda.dataset) {
+                            delete celda.dataset[item];
+                        }
+                        celda.dataset.estado = "10";
+                        celda.draggable = "false";                           
+                    }                    
+                }                
+            });
+        }
     }
 
     function deleteSesionGrilla(celda) {
@@ -1456,6 +1494,12 @@
 
     async function getRecesos() {
         url = `${Domain}/api/grilla/Receso/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
+        let responseDias = await fetch(url);
+        return await responseDias.json();
+    }
+
+    async function getBloqueosAgenda() {
+        url = `${Domain}/api/grilla/Bloqueo/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
         let responseDias = await fetch(url);
         return await responseDias.json();
     }

@@ -76,7 +76,7 @@ namespace com.mvc.sgt.Controllers
             var model = Mapper.Map<List<ConsultorioHorariosModel>>(consultorioService.GetAll());
 
             var agenda = agendaService.GetAgenda();
-            var sesiones = agendaService.SearchSesions(fecha, fecha.AddDays(1));
+            var sesiones = agendaService.SearchSesions(fecha, fecha.AddDays(1));            
             List <string> horarios = new List<string>();            
             DateTime horaInicio = agenda.HoraDesde;
             DateTime horaFin = agenda.HoraHasta;
@@ -92,12 +92,27 @@ namespace com.mvc.sgt.Controllers
                 horaInicio = horaInicio.AddMinutes(agenda.Frecuencia);
             }
 
+            var bloqueos = agendaService.SearchBloqueos(fecha, fecha);
+            bloqueos.ToList().ForEach(bloqueo =>
+            {
+                while(bloqueo.HoraDesde.Value.TimeOfDay <= bloqueo.HoraHasta.Value.TimeOfDay)
+                {
+                    sesiones.Add(new Sesion
+                    {
+                        FechaHora = bloqueo.HoraDesde.Value,
+                        ConsultorioID = bloqueo.ConsultorioId,
+                        TurnoSimultaneo = bloqueo.TurnoSimultaneo
+                    });
+                    bloqueo.HoraDesde = bloqueo.HoraDesde.Value.AddMinutes(agenda.Frecuencia);
+                }                
+            });
+
             model.ForEach(consultorio =>
             {
                 for(int ts = 1; ts <= consultorio.TurnosSimultaneos; ts++)
                 {
                     var horariosTomados = sesiones
-                    .Where(x => x.ConsultorioID == consultorio.ID && x.TurnoSimultaneo == ts)
+                    .Where(x => x.ConsultorioID == consultorio.ID && (x.TurnoSimultaneo == ts || x.TurnoSimultaneo == 0))
                     .Select(y => y.FechaHora.ToString("HH:mm"))
                     .ToList();
 

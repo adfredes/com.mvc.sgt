@@ -117,6 +117,42 @@ namespace com.mvc.sgt.Controllers
             return Ok(fechas);
         }
 
+        [Route("api/grilla/Bloqueo/{dia}/{mes}/{anio}/{vista}")]
+        public IHttpActionResult GetBloqueosAgendaGrilla(string dia, string mes, string anio, char vista)
+        {
+            List<FechaModel> fechas = new List<FechaModel>();
+            //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
+            DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
+            var agenda = agendaService.GetAgenda();
+            var bloqueos = agendaService.SearchBloqueos(desde, hasta);
+
+            List<SesionModel> sesiones = new List<SesionModel>();
+            bloqueos.ToList().ForEach(bloqueo =>
+            {
+                DateTime bDesde = desde > bloqueo.FechaDesde ? desde : bloqueo.FechaDesde;
+                while(bDesde <= (hasta < bloqueo.FechaHasta ? hasta : bloqueo.FechaHasta))                
+                {
+                    DateTime HoraDesde = bloqueo.HoraDesde.Value;
+                    while (HoraDesde.TimeOfDay < bloqueo.HoraHasta.Value.TimeOfDay)
+                    {
+                        sesiones.Add(new SesionModel
+                        {
+                            FechaHora = bDesde.AddHours(HoraDesde.Hour).AddMinutes(HoraDesde.Minute),
+                            ConsultorioID = bloqueo.ConsultorioId,
+                            TurnoSimultaneo = bloqueo.TurnoSimultaneo
+                        });
+                        HoraDesde = HoraDesde.AddMinutes(agenda.Frecuencia);
+                    }
+                    bDesde = bDesde.AddDays(1);
+                }
+                
+
+            });
+
+            return Ok(sesiones);
+        }
+
         [Route("api/grilla/sesiones/{dia}/{mes}/{anio}/{vista}")]
         public IHttpActionResult GetSesionesGrillaByDate(int dia, int mes, int anio, char vista)
         {

@@ -50,6 +50,7 @@ namespace com.sgt.services.Interfaces
 
         void AddBloqueoAgenda(Agenda_Bloqueos entity);
         void EditBloqueoAgenda(Agenda_Bloqueos entity);
+        ICollection<Agenda_Bloqueos> SearchBloqueos(DateTime desde, DateTime hasta);
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);

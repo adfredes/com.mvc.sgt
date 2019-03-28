@@ -375,6 +375,10 @@ input[readonly]{
     text-align: center;
 }
 
+.turno-bloqueo-agenda {
+    cursor: not-allowed;
+}
+
 .celda-turno.turno-tomado {
     transition: all 0.4s;
 }
