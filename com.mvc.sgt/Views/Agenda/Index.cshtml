@@ -123,7 +123,7 @@
                 <md-content class="md-padding">
                     <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                         <thead class="thead-light">
-                            <tr>                                
+                            <tr>
                                 <th scope="col" class="text-center">Consultorio</th>
                                 <th scope="col" class="text-center">Simultáneo</th>
                                 <th scope="col" class="text-center">Fecha Desde</th>
@@ -145,10 +145,17 @@
                             <td class="text-center">{{bloqueo.HoraDesde | date: "HH:mm"}}</td>
                             <td class="text-center">{{bloqueo.HoraHasta | date: "HH:mm"}}</td>
                             <td class="text-center align-middle">
-                                <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
+                                <span class="icon-edit btn" data-target="#CreateOrUpdateBloqueo" data-toggle="modal" ng-click="ctr.EditBloqueo(bloqueo)"></span>
+                                <span class="icon-cancel btn" ng-click="ctr.DeleteBloqueo(bloqueo)"></span>
                             </td>
                         </tr>
                     </table>
+                    <div class="form-group">
+                        <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdateBloqueo" data-toggle="modal" ng-click="ctr.CreateBloqueo()">
+                            <md-tooltip md-direction="right">Nuevo bloqueo</md-tooltip>
+                            <span class="icon-calendar-empty"></span>
+                        </md-button>
+                    </div>
                 </md-content>
             </md-tab>
         </md-tabs>
@@ -156,4 +163,5 @@
     <feriado-edit feriado="ctr.feriado" on-save="ctr.GetFeriados"></feriado-edit>
     <receso-edit receso="ctr.receso" on-save="ctr.GetRecesos"></receso-edit>
     <agenda-edit agenda="ctr.agenda" on-save="ctr.saveAgenda"></agenda-edit>
+    <bloqueo-agenda-edit bloqueo="ctr.bloqueo" on-save="ctr.GetBloqueos"></bloqueo-agenda-edit>
 </div>

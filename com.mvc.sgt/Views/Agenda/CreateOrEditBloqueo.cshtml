@@ -1,0 +1,97 @@
+﻿<div id="CreateOrUpdateBloqueo" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize"><span class="icon-calendar badge-primary"></span> Datos bloqueo</h4>
+                <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body p-0">
+                <input type="hidden" class="form-control" ng-model="$ctrl.feriado.ID">
+                <div ng-cloak>
+                    <md-content>
+                        <div class="container-fluid p-1">
+                            <form name="frmbloqueo" id="frmbloqueo" ng-cloak novalidate>
+                                <fieldset>                                                                   
+                                    <div class="row">
+                                        <div class="col-md-8 form-group">                                            
+                                            <md-input-container class="md-block">
+                                                <label for="consultorio">Consultorio:</label>
+                                                <md-select id="consultorio" name="consultorio" ng-model="$ctrl.bloqueo.ConsultorioId" ng-change="$ctrl.changeConsultorio()" required>
+                                                    <md-option ng-repeat="consultorio in $ctrl.consultorios" ng-value="consultorio.ID">{{consultorio.Descripcion}}</md-option>                                                    
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-4 form-group">                                            
+                                            <md-input-container class="md-block">
+                                                <label for="turnoSimultaneo">Turno Simultáneo:</label>
+                                                <md-select id="turnoSimultaneo" name="turnoSimultaneo" ng-model="$ctrl.bloqueo.TurnoSimultaneo" required>
+                                                    <md-option ng-value="0">Todos</md-option>
+                                                    <md-option ng-repeat="simultaneo in $ctrl.TurnosSimultaneo" ng-value="simultaneo">{{simultaneo}}</md-option>
+                                                </md-select>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="fechaDesde">
+                                                    Fecha Desde:
+                                                </label>
+                                                <md-datepicker ng-model="$ctrl.bloqueo.FechaDesde" required id="fechaDesde" name="fechaDesde" md-open-on-focus></md-datepicker>
+                                                <span ng-show="frmbloqueo.fechaDesde.$touched" ng-messages="frmbloqueo.fechaDesde.$error" role="alert">
+                                                    <span ng-messages-include="~/Home/FormElementError"></span>
+                                                </span>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="fechaHasta">
+                                                    Fecha Hasta:
+                                                </label>
+                                                <md-datepicker ng-model="$ctrl.bloqueo.FechaHasta" required id="fechaHasta" name="fechaHasta" md-open-on-focus></md-datepicker>
+                                                <span ng-show="frmbloqueo.fechaHasta.$touched" ng-messages="frmbloqueo.fechaHasta.$error" role="alert">
+                                                    <span ng-messages-include="~/Home/FormElementError"></span>
+                                                </span>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <br />
+                                            <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="$ctrl.bloqueo.TodoElDia" class="md-primary" ng-change="$ctrl.changeTodoElDia()">
+                                                Todo el Día
+                                            </md-checkbox>
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="Desde">Hora Desde:</label>
+                                                <input type="time" class="form-control" id="Desde" name="desde" ng-model="$ctrl.bloqueo.HoraDesde" required>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div class="col-md-4 form-group">
+                                            <md-input-container class="md-block">
+                                                <label for="Hasta">Hora Hasta:</label>
+                                                <input type="time" class="form-control" id="Hasta" name="hasta" ng-model="$ctrl.bloqueo.HoraHasta" required>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="clearfix"></div>
+                                <span ng-show="$ctrl.error.length>0" role="alert">{{$ctrl.error}}</span>
+                            </form>
+                        </div>
+                    </md-content>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.save($ctrl.bloqueo)"><span class="icon-floppy"></span> Guardar</md-button>
+            </div>
+        </div>
+    </div>
+</div>

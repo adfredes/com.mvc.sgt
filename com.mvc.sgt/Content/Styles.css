@@ -516,9 +516,11 @@ input[readonly]{
     width: 100%;
     height: auto;
     padding: 15px 1rem 10px 1rem;
-    background: rgb(71,119,168);
+    /*background: rgb(71,119,168);*/
+    background: rgb(0,0,0);
     opacity: 0;
     z-index: 400;
+    border-top: 1px solid #ccc;
 }
 
 @media only screen and (max-width: 992px) and (min-width: 576px){

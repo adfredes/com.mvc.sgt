@@ -18,14 +18,14 @@
 
         
 
-        (function GetTiposSesion(){
+        (function GetTiposSesion() {
 
             var promise = crudService.GetPHttp('api/tiposesion/all/cmb');
-            promise.then(data=>vm.Tipos = data)
+            promise.then(data => vm.Tipos = data)
                 .catch(function (err) {
                     vm.Tipos = [];
                 });
-        })()
+        })();
 
         vm.save = function (data) {
             var promise = crudService.PostHttp('/Consultorio/CreateOrEdit', data);
@@ -36,7 +36,7 @@
                     vm.error = error.data;
                 }
                 );
-        }
+        };
 
         
 

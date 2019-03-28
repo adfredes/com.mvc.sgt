@@ -496,9 +496,35 @@ namespace com.mvc.sgt.Controllers
         [Route("Agenda/Bloqueos")]
         public JsonResult GetBloqueos()
         {
-            var bloqueos = Mapper.Map<List<AgendaBloqueosModel>>(this.AgendaService.GetAgenda().Agenda_Bloqueos);
+            var bloqueos = Mapper.Map<List<AgendaBloqueosModel>>(this.AgendaService.GetAgenda().Agenda_Bloqueos.Where(x=>x.Habilitado));
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(JsonConvert.SerializeObject(bloqueos), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Agenda/CreateOrEditBloqueo")]
+        public ActionResult CreateOrEditBloqueo(int? id)
+        {
+          
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return PartialView();
+        }
+
+        [HttpPost]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Agenda/CreateOrEditBloqueo")]
+        public JsonResult CreateOrEditBloqueo(AgendaBloqueosModel model)
+        {
+            if (model.ID > 0)
+            {
+                AgendaService.EditBloqueoAgenda(Mapper.Map<Agenda_Bloqueos>(model));
+            }
+            else
+            {
+                AgendaService.AddBloqueoAgenda(Mapper.Map<Agenda_Bloqueos>(model));
+            }
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

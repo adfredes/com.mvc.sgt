@@ -45,7 +45,7 @@
         vm.GetBloqueos = () => {
             let _url = 'Agenda/Bloqueos';
             crudService.GetPHttp(_url)
-                .then(data => vm.bloqueos = JSON.parse(data))
+                .then(data => { vm.bloqueos = JSON.parse(data)})
                 .catch(err => vm.bloqueos = {});
         };
 
@@ -58,7 +58,8 @@
 
         vm.EditFeriado = function (feriado) {
             feriado.Fecha = moment(feriado.Fecha).toDate();
-            vm.feriado = feriado;
+            let nferiado = JSON.parse(JSON.stringify(feriado));
+            vm.feriado = nferiado;
         };
 
         vm.DeleteFeriado = (feriado) => {
@@ -72,25 +73,41 @@
         };
 
         vm.EditReceso = function (receso) {            
-            vm.receso = receso;
+            let nreceso = JSON.parse(JSON.stringify(receso));
+            vm.receso = nreceso;
         };
 
         vm.DeleteReceso = receso => {
             receso.Habilitado = false;
             var promise = crudService.PostHttp('/Agenda/CreateOrEditReceso', receso);
-            promise.then(data => vm.GetFeriados());
-            vm.GetRecesos();
+            promise.then(data => vm.GetRecesos());            
         };
 
         vm.CreateReceso = function (feriado) {
             vm.receso = {};
         };
 
+        vm.EditBloqueo = bloqueo => {        
+            let nbloqueo = JSON.parse(JSON.stringify(bloqueo));
+            nbloqueo.HoraDesde = moment(bloqueo.HoraDesde).toDate();
+            nbloqueo.HoraHasta = moment(bloqueo.HoraHasta).toDate();
+            nbloqueo.FechaDesde = moment(bloqueo.FechaDesde).toDate();
+            nbloqueo.FechaHasta = moment(bloqueo.FechaHasta).toDate();            
+            vm.bloqueo = nbloqueo;
+        };
+        
+
+        vm.DeleteBloqueo = bloqueo => {
+            bloqueo.Habilitado = false;
+            var promise = crudService.PostHttp('/Agenda/CreateOrEditBloqueo', bloqueo);
+            promise.then(data => vm.GetBloqueos());            
+        };
+
+        vm.CreateBloqueo = () => vm.bloqueo = {};
+        
+
         vm.saveAgenda = agenda => vm.agenda = agenda;
-
-        vm.EditBloqueo = bloqueo => vm.bloqueo = bloqueo;
-
-        vm.CreateBloqueo = bloqueo => vm.bloqueo = {};
+        
 
     }
 

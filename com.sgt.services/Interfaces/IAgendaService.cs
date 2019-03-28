@@ -17,8 +17,10 @@ namespace com.sgt.services.Interfaces
         Feriado FindFeriado(int id);
         ICollection<Feriado> FindNextFeriado();
         ICollection<Feriado> SearchFeriado(DateTime desde, DateTime hasta);
+
         Agendum GetAgenda();
         void EditAgenda(Agendum entity);
+
         ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate);
         Sesion SetSesionAnulada(int sesionID, string usuario);
         Sesion SetSesionAsistio(int sesionID, string usuario);
@@ -30,12 +32,14 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> CambiarFechaSesion(ICollection<Sesion> sesiones);
         ICollection<Sesion> CambiarFechaSesionSobreturno(ICollection<Sesion> sesiones);
         ICollection<Sesion_Estado> GetSesionEstados();
+        ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones);
+
         Turno ReservarSesiones(Turno turno);
         void CancelarReserva(int idTurno);
         void CancelarReserva(Turno turno);
         Turno CancelarSesionesPendientes(int idTurno);
         Turno CancelarSesionesPendientes(Turno turno);
-        ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones);
+        
 
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);
         Agenda_Receso GetReceso(int id);
@@ -43,6 +47,9 @@ namespace com.sgt.services.Interfaces
         void EditReceso(Agenda_Receso entity);
         void DelReceso(int id);
         void DelReceso(Agenda_Receso entity);
+
+        void AddBloqueoAgenda(Agenda_Bloqueos entity);
+        void EditBloqueoAgenda(Agenda_Bloqueos entity);
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);

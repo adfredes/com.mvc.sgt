@@ -1159,7 +1159,30 @@ namespace com.sgt.services.Services
         {
             unitOfWork.RepoAgendaReceso.Delete(entity);
         }
-        
+
+        public void AddBloqueoAgenda(Agenda_Bloqueos entity)
+        {
+            entity.AgendaId = 1;
+            /*int turnoSimultaneo = entity.TurnoSimultaneo == 0 ? 1 : entity.TurnoSimultaneo; ;
+            int turnoSimultaneoHasta = entity.TurnoSimultaneo == 0 ? 
+                unitOfWork.RepoConsultorio.Find(entity.ConsultorioId).TurnosSimultaneos : 
+                entity.TurnoSimultaneo;
+                for (int s = turnoSimultaneo; s <= turnoSimultaneoHasta; s++)
+                {
+
+                }*/
+            
+
+            unitOfWork.RepoAgendaBloqueos.Add(entity);
+
+        }
+
+        public void EditBloqueoAgenda(Agenda_Bloqueos entity)
+        {
+            entity.AgendaId = 1;
+            unitOfWork.RepoAgendaBloqueos.Edit(entity);
+        }
+
         #endregion
 
 
