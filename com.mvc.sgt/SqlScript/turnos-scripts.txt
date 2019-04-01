@@ -103,4 +103,14 @@ create table Turno_Repeticiones(
 	FechaModificacion datetime not null
 );
 
+create table dbo.SmtpMail (
+	ID int identity primary key, 
+	Host varchar(50) not null,
+	Port int not null,
+	[Ssl] bit not null,
+	[User] varchar(50) not null,
+	Pass varchar(50) not null,
+	Mail varchar(50) not null
+);
+
 

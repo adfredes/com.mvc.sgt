@@ -620,6 +620,7 @@
       <End Role="Turno" EntitySet="Turnoes" />
       <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
     </AssociationSet>
+    <EntitySet Name="SmtpMails" EntityType="TurnosModel.SmtpMail" />
   </EntityContainer>
   <EntityType Name="TipoSesion">
     <Key>
@@ -821,4 +822,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="SmtpMail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Port" Type="Int32" Nullable="false" />
+    <Property Name="Ssl" Type="Boolean" Nullable="false" />
+    <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Mail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

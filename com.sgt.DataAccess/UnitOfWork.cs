@@ -29,6 +29,8 @@ namespace com.sgt.DataAccess
         private IAgendaRecesoRepository agendaRecesoRepository;
         private ISesionEstadosRepository sesionEstadosRepository;
         private ITurnoRepeticionesRepository turnoRepeticionesRepository;
+        private ISmtpMailRepository smtpMailRepository;
+
 
         public UnitOfWork(TurnosDB dbContext)
         {
@@ -102,5 +104,8 @@ namespace com.sgt.DataAccess
 
         public ITurnoRepeticionesRepository RepoTurnoRepeticiones =>
             turnoRepeticionesRepository= turnoRepeticionesRepository ?? new TurnoRepeticionesRepository(dbContext);
+
+        public ISmtpMailRepository RepoSmtpMail =>
+            smtpMailRepository = smtpMailRepository ?? new SmtpMailRepository(dbContext);
     }
 }

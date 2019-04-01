@@ -26,6 +26,8 @@ namespace com.mvc.sgt.Models
         public string Plan { get; set; }
         public string AseguradoraColor { get; set; }
         public bool SinAsignar { get; set; }
+        //public bool DobleOrden { get; set; }
+        public string Observaciones { get; set; }
 
     }
 }

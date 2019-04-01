@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IDocumentoTipoService.cs" />
     <Compile Include="Interfaces\IAgendaService.cs" />
     <Compile Include="Interfaces\ILocalidadService.cs" />
+    <Compile Include="Interfaces\IMailClientService.cs" />
     <Compile Include="Interfaces\IPacienteService.cs" />
     <Compile Include="Interfaces\IProfesionalService.cs" />
     <Compile Include="Interfaces\IProvinciaService.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Services\ConsultorioService.cs" />
     <Compile Include="Services\DocumentoTipoService.cs" />
     <Compile Include="Services\LocalidadService.cs" />
+    <Compile Include="Services\MailClientService.cs" />
     <Compile Include="Services\PacienteService.cs" />
     <Compile Include="Services\ProfesionalService.cs" />
     <Compile Include="Services\ProvinciaService.cs" />

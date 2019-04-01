@@ -266,6 +266,19 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
+                                            <div class="clearfix"></div>
+                                            <fieldset class="m-0 pt-0 pb-0">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <md-input-container class="form-group md-block">
+                                                            <label for="observaciones">Observaciones</label>
+                                                            <textarea id="observaciones" name="observaciones" ng-model="$ctrl.paciente.Observaciones" md-maxlength="150" rows="1" md-select-on-focus></textarea>
+                                                            
+                                                        </md-input-container>
+                                                    </div>                                                    
+                                                </div>                                               
+                                            </fieldset>
+
                                             <fieldset class="m-0 pt-0 pb-0">
                                                 <md-input-container class="md-block">
                                                     <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" required>

@@ -343,6 +343,18 @@ advertencia 6002: La tabla o vista 'SITK.dbo.repeticionesMedicos' no tiene defin
     <Property Name="Descripcion" Type="varchar" MaxLength="255" />
     <Property Name="Prioridad" Type="smallint" />
   </EntityType>
+  <EntityType Name="SmtpMail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Host" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Port" Type="int" Nullable="false" />
+    <Property Name="Ssl" Type="bit" Nullable="false" />
+    <Property Name="User" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Pass" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Mail" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="TipoSesion">
     <Key>
       <PropertyRef Name="ID" />
@@ -692,6 +704,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sesion_Estado" EntityType="Self.Sesion_Estado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SmtpMail" EntityType="Self.SmtpMail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoSesion" EntityType="Self.TipoSesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Turno_Repeticiones" EntityType="Self.Turno_Repeticiones" Schema="dbo" store:Type="Tables" />

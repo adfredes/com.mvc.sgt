@@ -50,7 +50,7 @@
 
         let loadDiagnostico = (id) => {
             let promise = crudService.GetPHttp(`Paciente/${id}/Diagnostico`);
-            promise.then(data => {                
+            promise.then(data => {                     
                 vm.diagnosticos = JSON.parse(data);                          
             })
                 .catch(err => vm.diagnosticos = {});
@@ -93,6 +93,9 @@
             if (change.paciente && !change.paciente.isFirstChange()) {
                 vm.getLocalidades();
                 vm.getPlanes();
+            }
+            if (vm.paciente && vm.paciente.ID){
+                loadDiagnostico(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
         };

@@ -56,6 +56,7 @@
         <EntityTypeShape EntityType="TurnosModel.Turno_Repeticiones" Width="1.5" PointX="13.125" PointY="20.375" />
         <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Consu__3F6663D5" />
         <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" />
+        <EntityTypeShape EntityType="TurnosModel.SmtpMail" Width="1.5" PointX="17.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

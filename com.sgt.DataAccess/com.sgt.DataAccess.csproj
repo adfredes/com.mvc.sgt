@@ -109,6 +109,7 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISesionEstadosRepository.cs" />
     <Compile Include="Interfaces\ISesionRepository.cs" />
+    <Compile Include="Interfaces\ISmtpMailRepository.cs" />
     <Compile Include="Interfaces\ITipoSesionRepository.cs" />
     <Compile Include="Interfaces\ITurnoRepeticionesRepository.cs" />
     <Compile Include="Interfaces\ITurnoRepository.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Repositories\ProvinciaRepository.cs" />
     <Compile Include="Repositories\SesionEstadosRepository.cs" />
     <Compile Include="Repositories\SesionRepository.cs" />
+    <Compile Include="Repositories\SmtpMailRepository.cs" />
     <Compile Include="Repositories\TipoSesionRepository.cs" />
     <Compile Include="Repositories\TurnoRepeticionesRepository.cs" />
     <Compile Include="Repositories\TurnoRepository.cs" />
@@ -159,6 +161,9 @@
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Sesion_Estado.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SmtpMail.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
     <Compile Include="TipoSesion.cs">

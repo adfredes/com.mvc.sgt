@@ -22,6 +22,7 @@ namespace com.sgt.DataAccess.Interfaces
         IAgendaBloqueosRepository RepoAgendaBloqueos { get; }
         IAgendaRecesoRepository RepoAgendaReceso { get; }
         ISesionEstadosRepository RepoSesionEstados { get; }
-        ITurnoRepeticionesRepository RepoTurnoRepeticiones { get; }        
+        ITurnoRepeticionesRepository RepoTurnoRepeticiones { get; }
+        ISmtpMailRepository RepoSmtpMail { get; }
     }
 }

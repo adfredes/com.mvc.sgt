@@ -1049,7 +1049,10 @@
                 `${_sesion.Numero} / ${_sesion.CantidadSesiones}<br>${getNombreEstado(_sesion.Estado)}`
                 : `${_sesion.Paciente}<br>OS: ${_sesion.Aseguradora} - ${_sesion.Plan}<br>
                        Sesion: ${_sesion.Numero} / ${_sesion.CantidadSesiones}<br>
-                        ${_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : ''}${getNombreEstado(_sesion.Estado)}`;
+                        ${_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : ''}
+                        ${_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : ''}
+                        ${_sesion.DobleSesion ? "Doble Sesión<br>" : ''}
+                        ${getNombreEstado(_sesion.Estado)}`;
             if (_sesion.SinAsignar) {
                 innerHTML += `<span class="icon-attention sin-fecha" title="Sesiones sin fechas asignadas"></span>`;
             }
