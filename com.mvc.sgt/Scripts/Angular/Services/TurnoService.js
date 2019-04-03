@@ -328,7 +328,7 @@
                 .catch(() => undefined);
         };        
         */
-        $this.openCambiarSesionModal = (sesion, success) => {
+        $this.openCambiarSesionModal = (sesion, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Paciente">
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">
@@ -350,8 +350,11 @@
                     $mdDialog.hide(answer);
                 };
             }
-
+            //console.dir(parentEl.children());
+            //var parentEl = angular.element(document.querySelector("#divTurnoSinFecha"));
+            
             $mdDialog.show({
+                parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,

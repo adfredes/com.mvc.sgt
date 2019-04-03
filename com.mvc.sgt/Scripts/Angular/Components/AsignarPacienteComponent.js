@@ -9,10 +9,10 @@
             divid: "@", 
             onChanges: "&?"
         },
-        controller: ['turnoService', 'eventService', asignarPacienteController]
+        controller: ['turnoService', 'eventService','$element', asignarPacienteController]
     });
 
-    function asignarPacienteController(turnoService, eventService) {
+    function asignarPacienteController(turnoService, eventService, $element) {
         let vm = this;
         vm.pacienteSeleccionado = {};
 
@@ -148,7 +148,7 @@
                 if (vm.onChanges) {
                     vm.onChanges()();
                 }            
-        });
+        }, $element);
 
         vm.changeSesionState = (asistio) => {
             let sesiones = [];            
