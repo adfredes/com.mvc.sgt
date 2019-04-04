@@ -9,7 +9,7 @@
         },
         templateUrl: Domain + 'Paciente/ViewTurnos',
         controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
-            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', pacienteTurnosController],
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog','$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
             onClose: "&?"
@@ -27,7 +27,7 @@
     //sgtApp.controller('DialogController', ['$scope', '$mdDialog', DialogController]);
 
     function pacienteTurnosController(turnoService, eventService, pdfService, crudService,
-        $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog) {
+        $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
         let vm = this;
         vm.turnos = [];
         let Estados = [];
@@ -133,10 +133,20 @@
             }, 500);
         };
 
-        vm.cancelarSesionSelect = function (ev, turno) {                       
-            vm.selectedTurno = turno;
-            vm.showModal(ev);
-        };
+        vm.cancelarSesionSelect =(ev, turno)=> turnoService.cancelarTurno(turno, promise => {
+            promise.then(data => {
+                getTurnosPaciente(vm.paciente.ID);
+                eventService.UpdateTurnos();
+                if (vm.onChanges) {
+                    vm.onChanges()();
+                }
+            });
+        }, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent());        
+
+        //    = function (ev, turno) {                       
+        //    vm.selectedTurno = turno;
+        //    vm.showModal(ev);
+        //};
 
         vm.confirmCancelarTurno = function () {
             vm.deleteTurno = false;
@@ -225,7 +235,7 @@
             turnoService.openDiagnostico(turno,
                 (promise) =>
                     promise.then(data => turno = turnoService.sesionesOrder(JSON.parse(data)))
-                        .catch(error => { })
+                        .catch(error => { }), $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent()
             );
         };
 

@@ -174,5 +174,20 @@ namespace com.mvc.sgt.Controllers
             PacienteDto model = Mapper.Map<PacienteDto>(pacienteService.Find(id));
             return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult PacientesAnualesAviso()
+        {
+            return PartialView();
+        }
+
+        [HttpGet]
+        [Route("Paciente/Anual/Sesiones")]
+        public JsonResult GetPacientesAnuales()
+        {
+            var pacientes = Mapper.Map<List<PacienteSearchDto>>(pacienteService.ListarPacientesAnualesCondicionSesiones());
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(pacientes, JsonRequestBehavior.AllowGet);
+        }
     }
 }

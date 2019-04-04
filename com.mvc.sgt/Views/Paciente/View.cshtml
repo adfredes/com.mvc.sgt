@@ -273,19 +273,32 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="observaciones">Observaciones</label>
                                                             <textarea id="observaciones" name="observaciones" ng-model="$ctrl.paciente.Observaciones" md-maxlength="150" rows="1" md-select-on-focus></textarea>
-                                                            
+
                                                         </md-input-container>
-                                                    </div>                                                    
-                                                </div>                                               
+                                                    </div>
+                                                </div>
                                             </fieldset>
 
                                             <fieldset class="m-0 pt-0 pb-0">
-                                                <md-input-container class="md-block">
-                                                    <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" required>
-                                                        <span ng-show="$ctrl.paciente.Habilitado">Habilitado</span>
-                                                        <span ng-hide="$ctrl.paciente.Habilitado">Deshabilitado</span>
-                                                    </md-switch>
-                                                </md-input-container>
+                                                <div class="form-row">
+                                                    
+                                                    <div class="form-group col-sm">
+                                                        <md-input-container class="md-block">
+                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Anual" required>
+                                                                <span>Anual</span>
+                                                            </md-switch>
+                                                        </md-input-container>
+                                                    </div>
+
+                                                    <div class="form-group col-sm">
+                                                        <md-input-container class="md-block">
+                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" required>
+                                                                <span ng-show="$ctrl.paciente.Habilitado">Habilitado</span>
+                                                                <span ng-hide="$ctrl.paciente.Habilitado">Deshabilitado</span>
+                                                            </md-switch>
+                                                        </md-input-container>
+                                                    </div>                                                    
+                                                </div>
                                             </fieldset>
 
                                         </form>

@@ -147,7 +147,7 @@
 
         };
 
-        $this.AgregarSesionesTurno = (turno, success) => {
+        $this.AgregarSesionesTurno = (turno, success, parentEl) => {
             
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
@@ -192,6 +192,7 @@
             }
 
             $mdDialog.show({
+                parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
@@ -212,7 +213,7 @@
 
         };
 
-        $this.cancelarTurno = (TurnoID, success) => {
+        $this.cancelarTurno = (turno, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -223,7 +224,7 @@
                                 <md-dialog-content>
                                   <div class="md-dialog-content">        
                                     <p>
-                                      Esta seguro que desea cancelar el turno ${TurnoID}?
+                                      Esta seguro que desea cancelar el turno ${turno.ID}?
                                     </p>
                                   </div>
                                 </md-dialog-content>
@@ -248,6 +249,7 @@
             }
 
             $mdDialog.show({
+                parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
@@ -255,9 +257,9 @@
                 locals: { TurnoID: TurnoID }
             })
                 .then(answer => {
-                    let url = "Sesion/Pendiente/Anular";
+                    let url = "Turno/Cancelar";
                     let params = {};
-                    params.id = TurnoID;
+                    params.model = turno;
                     let promise = crudService.PutHttp(url, params);
                     success(promise);
                 })
@@ -349,13 +351,10 @@
                 $scope.answer = function (answer) {
                     $mdDialog.hide(answer);
                 };
-            }
-            //console.dir(parentEl.children());
-            //var parentEl = angular.element(document.querySelector("#divTurnoSinFecha"));
-            
+            }           
             $mdDialog.show({
                 parent: parentEl.children(),
-                template: modalHtml,
+                template: modalHtml,                
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
                 fullscreen: false
@@ -368,7 +367,7 @@
                 .catch(() => success(undefined));
         };
 
-        $this.openDiagnostico = (turno, success) => {
+        $this.openDiagnostico = (turno, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -406,6 +405,7 @@
             }
 
             $mdDialog.show({
+                parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,

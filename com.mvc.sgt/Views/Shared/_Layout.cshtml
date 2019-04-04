@@ -47,7 +47,7 @@
                             <a class="dropdown-item" href="#!Consultorios" ng-click="nvCtr.changeLink('configuracion')">Consultorios</a>
                             <a class="dropdown-item" href="#!Profesionales" ng-click="nvCtr.changeLink('configuracion')">Profesionales</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#!Agenda" ng-click="nvCtr.changeLink('configuracion')">Agenda</a>                            
+                            <a class="dropdown-item" href="#!Agenda" ng-click="nvCtr.changeLink('configuracion')">Agenda</a>
                         </div>
                     </li>
                     @if (Request.IsAuthenticated)
@@ -75,18 +75,16 @@
                 </search-paciente>
             }
         </nav>
-        <div class="notification-bar">
-            &nbsp;
-        </div>
-    </header>@if (Request.IsAuthenticated)
-    {
-        <turnos-sin-fecha></turnos-sin-fecha>
-    }
-    <div class="mb-4 p-1">
-
+        </header>
+    <div class="notification-bar">
+        @if (Request.IsAuthenticated)
+        {
+            <pacientes-anuales></pacientes-anuales>
+            <turnos-sin-fecha></turnos-sin-fecha>
+        }
     </div>
-    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">        
-            @RenderBody()        
+    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">
+        @RenderBody()
     </main>
     <hr />
 

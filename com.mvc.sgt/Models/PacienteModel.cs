@@ -43,6 +43,8 @@ namespace com.mvc.sgt.Models
         public string Cuit { get; set; }
         public string Mail { get; set; }
         public string Foto { get; set; }
+        public bool Anual { get; set; }
+
 
         public virtual AseguradoraModel Aseguradora { get; set; }
         public virtual AseguradoraPlanModel AseguradoraPlan { get; set; }

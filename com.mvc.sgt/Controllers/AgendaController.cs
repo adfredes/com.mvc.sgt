@@ -117,11 +117,31 @@ namespace com.mvc.sgt.Controllers
             string resu;            
             try
             {
-                var turno = this.AgendaService.CancelarSesionesPendientes(id);
+                var turno = this.AgendaService.CancelarSesionesPendientes(id,User.Identity.Name);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 resu = JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno));
             }
             catch(Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        [CreateUpdateActionFilter("admin")]
+        [Route("Turno/Cancelar")]
+        public JsonResult CancelarTurno(Turno model)
+        {
+            string resu;
+            try
+            {
+                var turno = this.AgendaService.CancelarTurno(Mapper.Map<Turno>(model));                
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                resu = JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno));
+            }
+            catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 resu = ex.Message;

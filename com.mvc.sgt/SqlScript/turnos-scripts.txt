@@ -73,7 +73,10 @@ add TipoSesionID int;
 
 
 alter table dbo.Paciente 
-add Foto varchar(MAX)
+add Foto varchar(MAX);
+
+alter table dbo.Paciente 
+add Anual bit default 0;
 
 insert into sitk.dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)

@@ -19,6 +19,18 @@ span.btn.ng-hide{
     opacity:0;
 }
 
+.notification-bar {
+    display: flex;
+    flex-direction: row-reverse;
+    position: fixed;
+    top: 5rem;
+    right: 0px;
+    height: auto;
+    width: auto;
+    z-index: 500;
+    transition: all 0.4s;
+}
+
 /*search-paciente{
     position: fixed;
     top:0px;
@@ -186,8 +198,80 @@ input[readonly]{
     background: inherit !important;
 }
 
+/***********bar-component****************/
+.bar-component {
+    height: auto;
+    width: auto;
+    padding: 15px 1rem 10px 1rem;
+    background: rgb(71,119,168);
+    opacity: 0.6;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: white;
+    transition: all 0.4s;
+    z-index: 500;
+}
+
+
+
+    .bar-component > p {
+        margin: 0px;
+    }
+
+    .bar-component li {
+        list-style: none;
+        display: none;
+        margin: 0rem 1rem;
+    }
+
+    .bar-component:hover {
+        opacity: 1;
+    }
+
+
+        .bar-component:hover li {
+            display: block;
+        }
+
+        .bar-component:hover ul {
+            display: block;
+            max-height: 40vh;
+            overflow: auto;
+        }
+
+    .bar-component ul {
+        margin: 0px;
+        padding: 0px;
+        display: none;
+    }
+
+    .bar-component > p:first-child {
+        display: block;
+    }
+
+/**********PacientesAnualesSinSesiones**********/
+.pacienteSinSesionesAnuales:hover > p:first-child > span:last-child::after {
+    content: "Pacientes ultimas 20 sesiones.";
+    margin-left: 0.4rem;
+}
+
 /**********TurnoSinFechaComponent****************/
-.sinFechaComponent {
+
+.sinFechaComponent:hover > p:first-child > span:last-child::after {
+    content: "Hay Sesiones sin asignar.";
+    margin-left: 0.4rem;
+}
+
+.sinFechaComponent .boton {
+    color: #ccc;
+    cursor: pointer;
+}
+
+    .sinFechaComponent .boton:hover {
+        color: #fff;
+    }
+
+/*.sinFechaComponent {
     position: fixed;
     top: 80px;
     right: 0px;   
@@ -249,14 +333,14 @@ input[readonly]{
 
 .sinFechaComponent > p:first-child {
     display: block;
-}
+}*/
 
 
 
 /*********Semanal***********/
 .reservas {
     position: fixed;
-    top: 80px;
+    top: 5rem;
     left: 0px;
     display: none;
     height: auto;
@@ -513,28 +597,16 @@ input[readonly]{
     }
 
 
-.notification-bar {
-    position: fixed;
-    top: 80px;
-    left: 0px;
-    width: 100%;
-    height: auto;
-    padding: 15px 1rem 10px 1rem;
-    /*background: rgb(71,119,168);*/
-    background: rgb(0,0,0);
-    opacity: 0;
-    z-index: 400;
-    border-top: 1px solid #ccc;
-}
 
-@media only screen and (max-width: 992px) and (min-width: 576px){
+
+@media only screen and (max-width: 991px) and (min-width: 576px){
     .notification-bar {        
-        top: 60px;        
+        top: 4rem;        
     }
     .reservas {
-        top: 60px;
+        top: 4rem;
     }
-    .sinFechaComponent {
+/*    .sinFechaComponent {
         top: 60px;
-    }
+    }*/
 }

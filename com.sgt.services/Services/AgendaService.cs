@@ -710,6 +710,15 @@ namespace com.sgt.services.Services
             return turno;
         }
 
+        public Turno CancelarTurno(Turno turno)
+        {
+            turno.Sesions = unitOfWork.RepoTurno.Find(turno.ID).Sesions;
+            turno.Estado = (short)EstadoTurno.Cancelado;
+            turno = CancelarSesionesPendientes(turno);
+            unitOfWork.RepoTurno.Edit(turno);
+            return turno;
+        }
+
         //public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
         //{
         //    var oldTurno = unitOfWork.RepoTurno.Find(turno.ID);
@@ -1242,11 +1251,13 @@ namespace com.sgt.services.Services
 
         }
 
-        public Turno CancelarSesionesPendientes(int idTurno)
+        public Turno CancelarSesionesPendientes(int idTurno, string user)
         {
             var turno = unitOfWork.RepoTurno.Find(idTurno);
             if (turno != null)
             {
+                turno.FechaModificacion = DateTime.Now;
+                turno.UsuarioModificacion = user;
                 turno = CancelarSesionesPendientes(turno);
             }
             return turno;

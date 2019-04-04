@@ -3,13 +3,13 @@
 
     sgtApp.component('sesionesView', {
         templateUrl: Domain + 'Paciente/ViewSesiones',
-        controller: ['turnoService', 'eventService', sesionesViewController],
+        controller: ['turnoService', 'eventService','$element', sesionesViewController],
         bindings: {
             divid: "@"
         }
     });
 
-    function sesionesViewController(turnoService, eventService) {
+    function sesionesViewController(turnoService, eventService, $element) {
         vm = this;
         vm.currentPage = 0;
         vm.initPage = 0;
@@ -108,17 +108,17 @@
             turnoService.openDiagnostico(vm.turno,
                 (promise) =>
                     promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
-                        .catch(error => { })
+                        .catch(error => { }), $element
             );
         };
 
         vm.cancelarTurno = () => {
-            turnoService.cancelarTurno(vm.turno.ID, promise => {
+            turnoService.cancelarTurno(vm.turno, promise => {
                 promise.then(data => {
-                    getTurno(vm.turno.ID);
+                    getTurnosPaciente(vm.PacienteID);
                     eventService.UpdateTurnos();
                 });
-            });
+            }, $element);
 
         };
 
@@ -147,7 +147,7 @@
             turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
                 promise.then(data => { eventService.UpdateTurnos(); })
                     .catch(error => { });
-            });
+            }, $element);
         };
     }
 })();

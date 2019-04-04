@@ -7,6 +7,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using com.sgt.DataAccess.Enums;
+using com.sgt.DataAccess.ExtensionMethod;
 
 namespace com.sgt.services.Services
 {
@@ -113,6 +115,30 @@ namespace com.sgt.services.Services
 
             return final;
             //resu.ToList();
+        }
+
+        public ICollection<Paciente> ListarPacientesAnualesCondicionSesiones()
+        {
+            var pacientes = unitOfWork.RepoPaciente.FindBy(x => x.Anual == true);
+            List<Paciente> listaPacientes = new List<Paciente>();
+
+            foreach(var paciente in pacientes)
+            {
+                int sesionesPendientes = paciente.Turnoes
+                    .Sum(x => x.Sesions
+                        .Select( s => new { s.TurnoID,s.Numero,s.Estado})
+                        .Distinct()
+                        .Where(s => (EstadoSesion)s.Estado == EstadoSesion.Confirmado)
+                        .ToList().Count)
+                    ;
+                if (sesionesPendientes <= 20)
+                {
+                    listaPacientes.Add(paciente);
+                }
+                
+            }
+
+            return listaPacientes;            
         }
     }
 }

@@ -49,6 +49,7 @@ namespace com.sgt.DataAccess
         public string Mail { get; set; }
         public string Cuit { get; set; }
         public string Foto { get; set; }
+        public Nullable<bool> Anual { get; set; }
     
         public virtual Aseguradora Aseguradora { get; set; }
         public virtual Aseguradora_Plan Aseguradora_Plan { get; set; }

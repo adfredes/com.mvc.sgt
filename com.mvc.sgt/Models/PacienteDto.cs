@@ -34,5 +34,6 @@ namespace com.mvc.sgt.Models
         public string Cuit { get; set; }
         public string Mail { get; set; }
         public string Foto { get; set; }
+        public bool Anual { get; set; }
     }
 }

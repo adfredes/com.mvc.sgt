@@ -3,9 +3,9 @@
         <table class="table table-sm table-responsive-sm table-hover table table-bordered m-0 p-1" style="caption-side:top;" ng-hide="$ctrl.reading">
             <caption style="caption-side:top;" class="m-0 p-1 text-left">
                 <span style="cursor:pointer" ng-click="turno.visible = !turno.visible">Turno {{turno.ID}} - {{$ctrl.toDate(turno.begin)}} a {{$ctrl.toDate(turno.end)}} - {{turno.CantidadSesiones}} Sesiones</span>
-                <span style="cursor:pointer" class="icon-print text-primary font-weight-bold" ng-click="$ctrl.turnoPrint(turno)" title="Imprimir"></span>
+                <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-print text-primary font-weight-bold" ng-click="$ctrl.turnoPrint(turno)" title="Imprimir"></span>
                 <span style="cursor:pointer" class="icon-stethoscope text-primary font-weight-bold" ng-click="$ctrl.openDiagnostico(turno)" title="Diagnóstico"></span>
-                <span style="cursor:pointer" class="icon-cancel text-danger font-weight-bold" ng-click="$ctrl.cancelarSesionSelect($event, turno)" title="Cancelar Turno"></span>
+                <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-cancel text-danger font-weight-bold" ng-click="$ctrl.cancelarSesionSelect($event, turno)" title="Cancelar Turno"></span>
             </caption>
             <thead>
                 <tr ng-show="turno.visible" class="bg-light">

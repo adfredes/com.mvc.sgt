@@ -37,7 +37,7 @@ namespace com.sgt.services.Interfaces
         Turno ReservarSesiones(Turno turno);
         void CancelarReserva(int idTurno);
         void CancelarReserva(Turno turno);
-        Turno CancelarSesionesPendientes(int idTurno);
+        Turno CancelarSesionesPendientes(int idTurno, string user);
         Turno CancelarSesionesPendientes(Turno turno);
         
 
@@ -57,6 +57,7 @@ namespace com.sgt.services.Interfaces
         Turno ConfirmarTurno(Turno turno, bool continuar);
         void EditDiagnosticoTurno(Turno turno);
         Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar);
+        Turno CancelarTurno(Turno turno);
         List<Turno> GetTurnosSinFecha();
     }
 }

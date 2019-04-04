@@ -258,6 +258,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.opciones' no tiene definida ninguna
           <Property Name="Mail" Type="varchar" MaxLength="50" />
           <Property Name="Cuit" Type="varchar" MaxLength="20" />
           <Property Name="Foto" Type="varchar(max)" />
+          <Property Name="Anual" Type="bit" />
         </EntityType>
         <EntityType Name="Paciente_Aseguradora_Historico">
           <Key>
@@ -1090,6 +1091,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Turnoes" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
           <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Anual" Type="Boolean" />
         </EntityType>
         <EntityType Name="Paciente_Aseguradora_Historico">
           <Key>
@@ -1887,6 +1889,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySetMapping Name="Pacientes">
             <EntityTypeMapping TypeName="TurnosModel.Paciente">
               <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Anual" ColumnName="Anual" />
                 <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="Cuit" ColumnName="Cuit" />
                 <ScalarProperty Name="Mail" ColumnName="Mail" />

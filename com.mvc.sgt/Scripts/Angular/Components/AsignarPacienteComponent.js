@@ -75,7 +75,7 @@
 
         vm.turnoChange = () =>
         {            
-            if (!vm.turno || !vm.turno.ID || vm.turno.ID == 0) {
+            if (!vm.turno || !vm.turno.ID || vm.turno.ID === 0) {
                 vm.turno = {};
                 vm.continuar = false;
             }
@@ -105,7 +105,7 @@
             turnoService.openDiagnostico(vm.turno,
                 (promise) =>
                     promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
-                        .catch(error => { })
+                        .catch(error => { }), $element
             );                
         };
 
@@ -129,8 +129,8 @@
                 .catch(error => { });
         };
 
-        vm.cancelarTurno = () => {
-            turnoService.cancelarTurno(vm.turno.ID, promise => {
+        vm.cancelarTurno = () => {            
+            turnoService.cancelarTurno(vm.turno, promise => {
                 promise.then(data => {
                     getTurno(vm.turno.ID);
                     eventService.UpdateTurnos();
@@ -138,7 +138,7 @@
                         vm.onChanges()();
                     }
                 });
-            });
+            }, $element);
             
         };
 
@@ -184,7 +184,7 @@
                     }
                 })
                     .catch(error => { });
-            });
+            }, $element);
         };
 
         
