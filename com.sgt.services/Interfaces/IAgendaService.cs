@@ -33,6 +33,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> CambiarFechaSesionSobreturno(ICollection<Sesion> sesiones);
         ICollection<Sesion_Estado> GetSesionEstados();
         ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones);
+        ICollection<Sesion> PosponerSesion(ICollection<Sesion> sesiones, DateTime semana);
 
         Turno ReservarSesiones(Turno turno);
         void CancelarReserva(int idTurno);

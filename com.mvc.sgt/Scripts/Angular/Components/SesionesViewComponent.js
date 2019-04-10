@@ -82,8 +82,8 @@
             let promise = turnoService.getTurnosPaciente(id);
             promise.then(data => {   
                 
-                vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                
-                vm.turno = vm.turnos[0];
+                vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                                
+                vm.turno = vm.turnos[vm.currentPage];
                 vm.registerCount = vm.turnos.length;
             })
                 .catch(err => { vm.turnos = [];});
@@ -136,7 +136,7 @@
                 promise = turnoService.setEstadoNoAsistio(sesiones);
             }
             promise.then(data => {
-                getTurno(vm.turno.ID);
+                getTurnosPaciente(vm.PacienteID);
                 eventService.UpdateTurnos();
             })
                 .catch(err => { });
@@ -148,6 +148,15 @@
                 promise.then(data => { eventService.UpdateTurnos(); })
                     .catch(error => { });
             }, $element);
+        };
+
+        vm.posponerSesion = () => {
+            turnoService.openPosponerSesionModal(vm.turno, refreshTurno, $element);
+        };
+
+        let refreshTurno = (data) => {
+            getTurnosPaciente(vm.PacienteID);
+            eventService.UpdateTurnos();
         };
     }
 })();

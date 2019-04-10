@@ -4,8 +4,7 @@
     sgtApp.service("turnoService", ['crudService', 'pdfService', '$mdDialog', turnoServiceController]);
 
     function turnoServiceController(crudService, pdfService, $mdDialog) {
-        var $this = this;
-
+        var $this = this;        
 
         $this.toDate = function (value) {
             let dateValue = moment(value).toDate();
@@ -365,6 +364,53 @@
                     success(answer);
                 })
                 .catch(() => success(undefined));
+        };
+
+        $this.posponerSesiones = (sesiones, fecha) => {
+            let params = {};
+            let url = "Sesion/Posponer";
+            params.model = sesiones;
+            params.fecha = fecha;
+            let promise = crudService.PutHttp(url, params);
+            return promise;
+        };
+
+        $this.openPosponerSesionModal = (turno, success, parentEl) => {
+            let modalHtml = `<md-dialog aria-label="Paciente">
+                                <md-toolbar>
+                                    <div class="md-toolbar-tools  badge-warning">
+                                        <h5 class="modal-title">Posponer Turno</h5>
+                                    </div>
+                                </md-toolbar>
+                                <sesion-posponer turno="turno" on-save="answer" on-cancel="cancel" />
+                            </md-dialog>`;
+
+            function DialogController($scope, $mdDialog) {
+                $scope.turno = turno;
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false
+                //,
+                //locals: { turno: turno }
+            })
+                .then(answer => {
+                    console.dir(answer);
+                    success(answer);
+                })
+                .catch(() => undefined);
         };
 
         $this.openDiagnostico = (turno, success, parentEl) => {

@@ -318,6 +318,7 @@
     <Content Include="Scripts\Angular\Components\PacienteQuickCreateComponent.js" />
     <Content Include="Scripts\Angular\Components\PacientesAnualesComponent.js" />
     <Content Include="Scripts\Angular\Components\RecesoComponent.js" />
+    <Content Include="Scripts\Angular\Components\SesionPosponerComponent.js" />
     <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
@@ -1422,6 +1423,7 @@
     <Content Include="Views\Agenda\Edit.cshtml" />
     <Content Include="Views\Agenda\CreateOrEditBloqueo.cshtml" />
     <Content Include="Views\Paciente\PacientesAnualesAviso.cshtml" />
+    <Content Include="Views\Agenda\PosponerSesion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

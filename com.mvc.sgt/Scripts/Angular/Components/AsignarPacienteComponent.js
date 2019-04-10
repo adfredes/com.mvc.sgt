@@ -15,6 +15,7 @@
     function asignarPacienteController(turnoService, eventService, $element) {
         let vm = this;
         vm.pacienteSeleccionado = {};
+        vm.SelectedSesiones = [];
 
         vm.toDate = turnoService.toDate;
 
@@ -187,7 +188,17 @@
             }, $element);
         };
 
-        
+        vm.posponerSesion = () => {
+            turnoService.openPosponerSesionModal(vm.turno, refresh, $element);
+        };
+
+        let refresh = () => {
+            getTurno(vm.turno.ID);
+            eventService.UpdateTurnos();
+            if (vm.onChanges) {
+                vm.onChanges()();
+            }
+        };
 
 
     }

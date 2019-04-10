@@ -339,14 +339,22 @@ namespace com.mvc.sgt.Controllers
         [HttpPut]
         [CreateUpdateActionFilter("admin")]
         [Route("Sesion/Posponer")]
-        public JsonResult PosponerSesion(List<SesionModel> model)
+        public JsonResult PosponerSesion(List<SesionModel> model, DateTime? fecha)
         {
             try
             {
                 var sesiones = Mapper.Map<ICollection<Sesion>>(model);
-                sesiones = this.AgendaService.PosponerSesion(sesiones);                
+                if (fecha.HasValue)
+                {
+                    sesiones = this.AgendaService.PosponerSesion(sesiones,fecha.Value);
+                }
+                else
+                {
+                    sesiones = this.AgendaService.PosponerSesion(sesiones);
+                }
+                
                 Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(sesiones);
+                return Json(JsonConvert.SerializeObject(sesiones),JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -561,6 +569,13 @@ namespace com.mvc.sgt.Controllers
             AgendaService.EditAgenda(Mapper.Map<Agendum>(model));
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json("ok", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Sesion/Posponer")]
+        public ActionResult PosponerSesion()
+        {
+            return PartialView();
         }
     }
 }
