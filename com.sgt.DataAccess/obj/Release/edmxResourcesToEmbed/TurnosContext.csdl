@@ -95,6 +95,7 @@
     <Property Name="TipoSesionID" Type="Int32" />
     <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="Consultorio" ToRole="TipoSesion" />
     <Property Name="UsuarioModificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Consu__3F6663D5" FromRole="Consultorio" ToRole="Turno_Repeticiones" />
   </EntityType>
   <EntityType Name="Documento_Tipo">
     <Key>
@@ -180,6 +181,8 @@
     <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Turnoes" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+    <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Anual" Type="Boolean" />
   </EntityType>
   <EntityType Name="Paciente_Aseguradora_Historico">
     <Key>
@@ -609,6 +612,16 @@
       <End Role="Turno" EntitySet="Turnoes" />
       <End Role="Sesion" EntitySet="Sesions" />
     </AssociationSet>
+    <EntitySet Name="Turno_Repeticiones" EntityType="TurnosModel.Turno_Repeticiones" />
+    <AssociationSet Name="FK__Turno_Rep__Consu__3F6663D5" Association="TurnosModel.FK__Turno_Rep__Consu__3F6663D5">
+      <End Role="Consultorio" EntitySet="Consultorios" />
+      <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Turno_Rep__Turno__3E723F9C" Association="TurnosModel.FK__Turno_Rep__Turno__3E723F9C">
+      <End Role="Turno" EntitySet="Turnoes" />
+      <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
+    </AssociationSet>
+    <EntitySet Name="SmtpMails" EntityType="TurnosModel.SmtpMail" />
   </EntityContainer>
   <EntityType Name="TipoSesion">
     <Key>
@@ -730,6 +743,8 @@
     <Property Name="Fecha" Type="DateTime" Precision="0" />
     <NavigationProperty Name="Paciente" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
     <NavigationProperty Name="Sesions" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Turno" ToRole="Sesion" />
+    <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
+    <Property Name="TipoSesionID" Type="Int32" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -767,4 +782,57 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Turno_Repeticiones">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TurnoID" Type="Int32" Nullable="false" />
+    <Property Name="Posicion" Type="Int32" Nullable="false" />
+    <Property Name="DiaSemana" Type="Int32" Nullable="false" />
+    <Property Name="ConsultorioID" Type="Int32" Nullable="false" />
+    <Property Name="Hora" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Frecuencia" Type="Int32" Nullable="false" />
+    <Property Name="UsuarioModificacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Consultorio" Relationship="TurnosModel.FK__Turno_Rep__Consu__3F6663D5" FromRole="Turno_Repeticiones" ToRole="Consultorio" />
+    <NavigationProperty Name="Turno" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno_Repeticiones" ToRole="Turno" />
+    <Property Name="Modulos" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Turno_Rep__Consu__3F6663D5">
+    <End Type="TurnosModel.Consultorio" Role="Consultorio" Multiplicity="1" />
+    <End Type="TurnosModel.Turno_Repeticiones" Role="Turno_Repeticiones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultorio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno_Repeticiones">
+        <PropertyRef Name="ConsultorioID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Turno_Rep__Turno__3E723F9C">
+    <End Type="TurnosModel.Turno" Role="Turno" Multiplicity="1" />
+    <End Type="TurnosModel.Turno_Repeticiones" Role="Turno_Repeticiones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Turno">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno_Repeticiones">
+        <PropertyRef Name="TurnoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SmtpMail">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Port" Type="Int32" Nullable="false" />
+    <Property Name="Ssl" Type="Boolean" Nullable="false" />
+    <Property Name="User" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Mail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

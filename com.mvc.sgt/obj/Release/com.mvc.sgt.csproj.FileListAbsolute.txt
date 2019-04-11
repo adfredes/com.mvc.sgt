@@ -104,9 +104,6 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\System.Web.WebPages.Deployment.resource
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\System.Web.WebPages.Razor.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\EntityFramework.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\EntityFramework.SqlServer.resources.dll
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.resources.dll
@@ -120,3 +117,8 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CoreCompileInpu
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.pdb
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.svg
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.eot
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.ttf
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.woff
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\Content\font\fontello.woff2

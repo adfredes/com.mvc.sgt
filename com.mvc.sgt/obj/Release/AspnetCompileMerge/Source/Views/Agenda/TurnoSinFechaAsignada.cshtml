@@ -1,0 +1,11 @@
+﻿<div id="divTurnosSinAsignarFEchas" class="sinFechaComponent bar-component" ng-show="$ctrl.Turnos.length > 0">
+    <p>        
+        <span class="icon-calendar-times-o"></span>
+    </p>
+    <p>
+        <ul>
+            <li ng-repeat="turno in $ctrl.Turnos"><span class='icon-calendar boton' ng-click="$ctrl.verTurno(turno)"></span>{{turno.Paciente}}. Turno {{turno.ID}}</li>
+        </ul>
+    </p>    
+</div>
+<asignar-paciente divid="divTurnoSinFecha" turno="$ctrl.selectedTurno" on-changes="$ctrl.changeTurno"></asignar-paciente>

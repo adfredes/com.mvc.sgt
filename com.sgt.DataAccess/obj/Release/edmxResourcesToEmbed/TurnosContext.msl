@@ -140,6 +140,8 @@
     <EntitySetMapping Name="Pacientes">
       <EntityTypeMapping TypeName="TurnosModel.Paciente">
         <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Anual" ColumnName="Anual" />
+          <ScalarProperty Name="Foto" ColumnName="Foto" />
           <ScalarProperty Name="Cuit" ColumnName="Cuit" />
           <ScalarProperty Name="Mail" ColumnName="Mail" />
           <ScalarProperty Name="ID" ColumnName="ID" />
@@ -380,6 +382,7 @@
     <EntitySetMapping Name="Turnoes">
       <EntityTypeMapping TypeName="TurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
           <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
           <ScalarProperty Name="CantidadSesiones" ColumnName="CantidadSesiones" />
@@ -388,6 +391,35 @@
           <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
           <ScalarProperty Name="Estado" ColumnName="Estado" />
           <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turno_Repeticiones">
+      <EntityTypeMapping TypeName="TurnosModel.Turno_Repeticiones">
+        <MappingFragment StoreEntitySet="Turno_Repeticiones">
+          <ScalarProperty Name="Modulos" ColumnName="Modulos" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+          <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+          <ScalarProperty Name="Hora" ColumnName="Hora" />
+          <ScalarProperty Name="ConsultorioID" ColumnName="ConsultorioID" />
+          <ScalarProperty Name="DiaSemana" ColumnName="DiaSemana" />
+          <ScalarProperty Name="Posicion" ColumnName="Posicion" />
+          <ScalarProperty Name="TurnoID" ColumnName="TurnoID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SmtpMails">
+      <EntityTypeMapping TypeName="TurnosModel.SmtpMail">
+        <MappingFragment StoreEntitySet="SmtpMail">
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="Ssl" ColumnName="Ssl" />
+          <ScalarProperty Name="Port" ColumnName="Port" />
+          <ScalarProperty Name="Host" ColumnName="Host" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net.Mail;
+using System.Net.Configuration;
+using System.Configuration;
 
 namespace IdentitySample.Models
 {
@@ -87,7 +90,14 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            SmtpClient client = new SmtpClient();
+            var smtpSection = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+            string from = smtpSection.From;
+            return client.SendMailAsync(from,
+                                        message.Destination,
+                                        message.Subject,
+                                        message.Body);
+            //return Task.FromResult(0);
         }
     }
 

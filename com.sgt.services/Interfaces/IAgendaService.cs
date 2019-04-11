@@ -60,5 +60,7 @@ namespace com.sgt.services.Interfaces
         Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar);
         Turno CancelarTurno(Turno turno);
         List<Turno> GetTurnosSinFecha();
+
+        bool TurnoSendMail(int id);
     }
 }

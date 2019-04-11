@@ -177,5 +177,36 @@ namespace com.mvc.sgt.Controllers
             return Ok(turnos);
         }
 
+        [HttpGet]
+        [Route("api/turno/enviar/{turnoId}")]        
+        public IHttpActionResult SendMailTurno(int turnoId)
+        {
+            try
+            {
+                return Ok(agendaService.TurnoSendMail(turnoId));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+            
+        }
+
+        [HttpPost]
+        [Route("api/turno/enviar")]
+        public IHttpActionResult SendMailTurnoP(int turnoId)
+        {
+            try
+            {
+                return Ok(agendaService.TurnoSendMail(turnoId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+
+        }
+
+
     }
 }

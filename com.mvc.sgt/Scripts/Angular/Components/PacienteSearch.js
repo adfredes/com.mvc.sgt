@@ -5,6 +5,7 @@
     sgtApp.component('searchPaciente', {        
         templateUrl: Domain + '/Paciente/QuickSearch',
         controller: 'searchPacienteController',
+        transclude: true,
         bindings: {
             addEnabled: "@?",
             viewEnabled: "@?", 
@@ -41,6 +42,7 @@
             }
         };
 
+        vm.clear = () => vm.Paciente = {};
         /*vm.UpdateDate = function () {
             if (vm.Paciente && vm.Paciente.FechaNacimiento)
                 vm.Paciente.FechaNacimiento = moment(vm.Paciente.FechaNacimiento).toDate();

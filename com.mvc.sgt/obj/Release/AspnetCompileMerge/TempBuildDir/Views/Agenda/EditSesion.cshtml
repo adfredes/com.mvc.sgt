@@ -1,0 +1,102 @@
+﻿<div id="{{$ctrl.divid}}" class="modal fade bd-example-modal-lg" role="dialog">    
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header badge-primary">
+                    <h4 class="modal-title text-capitalize">
+                        <span class="icon-calendar"></span>
+                        Cambiar Turno
+                    </h4>                    
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form name="frmsesion" id="frmsesion">
+                        <input type="text" id="dSesionID" class="form-control" ng-model="$ctrl.sesion.ID" ng-change="$ctrl.changeSesionID()" ng-hide="1==1">                        
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-md-12 form-group m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="Nombre">Paciente:</label>
+                                        <input type="text" class="form-control" id="Nombre" name="nombre" ng-model="$ctrl.sesion.Paciente" readonly>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group  m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="Sesion">Nro Sesion:</label>
+                                        <input type="text" class="form-control" id="Sesion" ng-model="$ctrl.sesion.Numero" readonly>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-md-6 form-group  m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="FechaHora">Turno:</label>
+                                        <input type="text" class="form-control" id="FechaHora" readonly
+                                               value="{{$ctrl.toDate($ctrl.sesion.FechaTurno) + ' ' + $ctrl.toHourRange($ctrl.sesion.FechaTurno, $ctrl.sesion.sesiones ? $ctrl.sesion.sesiones.length : 0)}}">
+                                    </md-input-container>
+                                </div>
+                                <div class="col-md-4 form-group  m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="motivoCambio">Motivo:</label>
+                                        <md-select id="motivoCambio" name="motivoCambio" ng-model="$ctrl.motivo">                                            
+                                            <md-option ng-value="9">Pospuesto pre aviso</md-option>
+                                            <md-option ng-value="10">Pospuesto en el día</md-option>
+                                            <md-option ng-value="12">Pospuesto sin Aviso</md-option>
+                                            <md-option ng-value="11">Pospuesto consultorio</md-option>                                            
+                                        </md-select>
+                                    </md-input-container>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 form-group  m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="Fecha">Fecha:</label>
+                                        <md-datepicker ng-model="$ctrl.selectedDate" ng-change="$ctrl.fechaChange()" required id="fecha" name="fecha" md-open-on-focus></md-datepicker>
+                                    </md-input-container>
+                                </div>
+                                <div class="col-md-4 form-group  m-0 p-0">
+                                    <md-input-container class="md-block mt-1 mb-1">
+                                        <label for="Hora">Horario:</label>
+                                        <input type="text" class="form-control" id="Hora" ng-VALUE="$ctrl.toHourRange($ctrl.selectedDate, $ctrl.modulos)" readonly>
+                                    </md-input-container>
+                                </div>
+                                <div class="form-group col-md-4 m-0 p-0">
+                                    <md-input-container class="form-group md-block mt-1 mb-1">
+                                        <label for="tiempoSesion">
+                                            Duración
+                                        </label>
+                                        <md-select id="tiempoSesion" name="tiempoSesion" ng-model="$ctrl.modulos">
+                                            <md-option ng-value="1">1/2 Hora</md-option>
+                                            <md-option ng-value="2">1 Hora</md-option>
+                                            <md-option ng-value="3">1 1/2 Hora</md-option>
+                                        </md-select>
+                                        <div ng-show="frmPaciente.aseguradora.$touched" ng-messages="frmPaciente.aseguradora.$error" role="alert">
+                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                        </div>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="p-1" style="border-radius:1rem; border:1px solid #555; overflow-x:auto; width:auto;">
+                                    <div ng-repeat="consultorio in $ctrl.Consultorios" class="m-0 p-0" style="display:flex">
+                                            <span>{{consultorio.Descripcion}}:&nbsp</span>
+                                            
+                                            <a href="" ng-repeat="hora in consultorio.Horario" ng-click="$ctrl.horaClick(hora, consultorio.ID)">{{hora}}&nbsp</a>
+                                        @*<span class="clearfix"></span>*@
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <md-button type="button" class="md-raised md-warn" ng-click="close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.saveChange($event)"><span class="icon-floppy"></span> Guardar</md-button>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -9,6 +9,6 @@ namespace com.sgt.services.Interfaces
 {
     public interface IMailClientService
     {
-        bool SendMail(SmtpMail config, string to, string subject, string body);
+        bool SendMail(string to, string subject, string body);
     }
 }

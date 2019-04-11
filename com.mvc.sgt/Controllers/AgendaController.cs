@@ -577,5 +577,23 @@ namespace com.mvc.sgt.Controllers
         {
             return PartialView();
         }
+
+        [HttpPost]
+        [Route("turno/enviar")]
+        public JsonResult SendMailTurnoP(int turnoId)
+        {
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.Accepted;
+                AgendaService.TurnoSendMail(turnoId);
+                return Json("", JsonRequestBehavior.AllowGet) ;
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 }

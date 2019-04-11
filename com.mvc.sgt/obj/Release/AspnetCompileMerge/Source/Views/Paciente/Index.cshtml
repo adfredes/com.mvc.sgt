@@ -1,0 +1,94 @@
+﻿@*@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+        
+    
+<div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div ng-controller="pacienteController" ng-init="GetPacientes()">
+
+                <table class="table table-responsive-sm table-hover slide table-sm table-bordered mt-0 pt-0" style="caption-side: top">
+                    @*<caption><p>Pagina {{currentPage+1}} / {{pages.length}}</p></caption>*@
+                    <caption style="caption-side:top;" class="mb-0 pb-0">
+                        <nav class="mb-0 pb-0 badge-light">
+                            <ul class="pagination justify-content-center mb-0 pb-0 badge-light">
+                                <li class="page-item mb-0 badge-light w-100 text-center" ng-class="{active:letter==selectedLetter}" ng-repeat="letter in arrayLetter">
+                                    <p class="page-link mb-0 badge-light" ng-click="setLetter(letter)">{{letter}}</p>
+                                </li>
+                            </ul>
+                        </nav>
+                    </caption>
+                    <thead class="thead-light">
+                        <tr>
+                            @*<th scope="col">Id</th>*@
+                            <th scope="col" class="text-center w-25">Apellido</th>
+                            <th scope="col" class="text-center w-25">Nombre</th>
+                            <th scope="col" class="text-center w-auto">Documento</th>
+                            <th scope="col" class="text-center w-auto">Teléfono</th>
+                            <th scope="col" class="text-center w-auto">Habilitado</th>
+                            <th scope="col" class="text-center w-auto">Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="paciente in pacientes" class="animate-table-repeat">
+                        @*<th scope="row">{{paciente.ID}}</th>*@
+                        <td class="align-middle"><span>{{paciente.Apellido}}</span></td>
+                        <td class="align-middle"><span>{{paciente.Nombre}}</span></td>
+                        <td class="align-middle"><span>{{paciente.DocumentoTipo.Descripcion + ' ' + paciente.DocumentoNumero}}</span></td>
+                        <td class="align-middle">
+                            <span class="form-text" ng-show="paciente.Telefono.length>3">Tel.: {{paciente.Telefono}}</span>
+                            <span class="form-text" ng-show="paciente.Celular.length>3" style="margin:0px;">Cel.: {{paciente.Celular}}</span>
+                        </td>
+                        <td class="text-center align-middle">
+                            <span class="icon-ok" ng-show="paciente.Habilitado"></span>
+                            <span class="icon-cancel" ng-hide="paciente.Habilitado"></span>
+                        </td>
+                        @*<td>{{aseguradora.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}</td>*@
+                        <td class="text-center align-middle">
+                            <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(paciente.ID)"></span>
+                            @*<button class="btn btn-xs btn-danger" ng-click="DeleteUser(employee.Id)"><i class="fa fa-trash"></i></button>*@
+                        </td>
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" class="align-middle">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item text-center" ng-click="setPage(0)" ng-class="{disabled:currentPage==0}">
+                                            <a class="page-link" tabindex="-1" ng-click="setPage(0)">|<</a>
+                                        </li>
+                                        <li class="page-item text-center" ng-class="{disabled:currentPage==0}">
+                                            <a class="page-link" tabindex="-1" ng-click="setPage(currentPage - 1)"><</a>
+                                        </li>
+                                        <li class="page-item text-center" ng-class="{active:(page-1)==currentPage}" ng-repeat="page in pages | limitTo : 10 : initPage">
+                                            <p class="page-link" ng-click="setPage(page-1)">{{page}}</p>
+                                        </li>
+                                        <li class="page-item text-center" ng-class="{disabled:(pages.length - 1)==currentPage}">
+                                            <a class="page-link" tabindex="-1" ng-click="setPage(currentPage + 1)">></a>
+                                        </li>
+                                        <li class="page-item text-center" ng-class="{disabled:(pages.length - 1)==currentPage}">
+                                            <a class="page-link" tabindex="-1" ng-click="setPage(pages.length - 1)">>|</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="form-group">
+                    <md-button type="button" class="md-fab md-primary" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Create()">
+                        <md-tooltip md-direction="right">Nuevo Paciente</md-tooltip>
+                        <span class="icon-user-plus" style="font-size:1rem"></span>
+                    </md-button>
+                </div>
+                @*<paciente-edit paciente="PacienteModel" save="Save" div-id="CreateOrUpdate"></paciente-edit>*@
+                <paciente-view paciente="PacienteModel" save="Save(newPaciente)" divid="CreateOrUpdate"></paciente-view>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

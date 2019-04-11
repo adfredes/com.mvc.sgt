@@ -23,9 +23,9 @@ namespace com.sgt.services.Services
 
         private SmtpMail GetConfig() => unitOfWork.RepoSmtpMail.GetAll().FirstOrDefault();
 
-        public bool SendMail(SmtpMail config, string to, string subject, string body)
+        public bool SendMail(string to, string subject, string body)
         {
-            config = config ?? GetConfig();
+            SmtpMail config = GetConfig();
             if (config != null)
             {
                 var senderEmail = new MailAddress(config.Mail, "Consultorio");
@@ -44,7 +44,8 @@ namespace com.sgt.services.Services
                 using (var message = new MailMessage(senderEmail, receiverEmail)
                 {
                     Subject = subject,
-                    Body = body
+                    Body = body,
+                    IsBodyHtml = true
                 })
                 {
                     smtp.Send(message);

@@ -58,6 +58,7 @@ namespace com.mvc.sgt.Controllers
             return Ok(Mapper.Map<List<ComboDTO>>(this.consultorioService.GetAllTipoSesion()));
         }
 
+      
 
     }
 }
