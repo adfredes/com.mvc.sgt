@@ -26,7 +26,7 @@
             vm.registerCount = 0;
             vm.turnos = [];
             vm.turno = {};            
-            getConsultorios();
+            getConsultorios();            
         };
 
         vm.setPage = (pageNumber) => {
@@ -79,16 +79,30 @@
         };
 
         let getTurnosPaciente = (id) => {
+            getPaciente(vm.PacienteID);
             let promise = turnoService.getTurnosPaciente(id);
             promise.then(data => {   
                 
                 vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                                
-                vm.turno = vm.turnos[vm.currentPage];
+                vm.turno = vm.turnos[vm.currentPage];                
                 vm.registerCount = vm.turnos.length;
             })
                 .catch(err => { vm.turnos = [];});
-        };
+        };        
 
+        let getPaciente = id => {
+            if (id && id > 0) {
+                let promise = turnoService.getPaciente(id);
+                promise.then(data => {
+                    vm.paciente = JSON.parse(data);
+                })
+                    .catch(err => { vm.paciente = []; vm.reading = false; });
+            }
+            else {
+                vm.paciente = {};
+            }
+        };
+     
       
         
 
@@ -163,6 +177,14 @@
         let refreshTurno = (data) => {
             getTurnosPaciente(vm.PacienteID);
             eventService.UpdateTurnos();
+        };
+
+        vm.openDobleOrden = () => {
+            turnoService.openDobleOrden(vm.turno,
+                (promise) =>
+                    promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                        .catch(error => { }), $element
+            );
         };
     }
 })();

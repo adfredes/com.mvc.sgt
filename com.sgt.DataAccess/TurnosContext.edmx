@@ -179,7 +179,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.HorariosProfesionales' no tiene def
           <Property Name="PacienteID" Type="int" Nullable="false" />
           <Property Name="Titulo" Type="varchar" MaxLength="100" />
           <Property Name="Descripcion" Type="varchar" MaxLength="1000" />
-          <Property Name="Archivo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Archivo" Type="varchar(max)" />
           <Property Name="Habilitado" Type="bit" Nullable="false" />
           <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
@@ -396,6 +396,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="Diagnostico" Type="varchar(max)" />
           <Property Name="Fecha" Type="smalldatetime" />
           <Property Name="TipoSesionID" Type="int" />
+          <Property Name="TurnoDoble" Type="int" />
         </EntityType>
         <EntityType Name="Turno_Repeticiones">
           <Key>
@@ -1033,7 +1034,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <Property Name="PacienteID" Type="Int32" Nullable="false" />
           <Property Name="Titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Archivo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Archivo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Habilitado" Type="Boolean" Nullable="false" />
           <Property Name="UsuarioModificacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
@@ -1654,6 +1655,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <NavigationProperty Name="Sesions" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Turno" ToRole="Sesion" />
           <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
           <Property Name="TipoSesionID" Type="Int32" />
+          <Property Name="TurnoDoble" Type="Int32" />
         </EntityType>
         <Association Name="FK_Sesion_Agenda">
           <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -2131,6 +2133,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
           <EntitySetMapping Name="Turnoes">
             <EntityTypeMapping TypeName="TurnosModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="TurnoDoble" ColumnName="TurnoDoble" />
                 <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />

@@ -1,10 +1,9 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller('searchPacienteController', ['crudService','$mdDialog', searchPacienteController]);
-
+    
     sgtApp.component('searchPaciente', {        
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: 'searchPacienteController',
+        controller: ['crudService', '$mdDialog',searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -42,6 +41,7 @@
             }
         };
 
+        vm.clear = () => vm.Paciente = {};
         /*vm.UpdateDate = function () {
             if (vm.Paciente && vm.Paciente.FechaNacimiento)
                 vm.Paciente.FechaNacimiento = moment(vm.Paciente.FechaNacimiento).toDate();

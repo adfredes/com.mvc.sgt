@@ -1,10 +1,9 @@
 ﻿(function () {
-    var sgtApp = angular.module("sgtApp");
-    sgtApp.controller('sesionEditController', ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController]);
+    var sgtApp = angular.module("sgtApp");    
 
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
-        controller: 'sesionEditController',
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
         bindings: {
             sesion: "<?",
             divid: "@"
@@ -13,7 +12,7 @@
 
     sgtApp.component('sesionEditModal', {
         templateUrl: Domain + 'Sesion/ChangeDateModal',
-        controller: 'sesionEditController',
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
         bindings: {
             sesion: "<?",
             onSave: "&?",

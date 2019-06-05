@@ -174,7 +174,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.HorariosProfesionales' no tiene def
     <Property Name="PacienteID" Type="int" Nullable="false" />
     <Property Name="Titulo" Type="varchar" MaxLength="100" />
     <Property Name="Descripcion" Type="varchar" MaxLength="1000" />
-    <Property Name="Archivo" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Archivo" Type="varchar(max)" />
     <Property Name="Habilitado" Type="bit" Nullable="false" />
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
@@ -391,6 +391,7 @@ advertencia 6002: La tabla o vista 'SITK.dbo.Tratamientos' no tiene definida nin
     <Property Name="Diagnostico" Type="varchar(max)" />
     <Property Name="Fecha" Type="smalldatetime" />
     <Property Name="TipoSesionID" Type="int" />
+    <Property Name="TurnoDoble" Type="int" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>

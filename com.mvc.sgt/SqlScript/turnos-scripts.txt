@@ -116,4 +116,20 @@ create table dbo.SmtpMail (
 	Mail varchar(50) not null
 );
 
+alter table imagen
+alter column archivo varchar(max);
 
+update Turno set CantidadSesiones = (select max(numero) from sesion where Sesion.TurnoID = Turno.ID);
+
+alter table dbo.Turno 
+add TurnoDoble int null;
+
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('RPG','#eee');
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('FKT','#fee');
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('GIM','#efe');
+
+  UPDATE CONSULTORIO SET TIPOSESIONID = 1 WHERE ID =1;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =2;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =3;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =4;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 3 WHERE ID =5;

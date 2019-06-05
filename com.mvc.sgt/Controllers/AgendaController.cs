@@ -579,7 +579,7 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPost]
-        [Route("turno/enviar")]
+        [Route("Turno/Enviar")]
         public JsonResult SendMailTurnoP(int turnoId)
         {
             try
@@ -594,6 +594,40 @@ namespace com.mvc.sgt.Controllers
                 return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
             }
 
+        }
+
+        [HttpGet]
+        [Route("Turno/DobleOrden")]
+        public ActionResult DobleOrdenModal()
+        {
+            return PartialView();
+        }
+
+        [HttpPut]
+        [Route ("Turno/SetDobleOrden")]
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult SetDobleOrden(TurnoModel model, int? turnoID)
+        {
+            try
+            {
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                var turno = Mapper.Map<Turno>(model);
+                AgendaService.SetTurnoDobleOrden(turno, turnoID);
+                return Json(JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno)), JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Conflict;
+                return Json(ex.ToString(), JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        [Route("Turno/DobleOrden/{pacienteID}")]
+        public JsonResult TunosSinDobleOrden(int pacienteID)
+        {
+            Response.StatusCode = (int)HttpStatusCode.OK;              
+            return Json(AgendaService.GetNrosTurnosSinDobleOrden(pacienteID), JsonRequestBehavior.AllowGet);
         }
     }
 }

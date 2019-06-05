@@ -1,0 +1,20 @@
+{
+  
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es5",
+    "outDir": "es5"
+
+  },
+  "include": ["Angular","Grilla"],
+  "exclude": [
+    "node_modules",
+    "wwwroot",
+    "es5"
+  ]
+}

@@ -11,5 +11,8 @@ namespace com.sgt.services.Interfaces
     {
         ICollection<Turno> ListarTurnos(int PacienteID);
         ICollection<Paciente> ListarPacientesAnualesCondicionSesiones();
+        Imagen AddFile(Imagen imagen);
+        ICollection<Imagen> GetFiles(int PacienteID);
+        Imagen GetFile(int id);
     }
 }

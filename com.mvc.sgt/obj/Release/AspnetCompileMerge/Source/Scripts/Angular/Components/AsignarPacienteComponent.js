@@ -198,6 +198,14 @@
                 .catch(() => undefined);
         };
 
+        vm.openDobleOrden = () => {
+            turnoService.openDobleOrden(vm.turno,
+                (promise) =>
+                    promise.then(data => vm.turno.TurnoDoble = JSON.parse(data).TurnoDoble)
+                        .catch(error => { }), $element
+            );
+        };
+
         let refresh = () => {
             getTurno(vm.turno.ID);
             eventService.UpdateTurnos();

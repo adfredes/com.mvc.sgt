@@ -85,6 +85,48 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        [Route("Paciente/ViewFiles")]
+        [HttpGet]
+        public ActionResult ViewFiles()
+        {
+            return PartialView();
+        }
+
+        [Route("Paciente/File")]
+        [CreateUpdateActionFilter("admin")]
+        [HttpPost]
+        public JsonResult AddFile(ImagenModel model)
+        {           
+            var imagen = Mapper.Map<Imagen>(model);
+            if (imagen.ID > 0)
+            {
+
+            }
+            else
+            {                
+                pacienteService.AddFile(imagen);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            return Json("OK");
+        }
+
+        [Route("Paciente/{PacienteID}/File")]
+        [HttpGet]
+        public JsonResult GetFiles(int PacienteID)
+        {
+            var imagenes = Mapper.Map<List<ImagenDescriptionModel>>(pacienteService.GetFiles(PacienteID));
+            return Json(JsonConvert.SerializeObject(imagenes), JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Paciente/File/{ID}")]
+        [HttpGet]
+        public JsonResult GetFile(int ID)
+        {
+            var imagen = Mapper.Map<ImagenModel>(pacienteService.GetFile(ID));
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(imagen, JsonRequestBehavior.AllowGet);
+        }
+
         [Route("Paciente/Listar/Name/{name}")]
         [HttpGet]
         public JsonResult GetByNameOrLastName(string name)

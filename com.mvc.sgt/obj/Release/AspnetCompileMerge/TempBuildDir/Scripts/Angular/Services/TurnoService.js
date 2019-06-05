@@ -412,7 +412,55 @@
                     success(promise);                    
                 })
                 .catch(() => undefined);
-        };        
+        };       
+
+        $this.openDobleOrden = (turno, success, parentEl) => {           
+            function DialogController($scope, $mdDialog) {                                                
+                $scope.turnoDoble = JSON.parse(JSON.stringify(turno.TurnoDoble));
+                $scope.turnos = [];
+                $scope.doble = JSON.parse(JSON.stringify(turno.TurnoDoble));
+
+                let loadInit = () => {                    
+                    crudService.GetPHttp(`Turno/DobleOrden/${turno.PacienteID}`)
+                        .then(data => {                            
+                            $scope.turnos = data.filter(t => t != turno.ID);                            
+                        })
+                        .catch(() => $scope.turnos = []);
+                };
+
+                loadInit();
+
+
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: parentEl.children(),
+                templateUrl: Domain + 'Turno/DobleOrden',
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { turno: turno }
+            })
+                .then(answer => {                    
+                    let params = {};
+                    params.model = turno;
+                    params.turnoID = answer;
+                    let url = "Turno/SetDobleOrden";
+                    let promise = crudService.PutHttp(url, params);
+                    success(promise);
+                })
+                .catch(() => undefined);
+        };       
+        
 
         $this.setEstadoAsistio = sesionsID => {
             let url = "Sesion/Estados/Asistio";

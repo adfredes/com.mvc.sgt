@@ -1,0 +1,37 @@
+﻿<style>
+    #iFile {
+        display: none;
+    }   
+</style>
+<fieldset class="m-0 p-0">
+    <div class="form-inline bg-light">        
+        <input type="file" id="iFile" ng-model="$ctrl.Mfile">
+        <md-button type="button" class="m-0"><label for="iFile"><i class="icon-folder-open-empty"></i> Seleccionar</label></md-button>        
+        <md-button type="button" class="m-0" ng-click="$ctrl.addFiles()"><i class="icon-database"></i> Subir</md-button>        
+        <span ng-show="$ctrl.uploading == true">{{$ctrl.uploadingText}}</span>
+    </div>
+</fieldset>
+<table ng-if="$ctrl.files.length>0" class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+    <thead>
+        <tr>
+            <th scope="col" class="p-2">Archivo</th>
+            <th scope="col" class="p-2">Descripcion</th>
+            <th scope="col" class="p-2">Fecha</th>
+            <th scope="col" class="p-2">Action</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="file in $ctrl.files">
+        <td class="text-left w-auto p-1">
+            {{file.Titulo}}
+        </td>
+        <td class="text-left w-auto p-1">
+            {{file.Descripcion}}
+        </td>
+        <td class="text-left w-auto p-1">{{file.FechaModificacion.substr(0,10) | date: "dd/MM/yyyy"}}</td>
+        <td class="text-center p-1">
+            <span class="icon-floppy btn" ng-click="$ctrl.downloadFile(file)"></span>            
+        </td>
+    </tr>
+    <a id="dwnl" ng-show="true==false" href="#"></a>
+</table>
+

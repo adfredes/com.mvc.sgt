@@ -101,6 +101,7 @@
     <Compile Include="Interfaces\IConsultorioRepository.cs" />
     <Compile Include="Interfaces\IDocumentoTipoRepository.cs" />
     <Compile Include="Interfaces\IFeriadoRepository.cs" />
+    <Compile Include="Interfaces\IImagenRepository.cs" />
     <Compile Include="Interfaces\ILocalidadRepository.cs" />
     <Compile Include="Interfaces\IPacienteRepository.cs" />
     <Compile Include="Interfaces\IProfesionalRepository.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Repositories\DocumentoTipoRepository.cs" />
     <Compile Include="Repositories\FeriadoRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\ImagenRepository.cs" />
     <Compile Include="Repositories\LocalidadRepository.cs" />
     <Compile Include="Repositories\PacienteRepository.cs" />
     <Compile Include="Repositories\ProfesionalRepository.cs" />

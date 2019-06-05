@@ -1,8 +1,9 @@
 ﻿(function () {    
     //window.Domain = 'http://localhost:52316/';
     window.Domain = window.location.origin + '/';
-    //window.Domain = 'http://sitk.socialpics.com.ar/';
+    //window.Domain = 'http://sitk.socialpics.com.ar/';    
     var sgtApp = angular.module("sgtApp", ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
+    
 
     //sgtApp.run(function ($mdDateLocale, $filter) {
     //    $mdDateLocale.formatDate = function (date) {
@@ -37,7 +38,7 @@
 
     }]);
 
-    sgtApp.config(function ($mdDateLocaleProvider) {
+    sgtApp.config(['$mdDateLocaleProvider', function ($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function (date) {
             return date ? moment(date).format('DD/MM/YYYY') : '';
         };
@@ -53,7 +54,7 @@
         //    var re = /^(([a-zA-Z]{3,}|[0-9]{1,4})([ .,]+|[/-]))([a-zA-Z]{3,}|[0-9]{1,4})/;
         //    return re.test(dateString);
         //};
-    });
+    }]);
 
     sgtApp.animation('.slide', [function () {
         return {

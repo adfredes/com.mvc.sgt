@@ -87,20 +87,27 @@ namespace com.mvc.sgt.App_Start
                 mapper.CreateMap<Consultorio, ConsultorioHorariosModel>()
                 .ReverseMap();
 
-                mapper.CreateMap<Sesion, SesionGrillaModel>()
-                .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))                
-                .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
-                .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
-                .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
-                .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
-                .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
-                .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.Diagnostico))
-                .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
-                .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
-                .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Paciente.Turnoes
-                    .Where(t=> t.Sesions
-                        .Where(se=> (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre).Count()>0)
-                    .Count() > 0? true:false));
+            mapper.CreateMap<Sesion, SesionGrillaModel>()
+            .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))
+            .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
+            .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
+            .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
+            .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
+            .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
+            .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.Diagnostico))
+            .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
+            .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
+            .ForMember(d => d.TurnoDoble, o => o.MapFrom(s => s.Turno.TurnoDoble))
+            .ForMember(d => d.DobleOrden, o => o.MapFrom(s => s.Turno.TurnoDoble.HasValue && s.Turno.TurnoDoble.Value>0?true:false))
+            .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Sesions
+                .Where(se => (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre)
+                .Count() > 0 ? true : false));                
+                //.ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Paciente.Turnoes
+                //    .Where(t=> t.Sesions
+                //        .Where(se=> (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre).Count()>0)
+                //    .Count() > 0? true:false));
+
+
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////
                 mapper.CreateMap<TipoSesion, ComboDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.ID))
@@ -135,6 +142,12 @@ namespace com.mvc.sgt.App_Start
 
                 mapper.CreateMap<Turno, TurnoSinFecha>()
                 .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Paciente.Apellido + ", " + s.Paciente.Nombre));
+
+                mapper.CreateMap<Imagen, ImagenModel>()
+                .ReverseMap();
+
+                mapper.CreateMap<Imagen, ImagenDescriptionModel>()
+                .ReverseMap();                
 
             });
         }

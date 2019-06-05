@@ -23,11 +23,11 @@ span.btn.ng-hide{
     display: flex;
     flex-direction: row-reverse;
     position: fixed;
-    top: 5rem;
+    top: 5.5rem;
     right: 0px;
     height: auto;
     width: auto;
-    z-index: 500;
+    z-index: 2000;
     transition: all 0.4s;
 }
 
@@ -202,7 +202,7 @@ input[readonly]{
 .bar-component {
     height: auto;
     width: auto;
-    padding: 15px 1rem 10px 1rem;
+    padding: .5rem 1rem .5rem 1rem;
     background: rgb(71,119,168);
     opacity: 0.6;
     border-bottom-left-radius: 10px;
@@ -597,11 +597,52 @@ input[readonly]{
     }
 
 
+    /**********Botonera turno confirmado*/
+.botonera-turno-confirmado [type="button"] {
+    min-width: 2rem;
+}
+
+.botonera-turno-confirmado .btn-asistio:hover::after {
+    content: "Asistio";
+}
+
+.botonera-turno-confirmado .btn-noasistio:hover::after {
+    content: "No asistio";
+}
+
+.botonera-turno-confirmado .btn-posponer:hover::after {
+    content: "Posponer";
+}
+
+.botonera-turno-confirmado .btn-agregar:hover::after {
+    content: "Agregar";
+}
+
+.botonera-turno-confirmado .btn-cancelar:hover::after {
+    content: "Cancelar";
+}
+
+.botonera-turno-confirmado .btn-dobleorden:hover::after {
+    content: "Doble Orden";
+}
+
+.botonera-turno-confirmado .btn-diagnostico:hover::after {
+    content: "Diagnóstico";
+}
+
+.botonera-turno-confirmado .btn-imprimir:hover::after {
+    content: "Imprimir";
+}
+
+.botonera-turno-confirmado .btn-mail:hover::after {
+    content: "Enviar";
+}    
+
 
 
 @media only screen and (max-width: 991px) and (min-width: 576px){
     .notification-bar {        
-        top: 4rem;        
+        top: 4.5rem;        
     }
     .reservas {
         top: 4rem;

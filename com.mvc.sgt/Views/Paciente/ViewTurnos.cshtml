@@ -6,6 +6,7 @@
                 <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-print text-primary font-weight-bold" ng-click="$ctrl.turnoPrint(turno)" title="Imprimir"></span>
                 <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-mail text-primary font-weight-bold" ng-click="$ctrl.sendTurno(turno)" title="Enviar Turno"></span>
                 <span style="cursor:pointer" class="icon-stethoscope text-primary font-weight-bold" ng-click="$ctrl.openDiagnostico(turno)" title="Diagnóstico"></span>
+                <span style="cursor:pointer" class="icon-clone text-primary font-weight-bold" ng-class="{'text-warning' : turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden(turno)" title="Doble Orden"></span>                
                 <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-cancel text-danger font-weight-bold" ng-click="$ctrl.cancelarSesionSelect($event, turno)" title="Cancelar Turno"></span>
             </caption>
             <thead>

@@ -39,20 +39,29 @@ namespace com.mvc.sgt
                       "~/Content/Styles.css",
                       "~/Content/jquery.contextMenu.min.css",
                       "~/Content/bootstrap-datepicker.min.css"));
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+
+            bundles.Add(new ScriptBundle("~/bundles/angular-core").Include(
                     "~/Scripts/angular.js",
                     "~/Scripts/angular-locale_es-ar.js",
                     "~/Scripts/angular-animate.min.js",
                     "~/Scripts/angular-messages.js",
                     "~/Scripts/angular-route.min.js",
                     "~/Scripts/angular-aria.js",
-                    "~/Scripts/angular-material.js",
-                    "~/Scripts/Angular/Module/*.js",
-                    "~/Scripts/Angular/Services/*.js",
-                    "~/Scripts/Angular/Controllers/*.js",
-                    "~/Scripts/Angular/Directives/*.js",
-                    "~/Scripts/Angular/Components/*.js"
+                    "~/Scripts/angular-material.js"                    
                 ));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(                    
+                    "~/Scripts/es5/Angular/Module/*.js",
+                    "~/Scripts/es5/Angular/Services/*.js",
+                    "~/Scripts/es5/Angular/Controllers/*.js",
+                    "~/Scripts/es5/Angular/Directives/*.js",
+                    "~/Scripts/es5/Angular/Components/*.js"
+                ));
+   
+            bundles.Add(new ScriptBundle("~/bundles/grilla").Include(
+                "~/Scripts/es5/Grilla/grilla.js"
+                ));
+
 
 
             BundleTable.EnableOptimizations = true;

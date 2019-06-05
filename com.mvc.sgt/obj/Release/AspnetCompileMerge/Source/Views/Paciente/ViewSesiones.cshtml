@@ -8,18 +8,26 @@
             <div class="modal-body p-0">
                 <div class="border border-info p-0 m-0">
                     <fieldset class="m-0 p-0">                        
-                        <div class="form-inline bg-light">
-                            <md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i> Asistio</md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i> No Asistio</md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i> Posponer</md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i> Agregar</md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()" title="Cancelar Turno"><i class="icon-cancel"></i> Cancelar</md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i> Diagnóstico</md-button>                            
-                            <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()" style="min-width:20px" title="Imprimir Turno"><i class="icon-print"></i></md-button>
-                            <md-button type="button" class="m-0" ng-click="$ctrl.sendTurno()" style="min-width:20px" title="Enviar Turno"><i class="icon-mail"></i></md-button>
+                        <div class="form-inline bg-light botonera-turno-confirmado">
+                            @*<md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i> Asistio</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i> No Asistio</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i> Posponer</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i> Agregar</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()" title="Cancelar Turno"><i class="icon-cancel"></i> Cancelar</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i> Diagnóstico</md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()" style="min-width:20px" title="Imprimir Turno"><i class="icon-print"></i></md-button>
+        <md-button type="button" class="m-0" ng-click="$ctrl.sendTurno()" style="min-width:20px" title="Enviar Turno"><i class="icon-mail"></i></md-button>*@
+                            <md-button type="button" class="m-0 btn-asistio" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i></md-button>
+                            <md-button type="button" class="m-0 btn-noasistio" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i></md-button>
+                            <md-button type="button" class="m-0 btn-posponer" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i></md-button>
+                            <md-button type="button" class="m-0 btn-agregar" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i></md-button>
+                            <md-button type="button" class="m-0 btn-cancelar" ng-click="$ctrl.cancelarTurno()" title="Cancelar Turno"><i class="icon-cancel"></i></md-button>
+                            <md-button type="button" class="m-0 btn-diagnostico" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i></md-button>
+                            <md-button type="button" class="m-0 btn-dobleorden" ng-class="{'text-warning' : $ctrl.turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden()" title="Doble Orden"><i class="icon-clone"></i></md-button>
+                            <md-button type="button" class="m-0 btn-imprimir" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i></md-button>
+                            <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurno()" title="Enviar Turno"><i class="icon-mail"></i></md-button>
                         </div>
-                    </fieldset>
-
+                    </fieldset>                       
                     <input id="PacienteID" type="text" ng-hide="1==1" ng-model="$ctrl.PacienteID" ng-change="$ctrl.pacienteChange()" />
                     <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border" style="caption-side: top">
                         <caption style="caption-side:top;" class="mb-0 pb-0">

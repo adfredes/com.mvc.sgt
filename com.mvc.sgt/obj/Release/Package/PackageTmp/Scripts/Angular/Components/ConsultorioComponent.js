@@ -1,10 +1,10 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller('consultorioEditController', ['crudService', consultorioEditController]);
+    
 
     sgtApp.component('consultorioEdit', {
         templateUrl: Domain + 'Consultorio/CreateOrEdit',
-        controller: 'consultorioEditController',
+        controller: ['crudService', consultorioEditController],
         bindings: {
             consultorio: "="
         }

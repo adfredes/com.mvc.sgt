@@ -1,15 +1,14 @@
 ﻿(function () {
 
     var sgtApp = angular.module("sgtApp");
-
-    sgtApp.controller('pacienteViewController', ['crudService', '$window', '$mdSelect', '$filter', pacienteViewController]);
+    
 
     sgtApp.component('pacienteView', {
         transclude: {
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: pacienteViewController,
+        controller: ['crudService', '$window', '$mdSelect', '$filter', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
@@ -33,7 +32,10 @@
         vm.ObrasSociales = [];
         vm.Planes = [];
         vm.selectedIndex = 0;
-        vm.takeFoto = false;
+        vm.takeFoto = false;        
+        vm.uploading = false;
+        vm.files = [];
+        vm.uploadingText = "";
        
 
         let loadPaciente = (id) => {
@@ -44,6 +46,7 @@
                 vm.getLocalidades();
                 vm.getPlanes();
                 loadDiagnostico(id);
+                getFiles(id);
             })
                 .catch(err => vm.paciente = {});
         };   
@@ -93,9 +96,12 @@
             if (change.paciente && !change.paciente.isFirstChange()) {
                 vm.getLocalidades();
                 vm.getPlanes();
+                vm.uploadingText = "";
+                vm.uploading = false;
             }
             if (vm.paciente && vm.paciente.ID){
                 loadDiagnostico(vm.paciente.ID);
+                getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
         };
@@ -132,6 +138,68 @@
                         vm.Localidades = [];
                     });
             }
+        };
+
+        vm.addFiles = () => {            
+            let iFiles = $window.document.querySelector('#iFile');            
+            if (iFiles.files.length > 0) {
+                vm.uploading = true;
+                vm.uploadingText = "Subiendo archivo...";
+                let fileToLoad = iFiles.files[0];
+                let fileReader = new FileReader();
+                let base64;
+                let name = iFiles.files[0].name;
+                fileReader.onload = function (fileLoadedEvent) {
+                    base64 = fileLoadedEvent.target.result;
+                    uploadFile(name, base64);
+                };
+                fileReader.readAsDataURL(fileToLoad);
+            }
+            else {
+                vm.uploading = true;
+                vm.uploadingText = "No selecciono ningún archivo.";
+            }
+        };
+
+        let getFiles = (id) => {            
+            if (id > 0) {
+                let _url = `Paciente/${id}/File`;
+                let promise = crudService.GetPHttpParse(_url);
+                promise.then(data => vm.files = data)
+                    .catch(error => vm.files = []);
+            }
+        };
+
+        vm.downloadFile = file => {
+            let _url = `Paciente/File/${file.ID}`;
+            let promise = crudService.GetPHttp(_url);
+            promise.then(data => generateLink(data))
+                .catch(error => error = []);
+        };
+
+        let generateLink = archivo => {
+            var dlnk = $window.document.querySelector('#dwnl');
+            dlnk.download = archivo.Titulo;
+            dlnk.href = archivo.Archivo;
+            dlnk.click();
+        };
+
+        let uploadFile = (name, base64) => {
+            let mFile = {};
+            mFile.PacienteID = vm.paciente.ID;
+            mFile.Titulo = name;
+            mFile.Archivo = base64;
+            //console.log("Tamaño: " + base64.length);
+            mFile.Habilitado = true;
+            let promise = crudService.PostHttp("Paciente/File", mFile);
+            promise.then((data) => {                
+                vm.uploading = false;
+                //console.log(vm.paciente.ID);
+                getFiles(vm.paciente.ID);
+            })
+                .catch((error) => {
+                    vm.uploadingText = "No fue posible subir el archivo."                                        
+                });
         };
 
         //Manejo de Obra Social

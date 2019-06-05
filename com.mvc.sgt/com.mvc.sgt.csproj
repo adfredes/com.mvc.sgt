@@ -288,6 +288,7 @@
     <Compile Include="Models\FechaModel.cs" />
     <Compile Include="Models\FeriadoModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ImagenModel.cs" />
     <Compile Include="Models\LocalidadModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PacienteDto.cs" />
@@ -309,9 +310,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="Content\font\fontello.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\font\fontello.svg" />
     <Content Include="Scripts\Angular\Components\AgendaComponent.js" />
     <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
     <Content Include="Scripts\Angular\Components\BloqueoAgendaComponent.js" />
@@ -405,7 +404,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\Angular\Components\CalendarPopUpComponet.js" />
     <Content Include="Scripts\Angular\Components\ConsultorioComponent.js" />
     <Content Include="Scripts\Angular\Components\FeriadoComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteSearch.js" />
@@ -1209,19 +1207,12 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
-    <Content Include="Content\font\fontello.eot">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\font\fontello.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\font\fontello.woff">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\font\fontello.woff2">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Content\font\fontello.eot" />
+    <Content Include="Content\font\fontello.ttf" />
+    <Content Include="Content\font\fontello.woff" />
+    <Content Include="Content\font\fontello.woff2" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Scripts\tsconfig.json" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -1424,6 +1415,8 @@
     <Content Include="Views\Agenda\CreateOrEditBloqueo.cshtml" />
     <Content Include="Views\Paciente\PacientesAnualesAviso.cshtml" />
     <Content Include="Views\Agenda\PosponerSesion.cshtml" />
+    <Content Include="Views\Paciente\ViewFiles.cshtml" />
+    <Content Include="Views\Agenda\DobleOrdenModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1478,6 +1471,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties Scripts_4tsconfig_1json__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

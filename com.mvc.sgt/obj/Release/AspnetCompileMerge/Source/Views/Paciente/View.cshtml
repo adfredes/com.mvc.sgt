@@ -15,6 +15,7 @@
                 <div ng-cloak>
                     <md-content>
                         <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedIndex">
+
                             <md-tab label="Datos Paciente">
                                 <md-content>
                                     <div class="container-fluid p-0">
@@ -281,7 +282,7 @@
 
                                             <fieldset class="m-0 pt-0 pb-0">
                                                 <div class="form-row">
-                                                    
+
                                                     <div class="form-group col-sm">
                                                         <md-input-container class="md-block">
                                                             <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Anual" required>
@@ -297,7 +298,7 @@
                                                                 <span ng-hide="$ctrl.paciente.Habilitado">Deshabilitado</span>
                                                             </md-switch>
                                                         </md-input-container>
-                                                    </div>                                                    
+                                                    </div>
                                                 </div>
                                             </fieldset>
 
@@ -327,6 +328,13 @@
                                         </tr>
                                     </table>
 
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Archivos">
+                                <md-content>
+                                    <div class="container-fluid p-0" ng-if="$ctrl.paciente.ID>0">
+                                        @Html.Partial("ViewFiles", "Paciente")                                       
+                                    </div>
                                 </md-content>
                             </md-tab>
                         </md-tabs>

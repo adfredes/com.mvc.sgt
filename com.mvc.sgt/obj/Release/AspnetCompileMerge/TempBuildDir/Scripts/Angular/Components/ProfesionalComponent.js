@@ -1,11 +1,10 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-
-    sgtApp.controller('profesionalEditController', ['crudService', '$filter', profesionalEditController]);
+    
 
     sgtApp.component('profesionalEdit', {
         templateUrl: Domain + 'Profesional/CreateOrEdit',
-        controller: profesionalEditController,
+        controller: ['crudService', '$filter', profesionalEditController],
         bindings: {
             profesional: "<",
             saveCallback: "="

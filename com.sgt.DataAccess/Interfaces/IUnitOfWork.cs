@@ -24,5 +24,6 @@ namespace com.sgt.DataAccess.Interfaces
         ISesionEstadosRepository RepoSesionEstados { get; }
         ITurnoRepeticionesRepository RepoTurnoRepeticiones { get; }
         ISmtpMailRepository RepoSmtpMail { get; }
+        IImagenRepository RepoImagen { get; }
     }
 }

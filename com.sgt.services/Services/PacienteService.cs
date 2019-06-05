@@ -94,6 +94,7 @@ namespace com.sgt.services.Services
                     Paciente = x.Paciente,
                     PacienteID = x.PacienteID,
                     UsuarioModificacion = x.UsuarioModificacion,
+                    TurnoDoble = x.TurnoDoble,
                     Sesions = x.Sesions.Where(s => s.Estado != 3).ToList()
                 }).ToList();
 
@@ -110,6 +111,7 @@ namespace com.sgt.services.Services
                     Paciente = x.Paciente,
                     PacienteID = x.PacienteID,
                     UsuarioModificacion = x.UsuarioModificacion,
+                    TurnoDoble = x.TurnoDoble,
                     Sesions = x.Sesions
                 }).ToList();
 
@@ -139,6 +141,25 @@ namespace com.sgt.services.Services
             }
 
             return listaPacientes;            
+        }
+
+        public Imagen AddFile(Imagen imagen)
+        {
+            imagen = unitOfWork.RepoImagen.Add(imagen);
+            return imagen;
+        }
+
+        public ICollection<Imagen> GetFiles(int PacienteID)
+        {
+            var imagenes = unitOfWork.RepoImagen.FindBy(x => x.PacienteID == PacienteID && x.Habilitado)
+                .OrderBy(x=> x.ID);
+            return imagenes.ToList();
+        }
+
+        public Imagen GetFile(int id)
+        {
+            var imagen = unitOfWork.RepoImagen.Find(id);
+            return imagen;
         }
     }
 }

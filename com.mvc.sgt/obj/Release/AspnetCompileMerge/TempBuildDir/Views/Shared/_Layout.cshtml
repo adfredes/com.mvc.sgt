@@ -10,6 +10,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular-core")
     @Scripts.Render("~/bundles/angular")
     @RenderSection("scripts", required: false)
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -71,16 +72,17 @@
             </div>
             @if (Request.IsAuthenticated)
             {
-                <search-paciente view-enabled="true">
-                </search-paciente>
+                <search-paciente view-enabled="true" />
+
             }
         </nav>
-        </header>
+    </header>    
     <div class="notification-bar">
         @if (Request.IsAuthenticated)
         {
-            <pacientes-anuales></pacientes-anuales>
             <turnos-sin-fecha></turnos-sin-fecha>
+            <pacientes-anuales></pacientes-anuales>
+
         }
     </div>
     <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">

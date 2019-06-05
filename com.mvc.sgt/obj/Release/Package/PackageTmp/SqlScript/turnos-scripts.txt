@@ -116,4 +116,11 @@ create table dbo.SmtpMail (
 	Mail varchar(50) not null
 );
 
+alter table imagen
+alter column archivo varchar(max);
+
+update Turno set CantidadSesiones = (select max(numero) from sesion where Sesion.TurnoID = Turno.ID);
+
+alter table dbo.Turno 
+add TurnoDoble int null;
 

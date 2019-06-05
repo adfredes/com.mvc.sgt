@@ -1587,5 +1587,50 @@ namespace com.sgt.services.Services
             return body;
         }
 
+        public List<int> GetNrosTurnosSinDobleOrden(int pacienteID)
+        {
+            var turnos = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == pacienteID && t.TurnoDoble.HasValue == false && t.Estado == (short)EstadoTurno.Confirmado)
+                .OrderByDescending(x=> x.ID);
+            List<int> listaTurnos = new List<int>();
+            turnos.ToList().ForEach(t => listaTurnos.Add(t.ID));
+            return listaTurnos;
+        }
+
+        public Turno SetTurnoDobleOrden(Turno turno, int? idTurno)
+        {
+            var turnoAnular = unitOfWork.RepoTurno.FindBy(t => t.TurnoDoble == turno.ID).FirstOrDefault();
+            if(turnoAnular != null)
+            {
+                turnoAnular.TurnoDoble = null;
+                unitOfWork.RepoTurno.Edit(turnoAnular);
+            }            
+
+            
+            turno.TurnoDoble = idTurno;
+            unitOfWork.RepoTurno.Edit(turno);
+
+            if (idTurno.HasValue)
+            {
+                var turnoD = unitOfWork.RepoTurno.Find(idTurno.Value);
+                turnoD.TurnoDoble = turno.ID;
+                unitOfWork.RepoTurno.Edit(turnoD);
+            }
+                
+            
+            return turno;
+        }
+
+        public IQueryable<Turno> GetTurnos()
+        {
+            return unitOfWork.RepoTurno.GetAll().Include(t=>t.Sesions);
+        }
+
+        public void EditTurno(Turno turno)
+        {            
+            turno.Turno_Repeticiones.ToList().ForEach(r =>
+            {
+                unitOfWork.RepoTurnoRepeticiones.Add(r);
+            });
+        }
     }
 }

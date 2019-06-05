@@ -1046,12 +1046,12 @@
         }
         else {
             innerHTML = options.vista == 's' ?
-                `${_sesion.Numero} / ${_sesion.CantidadSesiones}<br>${getNombreEstado(_sesion.Estado)}`
+                `${_sesion.Numero} / ${_sesion.CantidadSesiones}${_sesion.DobleOrden ? '<span class="icon-calendar" title="Paciente con doble orden"/><br>' : '<br>'}${getNombreEstado(_sesion.Estado)}`
                 : `${_sesion.Paciente}<br>OS: ${_sesion.Aseguradora} - ${_sesion.Plan}<br>
                        Sesion: ${_sesion.Numero} / ${_sesion.CantidadSesiones}<br>
                         ${_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : ''}
                         ${_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : ''}
-                        ${_sesion.DobleSesion ? "Doble Sesión<br>" : ''}
+                        ${_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : '<br>'}
                         ${getNombreEstado(_sesion.Estado)}`;
             if (_sesion.SinAsignar) {
                 innerHTML += `<span class="icon-attention sin-fecha" title="Sesiones sin fechas asignadas"></span>`;
@@ -1061,7 +1061,7 @@
         return innerHTML;
     }
 
-    function renderBloqueosAgenda() {        
+    function renderBloqueosAgenda() {
         if (options.bloqueosAgenda) {
             options.bloqueosAgenda.forEach(bloqueo => {
                 let rCelda;
@@ -1073,11 +1073,11 @@
                 if (bloqueo.TurnoSimultaneo == 0) {
                     sDesde = 1;
                     sHasta = options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioID).TurnosSimultaneos;
-                }                
+                }
                 //console.dir(options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioId));
                 for (let ts = sDesde; ts <= sHasta; ts++) {
                     let celSesionID = `#F${bloqueo.fecha}H${bloqueo.hora}C${bloqueo.ConsultorioID}S${ts}`;
-                    let celda = options.divGrilla.querySelector(celSesionID);                    
+                    let celda = options.divGrilla.querySelector(celSesionID);
                     if (celda) {
                         celda.innerHTML = '';
                         celda.rowSpan = 1;
@@ -1089,9 +1089,9 @@
                             delete celda.dataset[item];
                         }
                         celda.dataset.estado = "10";
-                        celda.draggable = "false";                           
-                    }                    
-                }                
+                        celda.draggable = "false";
+                    }
+                }
             });
         }
     }
@@ -1221,7 +1221,7 @@
     */
 
     /*Cambiar Turno*/
-    function cambiarTurnoDropped(celda, divId) {      
+    function cambiarTurnoDropped(celda, divId) {
 
         let btnCambiar_click = e => {
             btnGuardar.removeEventListener('click', btnCambiar_click);
@@ -1275,7 +1275,7 @@
                     showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
                 }
             }
-            else {               
+            else {
                 let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
                 let _estado = parseInt(_sesiones[0].Estado);
 
