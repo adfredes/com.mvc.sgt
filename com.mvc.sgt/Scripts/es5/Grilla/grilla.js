@@ -49,6 +49,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return sesionST;
     };
+    var showModalAngularComponent = function (modalName, elementName, value) {
+        modal = options.divGrilla.querySelector(modalName);
+        if (modal) {
+            var elementID = modal.querySelector(elementName);
+            if (elementID) {
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent("input", false, true);
+                if (elementID.value == value) {
+                    elementID.value = 0;
+                    elementID.dispatchEvent(evt);
+                }
+                elementID.value = value;
+                elementID.dispatchEvent(evt);
+                $(modalName).modal("show");
+            }
+        }
+    };
     var init = function () {
         document.addEventListener('UpdateTurnos', dibujarGrilla);
         var sessionST = loadFromSesionStorage();
@@ -195,9 +212,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             }); });
             var promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', _turno);
             promise.then(function (data) {
+                var turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
                 renderListaReservas();
                 dibujarGrilla();
+                console.dir(turnoNuevo);
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
             }, function (data) { return showErrorMessage('Reservas', data); });
         };
         var btnDivReservasAceptar_click = function (e) {
@@ -645,23 +665,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             modal.querySelector('#btnCancelarSesionModal').removeEventListener('click', clickCancelarSesion);
             modal.querySelector('#btnCancelarSesionModal').addEventListener('click', clickCancelarSesion);
             $('#cancelarSesionModal').modal();
-        };
-        var showModalAngularComponent = function (modalName, elementName, value) {
-            modal = options.divGrilla.querySelector(modalName);
-            if (modal) {
-                var elementID = modal.querySelector(elementName);
-                if (elementID) {
-                    var evt = document.createEvent("HTMLEvents");
-                    evt.initEvent("input", false, true);
-                    if (elementID.value == value) {
-                        elementID.value = 0;
-                        elementID.dispatchEvent(evt);
-                    }
-                    elementID.value = value;
-                    elementID.dispatchEvent(evt);
-                    $(modalName).modal("show");
-                }
-            }
         };
         function contextMenuClick(key, opt, e) {
             switch (key) {

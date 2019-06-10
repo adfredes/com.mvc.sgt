@@ -91,7 +91,10 @@
             vm.paciente = vm.pacienteSeleccionado;
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
-                .then(function (data) { return eventService.UpdateTurnos(); })
+                .then(function (data) {
+                eventService.UpdateTurnos();
+                vm.openDiagnostico();
+            })
                 .catch(function (error) { return undefined; });
         };
         vm.confirmarTurno = function () {

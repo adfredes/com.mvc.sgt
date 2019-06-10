@@ -45,14 +45,12 @@
             turno.Sesions.forEach(function (sesion) {
                 var row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
-                    row.push($this.toHourRange(sesion.FechaHora, sesion.sesiones));
-                    row.push($this.getNombreConsultorio(sesion.ConsultorioID, Consultorios));
+                    row.push($this.toHour(sesion.FechaHora));
                     body.unshift(row);
                 }
             });
-            body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
+            body.unshift(['Fecha', 'Horario']);
             var headerText = "Turno: " + turno.ID + " - " + paciente.Apellido + ", " + paciente.Nombre;
             pdfService.CreateTurnoPdf(body, headerText);
         };

@@ -202,6 +202,21 @@ namespace com.sgt.services.Services
             });
             return resu;
         }
+
+        //modificado
+        public bool isDobleOrdenExist(DateTime desde, DateTime hasta)
+        {            
+            var recesos = unitOfWork.RepoSesion
+                .FindBy(x =>
+                    desde <= x.FechaHora
+                    && hasta >= x.FechaHora
+                    && x.Habilitado && 
+                    EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)
+                    && x.Turno.TurnoDoble > 0
+                ).ToList();
+            
+            return recesos.Count() > 0;
+        }
         #endregion
 
         #region Reservas
@@ -411,7 +426,8 @@ namespace com.sgt.services.Services
                         }
                     });
 
-                if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList()))
+                //modificado
+                if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList(), turno.TurnoDoble.HasValue))
                 {
                     turno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
                 }
@@ -644,6 +660,8 @@ namespace com.sgt.services.Services
         public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
         {
             var oldTurno = unitOfWork.RepoTurno.Find(turno.ID);
+            //modifico
+            turno.TurnoDoble = oldTurno.TurnoDoble;
             List<Sesion> newSesiones = new List<Sesion>();
 
             turno.CantidadSesiones = continuar ? oldTurno.CantidadSesiones + cantidadSesiones : cantidadSesiones;
@@ -651,6 +669,8 @@ namespace com.sgt.services.Services
             if (!continuar)
             {
                 turno.ID = 0;
+                //modifico
+                turno.TurnoDoble = null;
                 turno.Fecha = DateTime.Now;
                 oldTurno.Turno_Repeticiones.ToList().ForEach(r =>
                 {
@@ -727,7 +747,7 @@ namespace com.sgt.services.Services
                         }
                     });
 
-                if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList()))
+                if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList(),turno.TurnoDoble.HasValue))
                 {
                     turno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
                 }
@@ -737,6 +757,12 @@ namespace com.sgt.services.Services
             turno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
             if (continuar)
             {
+                //modificado
+                if (turno.TurnoDoble.HasValue && turno.TurnoDoble.Value > 0)
+                {
+                    turno.Sesions.ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+                }
+
                 turno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
                 {
                     unitOfWork.RepoSesion.Add(s);
@@ -999,7 +1025,7 @@ namespace com.sgt.services.Services
                 sesion.UsuarioModificacion = turno.UsuarioModificacion;
 
             }
-            if (ValidarNuevasSesiones(turno.Sesions.ToList()))
+            if (ValidarNuevasSesiones(turno.Sesions.ToList(),false))
             {
                 turno = unitOfWork.RepoTurno.Add(turno);
             }
@@ -1046,7 +1072,10 @@ namespace com.sgt.services.Services
 
         }
 
-        private ICollection<Sesion> SortSesiones(int turnoID) => SortSesiones(unitOfWork.RepoTurno.Find(turnoID).Sesions);
+        private ICollection<Sesion> SortSesiones(int turnoID) {
+            var sesiones = unitOfWork.RepoSesion.FindBy(x=>x.TurnoID==turnoID);
+            return SortSesiones(sesiones.ToList());
+        }
 
         private ICollection<Sesion> SortSesiones(ICollection<Sesion> sesiones)
         {
@@ -1159,8 +1188,8 @@ namespace com.sgt.services.Services
                     });
                 }
             }
-
-            if (ValidarNuevasSesiones(sesionesNuevas, sobreturno))
+            //cambio
+            if (ValidarNuevasSesiones(sesionesNuevas, turno.TurnoDoble.HasValue, sobreturno))
             {
                 sesiones.ToList().ForEach(s =>
                 {
@@ -1173,7 +1202,16 @@ namespace com.sgt.services.Services
                 //Usar using com.sgt.DataAccess.ExtensionMethod;                
             }
             else
-                throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+            {
+                if (turno.TurnoDoble.HasValue)
+                {
+                    throw new Exception("Existen sesiones ya asignadas a su seleccion o existe un paciente con doble orden en el mismo horario.");
+                }
+                else
+                {
+                    throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+                }
+            }
             return sesiones;
 
         }
@@ -1305,7 +1343,8 @@ namespace com.sgt.services.Services
             //unitOfWork.RepoTurno
             //    .FindBy(t => t.PacienteID == turno.PacienteID && t.ID > turno.ID && t.Estado != (short)EstadoTurno.Cancelado);
 
-            if (!ValidarNuevasSesiones(newSesiones))
+            //modifico
+            if (!ValidarNuevasSesiones(newSesiones,turno.TurnoDoble.HasValue))
             {
                 newSesiones.ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
             }
@@ -1495,7 +1534,41 @@ namespace com.sgt.services.Services
 
 
 
-        private bool ValidarNuevasSesiones(List<Sesion> sesiones, bool sobreturno = false)
+        //private bool ValidarNuevasSesiones(List<Sesion> sesiones, bool sobreturno = false)
+        //{
+        //    bool isValid = true;
+        //    int cantidad = sobreturno ? 1 : 0;
+        //    var pp = GetAgenda();
+
+        //    if (sesiones.Where(s => s.FechaHora.Hour > pp.HoraHasta.Hour
+        //        || (s.FechaHora.Hour == pp.HoraHasta.Hour && s.FechaHora.Minute > pp.HoraHasta.Minute)
+        //        ).ToList().Count() > 0)
+        //    {
+        //        isValid = false;
+        //        throw new Exception("La sesión finaliza despues del horario de cierre del consultorio.");
+        //    }
+        //    else
+        //    {
+        //        foreach (var sesion in sesiones)
+        //        {
+        //            if (unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
+        //             && x.TurnoSimultaneo == sesion.TurnoSimultaneo &&
+        //             EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)).Count() > cantidad)
+        //            {
+        //                isValid = false;
+        //                break;
+        //            }
+        //        }
+        //        isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+        //        isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+        //        isValid = isBlocked(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora, sesiones[0].ConsultorioID, sesiones[0].TurnoSimultaneo) ? false : isValid;
+        //    }
+
+
+        //    return isValid;
+        //}
+
+        private bool ValidarNuevasSesiones(List<Sesion> sesiones, bool dobleOrden, bool sobreturno = false)
         {
             bool isValid = true;
             int cantidad = sobreturno ? 1 : 0;
@@ -1523,6 +1596,12 @@ namespace com.sgt.services.Services
                 isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
                 isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
                 isValid = isBlocked(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora, sesiones[0].ConsultorioID, sesiones[0].TurnoSimultaneo) ? false : isValid;
+                //modifico
+                if (dobleOrden)
+                {
+                    isValid = isDobleOrdenExist(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora)?false:isValid;
+                    
+                }                
             }
 
 

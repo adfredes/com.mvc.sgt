@@ -78,17 +78,17 @@ add Foto varchar(MAX);
 alter table dbo.Paciente 
 add Anual bit default 0;
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (10,'LIBRE','Pospuesto en el Día', 1);
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (11,'LIBRE','Pospuesto Consultorio', 1);
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (12,'LIBRE','Pospuesto No Aviso', 1)

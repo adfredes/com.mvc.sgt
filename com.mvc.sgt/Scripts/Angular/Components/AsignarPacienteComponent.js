@@ -114,7 +114,10 @@
             vm.paciente = vm.pacienteSeleccionado;    
             vm.turno.PacienteID = vm.paciente.ID;            
             turnoService.asignarPaciente(vm.turno)
-                .then(data => eventService.UpdateTurnos())
+                .then(data => {
+                    eventService.UpdateTurnos();
+                    vm.openDiagnostico();
+                })
                 .catch(error => undefined);
         };
 

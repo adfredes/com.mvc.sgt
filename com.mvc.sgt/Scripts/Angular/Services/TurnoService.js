@@ -51,21 +51,39 @@
             return angular.isDate(dateValue) ? $this.addZero(dateValue.getHours()) + ':' + $this.addZero(dateValue.getMinutes()) : '';
         };
 
+        //$this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
+        //    //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
+        //    let body = [];
+        //    let estadosImprimible = [1, 2, 4, 5];
+        //    turno.Sesions.forEach(sesion => {
+        //        let row = [];
+        //        if (estadosImprimible.includes(sesion.Estado)) {
+        //            row.push(sesion.Numero.toString());
+        //            row.push($this.toDate(sesion.FechaHora));
+        //            row.push($this.toHourRange(sesion.FechaHora, sesion.sesiones));
+        //            row.push($this.getNombreConsultorio(sesion.ConsultorioID, Consultorios));
+        //            body.unshift(row);
+        //        }
+        //    });
+        //    body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
+
+        //    let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
+        //    pdfService.CreateTurnoPdf(body, headerText);
+        //};
+
         $this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
             let estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(sesion => {
                 let row = [];
-                if (estadosImprimible.includes(sesion.Estado)) {
-                    row.push(sesion.Numero.toString());
+                if (estadosImprimible.includes(sesion.Estado)) {                    
                     row.push($this.toDate(sesion.FechaHora));
-                    row.push($this.toHourRange(sesion.FechaHora, sesion.sesiones));
-                    row.push($this.getNombreConsultorio(sesion.ConsultorioID, Consultorios));
+                    row.push($this.toHour(sesion.FechaHora));                    
                     body.unshift(row);
                 }
             });
-            body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
+            body.unshift(['Fecha', 'Horario']);
 
             let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
             pdfService.CreateTurnoPdf(body, headerText);

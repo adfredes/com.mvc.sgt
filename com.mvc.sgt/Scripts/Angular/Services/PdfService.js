@@ -187,28 +187,28 @@
         $this.CreateTurnoPdf = (_body, _header) => {
             let widths = [];
             _body[0].forEach(e => widths.push('auto'));
-            let docDefinition = {               
+            let docDefinition = {
                 header: {
                     margin: 10,
                     columns: [{
-                            table: {
-                                widths: ['100%'],
-                                body: [
-                                    [
-                                        {
-                                            text: _header,
-                                            height: 80
-                                        }
-                                    ]
+                        table: {
+                            widths: ['100%'],
+                            body: [
+                                [
+                                    {
+                                        text: _header,
+                                        height: 80
+                                    }
                                 ]
-                            },
-                            layout: 'noBorders'
-                        }
+                            ]
+                        },
+                        layout: 'noBorders'
+                    }
 
                     ]
                 },
                 content: [
-                    {                        
+                    {
                         layout: 'lightHorizontalLines', // optional
                         table: {
                             // headers are automatically repeated if the table spans over multiple pages
@@ -220,7 +220,7 @@
                         }
                     }
                 ],
-                footer:  function(currentPage, pageCount) {
+                footer: function (currentPage, pageCount) {
                     return {
                         columns: ['',
                             {
@@ -231,7 +231,8 @@
                         ]
                     };
                 },
-                pageSize: 'A4'
+                //pageSize: 'A4'
+                pageSize: {width: 105 * 3, height: 150 * 3}
             };
 
             pdfMake.createPdf(docDefinition).download();

@@ -16,8 +16,7 @@ namespace ImportarImagenes
     {
         static void Main(string[] args)
         {
-            setTurnoRepeticiones();
-            return;
+            setTurnoRepeticiones();           
 
             string ruta = @"C:\temp\FotosPacientes\";
             IPacienteService servicio = new PacienteService(new UnitOfWork(new TurnosDB()));

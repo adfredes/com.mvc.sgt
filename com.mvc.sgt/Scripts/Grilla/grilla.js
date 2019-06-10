@@ -17,6 +17,26 @@
         return sesionST;
     };
 
+    let showModalAngularComponent = (modalName, elementName, value) => {
+        modal = options.divGrilla.querySelector(modalName);
+        if (modal) {
+            let elementID = modal.querySelector(elementName);
+            if (elementID) {
+                let evt = document.createEvent("HTMLEvents");
+                evt.initEvent("input", false, true);
+                if (elementID.value == value) {
+                    elementID.value = 0;
+                    elementID.dispatchEvent(evt);
+                }
+
+
+                elementID.value = value;
+                elementID.dispatchEvent(evt);
+
+                $(modalName).modal("show");
+            }
+        }
+    };
 
     let init = () => {
 
@@ -164,10 +184,13 @@
             }));
 
             let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', _turno);
-            promise.then(data => {
+            promise.then(data => {                                
+                let turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
                 renderListaReservas();
                 dibujarGrilla();
+                console.dir(turnoNuevo);
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
 
             }
                 , data => showErrorMessage('Reservas', data));
@@ -736,26 +759,26 @@
             $('#cancelarSesionModal').modal();
         };
 
-        let showModalAngularComponent = (modalName, elementName, value) => {
-            modal = options.divGrilla.querySelector(modalName);
-            if (modal) {
-                let elementID = modal.querySelector(elementName);
-                if (elementID) {
-                    let evt = document.createEvent("HTMLEvents");
-                    evt.initEvent("input", false, true);
-                    if (elementID.value == value) {
-                        elementID.value = 0;
-                        elementID.dispatchEvent(evt);
-                    }
+        //let showModalAngularComponent = (modalName, elementName, value) => {
+        //    modal = options.divGrilla.querySelector(modalName);
+        //    if (modal) {
+        //        let elementID = modal.querySelector(elementName);
+        //        if (elementID) {
+        //            let evt = document.createEvent("HTMLEvents");
+        //            evt.initEvent("input", false, true);
+        //            if (elementID.value == value) {
+        //                elementID.value = 0;
+        //                elementID.dispatchEvent(evt);
+        //            }
 
 
-                    elementID.value = value;
-                    elementID.dispatchEvent(evt);
+        //            elementID.value = value;
+        //            elementID.dispatchEvent(evt);
 
-                    $(modalName).modal("show");
-                }
-            }
-        };
+        //            $(modalName).modal("show");
+        //        }
+        //    }
+        //};
 
         function contextMenuClick(key, opt, e) {
             switch (key) {

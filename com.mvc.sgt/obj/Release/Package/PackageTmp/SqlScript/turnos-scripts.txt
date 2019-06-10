@@ -78,17 +78,17 @@ add Foto varchar(MAX);
 alter table dbo.Paciente 
 add Anual bit default 0;
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (10,'LIBRE','Pospuesto en el Día', 1);
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (11,'LIBRE','Pospuesto Consultorio', 1);
 
-insert into sitk.dbo.Sesion_Estado
+insert into dbo.Sesion_Estado
 (ID, Codigo, Descripcion, Prioridad)
 values
 (12,'LIBRE','Pospuesto No Aviso', 1)
@@ -124,3 +124,12 @@ update Turno set CantidadSesiones = (select max(numero) from sesion where Sesion
 alter table dbo.Turno 
 add TurnoDoble int null;
 
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('RPG','#eee');
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('FKT','#fee');
+  INSERT INTO TipoSesion (DESCRIPCION, COLOR) VALUES ('GIM','#efe');
+
+  UPDATE CONSULTORIO SET TIPOSESIONID = 1 WHERE ID =1;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =2;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =3;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =4;
+  UPDATE CONSULTORIO SET TIPOSESIONID = 3 WHERE ID =5;
