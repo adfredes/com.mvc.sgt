@@ -6,22 +6,15 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content">
-                <md-input-container class="md-block">
-                    <label>Turno Relacionado</label>
-                    <md-select name="type" ng-model="turnoDoble" required>
-                        <md-option value=""></md-option>
-                        <md-option ng-if="doble" value="{{doble}}">{{doble}}</md-option>
-                        <md-option ng-repeat="item in turnos" ng-value="{{item}}">{{item}}</md-option>
-                    </md-select>
-                </md-input-container>
+            <div class="md-dialog-content">            
+                    <label>Paciente con doble orden?</label>            
             </div>
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>
-            <md-button type='button' class='md-raised md-primary' ng-click='answer(turnoDoble)'><span class='icon-save'></span> Guardar</md-button>
+            <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>
+            <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>
         </md-dialog-actions>
     </form>
 </md-dialog>

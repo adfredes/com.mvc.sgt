@@ -514,6 +514,7 @@ namespace com.mvc.sgt.Controllers
             }
             else
             {
+                model.Habilitado = true;
                 AgendaService.AddReceso(Mapper.Map<Agenda_Receso>(model));
             }            
             Response.StatusCode = (int)HttpStatusCode.OK;
@@ -549,6 +550,7 @@ namespace com.mvc.sgt.Controllers
             }
             else
             {
+                model.Habilitado = true;
                 AgendaService.AddBloqueoAgenda(Mapper.Map<Agenda_Bloqueos>(model));
             }
             Response.StatusCode = (int)HttpStatusCode.OK;

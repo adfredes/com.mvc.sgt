@@ -83,7 +83,7 @@
                                     <div ng-repeat="consultorio in $ctrl.Consultorios" class="m-0 p-0" style="display:flex">
                                             <span>{{consultorio.Descripcion}}:&nbsp</span>
                                             
-                                            <a href="" ng-repeat="hora in consultorio.Horario" ng-click="$ctrl.horaClick(hora, consultorio.ID)">{{hora}}&nbsp</a>
+                                            <a href="" ng-repeat="hora in consultorio.Horario" ng-click="$ctrl.horaClick(hora, consultorio.ID, $event)">{{hora}}&nbsp</a>
                                         @*<span class="clearfix"></span>*@
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="modal-footer">
                     <md-button type="button" class="md-raised md-warn" ng-click="close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.saveChange($event)"><span class="icon-floppy"></span> Guardar</md-button>
+                    @*<md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.saveChange($event)"><span class="icon-floppy"></span> Guardar</md-button>*@
                 </div>
             </div>
         </div>

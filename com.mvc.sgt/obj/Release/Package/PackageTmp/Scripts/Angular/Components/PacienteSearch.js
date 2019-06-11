@@ -34,10 +34,14 @@
             //Paciente/Listar/Name/
         };
 
-        vm.changeSelectedItem = () => {            
+        vm.changeSelectedItem = () => {                        
             if (vm.onChange) {
-                let data = vm.Paciente;                
-                vm.onChange()(data);                
+                let data = vm.Paciente;
+                vm.onChange()(data);
+            }
+            else {
+                console.dir($('#ViewPaciente'));
+                $('#ViewPaciente').modal('show');
             }
         };
 

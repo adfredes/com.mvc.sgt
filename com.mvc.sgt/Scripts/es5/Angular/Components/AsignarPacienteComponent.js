@@ -83,7 +83,10 @@
         };
         vm.openDiagnostico = function () {
             turnoService.openDiagnostico(vm.turno, function (promise) {
-                return promise.then(function (data) { return vm.turno = turnoService.sesionesOrder(JSON.parse(data)); })
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+                })
                     .catch(function (error) { });
             }, $element);
         };
@@ -92,16 +95,16 @@
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(function (data) {
-                eventService.UpdateTurnos();
-                vm.openDiagnostico();
+                turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
             })
                 .catch(function (error) { return undefined; });
         };
-        vm.confirmarTurno = function () {
-            turnoService.confirmarTurno(vm.turno, vm.continuar)
+        vm.confirmarTurno = function (continuar) {
+            turnoService.confirmarTurno(vm.turno, continuar)
                 .then(function (data) {
                 vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                 eventService.UpdateTurnos();
+                vm.openDiagnostico();
                 if (vm.onChanges) {
                     vm.onChanges()();
                 }
@@ -121,7 +124,6 @@
         };
         vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, function (data) {
             getTurno(vm.turno.ID);
-            console.dir(data);
             if (vm.onChanges) {
                 vm.onChanges()();
             }
@@ -170,7 +172,10 @@
         };
         vm.openDobleOrden = function () {
             turnoService.openDobleOrden(vm.turno, function (promise) {
-                return promise.then(function (data) { return vm.turno.TurnoDoble = JSON.parse(data).TurnoDoble; })
+                return promise.then(function (data) {
+                    vm.turno.TurnoDoble = JSON.parse(data).TurnoDoble;
+                    eventService.UpdateTurnos();
+                })
                     .catch(function (error) { });
             }, $element);
         };
@@ -180,6 +185,9 @@
             if (vm.onChanges) {
                 vm.onChanges()();
             }
+        };
+        vm.sendTurnoWhatsapp = function () {
+            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
     }
 })();

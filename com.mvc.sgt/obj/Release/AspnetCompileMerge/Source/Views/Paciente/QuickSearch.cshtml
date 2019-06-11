@@ -3,7 +3,7 @@
                      md-search-text="$ctrl.searchText"
                      md-items="item in $ctrl.search()"
                      md-item-text="item.Apellido + ' ' + item.Nombre"
-                     md-selected-item-change="$ctrl.changeSelectedItem()"
+                     md-selected-item-change="$ctrl.changeSelectedItem()"                     
                      md-min-length="3"
                      placeholder="Paciente">
         <md-item-template style="background-color:aquamarine">
@@ -16,7 +16,7 @@
 
     <ng-transclude style="display:inline;" class="mr-1 ml-1" ng-click="$ctrl.clear()"> </ng-transclude>
     <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"
-            type="submit" ng-click="$('#basicModal').modal('show');" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
+            type="submit" @*ng-click="$('#basicModal').modal('show');"*@ ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
         <span class="icon-search"></span>
     </button>
     <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"

@@ -61,8 +61,8 @@
                     <div class="p-1" style="border-radius:1rem; border:1px solid #555; overflow-x:auto; width:auto;">
                         <div ng-repeat="consultorio in $ctrl.Consultorios" class="m-0 p-0" style="display:flex">
                             <span>{{consultorio.Descripcion}}:&nbsp</span>
-
-                            <a href="" ng-repeat="hora in consultorio.Horario" ng-click="$ctrl.horaClick(hora, consultorio.ID)">{{hora}}&nbsp</a>
+                            
+                            <a href="" ng-repeat="hora in consultorio.Horario" ng-click="$ctrl.horaClick(hora, consultorio.ID, $event)">{{hora}}&nbsp</a>
                             @*<span class="clearfix"></span>*@
                         </div>
                     </div>
@@ -77,6 +77,6 @@
 <md-dialog-actions layout="row">
     <span flex></span>
     <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.closeChange()"><i class="icon-cancel"></i> Cerrar</md-button>
-    <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.saveChange()"><span class="icon-floppy"></span> Guardar</md-button>
+    @*<md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.saveChange()"><span class="icon-floppy"></span> Guardar</md-button>*@
 </md-dialog-actions>
 

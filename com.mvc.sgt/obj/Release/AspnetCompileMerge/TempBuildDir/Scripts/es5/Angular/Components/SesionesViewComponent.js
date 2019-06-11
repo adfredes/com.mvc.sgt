@@ -92,7 +92,11 @@
         };
         vm.openDiagnostico = function () {
             turnoService.openDiagnostico(vm.turno, function (promise) {
-                return promise.then(function (data) { return vm.turno = turnoService.sesionesOrder(JSON.parse(data)); })
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    ;
+                    vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+                })
                     .catch(function (error) { });
             }, $element);
         };
@@ -143,9 +147,15 @@
         };
         vm.openDobleOrden = function () {
             turnoService.openDobleOrden(vm.turno, function (promise) {
-                return promise.then(function (data) { return vm.turno = turnoService.sesionesOrder(JSON.parse(data)); })
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+                })
                     .catch(function (error) { });
             }, $element);
+        };
+        vm.sendTurnoWhatsapp = function () {
+            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
     }
 })();

@@ -536,9 +536,12 @@
 
             _newSesiones = _newSesiones.concat(_sesiones);
             let url = Domain + "Sesion/Posponer";
-
+            ////modificar aca ahora
             let promise = ajaxPromise("PUT", url, _newSesiones);
-            promise.then(data => dibujarGrilla()
+            promise.then(data => {
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+                dibujarGrilla();
+            }
                 , data => {
                     showErrorMessage('Posponer Turno', data);
                     dibujarGrilla();
@@ -1013,8 +1016,8 @@
                         celda.classList.add('turno-tomado');
                         celda.dataset.estado = sesion.Estado;
                         celda.classList.remove('turno-vacio');
-                        celda.dataset.parentid = idCelda;
-                        celda.dataset.sobreturno = "false";
+                        celda.dataset.parentid = idCelda;                       
+                        celda.dataset.sobreturno = sesion.DobleOrden ? "true" : "false";
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             `${sesion.Paciente}\n${sesion.Numero} / ${sesion.CantidadSesiones}`;
@@ -1027,6 +1030,9 @@
                         let divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML = getDivTurno(divId, sesion);
                         setElementMarkRowCol(options.tabla.querySelector('#' + divId));
+                        if (sesion.DobleOrden) {
+                            removeCeldaDroppable(celda);
+                        }
                     }
                 }
                 else {

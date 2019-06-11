@@ -133,8 +133,9 @@ namespace com.mvc.sgt.Controllers
                 DateTime bDesde = desde > bloqueo.FechaDesde ? desde : bloqueo.FechaDesde;
                 while(bDesde <= (hasta < bloqueo.FechaHasta ? hasta : bloqueo.FechaHasta))                
                 {
-                    DateTime HoraDesde = bloqueo.HoraDesde.Value;
-                    while (HoraDesde.TimeOfDay < bloqueo.HoraHasta.Value.TimeOfDay)
+                    DateTime HoraDesde =bloqueo.TodoElDia.HasValue ? agenda.HoraDesde :  bloqueo.HoraDesde.Value;
+                    DateTime HoraHasta = bloqueo.TodoElDia.HasValue ? agenda.HoraHasta.AddMinutes(agenda.Frecuencia) : bloqueo.HoraHasta.Value;
+                    while (HoraDesde.TimeOfDay < HoraHasta.TimeOfDay)
                     {
                         sesiones.Add(new SesionModel
                         {

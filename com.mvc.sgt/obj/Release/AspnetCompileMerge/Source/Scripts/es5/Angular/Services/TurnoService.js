@@ -45,14 +45,12 @@
             turno.Sesions.forEach(function (sesion) {
                 var row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
-                    row.push($this.toHourRange(sesion.FechaHora, sesion.sesiones));
-                    row.push($this.getNombreConsultorio(sesion.ConsultorioID, Consultorios));
+                    row.push($this.toHour(sesion.FechaHora));
                     body.unshift(row);
                 }
             });
-            body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
+            body.unshift(['Fecha', 'Horario']);
             var headerText = "Turno: " + turno.ID + " - " + paciente.Apellido + ", " + paciente.Nombre;
             pdfService.CreateTurnoPdf(body, headerText);
         };
@@ -203,7 +201,7 @@
                 .then(function (answer) {
                 success(answer);
             })
-                .catch(function () { return success(undefined); });
+                .catch(function () { });
         };
         $this.posponerSesiones = function (sesiones, fecha) {
             var params = {};
@@ -272,17 +270,6 @@
         };
         $this.openDobleOrden = function (turno, success, parentEl) {
             function DialogController($scope, $mdDialog) {
-                $scope.turnoDoble = JSON.parse(JSON.stringify(turno.TurnoDoble));
-                $scope.turnos = [];
-                $scope.doble = JSON.parse(JSON.stringify(turno.TurnoDoble));
-                var loadInit = function () {
-                    crudService.GetPHttp("Turno/DobleOrden/" + turno.PacienteID)
-                        .then(function (data) {
-                        $scope.turnos = data.filter(function (t) { return t != turno.ID; });
-                    })
-                        .catch(function () { return $scope.turnos = []; });
-                };
-                loadInit();
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
@@ -304,7 +291,7 @@
                 .then(function (answer) {
                 var params = {};
                 params.model = turno;
-                params.turnoID = answer;
+                params.turnoID = answer ? 1 : 0;
                 var url = "Turno/SetDobleOrden";
                 var promise = crudService.PutHttp(url, params);
                 success(promise);
@@ -324,6 +311,55 @@
             params.ids = sesionsID;
             var promise = crudService.PutHttp(url, params);
             return promise;
+        };
+        $this.openContinuarSesiones = function (success, parentEl) {
+            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            console.log(parentEl);
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.cancel = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                multiple: true
+            })
+                .then(function (answer) {
+                success(answer);
+            })
+                .catch(function () { return success(false); });
+        };
+        $this.linkWhatsapp = function (turno, paciente) {
+            var body = [];
+            var estadosImprimible = [1, 2, 4, 5];
+            turno.Sesions.forEach(function (sesion) {
+                if (estadosImprimible.includes(sesion.Estado)) {
+                    var row = $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%09" + $this.toHour(sesion.FechaHora) + "%0A";
+                    row = convertirCaracteresFecha(row);
+                    body.unshift(row);
+                }
+            });
+            body.unshift("Turno%20kinesiologia%3A%0A");
+            var wLink = "https://api.whatsapp.com/send?phone=549" + paciente.Celular + "&text=";
+            body.forEach(function (linea) { return wLink += linea; });
+            return wLink;
+        };
+        var convertirCaracteresFecha = function (linea) {
+            linea = linea.replace('/', '%2F');
+            linea = linea.replace('/', '%2F');
+            linea = linea.replace(':', '%3A');
+            linea = linea.replace(' ', '%20');
+            return linea;
         };
     }
 })();

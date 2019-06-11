@@ -30,6 +30,10 @@
                 var data = vm.Paciente;
                 vm.onChange()(data);
             }
+            else {
+                console.dir($('#ViewPaciente'));
+                $('#ViewPaciente').modal('show');
+            }
         };
         vm.clear = function () { return vm.Paciente = {}; };
         vm.openQuickCreate = function () {

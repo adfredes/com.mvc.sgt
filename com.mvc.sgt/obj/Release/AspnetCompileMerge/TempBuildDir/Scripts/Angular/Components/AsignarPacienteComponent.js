@@ -94,7 +94,7 @@
 
         vm.SelectPaciente = data => {            
             vm.paciente = {};
-            vm.pacienteSeleccionado = data;            
+            vm.pacienteSeleccionado = data;
         };
 
         vm.sinPaciente = () => {
@@ -105,7 +105,10 @@
         vm.openDiagnostico = () => {
             turnoService.openDiagnostico(vm.turno,
                 (promise) =>
-                    promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                    promise.then(data => {
+                        eventService.UpdateTurnos();
+                        vm.turno = turnoService.sesionesOrder(JSON.parse(data));                        
+                    })
                         .catch(error => { }), $element
             );                
         };
@@ -114,15 +117,22 @@
             vm.paciente = vm.pacienteSeleccionado;    
             vm.turno.PacienteID = vm.paciente.ID;            
             turnoService.asignarPaciente(vm.turno)
-                .then(data => eventService.UpdateTurnos())
+                .then(data => {
+                    //eventService.UpdateTurnos();
+                    //vm.openDiagnostico();
+                    
+                    turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                    //vm.confirmarTurno();
+                })
                 .catch(error => undefined);
-        };
+        };        
 
-        vm.confirmarTurno = () => {
-            turnoService.confirmarTurno(vm.turno, vm.continuar)
+        vm.confirmarTurno = (continuar) => {
+            turnoService.confirmarTurno(vm.turno, continuar)
                 .then(data => {
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
-                    eventService.UpdateTurnos();
+                    eventService.UpdateTurnos();                    
+                    vm.openDiagnostico();                    
                     if (vm.onChanges) {
                         vm.onChanges()();
                     }
@@ -144,8 +154,7 @@
         };
 
         vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {            
-                getTurno(vm.turno.ID);
-                console.dir(data);
+                getTurno(vm.turno.ID);                
                 if (vm.onChanges) {
                     vm.onChanges()();
                 }            
@@ -201,7 +210,10 @@
         vm.openDobleOrden = () => {
             turnoService.openDobleOrden(vm.turno,
                 (promise) =>
-                    promise.then(data => vm.turno.TurnoDoble = JSON.parse(data).TurnoDoble)
+                    promise.then(data => {
+                        vm.turno.TurnoDoble = JSON.parse(data).TurnoDoble;
+                        eventService.UpdateTurnos();
+                    })
                         .catch(error => { }), $element
             );
         };
@@ -212,6 +224,10 @@
             if (vm.onChanges) {
                 vm.onChanges()();
             }
+        };
+
+        vm.sendTurnoWhatsapp = () => {
+            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));            
         };
 
 

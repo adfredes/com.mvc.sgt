@@ -4,7 +4,7 @@
     sgtApp.service("turnoService", ['crudService', 'pdfService', '$mdDialog', turnoServiceController]);
 
     function turnoServiceController(crudService, pdfService, $mdDialog) {
-        var $this = this;        
+        var $this = this;
 
         $this.toDate = function (value) {
             let dateValue = moment(value).toDate();
@@ -77,9 +77,9 @@
             let estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(sesion => {
                 let row = [];
-                if (estadosImprimible.includes(sesion.Estado)) {                    
+                if (estadosImprimible.includes(sesion.Estado)) {
                     row.push($this.toDate(sesion.FechaHora));
-                    row.push($this.toHour(sesion.FechaHora));                    
+                    row.push($this.toHour(sesion.FechaHora));
                     body.unshift(row);
                 }
             });
@@ -96,7 +96,7 @@
 
         //Obtengo los horarios libres de los consultorios en una fecha específica
         $this.getConsultoriosFecha = (fechaConsultorio) => crudService.GetPHttp(`Consultorio/ListarHorarios/${fechaConsultorio.getFullYear()}/${fechaConsultorio.getMonth() + 1}/${fechaConsultorio.getDate()}`);
-            
+
 
         $this.getNombreEstado = (idEstado, Estados) => Estados.find(estado => estado.ID === idEstado).Descripcion;
 
@@ -106,7 +106,7 @@
 
         $this.getSesion = id => crudService.GetPHttp(`api/sesiones/${id}`);
 
-        $this.getTurnosPaciente = (id) => crudService.GetPHttp(`Paciente/ListTurnos/${id}`);            
+        $this.getTurnosPaciente = (id) => crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
 
         $this.getPaciente = id => crudService.GetPHttp(`Paciente/Get/${id}`);
 
@@ -147,18 +147,18 @@
             return data;
         };
 
-   
+
         $this.getTurnosSinFechaAsignada = () => crudService.GetPHttp('api/turno/SinFechaAsignada');
 
         $this.asignarPaciente = (turno) => {
-            let url = "Turno/AsignarPaciente";                        
+            let url = "Turno/AsignarPaciente";
             let promise = crudService.PutHttp(url, turno);
             return promise;
 
         };
 
         $this.AgregarSesionesTurno = (turno, success, parentEl) => {
-            
+
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -197,7 +197,7 @@
                     $mdDialog.cancel();
                 };
                 $scope.answer = function () {
-                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar : $scope.continuar });
+                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
                 };
             }
 
@@ -211,10 +211,10 @@
             })
                 .then(answer => {
                     let url = "Turno/AgregarSesiones";
-                    let params = {};                    
+                    let params = {};
                     params.model = turno;
                     params.sesiones = answer.cantidad;
-                    params.continuar = answer.continuar;                                        
+                    params.continuar = answer.continuar;
                     let promise = crudService.PutHttp(url, params);
                     success(promise);
                 })
@@ -293,7 +293,7 @@
             let promise = crudService.PutHttp(url, params);
             return promise;
         };
-        
+
         $this.openCambiarSesionModal = (sesion, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Paciente">
                                 <md-toolbar>
@@ -315,10 +315,10 @@
                 $scope.answer = function (answer) {
                     $mdDialog.hide(answer);
                 };
-            }           
+            }
             $mdDialog.show({
                 parent: parentEl.children(),
-                template: modalHtml,                
+                template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
                 fullscreen: false
@@ -328,7 +328,7 @@
                 .then(answer => {
                     success(answer);
                 })
-                .catch(() => success(undefined));
+                .catch(() => { });
         };
 
         $this.posponerSesiones = (sesiones, fecha) => {
@@ -423,30 +423,19 @@
                 fullscreen: false,
                 locals: { turno: turno }
             })
-                .then(answer => {                                                            
-                    turno.Diagnostico = answer;                    
-                    let url = "Turno/Diagnostico";                         
-                    let promise = crudService.PutHttp(url, turno);                    
-                    success(promise);                    
+                .then(answer => {
+                    turno.Diagnostico = answer;
+                    let url = "Turno/Diagnostico";
+                    let promise = crudService.PutHttp(url, turno);
+                    success(promise);
                 })
                 .catch(() => undefined);
-        };       
+        };
 
-        $this.openDobleOrden = (turno, success, parentEl) => {           
-            function DialogController($scope, $mdDialog) {                                                
-                $scope.turnoDoble = JSON.parse(JSON.stringify(turno.TurnoDoble));
-                $scope.turnos = [];
-                $scope.doble = JSON.parse(JSON.stringify(turno.TurnoDoble));
+        $this.openDobleOrden = (turno, success, parentEl) => {
+            function DialogController($scope, $mdDialog) {
 
-                let loadInit = () => {                    
-                    crudService.GetPHttp(`Turno/DobleOrden/${turno.PacienteID}`)
-                        .then(data => {                            
-                            $scope.turnos = data.filter(t => t != turno.ID);                            
-                        })
-                        .catch(() => $scope.turnos = []);
-                };
 
-                loadInit();
 
 
                 $scope.hide = function () {
@@ -468,17 +457,17 @@
                 fullscreen: false,
                 locals: { turno: turno }
             })
-                .then(answer => {                    
+                .then(answer => {
                     let params = {};
                     params.model = turno;
-                    params.turnoID = answer;
+                    params.turnoID = answer ? 1 : 0;
                     let url = "Turno/SetDobleOrden";
                     let promise = crudService.PutHttp(url, params);
                     success(promise);
                 })
                 .catch(() => undefined);
-        };       
-        
+        };
+
 
         $this.setEstadoAsistio = sesionsID => {
             let url = "Sesion/Estados/Asistio";
@@ -495,6 +484,88 @@
             let promise = crudService.PutHttp(url, params);
             return promise;
         };
+
+
+        $this.openContinuarSesiones = (success, parentEl) => {
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Turno - Diagnóstico</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">                                            
+                                        <label>Continuar con sesiones anteriores?</label>                                                                                
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+
+            console.log(parentEl);
+
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.cancel = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                multiple: true
+            })
+                .then(answer => {
+                    success(answer);
+                })
+                .catch(() => success(false));
+        };
+
+        $this.linkWhatsapp = (turno, paciente) => {
+            //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
+            let body = [];
+            let estadosImprimible = [1, 2, 4, 5];
+            turno.Sesions.forEach(sesion => {
+
+                if (estadosImprimible.includes(sesion.Estado)) {
+                    let row = `${$this.toShortDate(moment(sesion.FechaHora).toDate())}%09${$this.toHour(sesion.FechaHora)}%0A`;
+                    row = convertirCaracteresFecha(row);
+                    body.unshift(row);
+                }
+            });
+            //body.unshift(['Fecha', 'Horario']);
+
+            body.unshift(`Turno%20kinesiologia%3A%0A%0A`);
+            //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
+            let wLink = `https://wa.me/54${paciente.Celular}?text=`;
+            body.forEach(linea => wLink += linea);
+            return wLink;
+        };
+
+        let convertirCaracteresFecha = (linea) => {
+
+            linea = linea.replace('/', '%2F');
+            linea = linea.replace('/', '%2F');
+            linea = linea.replace(':', '%3A');
+            linea = linea.replace(' ', '%20');          
+            return linea;
+        };
+
 
     }
 }

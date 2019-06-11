@@ -39,7 +39,10 @@
         vm.GetBloqueos = function () {
             var _url = 'Agenda/Bloqueos';
             crudService.GetPHttp(_url)
-                .then(function (data) { vm.bloqueos = JSON.parse(data); })
+                .then(function (data) {
+                vm.bloqueos = JSON.parse(data);
+                console.dir(JSON.parse(data));
+            })
                 .catch(function (err) { return vm.bloqueos = {}; });
         };
         vm.GetRecesos = function () {

@@ -17,6 +17,26 @@
         return sesionST;
     };
 
+    let showModalAngularComponent = (modalName, elementName, value) => {
+        modal = options.divGrilla.querySelector(modalName);
+        if (modal) {
+            let elementID = modal.querySelector(elementName);
+            if (elementID) {
+                let evt = document.createEvent("HTMLEvents");
+                evt.initEvent("input", false, true);
+                if (elementID.value == value) {
+                    elementID.value = 0;
+                    elementID.dispatchEvent(evt);
+                }
+
+
+                elementID.value = value;
+                elementID.dispatchEvent(evt);
+
+                $(modalName).modal("show");
+            }
+        }
+    };
 
     let init = () => {
 
@@ -164,10 +184,13 @@
             }));
 
             let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', _turno);
-            promise.then(data => {
+            promise.then(data => {                                
+                let turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
                 renderListaReservas();
                 dibujarGrilla();
+                console.dir(turnoNuevo);
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
 
             }
                 , data => showErrorMessage('Reservas', data));
@@ -736,26 +759,26 @@
             $('#cancelarSesionModal').modal();
         };
 
-        let showModalAngularComponent = (modalName, elementName, value) => {
-            modal = options.divGrilla.querySelector(modalName);
-            if (modal) {
-                let elementID = modal.querySelector(elementName);
-                if (elementID) {
-                    let evt = document.createEvent("HTMLEvents");
-                    evt.initEvent("input", false, true);
-                    if (elementID.value == value) {
-                        elementID.value = 0;
-                        elementID.dispatchEvent(evt);
-                    }
+        //let showModalAngularComponent = (modalName, elementName, value) => {
+        //    modal = options.divGrilla.querySelector(modalName);
+        //    if (modal) {
+        //        let elementID = modal.querySelector(elementName);
+        //        if (elementID) {
+        //            let evt = document.createEvent("HTMLEvents");
+        //            evt.initEvent("input", false, true);
+        //            if (elementID.value == value) {
+        //                elementID.value = 0;
+        //                elementID.dispatchEvent(evt);
+        //            }
 
 
-                    elementID.value = value;
-                    elementID.dispatchEvent(evt);
+        //            elementID.value = value;
+        //            elementID.dispatchEvent(evt);
 
-                    $(modalName).modal("show");
-                }
-            }
-        };
+        //            $(modalName).modal("show");
+        //        }
+        //    }
+        //};
 
         function contextMenuClick(key, opt, e) {
             switch (key) {
@@ -990,8 +1013,8 @@
                         celda.classList.add('turno-tomado');
                         celda.dataset.estado = sesion.Estado;
                         celda.classList.remove('turno-vacio');
-                        celda.dataset.parentid = idCelda;
-                        celda.dataset.sobreturno = "false";
+                        celda.dataset.parentid = idCelda;                       
+                        celda.dataset.sobreturno = sesion.DobleOrden ? "true" : "false";
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             `${sesion.Paciente}\n${sesion.Numero} / ${sesion.CantidadSesiones}`;
@@ -1004,6 +1027,9 @@
                         let divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML = getDivTurno(divId, sesion);
                         setElementMarkRowCol(options.tabla.querySelector('#' + divId));
+                        if (sesion.DobleOrden) {
+                            removeCeldaDroppable(celda);
+                        }
                     }
                 }
                 else {

@@ -45,7 +45,10 @@
         vm.GetBloqueos = () => {
             let _url = 'Agenda/Bloqueos';
             crudService.GetPHttp(_url)
-                .then(data => { vm.bloqueos = JSON.parse(data)})
+                .then(data => {
+                vm.bloqueos = JSON.parse(data);
+                console.dir(JSON.parse(data));
+                })
                 .catch(err => vm.bloqueos = {});
         };
 

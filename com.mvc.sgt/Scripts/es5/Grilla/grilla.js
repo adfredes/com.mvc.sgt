@@ -479,7 +479,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             _newSesiones = _newSesiones.concat(_sesiones);
             var url = Domain + "Sesion/Posponer";
             var promise = ajaxPromise("PUT", url, _newSesiones);
-            promise.then(function (data) { return dibujarGrilla(); }, function (data) {
+            promise.then(function (data) {
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+                dibujarGrilla();
+            }, function (data) {
                 showErrorMessage('Posponer Turno', data);
                 dibujarGrilla();
             });
@@ -828,7 +831,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         celda.dataset.estado = sesion.Estado;
                         celda.classList.remove('turno-vacio');
                         celda.dataset.parentid = idCelda;
-                        celda.dataset.sobreturno = "false";
+                        celda.dataset.sobreturno = sesion.DobleOrden ? "true" : "false";
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :
                             sesion.Paciente + "\n" + sesion.Numero + " / " + sesion.CantidadSesiones;
@@ -836,6 +839,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         var divId = idCelda.replace('#', '') + 'D' + sesion.ID;
                         celda.innerHTML = getDivTurno(divId, sesion);
                         setElementMarkRowCol(options.tabla.querySelector('#' + divId));
+                        if (sesion.DobleOrden) {
+                            removeCeldaDroppable(celda);
+                        }
                     }
                 }
                 else {

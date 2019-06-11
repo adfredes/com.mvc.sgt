@@ -101,17 +101,22 @@
             turno.Sesions.forEach(sesion => {
                 let row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    row.push(sesion.Numero.toString());
+                   
                     row.push(vm.toDate(sesion.FechaHora));
                     row.push(vm.toHourRange(sesion.FechaHora, sesion.sesiones));
-                    row.push(vm.getNombreConsultorio(sesion.ConsultorioID));
+                   
                     body.unshift(row);
                 }
             });
-            body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
+            body.unshift(['Fecha', 'Horario']);
 
             let headerText = `Turno: ${turno.ID} - ${vm.paciente.Apellido}, ${vm.paciente.Nombre}`;
             pdfService.CreateTurnoPdf(body, headerText);
+        };
+
+        vm.sendTurnoWhatsapp = (turno) => {
+            window.open(turnoService.linkWhatsapp(turno, vm.paciente));
+            //console.log(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
 
         vm.sendTurno = (turno) => {

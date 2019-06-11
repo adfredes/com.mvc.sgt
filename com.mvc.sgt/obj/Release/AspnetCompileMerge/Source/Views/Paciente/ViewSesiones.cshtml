@@ -26,6 +26,7 @@
                             <md-button type="button" class="m-0 btn-dobleorden" ng-class="{'text-warning' : $ctrl.turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden()" title="Doble Orden"><i class="icon-clone"></i></md-button>
                             <md-button type="button" class="m-0 btn-imprimir" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i></md-button>
                             <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurno()" title="Enviar Turno"><i class="icon-mail"></i></md-button>
+                            <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurnoWhatsapp()" title="Enviar Turno Whatsapp"><i class="icon-whatsapp"></i></md-button>
                         </div>
                     </fieldset>                       
                     <input id="PacienteID" type="text" ng-hide="1==1" ng-model="$ctrl.PacienteID" ng-change="$ctrl.pacienteChange()" />

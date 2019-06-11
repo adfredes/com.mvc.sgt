@@ -236,7 +236,7 @@
                         ]
                     };
                 },
-                pageSize: 'A4'
+                pageSize: { width: 105 * 3, height: 150 * 3 }
             };
             pdfMake.createPdf(docDefinition).download();
         };

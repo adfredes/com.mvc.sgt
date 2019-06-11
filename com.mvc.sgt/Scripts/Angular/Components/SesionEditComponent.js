@@ -3,7 +3,7 @@
 
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             divid: "@"
@@ -12,7 +12,7 @@
 
     sgtApp.component('sesionEditModal', {
         templateUrl: Domain + 'Sesion/ChangeDateModal',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             onSave: "&?",
@@ -20,7 +20,7 @@
         }
     });
 
-    function sesionEditController(turnoService, eventService, crudService, $mdDialog) {
+    function sesionEditController(turnoService, eventService, crudService, $mdDialog, $element) {
         let vm = this;
 
         vm.selectedDate = null;
@@ -91,6 +91,7 @@
             ConsultorioID = consultorioID;
             vm.selectedDate.setHours(parseInt(hora.split(':')[0]));
             vm.selectedDate.setMinutes(parseInt(hora.split(':')[1]));
+            vm.saveChange();
             //vm.sesion.FechaHora.split("T")[0] + 'T' + hora + ":00";            
         };
 
@@ -116,7 +117,7 @@
             }
         };
 
-        vm.saveChange = (ev) => {
+        vm.saveChange = () => {
             let _sesiones = [];
 
 
@@ -168,7 +169,7 @@
                 //vm.showModal(ev, 'Se modifico correctamente el turno');                
             })
                 .catch(err => {
-                    vm.showModal(ev, err.data);
+                    vm.showModal(err.data, $element);
                 });
 
 
@@ -177,7 +178,7 @@
         };
 
 
-        vm.showModal = function (ev, _error) {
+        vm.showModal = function (_error, parentEl) {
             let modalHtml = `
 <md-dialog aria-label="Turnos">
   <form ng-cloak>
@@ -196,19 +197,21 @@
 
     <md-dialog-actions layout="row">      
       <span flex></span>      
-      <md-button type='button' class='md-raised md-primary' ng-click='cancel()'><span class='icon-ok'></span> Aceptar</md-button>
+      <md-button type='button' class='md-raised md-primary' ng-click='hide()'><span class='icon-ok'></span> Aceptar</md-button>
     </md-dialog-actions>
   </form>
 </md-dialog>
-`;
-
+`;            
+                
             // Appending dialog to document.body to cover sidenav in docs app
             $mdDialog.show({
+                parent: parentEl,
                 template: modalHtml,
-                controller: DialogController,
-                targetEvent: ev,
+                controller: ['$scope', '$mdDialog', DialogController],
+                //targetEvent: ev,                
                 clickOutsideToClose: true,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: vm.selectedTurno }
             })
                 .then(answer => {

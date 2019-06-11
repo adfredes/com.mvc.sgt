@@ -2,7 +2,7 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             divid: "@"
@@ -10,14 +10,14 @@
     });
     sgtApp.component('sesionEditModal', {
         templateUrl: Domain + 'Sesion/ChangeDateModal',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', sesionEditController],
+        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             onSave: "&?",
             onCancel: "&?"
         }
     });
-    function sesionEditController(turnoService, eventService, crudService, $mdDialog) {
+    function sesionEditController(turnoService, eventService, crudService, $mdDialog, $element) {
         var vm = this;
         vm.selectedDate = null;
         vm.modulos = null;
@@ -70,6 +70,7 @@
             ConsultorioID = consultorioID;
             vm.selectedDate.setHours(parseInt(hora.split(':')[0]));
             vm.selectedDate.setMinutes(parseInt(hora.split(':')[1]));
+            vm.saveChange();
         };
         vm.fechaChange = function () {
             getConsultorios(vm.selectedDate);
@@ -90,7 +91,7 @@
                 vm.onCancel()();
             }
         };
-        vm.saveChange = function (ev) {
+        vm.saveChange = function () {
             var _sesiones = [];
             for (var i = 0; i < vm.modulos; i++) {
                 var _fechaHora = new Date(vm.selectedDate.getTime());
@@ -134,17 +135,18 @@
                 }
             })
                 .catch(function (err) {
-                vm.showModal(ev, err.data);
+                vm.showModal(err.data, $element);
             });
         };
-        vm.showModal = function (ev, _error) {
-            var modalHtml = "\n<md-dialog aria-label=\"Turnos\">\n  <form ng-cloak>\n    <md-toolbar>\n      <div class=\"md-toolbar-tools  badge-warning\">\n        <h5 class=\"modal-title\">Turnos</h5>        \n      </div>\n    </md-toolbar>\n    <md-dialog-content>\n      <div class=\"md-dialog-content\">        \n        <p>\n          " + _error + "\n        </p>\n      </div>\n    </md-dialog-content>\n\n    <md-dialog-actions layout=\"row\">      \n      <span flex></span>      \n      <md-button type='button' class='md-raised md-primary' ng-click='cancel()'><span class='icon-ok'></span> Aceptar</md-button>\n    </md-dialog-actions>\n  </form>\n</md-dialog>\n";
+        vm.showModal = function (_error, parentEl) {
+            var modalHtml = "\n<md-dialog aria-label=\"Turnos\">\n  <form ng-cloak>\n    <md-toolbar>\n      <div class=\"md-toolbar-tools  badge-warning\">\n        <h5 class=\"modal-title\">Turnos</h5>        \n      </div>\n    </md-toolbar>\n    <md-dialog-content>\n      <div class=\"md-dialog-content\">        \n        <p>\n          " + _error + "\n        </p>\n      </div>\n    </md-dialog-content>\n\n    <md-dialog-actions layout=\"row\">      \n      <span flex></span>      \n      <md-button type='button' class='md-raised md-primary' ng-click='hide()'><span class='icon-ok'></span> Aceptar</md-button>\n    </md-dialog-actions>\n  </form>\n</md-dialog>\n";
             $mdDialog.show({
+                parent: parentEl,
                 template: modalHtml,
-                controller: DialogController,
-                targetEvent: ev,
+                controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: vm.selectedTurno }
             })
                 .then(function (answer) {

@@ -121,7 +121,10 @@
         vm.openDiagnostico = () => {
             turnoService.openDiagnostico(vm.turno,
                 (promise) =>
-                    promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                    promise.then(data => {
+                        eventService.UpdateTurnos();;
+                        vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+                    })
                         .catch(error => { }), $element
             );
         };
@@ -182,9 +185,17 @@
         vm.openDobleOrden = () => {
             turnoService.openDobleOrden(vm.turno,
                 (promise) =>
-                    promise.then(data => vm.turno = turnoService.sesionesOrder(JSON.parse(data)))
+                    promise.then(data => {
+                        eventService.UpdateTurnos();
+                        vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+                    })
                         .catch(error => { }), $element
             );
+        };
+
+        vm.sendTurnoWhatsapp = () => {
+            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
+            //console.log(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
     }
 })();
