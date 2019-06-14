@@ -80,6 +80,7 @@
                 vm.paciente = {};
             }
         };
+        vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         vm.turnoChange = function () {
             Estados = [];
             Consultorios = [];
@@ -129,7 +130,7 @@
         };
         vm.agregarSesiones = function () {
             turnoService.AgregarSesionesTurno(vm.turno, function (promise) {
-                promise.then(function (data) { eventService.UpdateTurnos(); })
+                promise.then(function (data) { refreshTurno(); })
                     .catch(function (error) { });
             }, $element);
         };
@@ -142,6 +143,12 @@
                 .catch(function () { return undefined; });
         };
         var refreshTurno = function (data) {
+            turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                .then(function (resp) {
+                if (resp) {
+                    turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
+                }
+            });
             getTurnosPaciente(vm.PacienteID);
             eventService.UpdateTurnos();
         };

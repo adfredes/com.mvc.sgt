@@ -238,6 +238,7 @@
         };
 
         vm.close = () => {            
+            console.log(vm.divid);
             $('#' + vm.divid).modal('hide');
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();            
@@ -258,13 +259,14 @@
         };
 
         Message = (requestResponse) => {
-            requestResponse.then(function successCallback(response) {
+            requestResponse.then(function successCallback(response) {                
+                console.log(response);
                 vm.close();                                
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
             }, function errorCallback(response) {
-
+                console.log(response);
             });
         };        
 

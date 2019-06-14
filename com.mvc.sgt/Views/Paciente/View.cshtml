@@ -36,7 +36,7 @@
                                                                     </label>
                                                                     <input type="text" value="" class="form-control text-capitalize" id="nombre"
                                                                            name="nombre" ng-model="$ctrl.paciente.Nombre" autocomplete="off" required />
-                                                                    <div ng-show="frmPaciente.nombre.$touched" ng-messages="frmPaciente.nombre.$error" role="alert">
+                                                                    <div ng-show="$ctrl.frmPaciente.nombre.$touched" ng-messages="$ctrl.frmPaciente.nombre.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
@@ -48,7 +48,7 @@
                                                                     </label>
                                                                     <input type="text" value="" class="form-control text-capitalize" id="apellido"
                                                                            name="apellido" ng-model="$ctrl.paciente.Apellido" autocomplete="off" required />
-                                                                    <div ng-show="frmPaciente.apellido.$touched" ng-messages="frmPaciente.apellido.$error" role="alert">
+                                                                    <div ng-show="$ctrl.frmPaciente.apellido.$touched" ng-messages="$ctrl.frmPaciente.apellido.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
@@ -62,7 +62,7 @@
                                                                     </label>
 
                                                                     <md-datepicker ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" md-open-on-focus></md-datepicker>
-                                                                    <div ng-show="frmPaciente.nacimiento.$touched" ng-messages="frmPaciente.nacimiento.$error" role="alert">
+                                                                    <div ng-show="$ctrl.frmPaciente.nacimiento.$touched" ng-messages="$ctrl.frmPaciente.nacimiento.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
@@ -74,7 +74,7 @@
                                                                     </label>
                                                                     <input type="text" value="" class="form-control" id="documento"
                                                                            name="documento" ng-model="$ctrl.paciente.DocumentoNumero" autocomplete="off" required />
-                                                                    <div ng-show="frmPaciente.documento.$touched" ng-messages="frmPaciente.documento.$error" role="alert">
+                                                                    <div ng-show="$ctrl.frmPaciente.documento.$touched" ng-messages="$ctrl.frmPaciente.documento.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
@@ -87,7 +87,7 @@
                                                                     </label>
                                                                     <input type="text" value="" class="form-control" id="cuit" autocomplete="off"
                                                                            name="cuit" ng-model="$ctrl.paciente.Cuit" />
-                                                                    <div ng-show="frmPaciente.cuit.$touched" ng-messages="frmPaciente.cuit.$error" role="alert">
+                                                                    <div ng-show="$ctrl.frmPaciente.cuit.$touched" ng-messages="$ctrl.frmPaciente.cuit.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
@@ -109,7 +109,7 @@
                                                             <md-select id="aseguradora" name="aseguradora" ng-model="$ctrl.paciente.AseguradoraID" ng-change="$ctrl.getPlanes()" required>
                                                                 <md-option ng-repeat="item in $ctrl.ObrasSociales" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
-                                                            <div ng-show="frmPaciente.aseguradora.$touched" ng-messages="frmPaciente.aseguradora.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.aseguradora.$touched" ng-messages="$ctrl.frmPaciente.aseguradora.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -122,7 +122,7 @@
                                                             <md-select id="plan" name="plan" ng-model="$ctrl.paciente.AseguradoraPlanID" required>
                                                                 <md-option ng-repeat="item in $ctrl.Planes" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
-                                                            <div ng-show="frmPaciente.plan.$touched" ng-messages="frmPaciente.plan.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.plan.$touched" ng-messages="$ctrl.frmPaciente.plan.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -130,7 +130,7 @@
                                                     <div class="form-group col-lg-2 col-md-3">
                                                         <md-input-container class="form-group md-block">
                                                             <md-checkbox id="gravado" name="gravado" ng-model="$ctrl.paciente.EsGravado">Gravado</md-checkbox>
-                                                            <div ng-show="frmPaciente.gravado.$touched" ng-messages="frmPaciente.gravado.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.gravado.$touched" ng-messages="$ctrl.frmPaciente.gravado.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -143,7 +143,7 @@
                                                                 Código Seguridad
                                                             </label>
                                                             <input type="text" value="" id="afiliado" name="afiliado" class="form-control" ng-model="$ctrl.paciente.CodigoSeguridad" />
-                                                            <div ng-show="frmPaciente.codigoseguridad.$touched" ng-messages="frmPaciente.codigoseguridad.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.codigoseguridad.$touched" ng-messages="$ctrl.frmPaciente.codigoseguridad.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -154,7 +154,7 @@
                                                                 Nro Afiliado
                                                             </label>
                                                             <input type="text" value="" id="afiliado" name="afiliado" class="form-control" ng-model="$ctrl.paciente.NumeroAfiliado" />
-                                                            <div ng-show="frmPaciente.afiliado.$touched" ng-messages="frmPaciente.afiliado.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.afiliado.$touched" ng-messages="$ctrl.frmPaciente.afiliado.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -165,7 +165,7 @@
                                                                 OS
                                                             </label>
                                                             <input type="text" id="os" name="os" value="" class="form-control" ng-model="$ctrl.paciente.NumeroHC" autocomplete="off" />
-                                                            <div ng-show="frmPaciente.os.$touched" ng-messages="frmPaciente.os.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.os.$touched" ng-messages="$ctrl.frmPaciente.os.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -183,7 +183,7 @@
                                                             <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()" required>
                                                                 <md-option ng-repeat="item in $ctrl.Provincias" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
-                                                            <div ng-show="frmPaciente.provincia.$touched" ng-messages="frmPaciente.provincia.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.provincia.$touched" ng-messages="$ctrl.frmPaciente.provincia.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -194,7 +194,7 @@
                                                             <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID" required>
                                                                 <md-option ng-repeat="item in $ctrl.Localidades" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
-                                                            <div ng-show="frmPaciente.ciudad.$touched" ng-messages="frmPaciente.ciudad.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.ciudad.$touched" ng-messages="$ctrl.frmPaciente.ciudad.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -206,7 +206,7 @@
                                                             <label for="direccion">Dirección</label>
                                                             <input type="text" id="direccion" name="direccion" autocomplete="off"
                                                                    value="" class="form-control" ng-model="$ctrl.paciente.Direccion" />
-                                                            <div ng-show="frmPaciente.direccion.$touched" ng-messages="frmPaciente.direccion.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.direccion.$touched" ng-messages="$ctrl.frmPaciente.direccion.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -216,7 +216,7 @@
                                                             <label for="codigopostal">Código Postal</label>
                                                             <input type="text" id="codigopostal" name="codigopostal" autocomplete="off"
                                                                    class="form-control" ng-model="$ctrl.paciente.CodigoPostal" />
-                                                            <div ng-show="frmPaciente.codigopostal.$touched" ng-messages="frmPaciente.codigopostal.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.codigopostal.$touched" ng-messages="$ctrl.frmPaciente.codigopostal.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -228,7 +228,7 @@
                                                             <label for="telefono">Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono"
                                                                    name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off" required />
-                                                            <div ng-show="frmPaciente.telefono.$touched" ng-messages="frmPaciente.telefono.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.telefono.$touched" ng-messages="$ctrl.frmPaciente.telefono.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -238,7 +238,7 @@
                                                             <label for="telefono2">Otro Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono2" autocomplete="off"
                                                                    name="telefono2" ng-model="$ctrl.paciente.Telefono2" />
-                                                            <div ng-show="frmPaciente.telefono2.$touched" ng-messages="frmPaciente.telefono2.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.telefono2.$touched" ng-messages="$ctrl.frmPaciente.telefono2.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -248,7 +248,7 @@
                                                             <label for="celular">Celular</label>
                                                             <input type="tel" class="form-control" id="celular" autocomplete="off"
                                                                    name="celular" ng-model="$ctrl.paciente.Celular" />
-                                                            <div ng-show="frmPaciente.celular.$touched" ng-messages="frmPaciente.celular.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.celular.$touched" ng-messages="$ctrl.frmPaciente.celular.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -260,7 +260,7 @@
                                                             <label for="mail">E-Mail</label>
                                                             <input type="email" class="form-control" id="mail" autocomplete="off"
                                                                    name="mail" ng-model="$ctrl.paciente.Mail" />
-                                                            <div ng-show="frmPaciente.mail.$touched" ng-messages="frmPaciente.mail.$error" role="alert">
+                                                            <div ng-show="$ctrl.frmPaciente.mail.$touched" ng-messages="$ctrl.frmPaciente.mail.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
@@ -285,7 +285,7 @@
 
                                                     <div class="form-group col-sm">
                                                         <md-input-container class="md-block">
-                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Anual" required>
+                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Anual">
                                                                 <span>Anual</span>
                                                             </md-switch>
                                                         </md-input-container>
@@ -293,7 +293,7 @@
 
                                                     <div class="form-group col-sm">
                                                         <md-input-container class="md-block">
-                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" required>
+                                                            <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" ng-init="true">
                                                                 <span ng-show="$ctrl.paciente.Habilitado">Habilitado</span>
                                                                 <span ng-hide="$ctrl.paciente.Habilitado">Deshabilitado</span>
                                                             </md-switch>
@@ -301,7 +301,9 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-
+                                            <fieldset class="m-0 pt-0 pb-0" ng-hide="$ctrl.frmPaciente.$valid">
+                                                <span>Hay errores en el formulario.</span>    
+                                            </fieldset>
                                         </form>
                                     </div>
                                 </md-content>
@@ -343,7 +345,7 @@
             </div>
             <div class="modal-footer">
                 <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.savePaciente()"><span class="icon-floppy"></span> Guardar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.savePaciente()" ><span class="icon-floppy"></span> Guardar</md-button>
                 <div ng-transclude="botton"></div>
             </div>
         </div>

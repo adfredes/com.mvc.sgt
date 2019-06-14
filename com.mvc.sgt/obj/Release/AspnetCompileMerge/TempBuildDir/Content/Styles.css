@@ -572,12 +572,12 @@ input[readonly]{
 
 .procesando {
     width: 100%;
-    /*z-index: 9999;
+    z-index: 1000;
     height: 100vh;
     background-color: rgba(0,0,0,0.3);
     position: fixed;
     top: 0px;
-    left: 0px;*/
+    left: 0px;
     display: none;    
 }
 

@@ -129,7 +129,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 switch (_h.label) {
                     case 0:
                         options.divGrilla.querySelector('.procesando').style.display = 'block';
-                        options.tabla.innerHTML = "<tr><td>Procesando....</td></tr>";
                         _a = options;
                         return [4, getConsultorios()];
                     case 1:
@@ -479,7 +478,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             _newSesiones = _newSesiones.concat(_sesiones);
             var url = Domain + "Sesion/Posponer";
             var promise = ajaxPromise("PUT", url, _newSesiones);
-            promise.then(function (data) { return dibujarGrilla(); }, function (data) {
+            promise.then(function (data) {
+                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+                dibujarGrilla();
+            }, function (data) {
                 showErrorMessage('Posponer Turno', data);
                 dibujarGrilla();
             });
@@ -865,7 +867,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         else {
             innerHTML = options.vista == 's' ?
                 _sesion.Numero + " / " + _sesion.CantidadSesiones + (_sesion.DobleOrden ? '<span class="icon-calendar" title="Paciente con doble orden"/><br>' : '<br>') + getNombreEstado(_sesion.Estado)
-                : _sesion.Paciente + "<br>OS: " + _sesion.Aseguradora + " - " + _sesion.Plan + "<br>\n                       Sesion: " + _sesion.Numero + " / " + _sesion.CantidadSesiones + "<br>\n                        " + (_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : '') + "\n                        " + (_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : '') + "\n                        " + (_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : '<br>') + "\n                        " + getNombreEstado(_sesion.Estado);
+                : (_sesion.Paciente ? _sesion.Paciente : "Sin Paciente") + " " + (_sesion.Aseguradora ? '<br>OS: ' + _sesion.Aseguradora + '-' + _sesion.Plan : '') + " <br>\n                       Sesion: " + _sesion.Numero + " / " + _sesion.CantidadSesiones + "<br>\n                        " + (_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : '') + "\n                        " + (_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : '') + "\n                        " + (_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : '') + "\n                        " + getNombreEstado(_sesion.Estado);
             if (_sesion.SinAsignar) {
                 innerHTML += "<span class=\"icon-attention sin-fecha\" title=\"Sesiones sin fechas asignadas\"></span>";
             }

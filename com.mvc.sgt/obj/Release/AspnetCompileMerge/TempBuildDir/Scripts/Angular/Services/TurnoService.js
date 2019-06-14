@@ -506,9 +506,7 @@
                                   <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>
                                 </md-dialog-actions>
                               </form>
-                             </md-dialog>`;
-
-            console.log(parentEl);
+                             </md-dialog>`;            
 
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
@@ -550,8 +548,9 @@
             });
             //body.unshift(['Fecha', 'Horario']);
 
-            body.unshift(`Turno%20kinesiologia%3A%0A`);
-            let wLink = `https://api.whatsapp.com/send?phone=549${paciente.Celular}&text=`;
+            body.unshift(`Turno%20kinesiologia%3A%0A%0A`);
+            //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
+            let wLink = `https://wa.me/54${paciente.Celular}?text=`;
             body.forEach(linea => wLink += linea);
             return wLink;
         };
@@ -565,7 +564,45 @@
             return linea;
         };
 
+        $this.getTipoSesion = idSesion => {
+            let resu;
+            switch (idSesion) {
+                case 1:
+                    resu = 'RPG';
+                    break;
+                case 2:
+                    resu = 'FKT';
+                    break;
+                case 3:
+                    resu = 'GYM';
+                    break;
+                default:
+                    resu = '';
+                    break;
+            }
+            return resu;
+        };
 
+        $this.existTurnosAnteriores = (pacienteID, tipoID) => {        
+            return crudService.GetPHttp(`Paciente/${pacienteID}/Tipo/${tipoID}/TurnosAnteriores`);
+        };             
+
+        $this.IsTurnoSuperpuesto = (turnoID) => {
+            return crudService.GetPHttp(`Paciente/Turno/${turnoID}/IsSuperpuesto`);                
+        };
+
+        $this.Notify = (title, message, parentEl) => {
+            return $mdDialog.show(
+                $mdDialog.alert()
+                    .parent(parentEl.children())
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .textContent(message)
+                    .ariaLabel('Alert Dialog')
+                    .ok('Aceptar')                    
+                    .multiple(true)                 
+            );
+        };
     }
 }
 )();

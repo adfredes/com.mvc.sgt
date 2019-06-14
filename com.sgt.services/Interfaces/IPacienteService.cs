@@ -14,5 +14,7 @@ namespace com.sgt.services.Interfaces
         Imagen AddFile(Imagen imagen);
         ICollection<Imagen> GetFiles(int PacienteID);
         Imagen GetFile(int id);
+        Boolean TurnosAnteriores(int PacienteID, int TipoSesionID);
+        bool IsSesionesSuperpuestas(int turnoID);
     }
 }

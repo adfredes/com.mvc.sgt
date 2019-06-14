@@ -231,5 +231,22 @@ namespace com.mvc.sgt.Controllers
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(pacientes, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        [Route("Paciente/{ID}/Tipo/{TipoID}/TurnosAnteriores")]
+        public JsonResult ExistTurnosAnteriores(int ID, int TipoID)
+        {
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(pacienteService.TurnosAnteriores(ID, TipoID), JsonRequestBehavior.AllowGet);
+ 
+        }
+
+        [HttpGet]
+        [Route("Paciente/Turno/{ID}/IsSuperpuesto")]
+        public JsonResult EsTurnoSuperpuesto(int ID)
+        {
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(pacienteService.IsSesionesSuperpuestas(ID), JsonRequestBehavior.AllowGet);
+        }
     }
 }

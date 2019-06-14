@@ -189,6 +189,7 @@
             return angular.isDate(date);
         };
         vm.close = function () {
+            console.log(vm.divid);
             $('#' + vm.divid).modal('hide');
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();
@@ -207,11 +208,13 @@
         };
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
+                console.log(response);
                 vm.close();
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
             }, function errorCallback(response) {
+                console.log(response);
             });
         };
     }

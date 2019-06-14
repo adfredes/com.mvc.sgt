@@ -1,15 +1,15 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-    
+
 
     sgtApp.component('asignarPaciente', {
         templateUrl: Domain + 'Turno/AsignarPaciente',
         bindings: {
             turno: "<?",
-            divid: "@", 
+            divid: "@",
             onChanges: "&?"
         },
-        controller: ['turnoService', 'eventService','$element', asignarPacienteController]
+        controller: ['turnoService', 'eventService', '$element', asignarPacienteController]
     });
 
     function asignarPacienteController(turnoService, eventService, $element) {
@@ -25,7 +25,7 @@
 
         vm.nextHour = turnoService.nextHour;
 
-        vm.getNombreEstado = (idEstado) => turnoService.getNombreEstado(idEstado, vm.Estados);        
+        vm.getNombreEstado = (idEstado) => turnoService.getNombreEstado(idEstado, vm.Estados);
 
         vm.getNombreConsultorio = (idConsultorio) => turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios);
 
@@ -54,7 +54,7 @@
 
         let getTurno = (id) => {
             let promise = turnoService.getTurno(id);
-            promise.then(data => {                
+            promise.then(data => {
                 vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                 getPaciente(vm.turno.PacienteID);
             })
@@ -65,7 +65,7 @@
             if (id && id > 0) {
                 let promise = turnoService.getPaciente(id);
                 promise.then(data => {
-                    vm.paciente = JSON.parse(data);                    
+                    vm.paciente = JSON.parse(data);
                 })
                     .catch(err => { vm.turnos = []; vm.reading = false; });
             }
@@ -74,8 +74,7 @@
             }
         };
 
-        vm.turnoChange = () =>
-        {            
+        vm.turnoChange = () => {
             if (!vm.turno || !vm.turno.ID || vm.turno.ID === 0) {
                 vm.turno = {};
                 vm.continuar = false;
@@ -85,21 +84,21 @@
                 Estados = [];
                 Consultorios = [];
                 getConsultorios();
-            }                                   
+            }
         };
 
-        vm.$onChanges = (change) => {            
+        vm.$onChanges = (change) => {
             vm.turnoChange();
         };
 
-        vm.SelectPaciente = data => {            
+        vm.SelectPaciente = data => {
             vm.paciente = {};
             vm.pacienteSeleccionado = data;
         };
 
         vm.sinPaciente = () => {
             vm.paciente = {};
-            vm.pacienteSeleccionado = {};            
+            vm.pacienteSeleccionado = {};
         };
 
         vm.openDiagnostico = () => {
@@ -107,32 +106,52 @@
                 (promise) =>
                     promise.then(data => {
                         eventService.UpdateTurnos();
-                        vm.turno = turnoService.sesionesOrder(JSON.parse(data));                        
+                        vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                     })
                         .catch(error => { }), $element
-            );                
+            );
         };
 
         vm.asignarPaciente = () => {
-            vm.paciente = vm.pacienteSeleccionado;    
-            vm.turno.PacienteID = vm.paciente.ID;            
+            vm.paciente = vm.pacienteSeleccionado;
+            vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(data => {
-                    //eventService.UpdateTurnos();
-                    //vm.openDiagnostico();
-                    
-                    turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
-                    //vm.confirmarTurno();
+                    turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                        .then(data => {
+                            if (data) {
+                                turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                                    .then(answer => existTurnosAnteriores());
+                            }
+                            else {
+                                existTurnosAnteriores();
+                            }
+                        });
                 })
-                .catch(error => undefined);
-        };        
+                .catch(error => turnoService.Notify('Turnos', error, $element));
+        };
+
+        let existTurnosAnteriores = () => {
+            turnoService.existTurnosAnteriores(vm.turno.PacienteID, vm.turno.TipoSesionID)
+                .then(data => {
+
+                    if (data) {
+                        turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                    }
+                    else {
+                        vm.confirmarTurno(false);
+                    }
+                })
+                .catch(ex => console.dir(ex));
+        };
+
 
         vm.confirmarTurno = (continuar) => {
             turnoService.confirmarTurno(vm.turno, continuar)
                 .then(data => {
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
-                    eventService.UpdateTurnos();                    
-                    vm.openDiagnostico();                    
+                    eventService.UpdateTurnos();
+                    vm.openDiagnostico();
                     if (vm.onChanges) {
                         vm.onChanges()();
                     }
@@ -140,7 +159,7 @@
                 .catch(error => { });
         };
 
-        vm.cancelarTurno = () => {            
+        vm.cancelarTurno = () => {
             turnoService.cancelarTurno(vm.turno, promise => {
                 promise.then(data => {
                     getTurno(vm.turno.ID);
@@ -150,21 +169,21 @@
                     }
                 });
             }, $element);
-            
+
         };
 
-        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {            
-                getTurno(vm.turno.ID);                
-                if (vm.onChanges) {
-                    vm.onChanges()();
-                }            
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {
+            getTurno(vm.turno.ID);
+            if (vm.onChanges) {
+                vm.onChanges()();
+            }
         }, $element);
 
         vm.changeSesionState = (asistio) => {
-            let sesiones = [];            
+            let sesiones = [];
             vm.turno.Sesions.filter(s => s.selected === true)
                 .forEach(s => {
-                    sesiones.push(s.ID);                    
+                    sesiones.push(s.ID);
                 });
             let promise;
             if (asistio) {
@@ -187,11 +206,7 @@
         vm.agregarSesiones = () => {
             turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
                 promise.then(data => {
-                    getTurno(vm.turno.ID);
-                    eventService.UpdateTurnos();
-                    if (vm.onChanges) {
-                        vm.onChanges()();
-                    }
+                    refresh();
                 })
                     .catch(error => { });
             }, $element);
@@ -202,7 +217,7 @@
         };
 
         vm.sendTurno = () => {
-           turnoService.sendTurno(vm.turno.ID)
+            turnoService.sendTurno(vm.turno.ID)
                 .then(() => undefined)
                 .catch(() => undefined);
         };
@@ -219,6 +234,12 @@
         };
 
         let refresh = () => {
+            turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                .then(data => {
+                    if (data) {
+                        turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
+                    }
+                });
             getTurno(vm.turno.ID);
             eventService.UpdateTurnos();
             if (vm.onChanges) {
@@ -227,9 +248,9 @@
         };
 
         vm.sendTurnoWhatsapp = () => {
-            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));            
+            window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
 
-
+        vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
     }
 })();

@@ -95,9 +95,30 @@
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(function (data) {
-                turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                    .then(function (data) {
+                    if (data) {
+                        turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                            .then(function (answer) { return existTurnosAnteriores(); });
+                    }
+                    else {
+                        existTurnosAnteriores();
+                    }
+                });
             })
-                .catch(function (error) { return undefined; });
+                .catch(function (error) { return turnoService.Notify('Turnos', error, $element); });
+        };
+        var existTurnosAnteriores = function () {
+            turnoService.existTurnosAnteriores(vm.turno.PacienteID, vm.turno.TipoSesionID)
+                .then(function (data) {
+                if (data) {
+                    turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                }
+                else {
+                    vm.confirmarTurno(false);
+                }
+            })
+                .catch(function (ex) { return console.dir(ex); });
         };
         vm.confirmarTurno = function (continuar) {
             turnoService.confirmarTurno(vm.turno, continuar)
@@ -153,11 +174,7 @@
         vm.agregarSesiones = function () {
             turnoService.AgregarSesionesTurno(vm.turno, function (promise) {
                 promise.then(function (data) {
-                    getTurno(vm.turno.ID);
-                    eventService.UpdateTurnos();
-                    if (vm.onChanges) {
-                        vm.onChanges()();
-                    }
+                    refresh();
                 })
                     .catch(function (error) { });
             }, $element);
@@ -180,6 +197,12 @@
             }, $element);
         };
         var refresh = function () {
+            turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                .then(function (data) {
+                if (data) {
+                    turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
+                }
+            });
             getTurno(vm.turno.ID);
             eventService.UpdateTurnos();
             if (vm.onChanges) {
@@ -189,6 +212,7 @@
         vm.sendTurnoWhatsapp = function () {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
+        vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
     }
 })();
 //# sourceMappingURL=AsignarPacienteComponent.js.map

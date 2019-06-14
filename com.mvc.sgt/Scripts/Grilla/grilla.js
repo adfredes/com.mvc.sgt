@@ -123,7 +123,8 @@
 
     async function dibujarGrilla() {
         options.divGrilla.querySelector('.procesando').style.display = 'block';
-        options.tabla.innerHTML = `<tr><td>Procesando....</td></tr>`;
+        //options.tabla.innerHTML = options.tabla.innerHTML == '' ? `<tr><td>Procesando....</td></tr>` : options.tabla.innerHTML;
+        //options.tabla.innerHTML = `<tr><td>Procesando....</td></tr>`;
         options.consultorios = await getConsultorios();
         options.horarios = await getRangoHorario();
         options.dias = await getRangoFecha();
@@ -539,6 +540,11 @@
             ////modificar aca ahora
             let promise = ajaxPromise("PUT", url, _newSesiones);
             promise.then(data => {
+                //url = Domain + `Paciente/Turno/${turnoID}/IsSuperpuesto`;
+                //let newPromise = ajaxPromise("PUT", url, _newSesiones);
+                //newPromise.then(answer => {
+
+                //});
                 showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
                 dibujarGrilla();
             }
@@ -1076,11 +1082,11 @@
         else {
             innerHTML = options.vista == 's' ?
                 `${_sesion.Numero} / ${_sesion.CantidadSesiones}${_sesion.DobleOrden ? '<span class="icon-calendar" title="Paciente con doble orden"/><br>' : '<br>'}${getNombreEstado(_sesion.Estado)}`
-                : `${_sesion.Paciente}<br>OS: ${_sesion.Aseguradora} - ${_sesion.Plan}<br>
+                : `${_sesion.Paciente ? _sesion.Paciente : "Sin Paciente"} ${_sesion.Aseguradora ? '<br>OS: ' + _sesion.Aseguradora + '-' + _sesion.Plan : ''} <br>
                        Sesion: ${_sesion.Numero} / ${_sesion.CantidadSesiones}<br>
                         ${_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : ''}
                         ${_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : ''}
-                        ${_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : '<br>'}
+                        ${_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : ''}
                         ${getNombreEstado(_sesion.Estado)}`;
             if (_sesion.SinAsignar) {
                 innerHTML += `<span class="icon-attention sin-fecha" title="Sesiones sin fechas asignadas"></span>`;

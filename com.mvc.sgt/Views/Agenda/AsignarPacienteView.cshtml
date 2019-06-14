@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header badge-primary">
-                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
+                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
                 <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body p-0">
@@ -10,7 +10,7 @@
                     <fieldset class="m-0 p-0">
                         <div class="form-inline bg-light" ng-if="$ctrl.turno.Estado == 1 || $ctrl.turno.Estado == 3">
                             <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()"><i class="icon-user"></i> Asignar Paciente</md-button>
-                            @*<md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.confirmarTurno()"><i class="icon-ok"></i> Confirmar Turno</md-button>*@
+                            <md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.confirmarTurno()"><i class="icon-ok"></i> Confirmar Turno</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()"><i class="icon-cancel"></i> Cancelar Turno</md-button>
                             @*<md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID == null" ng-click="$ctrl.openDiagnostico()"><i class="icon-stethoscope"></i> Diagnóstico</md-button>*@
                             <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()"><i class="icon-print"></i> Imprimir</md-button>

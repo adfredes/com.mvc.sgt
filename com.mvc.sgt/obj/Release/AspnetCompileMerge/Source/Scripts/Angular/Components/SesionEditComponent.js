@@ -1,5 +1,5 @@
 ﻿(function () {
-    var sgtApp = angular.module("sgtApp");    
+    var sgtApp = angular.module("sgtApp");
 
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
@@ -16,7 +16,7 @@
         bindings: {
             sesion: "<?",
             onSave: "&?",
-            onCancel: "&?"            
+            onCancel: "&?"
         }
     });
 
@@ -159,13 +159,33 @@
             let promise = crudService.PutHttp(url, _sesiones);
 
             promise.then(data => {
-                if (vm.onSave) {
-                    vm.onSave()(data);
-                }
-                else {
-                    eventService.UpdateTurnos();
-                    $('#' + vm.divid).modal('hide');
-                }
+                turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
+                    .then(answer => {
+                        if (answer) {
+                            turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                                .then(() => {
+                                    if (vm.onSave) {
+                                        vm.onSave()(data);
+                                    }
+                                    else {
+                                        eventService.UpdateTurnos();
+                                        $('#' + vm.divid).modal('hide');
+                                    }
+                                });
+                        }
+                        else {
+                            if (vm.onSave) {
+                                vm.onSave()(data);
+                            }
+                            else {
+                                eventService.UpdateTurnos();
+                                $('#' + vm.divid).modal('hide');
+                            }
+                        }
+
+                    });
+
+
                 //vm.showModal(ev, 'Se modifico correctamente el turno');                
             })
                 .catch(err => {
@@ -201,8 +221,8 @@
     </md-dialog-actions>
   </form>
 </md-dialog>
-`;            
-                
+`;
+
             // Appending dialog to document.body to cover sidenav in docs app
             $mdDialog.show({
                 parent: parentEl,

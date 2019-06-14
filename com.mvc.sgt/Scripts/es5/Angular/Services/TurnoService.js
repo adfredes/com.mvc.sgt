@@ -314,7 +314,6 @@
         };
         $this.openContinuarSesiones = function (success, parentEl) {
             var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
-            console.log(parentEl);
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide(false);
@@ -360,6 +359,40 @@
             linea = linea.replace(':', '%3A');
             linea = linea.replace(' ', '%20');
             return linea;
+        };
+        $this.getTipoSesion = function (idSesion) {
+            var resu;
+            switch (idSesion) {
+                case 1:
+                    resu = 'RPG';
+                    break;
+                case 2:
+                    resu = 'FKT';
+                    break;
+                case 3:
+                    resu = 'GYM';
+                    break;
+                default:
+                    resu = '';
+                    break;
+            }
+            return resu;
+        };
+        $this.existTurnosAnteriores = function (pacienteID, tipoID) {
+            return crudService.GetPHttp("Paciente/" + pacienteID + "/Tipo/" + tipoID + "/TurnosAnteriores");
+        };
+        $this.IsTurnoSuperpuesto = function (turnoID) {
+            return crudService.GetPHttp("Paciente/Turno/" + turnoID + "/IsSuperpuesto");
+        };
+        $this.Notify = function (title, message, parentEl) {
+            return $mdDialog.show($mdDialog.alert()
+                .parent(parentEl.children())
+                .clickOutsideToClose(true)
+                .title(title)
+                .textContent(message)
+                .ariaLabel('Alert Dialog')
+                .ok('Aceptar')
+                .multiple(true));
         };
     }
 })();

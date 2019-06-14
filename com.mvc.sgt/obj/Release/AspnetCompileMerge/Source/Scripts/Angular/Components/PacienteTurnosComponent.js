@@ -163,6 +163,8 @@
             vm.deleteTurno = false;
         };
 
+        vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
+
         let getEstados = () => {
             vm.reading = true;
             let promise = crudService.GetPHttp(`api/grilla/Estados`);

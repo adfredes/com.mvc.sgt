@@ -126,13 +126,30 @@
             var url = "Sesion/CambiarFecha";
             var promise = crudService.PutHttp(url, _sesiones);
             promise.then(function (data) {
-                if (vm.onSave) {
-                    vm.onSave()(data);
-                }
-                else {
-                    eventService.UpdateTurnos();
-                    $('#' + vm.divid).modal('hide');
-                }
+                turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
+                    .then(function (answer) {
+                    if (answer) {
+                        turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                            .then(function () {
+                            if (vm.onSave) {
+                                vm.onSave()(data);
+                            }
+                            else {
+                                eventService.UpdateTurnos();
+                                $('#' + vm.divid).modal('hide');
+                            }
+                        });
+                    }
+                    else {
+                        if (vm.onSave) {
+                            vm.onSave()(data);
+                        }
+                        else {
+                            eventService.UpdateTurnos();
+                            $('#' + vm.divid).modal('hide');
+                        }
+                    }
+                });
             })
                 .catch(function (err) {
                 vm.showModal(err.data, $element);

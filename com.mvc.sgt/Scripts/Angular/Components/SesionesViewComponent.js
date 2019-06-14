@@ -104,7 +104,7 @@
         };
      
       
-        
+        vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
 
         vm.turnoChange = () => {
             Estados = [];
@@ -162,7 +162,7 @@
 
         vm.agregarSesiones = () => {
             turnoService.AgregarSesionesTurno(vm.turno, (promise) => {
-                promise.then(data => { eventService.UpdateTurnos(); })
+                promise.then(data => { refreshTurno(); })
                     .catch(error => { });
             }, $element);
         };
@@ -178,6 +178,12 @@
         };
 
         let refreshTurno = (data) => {
+            turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                .then(resp => {
+                    if (resp) {
+                        turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
+                    }
+                });
             getTurnosPaciente(vm.PacienteID);
             eventService.UpdateTurnos();
         };

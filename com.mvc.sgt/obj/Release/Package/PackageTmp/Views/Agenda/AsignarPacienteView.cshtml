@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header badge-primary">
-                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
+                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
                 <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body p-0">

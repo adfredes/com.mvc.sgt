@@ -40,8 +40,9 @@
                 vm.onChange()(data);
             }
             else {
-                console.dir($('#ViewPaciente'));
-                $('#ViewPaciente').modal('show');
+                if (vm.Paciente) {
+                    $('#ViewPaciente').modal('show');
+                }                
             }
         };
 

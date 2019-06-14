@@ -268,9 +268,11 @@ namespace com.mvc.sgt.Controllers
         {
             try
             {
-                var sesiones = Mapper.Map<TurnoModel>(this.AgendaService.ReservarSesiones(Mapper.Map<Turno>(model)));
+                var turno = Mapper.Map<Turno>(model);
+                var sesiones = this.AgendaService.ReservarSesiones(turno);
+                var sesionesModel = Mapper.Map<TurnoModel>(sesiones);
                 Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(sesiones);
+                return Json(sesionesModel);
             }
             catch (Exception ex)
             {

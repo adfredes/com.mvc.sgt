@@ -41,7 +41,7 @@
                                         <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage - 1)"><span class="icon-fast-bw"></span></a>
                                     </li>
                                     <li class="page-item text-center w-100 disabled">
-                                        <span class="page-link">{{$ctrl.turno.ID}}</span>
+                                        <span class="page-link">{{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}}</span>
                                     </li>
                                     <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
                                         <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage + 1)"><span class="icon-fast-fw"></span></a>

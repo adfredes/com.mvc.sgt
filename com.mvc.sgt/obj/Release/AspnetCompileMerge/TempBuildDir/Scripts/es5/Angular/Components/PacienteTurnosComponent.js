@@ -116,6 +116,7 @@
         vm.confirmCancelarTurno = function () {
             vm.deleteTurno = false;
         };
+        vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var getEstados = function () {
             vm.reading = true;
             var promise = crudService.GetPHttp("api/grilla/Estados");
