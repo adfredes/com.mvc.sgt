@@ -47,7 +47,7 @@
                 if (estadosImprimible.includes(sesion.Estado)) {
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
-                    body.unshift(row);
+                    body.push(row);
                 }
             });
             body.unshift(['Fecha', 'Horario']);
@@ -91,7 +91,7 @@
                 }).length;
                 mValue.sesiones = result;
             });
-            data.Sesions = sesiones.sort(function (a, b) { return b.Numero - a.Numero; });
+            data.Sesions = sesiones.sort(function (a, b) { return a.Numero - b.Numero; });
             return data;
         };
         $this.getTurnosSinFechaAsignada = function () { return crudService.GetPHttp('api/turno/SinFechaAsignada'); };
@@ -345,7 +345,7 @@
                 if (estadosImprimible.includes(sesion.Estado)) {
                     var row = $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%09" + $this.toHour(sesion.FechaHora) + "%0A";
                     row = convertirCaracteresFecha(row);
-                    body.unshift(row);
+                    body.push(row);
                 }
             });
             body.unshift("Turno%20kinesiologia%3A%0A%0A");

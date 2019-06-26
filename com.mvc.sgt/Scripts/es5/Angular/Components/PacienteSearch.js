@@ -57,6 +57,7 @@
                 fullscreen: false
             })
                 .then(function (answer) {
+                vm.onAdd()(answer);
             })
                 .catch(function () { return undefined; });
         };

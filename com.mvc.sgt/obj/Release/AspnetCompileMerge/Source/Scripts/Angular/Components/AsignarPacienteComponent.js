@@ -252,5 +252,10 @@
         };
 
         vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
+
+        vm.addedPaciente = (paciente) => {
+            vm.SelectPaciente(paciente);
+            vm.asignarPaciente();
+        };
     }
 })();

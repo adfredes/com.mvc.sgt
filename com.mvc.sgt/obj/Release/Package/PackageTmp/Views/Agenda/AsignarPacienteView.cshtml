@@ -10,7 +10,7 @@
                     <fieldset class="m-0 p-0">
                         <div class="form-inline bg-light" ng-if="$ctrl.turno.Estado == 1 || $ctrl.turno.Estado == 3">
                             <md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()"><i class="icon-user"></i> Asignar Paciente</md-button>
-                            @*<md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.confirmarTurno()"><i class="icon-ok"></i> Confirmar Turno</md-button>*@
+                            <md-button type="button" class="m-0" ng-disabled="($ctrl.turno.PacienteID > 0 && $ctrl.turno.Estado == 2) || $ctrl.paciente.ID == null" ng-click="$ctrl.confirmarTurno()"><i class="icon-ok"></i> Confirmar Turno</md-button>
                             <md-button type="button" class="m-0" ng-click="$ctrl.cancelarTurno()"><i class="icon-cancel"></i> Cancelar Turno</md-button>
                             @*<md-button type="button" class="m-0" ng-disabled="$ctrl.paciente.ID == null" ng-click="$ctrl.openDiagnostico()"><i class="icon-stethoscope"></i> Diagnóstico</md-button>*@
                             <md-button type="button" class="m-0" ng-click="$ctrl.turnoPrint()"><i class="icon-print"></i> Imprimir</md-button>
@@ -30,7 +30,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <search-paciente on-change="$ctrl.SelectPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">                            
+                        <search-paciente on-change="$ctrl.SelectPaciente" on-add="$ctrl.addedPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">                            
                             <button class="btn btn-outline-dark ml-1  my-2 my-sm-0"
                                     type="submit" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()" title="Asignar Paciente"><i class="icon-user"></i>
                             </button>

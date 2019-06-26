@@ -197,5 +197,10 @@ namespace com.sgt.services.Services
 
             return turnos.Count() > 0;
         }
+
+        public Paciente GetPacienteByDocumento(string documento)
+        {
+            return this.unitOfWork.RepoPaciente.FindBy(x => x.DocumentoNumero == documento).FirstOrDefault();
+        }
     }
 }

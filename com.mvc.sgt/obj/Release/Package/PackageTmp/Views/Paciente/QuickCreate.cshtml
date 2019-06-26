@@ -41,20 +41,7 @@
                             <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                         </div>
                     </md-input-container>
-                </div>
-
-                <div class="form-row m-0">
-                    <md-input-container class="form-group md-block m-0">
-                        <label for="nacimiento">
-                            Fecha Nacimiento
-                        </label>
-
-                        <md-datepicker ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" md-open-on-focus></md-datepicker>
-                        <div ng-show="frmPaciente.nacimiento.$touched" ng-messages="frmPaciente.nacimiento.$error" role="alert">
-                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                        </div>
-                    </md-input-container>
-                </div>
+                </div>                
 
                 <div class="form-row m-0 mb-4">
                     <md-input-container class="form-group md-block w-100 m-0">
@@ -88,7 +75,7 @@
                     <md-input-container class="form-group md-block m-0">
                         <label for="telefono">Teléfono</label>
                         <input type="tel" class="form-control" id="celular" autocomplete="off"
-                               name="telefono" ng-model="$ctrl.paciente.Telefono" requireda />
+                               name="telefono" ng-model="$ctrl.paciente.Telefono" required />
                         <div ng-show="frmPaciente.Telefono.$touched" ng-messages="frmPaciente.Telefono.$error" role="alert">
                             <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                         </div>

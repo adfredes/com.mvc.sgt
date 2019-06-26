@@ -30,7 +30,7 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <search-paciente on-change="$ctrl.SelectPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">                            
+                        <search-paciente on-change="$ctrl.SelectPaciente" on-add="$ctrl.addedPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">                            
                             <button class="btn btn-outline-dark ml-1  my-2 my-sm-0"
                                     type="submit" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()" title="Asignar Paciente"><i class="icon-user"></i>
                             </button>

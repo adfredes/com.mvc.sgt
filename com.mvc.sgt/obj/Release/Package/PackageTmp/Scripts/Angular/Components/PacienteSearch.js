@@ -85,8 +85,8 @@
                 //,
                 //locals: { turno: turno }
             })
-                .then(answer => {
-                                       
+                .then(answer => {                    
+                    vm.onAdd()(answer);
                 })
                 .catch(() => undefined);
         };

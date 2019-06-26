@@ -187,6 +187,10 @@ namespace com.mvc.sgt.Controllers
         [CreateUpdateActionFilter("admin")]
         public JsonResult CreateOrEdit(PacienteDto model)
         {
+            if (model.FechaNacimiento.Year < 1901) 
+            {
+                model.FechaNacimiento = DateTime.Now;
+            }
             var resu = "";
             try
             {
@@ -199,15 +203,18 @@ namespace com.mvc.sgt.Controllers
                 {
                     pacienteService.Add(Mapper.Map<Paciente>(model));
                     Response.StatusCode = (int)HttpStatusCode.Created;
+                    model = Mapper.Map<PacienteDto>(pacienteService.GetPacienteByDocumento(model.DocumentoNumero));
                 }
+                return Json(model);
             }
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.Conflict;
                 resu = ex.Message;
+                return Json(resu);
             }
 
-            return Json(resu);
+            
         }
 
         [HttpGet]
@@ -248,5 +255,12 @@ namespace com.mvc.sgt.Controllers
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(pacienteService.IsSesionesSuperpuestas(ID), JsonRequestBehavior.AllowGet);
         }
+
+        //[HttpGet]
+        //[Route("Paciente/DNI/{documento}")]
+        //public JsonResult GetPacienteDNI(string documento)
+        //{
+
+        //}
     }
 }

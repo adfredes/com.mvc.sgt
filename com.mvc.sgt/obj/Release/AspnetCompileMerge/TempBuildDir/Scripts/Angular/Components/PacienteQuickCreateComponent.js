@@ -45,7 +45,7 @@
             requestResponse.then(function successCallback(response) {
                 //vm.close();
                 if (vm.onSave) {
-                    vm.onSave()(vm.paciente);
+                    vm.onSave()(response.data);
                 }
             }, function errorCallback(response) {
 

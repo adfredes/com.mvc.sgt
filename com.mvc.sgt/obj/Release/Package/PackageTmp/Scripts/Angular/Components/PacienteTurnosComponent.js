@@ -105,7 +105,7 @@
                     row.push(vm.toDate(sesion.FechaHora));
                     row.push(vm.toHourRange(sesion.FechaHora, sesion.sesiones));
                    
-                    body.unshift(row);
+                    body.push(row);
                 }
             });
             body.unshift(['Fecha', 'Horario']);
@@ -195,7 +195,8 @@
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
 
-        let sesionesOrder = (data) => {
+        let sesionesOrder = (data) => 
+        {
             data.forEach(turno => {
                 let sesiones = JSON.parse(JSON.stringify(turno.Sesions.filter((value, index, self) =>
                     self.findIndex(element => element.Numero === value.Numero && element.ID < value.ID + 3
@@ -213,15 +214,15 @@
                     ).length;
                     mValue.sesiones = result;
                 });
-                turno.Sesions = sesiones.sort((a, b) => b.Numero - a.Numero
+                turno.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
                 );
                 let fechaActual = new Date();
-                if (fechaActual.getTime() <= moment(turno.Sesions[0].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime())
+                if (fechaActual.getTime() <= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[0].FechaHora).toDate().getTime())
                     turno.visible = true;
                 else
                     turno.visible = false;
-                turno.begin = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-                turno.end = turno.Sesions[0].FechaHora;
+                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
+                turno.begin = turno.Sesions[0].FechaHora;
             });
             return data;
         };

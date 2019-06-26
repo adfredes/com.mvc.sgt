@@ -213,6 +213,10 @@
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };
         vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
+        vm.addedPaciente = function (paciente) {
+            vm.SelectPaciente(paciente);
+            vm.asignarPaciente();
+        };
     }
 })();
 //# sourceMappingURL=AsignarPacienteComponent.js.map

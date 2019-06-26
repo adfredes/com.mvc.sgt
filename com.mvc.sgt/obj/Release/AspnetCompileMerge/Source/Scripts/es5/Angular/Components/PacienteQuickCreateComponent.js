@@ -31,7 +31,7 @@
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
                 if (vm.onSave) {
-                    vm.onSave()(vm.paciente);
+                    vm.onSave()(response.data);
                 }
             }, function errorCallback(response) {
             });

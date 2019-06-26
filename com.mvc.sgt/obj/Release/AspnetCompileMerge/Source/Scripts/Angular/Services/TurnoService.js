@@ -80,7 +80,7 @@
                 if (estadosImprimible.includes(sesion.Estado)) {
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
-                    body.unshift(row);
+                    body.push(row);
                 }
             });
             body.unshift(['Fecha', 'Horario']);
@@ -141,7 +141,8 @@
                 ).length;
                 mValue.sesiones = result;
             });
-            data.Sesions = sesiones.sort((a, b) => b.Numero - a.Numero
+            //modifico orden
+            data.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
             );
 
             return data;
@@ -543,7 +544,7 @@
                 if (estadosImprimible.includes(sesion.Estado)) {
                     let row = `${$this.toShortDate(moment(sesion.FechaHora).toDate())}%09${$this.toHour(sesion.FechaHora)}%0A`;
                     row = convertirCaracteresFecha(row);
-                    body.unshift(row);
+                    body.push(row);
                 }
             });
             //body.unshift(['Fecha', 'Horario']);
