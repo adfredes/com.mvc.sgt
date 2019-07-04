@@ -8,7 +8,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['crudService', '$window', '$mdSelect', '$filter', pacienteViewController],
+        controller: ['crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
@@ -24,7 +24,7 @@
         $postLink
     */
 
-    function pacienteViewController(crudService, $window, $mdSelect, $filter) {
+    function pacienteViewController(crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         //vm.paciente = {};
         vm.Provincias = [];
@@ -36,6 +36,8 @@
         vm.uploading = false;
         vm.files = [];
         vm.uploadingText = "";
+        vm.parent = $element.children();
+
        
 
         let loadPaciente = (id) => {
@@ -238,7 +240,8 @@
         };
 
         vm.close = () => {            
-            console.log(vm.divid);
+            $('#ViewPaciente').modal('hide');
+            $('#CreateOrUpdate').modal('hide');            
             $('#' + vm.divid).modal('hide');
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();            
@@ -259,14 +262,12 @@
         };
 
         Message = (requestResponse) => {
-            requestResponse.then(function successCallback(response) {                
-                console.log(response);
+            requestResponse.then(function successCallback(response) {                                
                 vm.close();                                
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
-            }, function errorCallback(response) {
-                console.log(response);
+            }, function errorCallback(response) {                
             });
         };        
 

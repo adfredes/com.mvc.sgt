@@ -633,5 +633,7 @@ namespace com.mvc.sgt.Controllers
             Response.StatusCode = (int)HttpStatusCode.OK;              
             return Json(AgendaService.GetNrosTurnosSinDobleOrden(pacienteID), JsonRequestBehavior.AllowGet);
         }
+
+        
     }
 }

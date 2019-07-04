@@ -9,8 +9,14 @@
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
+            parent: "<?",
             onClose: "&?"
         }
+    });
+    sgtApp.component('datosSesiones', {
+        templateUrl: Domain + 'Paciente/DatosSesiones',
+        controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController]
     });
     function pacienteTurnosController(turnoService, eventService, pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
         var vm = this;
@@ -112,7 +118,7 @@
                     vm.onChanges()();
                 }
             });
-        }, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent()); };
+        }, vm.parent.children()); };
         vm.confirmCancelarTurno = function () {
             vm.deleteTurno = false;
         };
@@ -171,6 +177,19 @@
             });
             return data;
         };
+        vm.openDobleOrden = function (turno) {
+            turnoService.openDobleOrden(turno, function (promise) {
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    var indice = vm.turnos.findIndex(function (e) { return e.ID = turno.ID; });
+                    vm.turnos[indice] = turnoService.sesionesOrder(JSON.parse(data));
+                    vm.turnos[indice].visible = turno.visible;
+                    vm.turnos[indice].begin = turno.begin;
+                    vm.turnos[indice].end = turno.end;
+                })
+                    .catch(function (error) { });
+            }, vm.parent.children());
+        };
         vm.$onChanges = function (change) {
             vm.turnos = [];
             Estados = [];
@@ -182,7 +201,7 @@
             turnoService.openDiagnostico(turno, function (promise) {
                 return promise.then(function (data) { return turno = turnoService.sesionesOrder(JSON.parse(data)); })
                     .catch(function (error) { });
-            }, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent());
+            }, vm.parent.children());
         };
         vm.showModal = function (ev) {
             var modalHtml = "\n                <md-dialog aria-label=\"Turnos\">\n                  <form ng-cloak>\n                    <md-toolbar>\n                      <div class=\"md-toolbar-tools  badge-warning\">\n                        <h5 class=\"modal-title\">Turnos</h5>        \n                      </div>\n                    </md-toolbar>\n                    <md-dialog-content>\n                      <div class=\"md-dialog-content\">        \n                        <p>\n                          Esta seguro que desea cancelar el turno " + vm.selectedTurno.ID + "?\n                        </p>\n                      </div>\n                    </md-dialog-content>\n\n                    <md-dialog-actions layout=\"row\">      \n                      <span flex></span>\n                      <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                      <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                    </md-dialog-actions>\n                  </form>\n                </md-dialog>\n                ";
@@ -217,6 +236,38 @@
                 $mdDialog.hide(answer);
             };
         }
+    }
+    function datosSesionesController(turnoService, eventService, pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
+        var vm = this;
+        vm.paciente = {};
+        vm.PacienteID = 0;
+        vm.TurnoID = 0;
+        vm.parent = $element.children();
+        vm.$onInit = function () { return init; };
+        var init = function () {
+            getPaciente(vm.PacienteID);
+        };
+        vm.pacienteChange = function () {
+            init();
+        };
+        var getPaciente = function (id) {
+            if (id && id > 0) {
+                var promise = turnoService.getPaciente(id);
+                promise.then(function (data) {
+                    vm.paciente = JSON.parse(data);
+                })
+                    .catch(function (err) { vm.paciente = []; vm.reading = false; });
+            }
+            else {
+                vm.paciente = {};
+            }
+        };
+        vm.turnoChange = function () {
+            init();
+        };
+        vm.$onChanges = function (change) {
+            init();
+        };
     }
 })();
 //# sourceMappingURL=PacienteTurnosComponent.js.map

@@ -141,12 +141,16 @@
         
         <div style="margin:1rem; top:5rem; position:relative; text-align:center; border:1px solid #000; border-radius:0.25rem;">Procesando....</div>
     </div>
-
+    <div class="botonera">
+        <md-button class="md-raised ml-1 m-0" id="btnVistaHoy">Hoy</md-button>
+        <md-button class="md-raised ml-1 m-0" id="btnVistaProximo">Próximo</md-button>
+        <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
+    </div>
     <div id="divReservas" class="reservas">
 
     </div>
 
-
+    <datos-sesiones></datos-sesiones>
 
     <div class="modal fade" id="cancelarSesionModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-sm" role="document">

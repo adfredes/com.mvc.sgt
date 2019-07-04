@@ -180,7 +180,7 @@
                                                     <div class="form-group col-md-6">
                                                         <md-input-container class="form-group md-block">
                                                             <label for="provincia">Provincia</label>
-                                                            <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()" required>
+                                                            <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()" >
                                                                 <md-option ng-repeat="item in $ctrl.Provincias" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
                                                             <div ng-show="$ctrl.frmPaciente.provincia.$touched" ng-messages="$ctrl.frmPaciente.provincia.$error" role="alert">
@@ -191,7 +191,7 @@
                                                     <div class="form-group col-md-6">
                                                         <md-input-container class="form-group md-block">
                                                             <label for="ciudad">Ciudad</label>
-                                                            <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID" required>
+                                                            <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID" >
                                                                 <md-option ng-repeat="item in $ctrl.Localidades" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
                                                             <div ng-show="$ctrl.frmPaciente.ciudad.$touched" ng-messages="$ctrl.frmPaciente.ciudad.$error" role="alert">
@@ -301,8 +301,8 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                            <fieldset class="m-0 pt-0 pb-0" ng-hide="$ctrl.frmPaciente.$valid">
-                                                <span>Hay errores en el formulario.</span>    
+                                            <fieldset class="m-0 p-2 bg-danger text-center text-white" ng-hide="$ctrl.frmPaciente.$valid">
+                                                <span>Hay datos incompletos/erroneos.</span>    
                                             </fieldset>
                                         </form>
                                     </div>
@@ -310,7 +310,7 @@
                             </md-tab>
                             <md-tab label="Turnos">
                                 <md-content>
-                                    <paciente-turnos paciente="$ctrl.paciente" on-close="$ctrl.close()"></paciente-turnos>
+                                    <paciente-turnos paciente="$ctrl.paciente" parent="$ctrl.parent" on-close="$ctrl.close()"></paciente-turnos>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Diagnosticos">

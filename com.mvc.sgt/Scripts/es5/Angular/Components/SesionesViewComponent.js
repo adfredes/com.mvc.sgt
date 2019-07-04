@@ -13,6 +13,7 @@
         vm.initPage = 0;
         vm.registerCount = 0;
         vm.PacienteID = 0;
+        vm.TurnoID = 0;
         vm.$onInit = function () { return init; };
         var init = function () {
             vm.currentPage = 0;
@@ -63,6 +64,8 @@
             var promise = turnoService.getTurnosPaciente(id);
             promise.then(function (data) {
                 vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));
+                vm.currentPage = vm.turnos.findIndex(function (e) { return e.ID == vm.TurnoID; });
+                vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];
                 vm.registerCount = vm.turnos.length;
             })
@@ -161,6 +164,17 @@
                     .catch(function (error) { });
             }, $element);
         };
+        var getTurno = function (id) {
+            var promise = turnoService.getTurno(id);
+            promise.then(function (data) {
+                vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+            })
+                .catch(function (err) { vm.turnos = []; vm.reading = false; });
+        };
+        vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, function (data) {
+            eventService.UpdateTurnos();
+            getTurno(vm.turno.ID);
+        }, $element); };
         vm.sendTurnoWhatsapp = function () {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };

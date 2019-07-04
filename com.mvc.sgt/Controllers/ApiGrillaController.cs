@@ -209,5 +209,13 @@ namespace com.mvc.sgt.Controllers
         }
 
 
+        [Route("api/grilla/existesesiones/desde/{ddia}/{dmes}/{danio}/hasta/{hdia}/{hmes}/{hanio}")]
+        public IHttpActionResult GetExisteSesionessGrillaByDate(int ddia, int dmes, int danio, int hdia, int hmes, int hanio)
+        {
+            DateTime beginDate = Convert.ToDateTime(danio + "/" + dmes + "/" + ddia);
+            DateTime endDate = Convert.ToDateTime(hanio + "/" + hmes + "/" + hdia);                      
+            return Ok(agendaService.ExisteSesionesRangoFecha(beginDate, endDate));
+        }
+
     }
 }

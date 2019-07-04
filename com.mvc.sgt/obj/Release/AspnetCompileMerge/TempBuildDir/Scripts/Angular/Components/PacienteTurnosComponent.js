@@ -12,8 +12,16 @@
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog','$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
+            parent: "<?",
             onClose: "&?"
         }
+    });
+
+
+    sgtApp.component('datosSesiones', {        
+        templateUrl: Domain + 'Paciente/DatosSesiones',
+        controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController]        
     });
 
 
@@ -34,6 +42,7 @@
         let Consultorios = [];
         vm.selectedTurno = {};
         vm.deleteTurno = false;
+        //console.dir(vm.parent.children());
 
         vm.reading = false;
 
@@ -152,7 +161,8 @@
                     vm.onChanges()();
                 }
             });
-        }, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent());        
+        }, vm.parent.children());        
+        //}, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent());        
 
         //    = function (ev, turno) {                       
         //    vm.selectedTurno = turno;
@@ -231,6 +241,20 @@
         _sesiones.map(mValue => mValue.sesiones = options.sesiones.filter(fValue => mValue.TurnoID == fValue.TurnoID && mValue.Numero == fValue.Numero));*/
 
 
+        vm.openDobleOrden = (turno) => {
+            turnoService.openDobleOrden(turno,
+                (promise) =>
+                    promise.then(data => {
+                        eventService.UpdateTurnos();
+                        let indice = vm.turnos.findIndex(e => e.ID = turno.ID);
+                        vm.turnos[indice] = turnoService.sesionesOrder(JSON.parse(data));
+                        vm.turnos[indice].visible = turno.visible;
+                        vm.turnos[indice].begin = turno.begin;
+                        vm.turnos[indice].end = turno.end;
+                    })
+                        .catch(error => { }), vm.parent.children()
+            );
+        };
 
         //vm.$onInit = () => {
         //    vm.deleteTurno = false;
@@ -249,7 +273,7 @@
             turnoService.openDiagnostico(turno,
                 (promise) =>
                     promise.then(data => turno = turnoService.sesionesOrder(JSON.parse(data)))
-                        .catch(error => { }), $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent()
+                        .catch(error => { }), vm.parent.children()
             );
         };
 
@@ -323,6 +347,70 @@
 
     }
 
+
+    function datosSesionesController(turnoService, eventService, pdfService, crudService,
+        $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
+        let vm = this;
+        vm.paciente = {};        
+        vm.PacienteID = 0;
+        vm.TurnoID = 0;
+        vm.parent = $element.children();        
+
+        vm.$onInit = () => init;
+
+
+
+        let init = () => {            
+            getPaciente(vm.PacienteID);
+        };
+
+
+        vm.pacienteChange = () => {
+            init();
+        };
+        
+
+
+        //let getTurnosPaciente = (id) => {
+        //    getPaciente(vm.PacienteID);
+        //    let promise = turnoService.getTurnosPaciente(id);
+        //    promise.then(data => {
+
+        //        vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));
+        //        vm.currentPage = vm.turnos.findIndex(e => e.ID == vm.TurnoID);
+        //        vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
+        //        vm.turno = vm.turnos[vm.currentPage];
+        //        vm.registerCount = vm.turnos.length;
+        //    })
+        //        .catch(err => { vm.turnos = []; });
+        //};
+
+        let getPaciente = id => {
+            if (id && id > 0) {
+                let promise = turnoService.getPaciente(id);
+                promise.then(data => {
+                    vm.paciente = JSON.parse(data);
+                })
+                    .catch(err => { vm.paciente = []; vm.reading = false; });
+            }
+            else {
+                vm.paciente = {};
+            }
+        };
+
+
+        vm.turnoChange = () => {
+            init();
+        };
+
+        vm.$onChanges = (change) => {
+            init();
+        };
+
+
+
+              
+    }
     
 })();
 

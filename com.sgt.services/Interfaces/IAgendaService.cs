@@ -63,6 +63,9 @@ namespace com.sgt.services.Interfaces
         List<int> GetNrosTurnosSinDobleOrden(int pacienteID);
         Turno SetTurnoDobleOrden(Turno turno, int? idTurno);
 
+        bool ExisteSesionesRangoFecha(DateTime desde, DateTime hasta);
+        
+
         bool TurnoSendMail(int id);
     }
 }

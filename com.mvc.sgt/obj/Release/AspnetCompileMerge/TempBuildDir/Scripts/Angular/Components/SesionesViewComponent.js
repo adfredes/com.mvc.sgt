@@ -15,6 +15,7 @@
         vm.initPage = 0;
         vm.registerCount = 0;
         vm.PacienteID = 0;
+        vm.TurnoID = 0;
 
         vm.$onInit = () => init;
 
@@ -84,6 +85,8 @@
             promise.then(data => {   
                 
                 vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                                
+                vm.currentPage = vm.turnos.findIndex(e => e.ID == vm.TurnoID);
+                vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];                
                 vm.registerCount = vm.turnos.length;
             })

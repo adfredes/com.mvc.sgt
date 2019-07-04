@@ -5,14 +5,14 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['crudService', '$window', '$mdSelect', '$filter', pacienteViewController],
+        controller: ['crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
             divid: "@"
         }
     });
-    function pacienteViewController(crudService, $window, $mdSelect, $filter) {
+    function pacienteViewController(crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         vm.Provincias = [];
         vm.Localidades = [];
@@ -23,6 +23,7 @@
         vm.uploading = false;
         vm.files = [];
         vm.uploadingText = "";
+        vm.parent = $element.children();
         var loadPaciente = function (id) {
             vm.selectedIndex = 0;
             var promise = crudService.GetPHttp("Paciente/Get/" + id);
@@ -189,7 +190,8 @@
             return angular.isDate(date);
         };
         vm.close = function () {
-            console.log(vm.divid);
+            $('#ViewPaciente').modal('hide');
+            $('#CreateOrUpdate').modal('hide');
             $('#' + vm.divid).modal('hide');
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();

@@ -780,10 +780,10 @@ namespace com.sgt.services.Services
             if (continuar)
             {
                 //modificado
-                if (turno.TurnoDoble.HasValue && turno.TurnoDoble.Value > 0)
-                {
-                    turno.Sesions.ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
-                }
+                //if (turno.TurnoDoble.HasValue && turno.TurnoDoble.Value > 0)
+                //{
+                //    turno.Sesions.ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+                //}
 
                 turno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
                 {
@@ -810,128 +810,7 @@ namespace com.sgt.services.Services
             unitOfWork.RepoTurno.Edit(turno);
             return turno;
         }
-
-        //public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
-        //{
-        //    var oldTurno = unitOfWork.RepoTurno.Find(turno.ID);
-        //    List<Sesion> newSesiones = new List<Sesion>();
-        //    if (continuar)
-        //    {
-        //        for (int nroSesion = oldTurno.CantidadSesiones.Value + 1; nroSesion <= oldTurno.CantidadSesiones + cantidadSesiones; nroSesion++)
-        //        {
-        //            getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
-        //                .ForEach(s =>
-        //                {
-        //                    s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
-        //                    s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
-        //                    s.Habilitado = true;
-        //                    s.Numero = (short)nroSesion;
-        //                    s.TurnoID = oldTurno.ID;
-        //                    s.TurnoSimultaneo = 0;
-        //                    s.UsuarioModificacion = turno.UsuarioModificacion;
-        //                    s.FechaModificacion = turno.FechaModificacion;
-        //                    newSesiones.Add(s);
-        //                });
-        //        }
-        //        turno.Sesions = newSesiones;
-        //        turno.CantidadSesiones += cantidadSesiones;
-        //    }
-        //    else
-        //    {
-        //        turno.Sesions.Clear();
-        //        turno.ID = 0;
-        //        turno.Turno_Repeticiones = oldTurno.Turno_Repeticiones;
-        //        turno.Turno_Repeticiones.ToList().ForEach(r =>
-        //        {
-        //            r.ID = 0;
-        //            r.TurnoID = 0;
-        //            r.Turno = null;
-        //            r.FechaModificacion = turno.FechaModificacion;
-        //            r.UsuarioModificacion = turno.UsuarioModificacion;
-        //        });
-        //        for (int nroSesion = 1; nroSesion <= cantidadSesiones; nroSesion++)
-        //        {
-        //            getNextDay(oldTurno.Sesions.ToList(), oldTurno.Turno_Repeticiones.ToList())
-        //                .ForEach(s =>
-        //                {
-        //                    s.AgendaID = oldTurno.Sesions.ToList()[0].AgendaID;
-        //                    s.Estado = (EstadoTurno)oldTurno.Estado == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
-        //                    s.Habilitado = true;
-        //                    s.Numero = (short)nroSesion;
-        //                    s.TurnoSimultaneo = 0;
-        //                    s.UsuarioModificacion = turno.UsuarioModificacion;
-        //                    s.FechaModificacion = turno.FechaModificacion;
-        //                    turno.Sesions.Add(s);
-        //                });
-        //        }
-        //        turno.CantidadSesiones = cantidadSesiones;
-        //    }
-
-        //    oldTurno = continuar ? oldTurno : turno;
-
-        //    var consultorios = unitOfWork.RepoConsultorio.GetAll();
-        //    var sesiones = oldTurno.Sesions
-        //        .Where(x => x.ID == 0)
-        //        .GroupBy(x => x.Numero)
-        //        .Select(x => x.Key)
-        //        .OrderBy(x => x);
-
-        //    sesiones.ToList().ForEach(se =>
-        //    {
-        //        DateTime beginDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Min(x => x.FechaHora);
-        //        DateTime endDate = oldTurno.Sesions.Where(x => x.Numero == (short)se).Max(x => x.FechaHora);
-        //        int idconsultorio = oldTurno.Sesions.Where(s => s.Numero == se).Max(s => s.ConsultorioID);
-        //        short simultaneo = 0;
-
-        //        int? tipoSesionId = consultorios.Where(x => x.ID == idconsultorio)
-        //                    .Max(x => x.TipoSesionID);
-
-        //        idconsultorio = 0;
-        //        consultorios.Where(x => x.TipoSesionID == tipoSesionId).ToList()
-        //            .ForEach(x =>
-        //            {
-        //                if (idconsultorio == 0)
-        //                {
-        //                    simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, x.ID);
-        //                    if (simultaneo > 0)
-        //                    {
-        //                        idconsultorio = simultaneo > 0 ? x.ID : 0;
-        //                        oldTurno.Sesions.Where(tu => tu.Numero == se).ToList()
-        //                            .ForEach(tu =>
-        //                            {
-        //                                tu.TurnoSimultaneo = simultaneo;
-        //                                tu.ConsultorioID = idconsultorio;
-        //                            });
-        //                    }
-
-        //                }
-        //            });
-
-        //        if (!ValidarNuevasSesiones(oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList()))
-        //        {
-        //            oldTurno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
-        //        }
-
-        //    });
-
-        //    oldTurno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
-        //    if (continuar)
-        //    {
-        //        oldTurno.Sesions.Where(x => x.ID == 0).ToList().ForEach(s =>
-        //        {
-        //            unitOfWork.RepoSesion.Add(s);
-        //        });
-        //        unitOfWork.RepoTurno.Edit(turno);
-        //    }
-        //    else
-        //    {
-        //        unitOfWork.RepoTurno.Add(oldTurno);
-        //    }
-
-
-
-        //    return turno;
-        //}
+       
 
         public List<Turno> GetTurnosSinFecha()
         {
@@ -943,6 +822,58 @@ namespace com.sgt.services.Services
                 .Distinct()
                 .OrderBy(t => t.Paciente.Apellido)
                 .ThenBy(t => t.Paciente.Nombre).ToList();
+        }
+
+        public List<int> GetNrosTurnosSinDobleOrden(int pacienteID)
+        {
+            var turnos = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == pacienteID && t.TurnoDoble.HasValue == false && t.Estado == (short)EstadoTurno.Confirmado)
+                .OrderByDescending(x => x.ID);
+            List<int> listaTurnos = new List<int>();
+            turnos.ToList().ForEach(t => listaTurnos.Add(t.ID));
+            return listaTurnos;
+        }
+
+        public Turno SetTurnoDobleOrden(Turno turno, int? idTurno)
+        {
+            //var turnoAnular = unitOfWork.RepoTurno.FindBy(t => t.TurnoDoble == turno.ID).FirstOrDefault();
+            //if(turnoAnular != null)
+            //{
+            //    turnoAnular.TurnoDoble = null;
+            //    unitOfWork.RepoTurno.Edit(turnoAnular);
+            //}            
+
+            if (idTurno.HasValue && idTurno.Value > 0)
+            {
+                turno.TurnoDoble = 1;
+            }
+            else
+            {
+                turno.TurnoDoble = null;
+            }
+            unitOfWork.RepoTurno.Edit(turno);
+
+            //if (idTurno.HasValue)
+            //{
+            //    var turnoD = unitOfWork.RepoTurno.Find(idTurno.Value);
+            //    turnoD.TurnoDoble = turno.ID;
+            //    unitOfWork.RepoTurno.Edit(turnoD);
+            //}
+
+
+            return turno;
+        }
+
+        public IQueryable<Turno> GetTurnos()
+        {
+            return unitOfWork.RepoTurno.GetAll().Include(t => t.Sesions);
+        }
+
+        public void EditTurno(Turno turno)
+        {
+            turno.Turno_Repeticiones.ToList().ForEach(r =>
+            {
+                unitOfWork.RepoTurnoRepeticiones.Add(r);
+            });
         }
 
         #region Sesiones
@@ -1889,56 +1820,13 @@ namespace com.sgt.services.Services
             return body;
         }
 
-        public List<int> GetNrosTurnosSinDobleOrden(int pacienteID)
+        public bool ExisteSesionesRangoFecha(DateTime desde, DateTime hasta)
         {
-            var turnos = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == pacienteID && t.TurnoDoble.HasValue == false && t.Estado == (short)EstadoTurno.Confirmado)
-                .OrderByDescending(x=> x.ID);
-            List<int> listaTurnos = new List<int>();
-            turnos.ToList().ForEach(t => listaTurnos.Add(t.ID));
-            return listaTurnos;
-        }
-
-        public Turno SetTurnoDobleOrden(Turno turno, int? idTurno)
-        {
-            //var turnoAnular = unitOfWork.RepoTurno.FindBy(t => t.TurnoDoble == turno.ID).FirstOrDefault();
-            //if(turnoAnular != null)
-            //{
-            //    turnoAnular.TurnoDoble = null;
-            //    unitOfWork.RepoTurno.Edit(turnoAnular);
-            //}            
-
-            if (idTurno.HasValue && idTurno.Value > 0)
-            {
-                turno.TurnoDoble = 1;
-            }
-            else
-            {
-                turno.TurnoDoble = null;
-            }            
-            unitOfWork.RepoTurno.Edit(turno);
-
-            //if (idTurno.HasValue)
-            //{
-            //    var turnoD = unitOfWork.RepoTurno.Find(idTurno.Value);
-            //    turnoD.TurnoDoble = turno.ID;
-            //    unitOfWork.RepoTurno.Edit(turnoD);
-            //}
-                
-            
-            return turno;
-        }
-
-        public IQueryable<Turno> GetTurnos()
-        {
-            return unitOfWork.RepoTurno.GetAll().Include(t=>t.Sesions);
-        }
-
-        public void EditTurno(Turno turno)
-        {            
-            turno.Turno_Repeticiones.ToList().ForEach(r =>
-            {
-                unitOfWork.RepoTurnoRepeticiones.Add(r);
-            });
+            bool existe = unitOfWork.RepoSesion.FindBy(x => DbFunctions.TruncateTime(x.FechaHora) >= DbFunctions.TruncateTime(desde)
+               && DbFunctions.TruncateTime(x.FechaHora) <= DbFunctions.TruncateTime(hasta)
+               && EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)
+               ).ToList().Count() > 0 ? true : false;            
+            return existe;
         }
     }
 }

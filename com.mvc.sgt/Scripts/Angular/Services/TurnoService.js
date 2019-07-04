@@ -4,7 +4,7 @@
     sgtApp.service("turnoService", ['crudService', 'pdfService', '$mdDialog', turnoServiceController]);
 
     function turnoServiceController(crudService, pdfService, $mdDialog) {
-        var $this = this;
+        let $this = this;
 
         $this.toDate = function (value) {
             let dateValue = moment(value).toDate();

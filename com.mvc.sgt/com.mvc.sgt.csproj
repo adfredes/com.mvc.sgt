@@ -320,6 +320,7 @@
     <Content Include="Scripts\Angular\Components\SesionPosponerComponent.js" />
     <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
+    <Content Include="Scripts\Angular\Services\MessageService.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
     <Content Include="SqlScript\turnos-scripts.txt" />
     <Content Include="Content\addphoto-camera.svg" />
@@ -1417,6 +1418,7 @@
     <Content Include="Views\Agenda\PosponerSesion.cshtml" />
     <Content Include="Views\Paciente\ViewFiles.cshtml" />
     <Content Include="Views\Agenda\DobleOrdenModal.cshtml" />
+    <Content Include="Views\Paciente\DatosSesiones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

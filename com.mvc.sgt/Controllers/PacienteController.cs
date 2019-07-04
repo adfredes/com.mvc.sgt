@@ -256,6 +256,12 @@ namespace com.mvc.sgt.Controllers
             return Json(pacienteService.IsSesionesSuperpuestas(ID), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("Paciente/DatosSesiones")]
+        public ActionResult DatosSesiones()
+        {
+            return PartialView();
+        }
         //[HttpGet]
         //[Route("Paciente/DNI/{documento}")]
         //public JsonResult GetPacienteDNI(string documento)
