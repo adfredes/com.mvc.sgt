@@ -112,6 +112,14 @@
                 });
             }, $element);
         };
+        vm.cancelarSesiones = function () {
+            turnoService.cancelarSesiones(vm.turno, function (promise) {
+                promise.then(function (data) {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+        };
         vm.changeSesionState = function (asistio) {
             var sesiones = [];
             vm.turno.Sesions.filter(function (s) { return s.selected === true; })

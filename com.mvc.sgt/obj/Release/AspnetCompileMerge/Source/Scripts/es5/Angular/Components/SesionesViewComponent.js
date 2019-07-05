@@ -112,6 +112,14 @@
                 });
             }, $element);
         };
+        vm.cancelarSesiones = function () {
+            turnoService.cancelarSesiones(vm.turno, function (promise) {
+                promise.then(function (data) {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+        };
         vm.changeSesionState = function (asistio) {
             var sesiones = [];
             vm.turno.Sesions.filter(function (s) { return s.selected === true; })
@@ -164,6 +172,17 @@
                     .catch(function (error) { });
             }, $element);
         };
+        var getTurno = function (id) {
+            var promise = turnoService.getTurno(id);
+            promise.then(function (data) {
+                vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+            })
+                .catch(function (err) { vm.turnos = []; vm.reading = false; });
+        };
+        vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, function (data) {
+            eventService.UpdateTurnos();
+            getTurno(vm.turno.ID);
+        }, $element); };
         vm.sendTurnoWhatsapp = function () {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
         };

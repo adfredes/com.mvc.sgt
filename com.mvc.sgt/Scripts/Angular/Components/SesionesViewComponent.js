@@ -142,6 +142,18 @@
 
         };
 
+        vm.cancelarSesiones = () => {
+            turnoService.cancelarSesiones(vm.turno, promise => {
+                promise.then(data => {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+
+        };
+
+        
+
         vm.changeSesionState = (asistio) => {
             let sesiones = [];
             vm.turno.Sesions.filter(s => s.selected === true)

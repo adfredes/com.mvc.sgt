@@ -143,6 +143,14 @@
                 });
             }, $element);
         };
+        vm.cancelarSesiones = function () {
+            turnoService.cancelarSesiones(vm.turno, function (promise) {
+                promise.then(function (data) {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+        };
         vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, function (data) {
             getTurno(vm.turno.ID);
             if (vm.onChanges) {

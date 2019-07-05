@@ -4,7 +4,7 @@
     sgtApp.service("turnoService", ['crudService', 'pdfService', '$mdDialog', turnoServiceController]);
 
     function turnoServiceController(crudService, pdfService, $mdDialog) {
-        var $this = this;
+        let $this = this;
 
         $this.toDate = function (value) {
             let dateValue = moment(value).toDate();
@@ -51,25 +51,6 @@
             return angular.isDate(dateValue) ? $this.addZero(dateValue.getHours()) + ':' + $this.addZero(dateValue.getMinutes()) : '';
         };
 
-        //$this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
-        //    //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
-        //    let body = [];
-        //    let estadosImprimible = [1, 2, 4, 5];
-        //    turno.Sesions.forEach(sesion => {
-        //        let row = [];
-        //        if (estadosImprimible.includes(sesion.Estado)) {
-        //            row.push(sesion.Numero.toString());
-        //            row.push($this.toDate(sesion.FechaHora));
-        //            row.push($this.toHourRange(sesion.FechaHora, sesion.sesiones));
-        //            row.push($this.getNombreConsultorio(sesion.ConsultorioID, Consultorios));
-        //            body.unshift(row);
-        //        }
-        //    });
-        //    body.unshift(['Número', 'Fecha', 'Horario', 'Consultorio']);
-
-        //    let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
-        //    pdfService.CreateTurnoPdf(body, headerText);
-        //};
 
         $this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
@@ -271,6 +252,63 @@
                     let url = "Turno/Cancelar";
                     let params = {};
                     params.model = turno;
+                    let promise = crudService.PutHttp(url, params);
+                    success(promise);
+                })
+                .catch(() => undefined);
+
+
+        };
+
+        $this.cancelarSesiones = (turno, success, parentEl) => {
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-warning">
+                                    <h5 class="modal-title">Turnos</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">        
+                                    <p>
+                                      Esta seguro que desea cancelar las sesiones seleccionadas?
+                                    </p>
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { TurnoID: TurnoID }
+            })
+                .then(answer => {
+                    let url = "Sesion/Cancelar";
+                    let sesiones = turno.Sesions.filter(s => s.selected);
+                    
+                    let params = {};
+                    params.model = sesiones;
                     let promise = crudService.PutHttp(url, params);
                     success(promise);
                 })

@@ -1828,5 +1828,27 @@ namespace com.sgt.services.Services
                ).ToList().Count() > 0 ? true : false;            
             return existe;
         }
+
+        public ICollection<Sesion> CancelarSesiones(ICollection<Sesion> sesions)
+        {
+            sesions.ToList().ForEach(s =>
+            {
+                var sesiones = unitOfWork.RepoSesion.FindBy(rs => rs.TurnoID == s.TurnoID
+                && rs.Numero == s.Numero && s.Estado == rs.Estado).ToList();
+
+                sesiones.ForEach(sesion =>
+                {
+                    
+                        sesion.FechaModificacion = s.FechaModificacion;
+                        sesion.UsuarioModificacion = s.UsuarioModificacion;
+                        sesion.Estado = (short)EstadoSesion.Cancelado;
+                        unitOfWork.RepoSesion.Edit(sesion);
+                    
+                });
+                s.Estado = (short)EstadoSesion.Cancelado;
+            });
+            //var sesiones = unitOfWork.RepoSesion.FindBy()
+            return sesions;
+        }
     }
 }

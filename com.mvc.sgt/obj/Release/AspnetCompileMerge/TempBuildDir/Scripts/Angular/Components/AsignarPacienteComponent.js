@@ -172,6 +172,16 @@
 
         };
 
+        vm.cancelarSesiones = () => {
+            turnoService.cancelarSesiones(vm.turno, promise => {
+                promise.then(data => {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+
+        };
+
         vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {
             getTurno(vm.turno.ID);
             if (vm.onChanges) {

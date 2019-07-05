@@ -142,6 +142,18 @@
 
         };
 
+        vm.cancelarSesiones = () => {
+            turnoService.cancelarSesiones(vm.turno, promise => {
+                promise.then(data => {
+                    getTurnosPaciente(vm.PacienteID);
+                    eventService.UpdateTurnos();
+                });
+            }, $element);
+
+        };
+
+        
+
         vm.changeSesionState = (asistio) => {
             let sesiones = [];
             vm.turno.Sesions.filter(s => s.selected === true)
@@ -201,6 +213,20 @@
                         .catch(error => { }), $element
             );
         };
+
+        let getTurno = (id) => {
+            let promise = turnoService.getTurno(id);
+            promise.then(data => {
+                vm.turno = turnoService.sesionesOrder(JSON.parse(data));                
+            })
+                .catch(err => { vm.turnos = []; vm.reading = false; });
+        };
+
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {
+            eventService.UpdateTurnos();
+            getTurno(vm.turno.ID);
+            //vm.turno = turnoService.sesionesOrder(JSON.parse(data));
+        }, $element);
 
         vm.sendTurnoWhatsapp = () => {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));

@@ -130,6 +130,28 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPut]
+        [Route("Sesion/Cancelar")]
+        [CreateUpdateActionFilter("admin")]
+        public JsonResult CancelarSesiones(ICollection<SesionModel> model)
+        {
+            string resu;
+            try
+            {
+                //var turno = this.AgendaService.CancelarSesionesPendientes(id, User.Identity.Name);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                var sesiones = Mapper.Map<ICollection<Sesion>>(model);
+                sesiones = this.AgendaService.CancelarSesiones(sesiones);
+                resu = JsonConvert.SerializeObject(Mapper.Map<ICollection<SesionModel>>(sesiones));
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
         [CreateUpdateActionFilter("admin")]
         [Route("Turno/Cancelar")]
         public JsonResult CancelarTurno(Turno model)

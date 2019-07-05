@@ -5,14 +5,14 @@
 
     sgtApp.component('feriadoEdit', {
         templateUrl: Domain + '/Agenda/CreateOrEditFeriado',
-        controller: ['crudService', feriadoEditController],
+        controller: ['crudService', 'messageService', '$element', feriadoEditController],
         bindings: {
             feriado: "<",
             onSave: "&?"
         }
     });
 
-    function feriadoEditController(crudService) {
+    function feriadoEditController(crudService, messageService, $element) {
         var vm = this;
         vm.error = "";
 
@@ -22,12 +22,32 @@
                 if (vm.onSave) {
                     vm.onSave()();
                 }
-                $('#CreateOrUpdateFeriado').modal('hide');
+                existenSesiones();
+                //$('#CreateOrUpdateFeriado').modal('hide');
             })
                 .catch(function (error) {
                     vm.error = error.data;
                 }
                 );
+        };
+
+        vm.$onChanges = (change) => {
+            vm.feriado.Fecha = moment(vm.feriado.Fecha).toDate();            
+        };
+
+        let existenSesiones = () => {                        
+            //let _url = `api/grilla/existesesiones/desde/${vm.feriado.Fecha.getDate()}/${vm.feriado.Fecha.getMonth() + 1}/${vm.feriado.Fecha.getYear()}/hasta/${vm.feriado.Fecha.getDate()}/${vm.feriado.Fecha.getMonth() + 1}/${vm.feriado.Fecha.getYear()}`;            
+            crudService.GetPHttp(`api/grilla/existesesiones/desde/${vm.feriado.Fecha.getDate()}/${vm.feriado.Fecha.getMonth() + 1}/${vm.feriado.Fecha.getFullYear()}/hasta/${vm.feriado.Fecha.getDate()}/${vm.feriado.Fecha.getMonth() + 1}/${vm.feriado.Fecha.getFullYear()}`)
+                .then((data) => {
+                    if (data) {
+                        messageService.Notify('Feriados', 'Existen sesiones asignadas en el feriado.', $element)
+                            .then(() => $('#CreateOrUpdateFeriado').modal('hide'));
+                    }
+                    else {
+                        $('#CreateOrUpdateFeriado').modal('hide');
+                    }
+
+                });
         };
 
     }

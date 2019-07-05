@@ -164,6 +164,37 @@
             })
                 .catch(function () { return undefined; });
         };
+        $this.cancelarSesiones = function (turno, success, parentEl) {
+            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea cancelar las sesiones seleccionadas?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { TurnoID: TurnoID }
+            })
+                .then(function (answer) {
+                var url = "Sesion/Cancelar";
+                var sesiones = turno.Sesions.filter(function (s) { return s.selected; });
+                var params = {};
+                params.model = sesiones;
+                var promise = crudService.PutHttp(url, params);
+                success(promise);
+            })
+                .catch(function () { return undefined; });
+        };
         $this.sendTurno = function (turnoId) {
             var params = {};
             params.turnoId = turnoId;

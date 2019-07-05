@@ -210,13 +210,11 @@
         };
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
-                console.log(response);
                 vm.close();
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
             }, function errorCallback(response) {
-                console.log(response);
             });
         };
     }
