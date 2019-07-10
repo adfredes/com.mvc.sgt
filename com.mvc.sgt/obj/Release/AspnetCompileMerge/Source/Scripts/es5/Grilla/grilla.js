@@ -92,13 +92,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.vista = 'd';
         dibujarGrilla();
     };
-    var btnVistaProximo_Click = function (e) {
+    var btnVistaDiaSemana_Click = function (e) {
         e.preventDefault();
         e.stopPropagation();
         options.fechaDia = new Date();
         options.fecha = new Date();
         options.vista = 'd';
-        options.fecha = getNextDate(options.fechaDia);
+        options.fecha = getDayOfWeek(options.fechaDia, e.target.dataset.dia);
         dibujarGrilla();
     };
     var btnVistaSemanal_Click = function (e) {
@@ -111,10 +111,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     };
     var init = function () {
         var btnHoy = document.querySelector('#btnVistaHoy');
-        var btnProximo = document.querySelector('#btnVistaProximo');
         var btnSemanal = document.querySelector('#btnVistaSemanal');
+        var btnsNavegacion = document.querySelectorAll("button[data-dia]");
+        if (btnsNavegacion) {
+            for (i = 0; i < btnsNavegacion.length; i++) {
+                btnsNavegacion[i].addEventListener('click', btnVistaDiaSemana_Click);
+            }
+        }
         btnHoy.addEventListener('click', btnVistaHoy_Click);
-        btnProximo.addEventListener('click', btnVistaProximo_Click);
         btnSemanal.addEventListener('click', btnVistaSemanal_Click);
         document.addEventListener('UpdateTurnos', dibujarGrilla);
         var sessionST = loadFromSesionStorage();
@@ -173,39 +177,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     function dibujarGrilla() {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, _d, _e, _f, _g;
-            return __generator(this, function (_h) {
-                switch (_h.label) {
+            var _a, _b, _c, _d, _e, _f;
+            return __generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
                         options.divGrilla.querySelector('.procesando').style.display = 'block';
                         _a = options;
                         return [4, getConsultorios()];
                     case 1:
-                        _a.consultorios = _h.sent();
+                        _a.consultorios = _g.sent();
                         _b = options;
                         return [4, getRangoHorario()];
                     case 2:
-                        _b.horarios = _h.sent();
+                        _b.horarios = _g.sent();
                         _c = options;
                         return [4, getRangoFecha()];
                     case 3:
-                        _c.dias = _h.sent();
+                        _c.dias = _g.sent();
                         _d = options;
                         return [4, getSesiones()];
                     case 4:
-                        _d.sesiones = _h.sent();
+                        _d.sesiones = _g.sent();
                         _e = options;
                         return [4, getRecesos()];
                     case 5:
-                        _e.recesos = _h.sent();
+                        _e.recesos = _g.sent();
+                        options.bloqueosAgenda = [];
                         _f = options;
-                        return [4, getBloqueosAgenda()];
-                    case 6:
-                        _f.bloqueosAgenda = _h.sent();
-                        _g = options;
                         return [4, getFeriados()];
-                    case 7:
-                        _g.feriados = _h.sent();
+                    case 6:
+                        _f.feriados = _g.sent();
                         renderGrilla();
                         renderReservado();
                         setCeldasDroppable();
@@ -319,6 +320,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             }
             dibujarGrilla();
         });
+        $('#ddatepickerP').datepicker({
+            format: "dd/mm/yyyy",
+            weekStart: 1,
+            language: "es",
+            daysOfWeekDisabled: "0,6",
+            autoclose: true
+        });
+        $('#ddatepickerP').datepicker()
+            .on('changeDate', function (e) {
+            options.fechaDia = $('#ddatepickerP').datepicker('getDate');
+            options.fecha = $('#ddatepickerP').datepicker('getDate');
+            dibujarGrilla();
+        });
         var calendario = options.tabla.querySelector('#calendarioSesion');
         calendario.addEventListener("change", function (e) {
             e.preventDefault();
@@ -362,6 +376,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function getNextDate(currentDate) {
         currentDate.setDate(currentDate.getDate() + (options.vista == 's' ? 7 : 1));
         while (currentDate.getDay() == 0 || currentDate.getDay() == 6) {
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return currentDate;
+    }
+    function getDayOfWeek(currentDate, dayWeek) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        while (currentDate.getDay() != dayWeek) {
             currentDate.setDate(currentDate.getDate() + 1);
         }
         return currentDate;

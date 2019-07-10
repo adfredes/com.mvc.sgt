@@ -15,8 +15,8 @@
     </md-autocomplete>
 
     <ng-transclude style="display:inline;" class="mr-1 ml-1" ng-click="$ctrl.clear()"> </ng-transclude>
-    <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"
-            type="submit" @*ng-click="$('#basicModal').modal('show');"*@ ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
+    <button data-target="#ViewPaciente" @*data-toggle="modal"*@ class="btn btn-outline-light  my-2 my-sm-0"
+            type="submit" ng-click="$ctrl.openViewPaciente();" ng-disabled="$ctrl.Paciente==null" ng-show="$ctrl.viewEnabled">
         <span class="icon-search"></span>
     </button>
     <button data-target="#ViewPaciente" data-toggle="modal" class="btn btn-outline-light  my-2 my-sm-0"

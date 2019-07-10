@@ -268,6 +268,9 @@
         vm.$onChanges = function (change) {
             init();
         };
+        vm.close = function () {
+            $('#DatosSesiones').modal('hide');
+        };
     }
 })();
 //# sourceMappingURL=PacienteTurnosComponent.js.map

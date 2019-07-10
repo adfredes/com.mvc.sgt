@@ -60,6 +60,7 @@
         };
 
         vm.EditFeriado = function (feriado) {
+            console.dir(feriado.Fecha);
             feriado.Fecha = moment(feriado.Fecha).toDate();
             let nferiado = JSON.parse(JSON.stringify(feriado));
             vm.feriado = nferiado;
@@ -67,6 +68,7 @@
 
         vm.DeleteFeriado = (feriado) => {
             feriado.Habilitado = false;
+            feriado.Fecha = moment(feriado.Fecha).toDate();
             var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', feriado);
             promise.then(data => vm.GetFeriados());                                
         };

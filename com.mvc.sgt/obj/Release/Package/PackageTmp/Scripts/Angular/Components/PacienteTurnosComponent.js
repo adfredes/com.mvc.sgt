@@ -407,6 +407,9 @@
             init();
         };
 
+        vm.close = () => {
+            $('#DatosSesiones').modal('hide');            
+        };
 
 
               

@@ -52,12 +52,14 @@
                 .catch(function (err) { return vm.recesos = {}; });
         };
         vm.EditFeriado = function (feriado) {
+            console.dir(feriado.Fecha);
             feriado.Fecha = moment(feriado.Fecha).toDate();
             var nferiado = JSON.parse(JSON.stringify(feriado));
             vm.feriado = nferiado;
         };
         vm.DeleteFeriado = function (feriado) {
             feriado.Habilitado = false;
+            feriado.Fecha = moment(feriado.Fecha).toDate();
             var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', feriado);
             promise.then(function (data) { return vm.GetFeriados(); });
         };

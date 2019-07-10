@@ -25,10 +25,24 @@
                                     <input type="color" id="Color" name="color" ng-model="aseguradora.Color">
                                 </md-input-container>
                             </div>
+                            
                         </div>
-                    </fieldset>
+                        <div class="row p-0 m-0">
+
+                            <div class="form-group col-md-3 p-0 m-0">
+                                <md-input-container class="md-block p-0 m-0">
+                                    <md-switch class="md-primary" name="special" ng-model="aseguradora.Habilitado" ng-init="true">
+                                        <span ng-show="aseguradora.Habilitado">Habilitado</span>
+                                        <span ng-hide="aseguradora.Habilitado">Deshabilitado</span>
+                                    </md-switch>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-9 form-group p-0 m-0">
+                            </div>
+                        </div>
+</fieldset>
                 </form>
-                <fieldset>
+                <fieldset class="mt-0 pt-0">
                     <div class="row">
                         <div class="col-12">
                             <form name="frmPlan" id="frmPlan" novalidate>
@@ -87,7 +101,7 @@
                                     </td>
                                     <td>
                                         <span class="icon-edit btn" ng-hide="planEdit==index" ng-click="setEditMode(index)"></span>
-                                        <span class="icon-floppy btn" ng-show="planEdit==index" ng-click="setEditMode(-1)"></span>
+                                        <span class="icon-floppy btn" ng-show="planEdit==index && plan.Descripcion.length>0" ng-click="setEditMode(-1)"></span>
                                         <span class="icon-trash-empty btn" ng-click="EliminarPlan(plan, index)"></span>
                                     </td>
                                 </tr>

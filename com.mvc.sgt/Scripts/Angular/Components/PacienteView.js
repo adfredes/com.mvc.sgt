@@ -101,7 +101,8 @@
                 vm.uploadingText = "";
                 vm.uploading = false;
             }
-            if (vm.paciente && vm.paciente.ID){
+            if (vm.paciente && vm.paciente.ID) {
+                loadPaciente(vm.paciente.ID);
                 loadDiagnostico(vm.paciente.ID);
                 getFiles(vm.paciente.ID);
             }

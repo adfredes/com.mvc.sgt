@@ -69,6 +69,7 @@ namespace com.sgt.DataAccess.Repositories
             entity.Aseguradora_Plan.ToList().ForEach(s => {
                 s.FechaModificacion = entity.FechaModificacion;
                 s.UsuarioModificacion = entity.UsuarioModificacion;
+                s.AseguradoraID = entity.ID;
                 _dbcontext.Entry(s).State = s.ID > 0 ? EntityState.Modified : EntityState.Added;
             });
         }

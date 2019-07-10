@@ -68,13 +68,23 @@
         dibujarGrilla();
     };
 
-    let btnVistaProximo_Click = (e) => {
+    //let btnVistaProximo_Click = (e) => {
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //    options.fechaDia = new Date();
+    //    options.fecha = new Date();
+    //    options.vista = 'd';
+    //    options.fecha = getNextDate(options.fechaDia);
+    //    dibujarGrilla();
+    //};
+
+    let btnVistaDiaSemana_Click = (e) => {        
         e.preventDefault();
         e.stopPropagation();
         options.fechaDia = new Date();
         options.fecha = new Date();
         options.vista = 'd';
-        options.fecha = getNextDate(options.fechaDia);
+        options.fecha = getDayOfWeek(options.fechaDia, e.target.dataset.dia);
         dibujarGrilla();
     };
 
@@ -90,11 +100,20 @@
     let init = () => {
 
         let btnHoy = document.querySelector('#btnVistaHoy');
-        let btnProximo = document.querySelector('#btnVistaProximo');
-        let btnSemanal = document.querySelector('#btnVistaSemanal');       
+        //let btnProximo = document.querySelector('#btnVistaProximo');
+        let btnSemanal = document.querySelector('#btnVistaSemanal');  
+
+        let btnsNavegacion = document.querySelectorAll("button[data-dia]");
+        
+        if (btnsNavegacion) {
+            for (i = 0; i < btnsNavegacion.length; i++) {
+                btnsNavegacion[i].addEventListener('click', btnVistaDiaSemana_Click);
+            }
+        }
+        
 
         btnHoy.addEventListener('click', btnVistaHoy_Click);
-        btnProximo.addEventListener('click', btnVistaProximo_Click);
+        //btnProximo.addEventListener('click', btnVistaProximo_Click);
         btnSemanal.addEventListener('click', btnVistaSemanal_Click);
 
         document.addEventListener('UpdateTurnos', dibujarGrilla);
@@ -185,7 +204,8 @@
         options.dias = await getRangoFecha();
         options.sesiones = await getSesiones();
         options.recesos = await getRecesos();
-        options.bloqueosAgenda = await getBloqueosAgenda();
+        options.bloqueosAgenda = [];
+        //options.bloqueosAgenda = await getBloqueosAgenda();
         options.feriados = await getFeriados();
         renderGrilla();
         renderReservado();
@@ -319,6 +339,22 @@
                 dibujarGrilla();
             });
 
+        $('#ddatepickerP').datepicker({
+            format: "dd/mm/yyyy",
+            weekStart: 1,
+            language: "es",
+            daysOfWeekDisabled: "0,6",
+            autoclose: true
+        });
+        $('#ddatepickerP').datepicker()
+            .on('changeDate', function (e) {
+                //options.fecha = e.target.getDate()
+                
+                    options.fechaDia = $('#ddatepickerP').datepicker('getDate');
+                    options.fecha = $('#ddatepickerP').datepicker('getDate');                
+                dibujarGrilla();
+            });
+
         let calendario = options.tabla.querySelector('#calendarioSesion');
         calendario.addEventListener("change", function (e) {
             e.preventDefault();
@@ -374,6 +410,16 @@
         currentDate.setDate(currentDate.getDate() + (options.vista == 's' ? 7 : 1));
 
         while (currentDate.getDay() == 0 || currentDate.getDay() == 6) {
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return currentDate;
+    }
+
+    function getDayOfWeek(currentDate, dayWeek) {
+        currentDate.setDate(currentDate.getDate() + 1);
+
+        while (currentDate.getDay() != dayWeek) {
             currentDate.setDate(currentDate.getDate() + 1);
         }
 

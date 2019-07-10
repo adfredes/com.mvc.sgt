@@ -24,9 +24,11 @@
                         };
                         $scope.planModel = { Descripcion: "" };
                         $scope.AgregarPlan = function () {
-                            $scope.planModel.Habilitado = true;
-                            $scope.aseguradora.AseguradoraPlan.push($scope.planModel);
-                            $scope.planModel = { Descripcion: "" };
+                            if ($scope.planModel.Descripcion.length > 0) {
+                                $scope.planModel.Habilitado = true;
+                                $scope.aseguradora.AseguradoraPlan.push($scope.planModel);
+                                $scope.planModel = { Descripcion: "" };
+                            }
                         };
                         $scope.EliminarPlan = function (plan, index) {
                             if (!plan.ID) {

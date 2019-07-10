@@ -46,6 +46,14 @@
             }
         };
 
+        vm.openViewPaciente = () => {
+            console.dir(vm.Paciente);
+            let selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
+            vm.Paciente = {};
+            vm.Paciente = selectedPaciente;
+            $('#ViewPaciente').modal('show');
+        };
+
         vm.clear = () => vm.Paciente = {};
         /*vm.UpdateDate = function () {
             if (vm.Paciente && vm.Paciente.FechaNacimiento)

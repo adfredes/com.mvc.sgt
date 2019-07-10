@@ -43,13 +43,13 @@ namespace com.mvc.sgt.Controllers
         [Route("api/aseguradora/all/cmb")]
         public IHttpActionResult GetAseguradoras()
         {
-            return Ok(Mapper.Map<List<ComboDTO>>(this.aseguradoraService.GetAll()));
+            return Ok(Mapper.Map<List<ComboDTO>>(this.aseguradoraService.FindBy(x=>x.Habilitado == true)));
         }
 
         [Route("api/aseguradora/{idPlan}/plan/all/cmb")]
         public IHttpActionResult GetPlanes(int idPlan)
         {
-            return Ok(Mapper.Map<List<ComboDTO>>(this.aseguradoraService.Find(idPlan).Aseguradora_Plan));
+            return Ok(Mapper.Map<List<ComboDTO>>(this.aseguradoraService.Find(idPlan).Aseguradora_Plan.Where(x=>x.Habilitado==true)));
         }
 
         [Route("api/tiposesion/all/cmb")]

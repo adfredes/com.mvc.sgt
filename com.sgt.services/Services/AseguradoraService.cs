@@ -21,6 +21,11 @@ namespace com.sgt.services.Services
 
         public void Add(Aseguradora entity)
         {
+            entity.Aseguradora_Plan.ToList().ForEach(p =>
+            {
+                p.UsuarioModificacion = entity.UsuarioModificacion;
+                p.FechaModificacion = entity.FechaModificacion;
+            });
             unitOfWork.RepoAseguradora.Add(entity);
         }
 
@@ -41,7 +46,7 @@ namespace com.sgt.services.Services
 
         public IQueryable<Aseguradora> FindBy(Expression<Func<Aseguradora, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return unitOfWork.RepoAseguradora.FindBy(predicate);
         }
 
         public ICollection<Aseguradora> GetAll()
