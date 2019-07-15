@@ -37,7 +37,6 @@
             }
         };
         vm.openViewPaciente = function () {
-            console.dir(vm.Paciente);
             var selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
             vm.Paciente = {};
             vm.Paciente = selectedPaciente;

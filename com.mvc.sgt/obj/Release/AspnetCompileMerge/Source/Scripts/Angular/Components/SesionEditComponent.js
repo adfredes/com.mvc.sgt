@@ -111,7 +111,7 @@
         };
 
         vm.closeChange = () => {
-            console.dir(vm.onCancel);
+            
             if (vm.onCancel) {
                 vm.onCancel()();
             }

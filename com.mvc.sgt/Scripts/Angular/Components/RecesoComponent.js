@@ -13,15 +13,19 @@
     function recesoEditController(crudService, messageService, $element) {
         var vm = this;
         vm.error = "";
+        let oldReceso = {};
 
         vm.save = function (data) {
+            existenSesiones();
+        };
+
+        let createOrUpdate = data => {
             var promise = crudService.PostHttp('/Agenda/CreateOrEditReceso', data);
             promise.then(function (data) {
                 if (vm.onSave) {
                     vm.onSave()();
-                }
-                existenSesiones();
-                //$('#CreateOrUpdateReceso').modal('hide');
+                }                
+                $('#CreateOrUpdateReceso').modal('hide');
             })
                 .catch(function (error) {
                     vm.error = error.data;
@@ -32,6 +36,7 @@
         vm.$onChanges = (change) => {
             vm.receso.FechaDesde = moment(vm.receso.FechaDesde).toDate();
             vm.receso.FechaHasta = moment(vm.receso.FechaHasta).toDate();
+            oldReceso = JSON.parse(JSON.stringify(vm.receso));
         };
 
         let existenSesiones = () => {            
@@ -40,10 +45,14 @@
                 .then((data) => {
                     if (data) {
                         messageService.Notify('Recesos', 'Existen sesiones asignadas en el receso indicado', $element)
-                            .then(() => $('#CreateOrUpdateReceso').modal('hide'));
+                            .then(() => {
+                                vm.receso = JSON.parse(JSON.stringify(oldReceso));
+                                vm.receso.FechaDesde = moment(vm.receso.FechaDesde).toDate();
+                                vm.receso.FechaHasta = moment(vm.receso.FechaHasta).toDate();
+                            });
                     }
                     else {
-                        $('#CreateOrUpdateReceso').modal('hide');
+                        createOrUpdate(vm.receso);
                     }
                     
                 });

@@ -264,7 +264,6 @@
                 fullscreen: false
             })
                 .then(function (answer) {
-                console.dir(answer);
                 success(answer);
             })
                 .catch(function () { return undefined; });

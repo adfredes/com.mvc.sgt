@@ -86,7 +86,6 @@
             }
         };
         vm.closeChange = function () {
-            console.dir(vm.onCancel);
             if (vm.onCancel) {
                 vm.onCancel()();
             }

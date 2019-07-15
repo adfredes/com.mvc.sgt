@@ -42,7 +42,7 @@
         let Consultorios = [];
         vm.selectedTurno = {};
         vm.deleteTurno = false;
-        //console.dir(vm.parent.children());
+        
 
         vm.reading = false;
 
@@ -125,7 +125,7 @@
 
         vm.sendTurnoWhatsapp = (turno) => {
             window.open(turnoService.linkWhatsapp(turno, vm.paciente));
-            //console.log(turnoService.linkWhatsapp(vm.turno, vm.paciente));
+            
         };
 
         vm.sendTurno = (turno) => {

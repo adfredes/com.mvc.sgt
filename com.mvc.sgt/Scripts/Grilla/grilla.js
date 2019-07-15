@@ -519,48 +519,83 @@
             });
 
             //Confirmado
+            //$.contextMenu({
+            //    selector: '.div-turno[data-estado=2]',
+            //    callback: contextMenuClick,
+            //    items: {
+            //        "paciente": {name:"Paciente", id:'pct', icon: ""},
+            //        "asistio": { name: "Asistio", icon: "" },
+            //        "noAsistio": { name: "No Asistio", icon: "" },
+            //        "anularSesion": { name: "Cancelar Sesion", icon: "" },
+            //        "cambiarTurno": { name: "CambiarTurno", icon: "" },
+            //        "posponer": { name: "Posponer", icon: "" },
+            //        "sep1": "---------",
+            //        "datosPaciente": { name: "Paciente", icon: "" },
+            //        "datosSesiones": { name: "Sesiones", icon: "" },
+            //        "datosTurno": { name: "Turno", icon: "" }
+            //    }
+            //});
+
             $.contextMenu({
                 selector: '.div-turno[data-estado=2]',
-                callback: contextMenuClick,
-                items: {
-                    "asistio": { name: "Asistio", icon: "" },
-                    "noAsistio": { name: "No Asistio", icon: "" },
-                    "anularSesion": { name: "Cancelar Sesion", icon: "" },
-                    "cambiarTurno": { name: "CambiarTurno", icon: "" },
-                    "posponer": { name: "Posponer", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
-                }
+                build: function ($triggerElement, e) {                    
+                    return {
+                        callback: contextMenuClick,                        
+                            items: {
+                                "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                                "sep1": "---------",
+                                "asistio": { name: "Asistio", icon: "" },
+                                "noAsistio": { name: "No Asistio", icon: "" },
+                                "anularSesion": { name: "Cancelar Sesion", icon: "" },
+                                "cambiarTurno": { name: "CambiarTurno", icon: "" },
+                                "posponer": { name: "Posponer", icon: "" },
+                                "sep2": "---------",
+                                //"datosPaciente": { name: "Paciente", icon: "" },
+                                "datosSesiones": { name: "Sesiones", icon: "" },
+                                "datosTurno": { name: "Turno", icon: "" }
+                            }                        
+                    };
+                }                                
             });
 
             //Asistio
             $.contextMenu({
-                selector: '.div-turno[data-estado=4]',
-                callback: contextMenuClick,
-                items: {
-                    "confirmado": { name: "Confirmado", icon: "" },
-                    "noAsistio": { name: "No Asistio", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
-                }
+                selector: '.div-turno[data-estado=4]',                
+                build: function ($triggerElement, e) {
+                    return {
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "sep2": "---------",
+                            "confirmado": { name: "Confirmado", icon: "" },
+                            "noAsistio": { name: "No Asistio", icon: "" },
+                            "sep1": "---------",
+                            //"datosPaciente": { name: "Paciente", icon: "" },
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" }
+                        }
+                    };
+                }                                
             });
 
             //No Asistio
             $.contextMenu({
                 selector: '.div-turno[data-estado=5]',
-                callback: contextMenuClick,
-                items: {
-                    "confirmado": { name: "Confirmado", icon: "" },
-                    "asistio": { name: "Asistio", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
-                }
+                build: function ($triggerElement, e) {
+                    return {
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "sep2": "---------",
+                            "confirmado": { name: "Confirmado", icon: "" },
+                            "asistio": { name: "Asistio", icon: "" },
+                            "sep1": "---------",
+                            //"datosPaciente": { name: "Paciente", icon: "" },
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" }
+                        }
+                    };
+                }                                
             });
 
             //Bloqueado
@@ -923,8 +958,11 @@
                     showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
 
-                case 'datosSesiones':
-                    DatosSesiones
+                case 'paciente':
+                    showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
+                    break;
+
+                case 'datosSesiones':                    
                     //showModalAngularComponent('#sesionesPacienteModal', '#PacienteID', opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#DatosSesiones', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     break;
@@ -1171,7 +1209,7 @@
                             data-id=${_sesion.ID} data-estado=${_sesion.Estado}
                             data-turnoid=${_sesion.TurnoID} data-estadoturno=${_sesion.EstadoTurno}
                             data-pacienteid=${_sesion.PacienteId}
-                            data-numero=${_sesion.Numero}
+                            data-numero=${_sesion.Numero}                            
                             title="${_sesion.Paciente}">
                             ${getDivTurnoInnerHTML(_sesion)}</div>`;
         return divCelda;

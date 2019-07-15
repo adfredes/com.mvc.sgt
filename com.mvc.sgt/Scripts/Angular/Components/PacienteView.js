@@ -192,12 +192,12 @@
             mFile.PacienteID = vm.paciente.ID;
             mFile.Titulo = name;
             mFile.Archivo = base64;
-            //console.log("Tamaño: " + base64.length);
+            
             mFile.Habilitado = true;
             let promise = crudService.PostHttp("Paciente/File", mFile);
             promise.then((data) => {                
                 vm.uploading = false;
-                //console.log(vm.paciente.ID);
+                
                 getFiles(vm.paciente.ID);
             })
                 .catch((error) => {

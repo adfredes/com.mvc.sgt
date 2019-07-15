@@ -47,7 +47,7 @@
         };
 
         vm.openViewPaciente = () => {
-            console.dir(vm.Paciente);
+            
             let selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
             vm.Paciente = {};
             vm.Paciente = selectedPaciente;

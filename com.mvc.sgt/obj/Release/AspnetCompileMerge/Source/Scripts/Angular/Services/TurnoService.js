@@ -411,7 +411,7 @@
                 //locals: { turno: turno }
             })
                 .then(answer => {
-                    console.dir(answer);
+                    
                     success(answer);
                 })
                 .catch(() => undefined);

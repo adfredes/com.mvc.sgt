@@ -466,41 +466,56 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             });
             $.contextMenu({
                 selector: '.div-turno[data-estado=2]',
-                callback: contextMenuClick,
-                items: {
-                    "asistio": { name: "Asistio", icon: "" },
-                    "noAsistio": { name: "No Asistio", icon: "" },
-                    "anularSesion": { name: "Cancelar Sesion", icon: "" },
-                    "cambiarTurno": { name: "CambiarTurno", icon: "" },
-                    "posponer": { name: "Posponer", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
+                build: function ($triggerElement, e) {
+                    return {
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: "" + $triggerElement[0].title, icon: "", className: 'font-weight-bold' },
+                            "sep1": "---------",
+                            "asistio": { name: "Asistio", icon: "" },
+                            "noAsistio": { name: "No Asistio", icon: "" },
+                            "anularSesion": { name: "Cancelar Sesion", icon: "" },
+                            "cambiarTurno": { name: "CambiarTurno", icon: "" },
+                            "posponer": { name: "Posponer", icon: "" },
+                            "sep2": "---------",
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" }
+                        }
+                    };
                 }
             });
             $.contextMenu({
                 selector: '.div-turno[data-estado=4]',
-                callback: contextMenuClick,
-                items: {
-                    "confirmado": { name: "Confirmado", icon: "" },
-                    "noAsistio": { name: "No Asistio", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
+                build: function ($triggerElement, e) {
+                    return {
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: "" + $triggerElement[0].title, icon: "", className: 'font-weight-bold' },
+                            "sep2": "---------",
+                            "confirmado": { name: "Confirmado", icon: "" },
+                            "noAsistio": { name: "No Asistio", icon: "" },
+                            "sep1": "---------",
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" }
+                        }
+                    };
                 }
             });
             $.contextMenu({
                 selector: '.div-turno[data-estado=5]',
-                callback: contextMenuClick,
-                items: {
-                    "confirmado": { name: "Confirmado", icon: "" },
-                    "asistio": { name: "Asistio", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" },
-                    "datosTurno": { name: "Turno", icon: "" }
+                build: function ($triggerElement, e) {
+                    return {
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: "" + $triggerElement[0].title, icon: "", className: 'font-weight-bold' },
+                            "sep2": "---------",
+                            "confirmado": { name: "Confirmado", icon: "" },
+                            "asistio": { name: "Asistio", icon: "" },
+                            "sep1": "---------",
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" }
+                        }
+                    };
                 }
             });
             $.contextMenu({
@@ -769,8 +784,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 case 'datosPaciente':
                     showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
+                case 'paciente':
+                    showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
+                    break;
                 case 'datosSesiones':
-                    DatosSesiones;
                     showModalAngularComponent('#DatosSesiones', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     break;
                 case 'datosTurno':
@@ -927,7 +944,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
     }
     function getDivTurno(divId, _sesion) {
-        var divCelda = "<div id=" + divId + " class=\"div-turno h-100 align-middle\"\n                            style=\"background-color:" + (_sesion.Estado == 7 ? 'blue' : _sesion.AseguradoraColor) + ";\n                            color:" + (_sesion.Estado == 7 ? '#fff' : '#000') + "\"\n                            draggable=\"" + (_sesion.Estado == 2 ? true : false) + "\"\n                            data-id=" + _sesion.ID + " data-estado=" + _sesion.Estado + "\n                            data-turnoid=" + _sesion.TurnoID + " data-estadoturno=" + _sesion.EstadoTurno + "\n                            data-pacienteid=" + _sesion.PacienteId + "\n                            data-numero=" + _sesion.Numero + "\n                            title=\"" + _sesion.Paciente + "\">\n                            " + getDivTurnoInnerHTML(_sesion) + "</div>";
+        var divCelda = "<div id=" + divId + " class=\"div-turno h-100 align-middle\"\n                            style=\"background-color:" + (_sesion.Estado == 7 ? 'blue' : _sesion.AseguradoraColor) + ";\n                            color:" + (_sesion.Estado == 7 ? '#fff' : '#000') + "\"\n                            draggable=\"" + (_sesion.Estado == 2 ? true : false) + "\"\n                            data-id=" + _sesion.ID + " data-estado=" + _sesion.Estado + "\n                            data-turnoid=" + _sesion.TurnoID + " data-estadoturno=" + _sesion.EstadoTurno + "\n                            data-pacienteid=" + _sesion.PacienteId + "\n                            data-numero=" + _sesion.Numero + "                            \n                            title=\"" + _sesion.Paciente + "\">\n                            " + getDivTurnoInnerHTML(_sesion) + "</div>";
         return divCelda;
     }
     function getDivTurnoInnerHTML(_sesion) {

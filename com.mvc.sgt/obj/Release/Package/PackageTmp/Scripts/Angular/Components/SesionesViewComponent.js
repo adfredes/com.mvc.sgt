@@ -230,7 +230,7 @@
 
         vm.sendTurnoWhatsapp = () => {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
-            //console.log(turnoService.linkWhatsapp(vm.turno, vm.paciente));
+            
         };
     }
 })();

@@ -6,16 +6,27 @@
         let $this = this;
 
         $this.Notify = (title, message, parentEl) => {
-            return $mdDialog.show(
-                $mdDialog.alert()
-                    .parent(parentEl.children())
-                    .clickOutsideToClose(true)
-                    .title(title)
-                    .textContent(message)
-                    .ariaLabel('Alert Dialog')
-                    .ok('Aceptar')
-                    .multiple(true)
-            );
+            let notify = $mdDialog.alert()
+                .parent(parentEl.children())
+                .clickOutsideToClose(true)
+                .title(title)
+                .textContent(message)
+                .ariaLabel('Alert Dialog')
+                .ok('Aceptar')
+                .multiple(true);
+
+            return $mdDialog.show(notify);
+        };
+
+        $this.showConfirm = function (title, message, okText, cancelText, parentEl) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            let confirm = $mdDialog.confirm()
+                .title(title)
+                .textContent(message)
+                .ariaLabel('Confirm Dialog')                
+                .ok(okText)
+                .cancel(cancelText);
+            return $mdDialog.show(confirm);
         };
     }
 }

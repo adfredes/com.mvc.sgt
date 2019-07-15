@@ -1,8 +1,8 @@
 ﻿(function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller('agendaController', ['crudService', agendaController]);
+    sgtApp.controller('agendaController', ['crudService', 'messageService', '$element', agendaController]);
    
-    function agendaController (crudService) {
+    function agendaController(crudService, messageService, $element) {
         var vm = this;                
         vm.feriado = {};
         vm.receso = {};
@@ -47,7 +47,7 @@
             crudService.GetPHttp(_url)
                 .then(data => {
                 vm.bloqueos = JSON.parse(data);
-                console.dir(JSON.parse(data));
+                
                 })
                 .catch(err => vm.bloqueos = {});
         };
@@ -60,17 +60,20 @@
         };
 
         vm.EditFeriado = function (feriado) {
-            console.dir(feriado.Fecha);
+            
             feriado.Fecha = moment(feriado.Fecha).toDate();
             let nferiado = JSON.parse(JSON.stringify(feriado));
             vm.feriado = nferiado;
         };
 
-        vm.DeleteFeriado = (feriado) => {
-            feriado.Habilitado = false;
-            feriado.Fecha = moment(feriado.Fecha).toDate();
-            var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', feriado);
-            promise.then(data => vm.GetFeriados());                                
+        vm.DeleteFeriado = (feriado) => {            
+            messageService.showConfirm('Feriados', 'Esta seguro que desea eliminar el feriado?', 'Aceptar', 'Cancelar', $element)
+                .then(() => {
+                    feriado.Habilitado = false;
+                    feriado.Fecha = moment(feriado.Fecha).toDate();
+                    var promise = crudService.PostHttp('/Agenda/CreateOrEditFeriado', feriado);
+                    promise.then(data => vm.GetFeriados());
+                });            
         };
 
         vm.CreateFeriado = function (feriado) {
@@ -83,9 +86,12 @@
         };
 
         vm.DeleteReceso = receso => {
-            receso.Habilitado = false;
-            var promise = crudService.PostHttp('/Agenda/CreateOrEditReceso', receso);
-            promise.then(data => vm.GetRecesos());            
+            messageService.showConfirm('Recesos', 'Esta seguro que desea eliminar el receso?', 'Aceptar', 'Cancelar', $element)
+                .then(() => {
+                    receso.Habilitado = false;
+                    var promise = crudService.PostHttp('/Agenda/CreateOrEditReceso', receso);
+                    promise.then(data => vm.GetRecesos());            
+                });                        
         };
 
         vm.CreateReceso = function (feriado) {
@@ -103,9 +109,12 @@
         
 
         vm.DeleteBloqueo = bloqueo => {
-            bloqueo.Habilitado = false;
-            var promise = crudService.PostHttp('/Agenda/CreateOrEditBloqueo', bloqueo);
-            promise.then(data => vm.GetBloqueos());            
+            messageService.showConfirm('Bloqueos', 'Esta seguro que desea eliminar el bloqueo?', 'Aceptar', 'Cancelar', $element)
+                .then(() => {
+                    bloqueo.Habilitado = false;
+                    var promise = crudService.PostHttp('/Agenda/CreateOrEditBloqueo', bloqueo);
+                    promise.then(data => vm.GetBloqueos());
+                });
         };
 
         vm.CreateBloqueo = () => vm.bloqueo = {};
