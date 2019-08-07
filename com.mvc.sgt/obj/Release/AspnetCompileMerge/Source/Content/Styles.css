@@ -19,6 +19,15 @@ span.btn.ng-hide{
     opacity:0;
 }
 
+.ref-dia{
+    padding:0.2rem;
+}
+
+.ref-dia:hover {
+    cursor: pointer;    
+    font-weight: 600;
+}
+
 .notification-bar {
     display: flex;
     flex-direction: row-reverse;
@@ -31,13 +40,16 @@ span.btn.ng-hide{
     transition: all 0.4s;
 }
 
+.context-menu-list, .datepicker {
+    z-index: 2000 !important;
+}
+
 /*search-paciente{
     position: fixed;
     top:0px;
     right: 0px;
     z-index: 2000;
 }*/
-
 table, tr, td {
     font-size: 0.8rem !important;
 }

@@ -17,8 +17,8 @@ namespace com.mvc.sgt.Controllers
     public class PacienteController : Controller
     {
 
-        private readonly IPacienteService pacienteService;
-        
+        private readonly IPacienteService pacienteService;        
+
         public PacienteController(IPacienteService pacienteService)
         {
             this.pacienteService = pacienteService;
@@ -44,17 +44,20 @@ namespace com.mvc.sgt.Controllers
             var model = new List<DiagnosticoModel>();
             var paciente = this.pacienteService.Find(id);
             Response.StatusCode = (int) HttpStatusCode.OK;
-            if (paciente != null) { 
-            paciente.Turnoes
-                .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0)
-                .OrderBy(p => p.Fecha).ToList()
-                .ForEach(t => model.Add(new DiagnosticoModel
-                {
-                    Fecha = t.Fecha,
-                    Diagnostico = t.Diagnostico
+            if (paciente != null) {
+                paciente.Turnoes
+                    .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0)
+                    .ToList()
+                    .ForEach(t => model.Add(new DiagnosticoModel
+                    {
+                        Fecha = t.Sesions.FirstOrDefault(s => s.Estado < 9 && s.Numero == 1).FechaHora,
+                        Diagnostico = t.Diagnostico,
+                        CodigoPractica = t.CodigoPractica,
+                        TurnoID = t.ID,
+                        Tipo = t.TipoSesionID
                 }));
             }
-            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(model.OrderByDescending(x=>x.Fecha).ToList()), JsonRequestBehavior.AllowGet);
         }
 
         [Route("Paciente/Listar/{page}/{count}")]

@@ -220,6 +220,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             });
         });
     }
+    function redibujarGrilla() {
+        renderGrilla();
+        renderReservado();
+        setCeldasDroppable();
+        setDivsDraggable();
+        removeContextMenu();
+        setContextMenu();
+        options.tabla.querySelector('#btnPrintDia').addEventListener('click', function (e) { return createPDF(options.tabla); });
+    }
     function renderListaReservas() {
         var btnDivReservasCancelar_click = function (e) {
             e.preventDefault();
@@ -227,12 +236,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             options.sesionesReservadas.forEach(function (e) { return deleteSesionGrilla(options.tabla.querySelector('#' + SesionToCeldaId(e))); });
             options.sesionesReservadas = [];
             renderListaReservas();
+            redibujarGrilla();
         };
         var btnCantidadSesionesModal_click = function (e) {
             e.preventDefault();
             e.stopPropagation();
             e.target.removeEventListener('click', btnCantidadSesionesModal_click);
             $("#cantidadSesionesModal").modal("hide");
+            var sobreturnos = [];
             var _turno = {
                 "PacienteID": null,
                 "Estado": 1,
@@ -244,22 +255,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 "Fecha": new Date(),
                 "Sesions": []
             };
-            options.sesionesReservadas.forEach(function (s, i) { return s.sesiones.forEach(function (se) {
-                var _sesion = {
-                    "AgendaID": 1,
-                    "TurnoID": null,
-                    "Numero": i + 1,
-                    "ConsultorioID": se.ConsultorioID,
-                    "TurnoSimultaneo": se.TurnoSimultaneo,
-                    "Estado": se.Estado,
-                    "FechaHora": parseFechaHora(se.fecha, se.hora),
-                    "Habilitado": true,
-                    "UsuarioModificacion": null,
-                    "FechaModificacion ": null
-                };
-                _turno.Sesions.push(_sesion);
-            }); });
-            var promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', _turno);
+            options.sesionesReservadas.forEach(function (s, i) {
+                s.sesiones.forEach(function (se) {
+                    var _sesion = {
+                        "AgendaID": 1,
+                        "TurnoID": null,
+                        "Numero": i + 1,
+                        "ConsultorioID": se.ConsultorioID,
+                        "TurnoSimultaneo": se.TurnoSimultaneo,
+                        "Estado": se.Estado,
+                        "FechaHora": parseFechaHora(se.fecha, se.hora),
+                        "Habilitado": true,
+                        "UsuarioModificacion": null,
+                        "FechaModificacion ": null
+                    };
+                    _turno.Sesions.push(_sesion);
+                });
+                if (s.sobreturno) {
+                    sobreturnos.push(i + 1);
+                }
+            });
+            var params = {};
+            params.model = _turno;
+            params.sobreturnos = sobreturnos;
+            var promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
             promise.then(function (data) {
                 var turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
@@ -479,7 +498,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             "posponer": { name: "Posponer", icon: "" },
                             "sep2": "---------",
                             "datosSesiones": { name: "Sesiones", icon: "" },
-                            "datosTurno": { name: "Turno", icon: "" }
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
                         }
                     };
                 }
@@ -496,7 +529,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             "noAsistio": { name: "No Asistio", icon: "" },
                             "sep1": "---------",
                             "datosSesiones": { name: "Sesiones", icon: "" },
-                            "datosTurno": { name: "Turno", icon: "" }
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
                         }
                     };
                 }
@@ -513,7 +560,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                             "asistio": { name: "Asistio", icon: "" },
                             "sep1": "---------",
                             "datosSesiones": { name: "Sesiones", icon: "" },
-                            "datosTurno": { name: "Turno", icon: "" }
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    var disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
                         }
                     };
                 }
@@ -713,6 +774,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 options.sesionesReservadas = options.sesionesReservadas.filter(function (sesion) { return sesion.fecha != id_1.fecha || sesion.hora != id_1.hora
                     || sesion.ConsultorioID != id_1.ConsultorioID || sesion.TurnoSimultaneo != id_1.TurnoSimultaneo; });
                 renderListaReservas();
+                redibujarGrilla();
             }
         }
         function CancelarBloqueo(opt) {
@@ -793,6 +855,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 case 'datosTurno':
                     showModalAngularComponent('#sesionesPacienteModal', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     break;
+                case 'sobreTurno':
+                    var parentNode = opt.$trigger[0].parentNode;
+                    var _cantidad = parseInt(parentNode.rowSpan);
+                    if (!validarReserva(parentNode.id)) {
+                        showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
+                    }
+                    else {
+                        var _celdaID = CeldaIdToObject(parentNode.id);
+                        console.dir(_celdaID);
+                        parentNode.dataset.sobreturno = "true";
+                        var _hora = _celdaID.hora;
+                        var sesionReserva = {
+                            "AgendaID": 1,
+                            "Aseguradora": "",
+                            "AseguradoraColor": "lightpink",
+                            "ConsultorioID": _celdaID.ConsultorioID,
+                            "Estado": 1,
+                            "FechaModificacion": new Date(),
+                            "Habilitado": true,
+                            "Numero": options.sesionesReservadas.length + 1,
+                            "Paciente": "",
+                            "PacienteID": "",
+                            "Plan": "",
+                            "TurnoID": 0,
+                            "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                            "UsuarioModificacion": "",
+                            "fecha": _celdaID.fecha,
+                            "hora": _hora,
+                            "sobreturno": true
+                        };
+                        sesionReserva.sesiones = [];
+                        for (var c = 0; c < _cantidad; c++) {
+                            sesionReserva.sesiones.push({
+                                "AgendaID": 1,
+                                "Aseguradora": "",
+                                "AseguradoraColor": "lightpink",
+                                "ConsultorioID": _celdaID.ConsultorioID,
+                                "Estado": 1,
+                                "FechaModificacion": new Date(),
+                                "Habilitado": true,
+                                "Numero": options.sesionesReservadas.length + 1,
+                                "Paciente": "",
+                                "PacienteID": "",
+                                "Plan": "",
+                                "TurnoID": 0,
+                                "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                                "UsuarioModificacion": "",
+                                "fecha": _celdaID.fecha,
+                                "hora": _hora
+                            });
+                            _hora = sesionSiguiente(_hora);
+                        }
+                        renderSesion(sesionReserva);
+                        options.sesionesReservadas.push(sesionReserva);
+                        renderListaReservas();
+                    }
+                    break;
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
                     var btn = modal.querySelector('#btnPosponerTurno');
@@ -823,7 +942,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var totalCol = 0;
         tablaInner += "<tr><td rowspan=\"2\" style=\"width:auto;margin:0px;padding:0px\">Hora</td>";
         options.dias.forEach(function (d) {
-            tablaInner += "<td colspan=" + getTotalConsultorios(options.consultorios) + " class=\"center\"><span class='etiqueta-dia'>" + d.Name + "</span> <br> <a href=\"#\" class='ref-dia' data-fecha=\"" + d.Fecha + "\">" + d.Fecha + "</a></td>";
+            tablaInner += "<td colspan=" + getTotalConsultorios(options.consultorios) + " class=\"center ref-dia etiqueta-dia\" data-fecha=\"" + d.Fecha + "\">" + d.Name + "<br>" + d.Fecha + "</td>";
         });
         tablaInner += "</tr><tr>";
         options.dias.forEach(function (d) {

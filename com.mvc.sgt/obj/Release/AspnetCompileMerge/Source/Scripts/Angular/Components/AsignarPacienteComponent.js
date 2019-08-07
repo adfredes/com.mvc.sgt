@@ -29,7 +29,7 @@
 
         vm.getNombreConsultorio = (idConsultorio) => turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios);
 
-        vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente, vm.Consultorios, vm.Estados);
+        vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente);
 
 
         let getEstados = () => {

@@ -542,6 +542,132 @@ namespace com.sgt.services.Services
             return turno;
         }
 
+        public Turno ReservarSesiones(Turno turno, List<int> sobreturnos=null)
+        {            
+            int cantidadSesionesAsignadas = turno.Sesions.Max(x => x.Numero);
+            var consultorios = unitOfWork.RepoConsultorio.GetAll().ToList();
+            turno.Estado = (short)EstadoTurno.Reservado;
+
+            var tiposSesiones = turno.Sesions
+                .Select(x => consultorios.FirstOrDefault(c => c.ID == x.ConsultorioID).TipoSesionID)
+                .Distinct();
+
+            if (tiposSesiones.Count() == 1)
+            {
+                turno.TipoSesionID = tiposSesiones.FirstOrDefault();
+            }
+            else
+            {
+                turno.TipoSesionID = tiposSesiones.Min();
+            }
+
+            turno.Turno_Repeticiones = LogicaTurnoRepeticiones(turno.Sesions.ToList()).ToList();
+
+            turno.Turno_Repeticiones.ToList().ForEach(r =>
+            {
+                r.UsuarioModificacion = turno.UsuarioModificacion;
+                r.FechaModificacion = turno.FechaModificacion;
+            });
+
+            if (turno.CantidadSesiones > cantidadSesionesAsignadas)
+            {
+
+                var diasSemana = turno.Sesions
+                    .GroupBy(x => new { x.FechaHora.DayOfWeek, x.Numero })
+                    .Select(x => x.Key)
+                    .OrderBy(x => x.Numero);
+
+                for (int nroSesion = cantidadSesionesAsignadas + 1; nroSesion <= turno.CantidadSesiones; nroSesion++)
+                {
+                    getNextDay(turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList())
+                        .ForEach(s =>
+                        {
+                            s.AgendaID = turno.Sesions.ToList()[0].AgendaID;
+                            s.Estado = (short)EstadoSesion.Reservado;
+                            s.Habilitado = true;
+                            s.Numero = (short)nroSesion;
+                            s.TurnoID = 0;
+                            s.TurnoSimultaneo = 0;
+                            turno.Sesions.Add(s);
+                        });
+                }
+
+            }
+
+            var sesiones = turno.Sesions
+                .GroupBy(x => x.Numero)
+                .Select(x => x.Key)
+                .OrderBy(x => x);
+
+
+            turno.Sesions.ToList().ForEach(s =>
+            {
+                s.UsuarioModificacion = turno.UsuarioModificacion;
+                s.FechaModificacion = turno.FechaModificacion;
+                s.Estado = (short)EstadoSesion.Reservado;
+            });
+
+            //CantidadSesiones
+
+
+            //Valido sesiones y establezco sin fecha libre a las que dan error
+            
+            sesiones.ToList().ForEach(se =>
+            {
+                if (sobreturnos == null || !sobreturnos.Contains(se))
+                {
+                    DateTime beginDate = turno.Sesions.Where(x => x.Numero == (short)se).Min(x => x.FechaHora);
+                    DateTime endDate = turno.Sesions.Where(x => x.Numero == (short)se).Max(x => x.FechaHora);
+                    int idconsultorio = turno.Sesions.Where(s => s.Numero == se).Max(s => s.ConsultorioID);
+                    short simultaneo = 0;
+
+                    int? tipoSesionId = consultorios.Where(x => x.ID == idconsultorio)
+                                .Max(x => x.TipoSesionID);
+
+                    idconsultorio = 0;
+                    consultorios.Where(x => x.TipoSesionID == tipoSesionId).ToList()
+                        .ForEach(x =>
+                        {
+                            if (idconsultorio == 0)
+                            {
+                                simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, x.ID);
+                                if (simultaneo > 0)
+                                {
+                                    idconsultorio = simultaneo > 0 ? x.ID : 0;
+                                    turno.Sesions.Where(tu => tu.Numero == se).ToList()
+                                        .ForEach(tu =>
+                                        {
+                                            tu.TurnoSimultaneo = simultaneo;
+                                            tu.ConsultorioID = idconsultorio;
+                                        });
+                                }
+
+                            }
+                        });
+
+                    //modificado
+                    if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList(), turno.TurnoDoble.HasValue))
+                    {
+                        turno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+                    }
+                }
+                else
+                {
+                    if (!ValidarNuevasSesiones(turno.Sesions.Where(x => x.Numero == (short)se).ToList(), turno.TurnoDoble.HasValue, true))
+                    {
+                        turno.Sesions.Where(x => x.Numero == (short)se).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+                    }
+                }
+
+            });
+
+            turno.Sesions.Where(x => x.TurnoSimultaneo == 0).ToList().ForEach(s => s.Estado = (short)EstadoSesion.SinFechaLibre);
+            turno = unitOfWork.RepoTurno.Add(turno);
+
+
+            return turno;
+        }
+
         //public Turno ReservarSesiones(Turno turno)
         //{
         //    int cantidadSesionesAsignadas = turno.Sesions.Max(x => x.Numero);
@@ -1865,8 +1991,12 @@ namespace com.sgt.services.Services
                 body += "<td>" + estado.Descripcion + "</td>";
                 body += "</tr>";
             }
-            body += "</tbody>";
-            body += "</table></body></html>";
+            body += "</tbody></table>";
+            body += "<br><br>";
+            body += "<p>En caso de ausencia con aviso previo de 24hs, se reprogramarán <strong>SÓLO</strong> dos sesiones de las asignadas.</p>";
+            body += "<p>La ausencia sin previo aviso se computará la sesión.</p>";
+            body += "<p>Ante la segunda ausencia sin aviso, se cancelarán <strong>TODOS</strong> los turnos subsiguiente</p>";
+            body += "</body></html>";
             return body;
         }
 

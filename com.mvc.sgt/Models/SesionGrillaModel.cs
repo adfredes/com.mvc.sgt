@@ -13,7 +13,7 @@ namespace com.mvc.sgt.Models
         public int EstadoTurno { get; set; }
         public short Numero { get; set; }
         public int CantidadSesiones { get; set; }
-        public string Diagnostico { get; set; }
+        public string Diagnostico { get; set; }        
 
         public int ConsultorioID { get; set; }
         public short TurnoSimultaneo { get; set; }

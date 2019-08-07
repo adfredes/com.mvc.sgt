@@ -39,18 +39,19 @@
                 dateValue.setMinutes(dateValue.getMinutes() + 30 * sesiones);
             return angular.isDate(dateValue) ? $this.addZero(dateValue.getHours()) + ':' + $this.addZero(dateValue.getMinutes()) : '';
         };
-        $this.turnoPrint = function (turno, paciente, Consultorios, Estados) {
+        $this.turnoPrint = function (turno, paciente) {
             var body = [];
             var estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(function (sesion) {
                 var row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
+                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
                     body.push(row);
                 }
             });
-            body.unshift(['Fecha', 'Horario']);
+            body.unshift(['#', 'Fecha', 'Horario']);
             var headerText = "Turno: " + turno.ID + " - " + paciente.Apellido + ", " + paciente.Nombre;
             pdfService.CreateTurnoPdf(body, headerText);
         };
@@ -368,17 +369,25 @@
             })
                 .catch(function () { return success(false); });
         };
+        var getNumeroSesionWp = function (numero) {
+            var resu = numero.toString();
+            resu = numero < 10 ? '0' + numero.toString() : numero.toString();
+            return resu;
+        };
         $this.linkWhatsapp = function (turno, paciente) {
             var body = [];
             var estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(function (sesion) {
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    var row = $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%09" + $this.toHour(sesion.FechaHora) + "%0A";
+                    var row = getNumeroSesionWp(sesion.Numero) + "%20%20%20%20%09" + $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%20%20%20%20%09" + $this.toHour(sesion.FechaHora) + "%0A";
                     row = convertirCaracteresFecha(row);
                     body.push(row);
                 }
             });
-            body.unshift("Turno%20kinesiologia%3A%0A%0A");
+            body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
+            body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
+            body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
+            body.unshift("*Turno%20kinesiolog\u00EDa%3A*%0A%0A");
             var wLink = "https://wa.me/54" + paciente.Celular + "?text=";
             body.forEach(function (linea) { return wLink += linea; });
             return wLink;

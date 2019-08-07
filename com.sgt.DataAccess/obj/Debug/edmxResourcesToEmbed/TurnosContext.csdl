@@ -746,6 +746,7 @@
     <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
     <Property Name="TipoSesionID" Type="Int32" />
     <Property Name="TurnoDoble" Type="Int32" />
+    <Property Name="CodigoPractica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />

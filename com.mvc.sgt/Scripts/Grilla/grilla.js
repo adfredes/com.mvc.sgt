@@ -18,22 +18,22 @@
     };
 
     let showModalAngularComponent = (modalName, elementName, value) => {
-        
-        modal = options.divGrilla.querySelector(modalName);        
+
+        modal = options.divGrilla.querySelector(modalName);
         if (modal) {
             if (Array.isArray(elementName)) {
-                
+
                 for (let pos = 0; pos < elementName.length; pos++) {
-                    let elementID = modal.querySelector(elementName[pos]);                    
-                    if (elementID) {                        
-                            let evt = document.createEvent("HTMLEvents");
-                            evt.initEvent("input", false, true);
-                            if (elementID.value == value[pos]) {
-                                elementID.value = 0;
-                                elementID.dispatchEvent(evt);
-                            }
-                            elementID.value = value[pos];
-                            elementID.dispatchEvent(evt);                                                                     
+                    let elementID = modal.querySelector(elementName[pos]);
+                    if (elementID) {
+                        let evt = document.createEvent("HTMLEvents");
+                        evt.initEvent("input", false, true);
+                        if (elementID.value == value[pos]) {
+                            elementID.value = 0;
+                            elementID.dispatchEvent(evt);
+                        }
+                        elementID.value = value[pos];
+                        elementID.dispatchEvent(evt);
                     }
                 }
                 $(modalName).modal("show");
@@ -55,7 +55,7 @@
                     $(modalName).modal("show");
                 }
             }
-            
+
         }
     };
 
@@ -78,7 +78,7 @@
     //    dibujarGrilla();
     //};
 
-    let btnVistaDiaSemana_Click = (e) => {        
+    let btnVistaDiaSemana_Click = (e) => {
         e.preventDefault();
         e.stopPropagation();
         options.fechaDia = new Date();
@@ -101,16 +101,16 @@
 
         let btnHoy = document.querySelector('#btnVistaHoy');
         //let btnProximo = document.querySelector('#btnVistaProximo');
-        let btnSemanal = document.querySelector('#btnVistaSemanal');  
+        let btnSemanal = document.querySelector('#btnVistaSemanal');
 
         let btnsNavegacion = document.querySelectorAll("button[data-dia]");
-        
+
         if (btnsNavegacion) {
             for (i = 0; i < btnsNavegacion.length; i++) {
                 btnsNavegacion[i].addEventListener('click', btnVistaDiaSemana_Click);
             }
         }
-        
+
 
         btnHoy.addEventListener('click', btnVistaHoy_Click);
         //btnProximo.addEventListener('click', btnVistaProximo_Click);
@@ -217,6 +217,17 @@
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
     }
 
+    function redibujarGrilla() {
+        renderGrilla();
+        renderReservado();
+        setCeldasDroppable();
+        setDivsDraggable();
+        //options.divGrilla.querySelector('.procesando').style.display = 'none';
+        removeContextMenu();
+        setContextMenu();
+        options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
+    }
+
     function renderListaReservas() {
         let btnDivReservasCancelar_click = e => {
             e.preventDefault();
@@ -224,6 +235,7 @@
             options.sesionesReservadas.forEach(e => deleteSesionGrilla(options.tabla.querySelector('#' + SesionToCeldaId(e))));
             options.sesionesReservadas = [];
             renderListaReservas();
+            redibujarGrilla();
         };
 
         let btnCantidadSesionesModal_click = e => {
@@ -231,6 +243,7 @@
             e.stopPropagation();
             e.target.removeEventListener('click', btnCantidadSesionesModal_click);
             $("#cantidadSesionesModal").modal("hide");
+            let sobreturnos = [];
             let _turno = {
                 "PacienteID": null,
                 "Estado": 1,
@@ -243,24 +256,33 @@
                 "Sesions": []
             };
 
-            options.sesionesReservadas.forEach((s, i) => s.sesiones.forEach(se => {
-                let _sesion = {
-                    "AgendaID": 1,
-                    "TurnoID": null,
-                    "Numero": i + 1,
-                    "ConsultorioID": se.ConsultorioID,
-                    "TurnoSimultaneo": se.TurnoSimultaneo,
-                    "Estado": se.Estado,
-                    "FechaHora": parseFechaHora(se.fecha, se.hora),
-                    "Habilitado": true,
-                    "UsuarioModificacion": null,
-                    "FechaModificacion ": null
-                };
-                _turno.Sesions.push(_sesion);
-            }));
+            options.sesionesReservadas.forEach((s, i) => {
+                s.sesiones.forEach(se => {
+                    let _sesion = {
+                        "AgendaID": 1,
+                        "TurnoID": null,
+                        "Numero": i + 1,
+                        "ConsultorioID": se.ConsultorioID,
+                        "TurnoSimultaneo": se.TurnoSimultaneo,
+                        "Estado": se.Estado,
+                        "FechaHora": parseFechaHora(se.fecha, se.hora),
+                        "Habilitado": true,
+                        "UsuarioModificacion": null,
+                        "FechaModificacion ": null
+                    };
+                    _turno.Sesions.push(_sesion);
+                });
+                if (s.sobreturno) {
+                    sobreturnos.push(i + 1);
+                }
+            });
 
-            let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', _turno);
-            promise.then(data => {                                
+            let params = {};
+            params.model = _turno;
+            params.sobreturnos = sobreturnos;
+
+            let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
+            promise.then(data => {
                 let turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
                 renderListaReservas();
@@ -349,9 +371,9 @@
         $('#ddatepickerP').datepicker()
             .on('changeDate', function (e) {
                 //options.fecha = e.target.getDate()
-                
-                    options.fechaDia = $('#ddatepickerP').datepicker('getDate');
-                    options.fecha = $('#ddatepickerP').datepicker('getDate');                
+
+                options.fechaDia = $('#ddatepickerP').datepicker('getDate');
+                options.fecha = $('#ddatepickerP').datepicker('getDate');
                 dibujarGrilla();
             });
 
@@ -538,29 +560,43 @@
 
             $.contextMenu({
                 selector: '.div-turno[data-estado=2]',
-                build: function ($triggerElement, e) {                    
+                build: function ($triggerElement, e) {
                     return {
-                        callback: contextMenuClick,                        
-                            items: {
-                                "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
-                                "sep1": "---------",
-                                "asistio": { name: "Asistio", icon: "" },
-                                "noAsistio": { name: "No Asistio", icon: "" },
-                                "anularSesion": { name: "Cancelar Sesion", icon: "" },
-                                "cambiarTurno": { name: "CambiarTurno", icon: "" },
-                                "posponer": { name: "Posponer", icon: "" },
-                                "sep2": "---------",
-                                //"datosPaciente": { name: "Paciente", icon: "" },
-                                "datosSesiones": { name: "Sesiones", icon: "" },
-                                "datosTurno": { name: "Turno", icon: "" }
-                            }                        
+                        callback: contextMenuClick,
+                        items: {
+                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "sep1": "---------",
+                            "asistio": { name: "Asistio", icon: "" },
+                            "noAsistio": { name: "No Asistio", icon: "" },
+                            "anularSesion": { name: "Cancelar Sesion", icon: "" },
+                            "cambiarTurno": { name: "CambiarTurno", icon: "" },
+                            "posponer": { name: "Posponer", icon: "" },
+                            "sep2": "---------",
+                            //"datosPaciente": { name: "Paciente", icon: "" },
+                            "datosSesiones": { name: "Sesiones", icon: "" },
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
+                        }
                     };
-                }                                
+                }
             });
 
             //Asistio
             $.contextMenu({
-                selector: '.div-turno[data-estado=4]',                
+                selector: '.div-turno[data-estado=4]',
                 build: function ($triggerElement, e) {
                     return {
                         callback: contextMenuClick,
@@ -572,10 +608,24 @@
                             "sep1": "---------",
                             //"datosPaciente": { name: "Paciente", icon: "" },
                             "datosSesiones": { name: "Sesiones", icon: "" },
-                            "datosTurno": { name: "Turno", icon: "" }
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
                         }
                     };
-                }                                
+                }
             });
 
             //No Asistio
@@ -592,10 +642,24 @@
                             "sep1": "---------",
                             //"datosPaciente": { name: "Paciente", icon: "" },
                             "datosSesiones": { name: "Sesiones", icon: "" },
-                            "datosTurno": { name: "Turno", icon: "" }
+                            "datosTurno": { name: "Turno", icon: "" },
+                            "sep3": {
+                                "type": "cm_separator",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            },
+                            "sobreTurno": {
+                                name: "Sobre Turno",
+                                visible: function (key, opt) {
+                                    let disable = opt.$trigger[0].parentNode.dataset.sobreturno == "true" ? false : true;
+                                    return disable;
+                                }
+                            }
                         }
                     };
-                }                                
+                }
             });
 
             //Bloqueado
@@ -868,6 +932,8 @@
                 options.sesionesReservadas = options.sesionesReservadas.filter(sesion => sesion.fecha != id.fecha || sesion.hora != id.hora
                     || sesion.ConsultorioID != id.ConsultorioID || sesion.TurnoSimultaneo != id.TurnoSimultaneo);
                 renderListaReservas();
+
+                redibujarGrilla();
             }
 
         }
@@ -962,7 +1028,7 @@
                     showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
 
-                case 'datosSesiones':                    
+                case 'datosSesiones':
                     //showModalAngularComponent('#sesionesPacienteModal', '#PacienteID', opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#DatosSesiones', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     break;
@@ -970,6 +1036,76 @@
                 case 'datosTurno':
                     showModalAngularComponent('#sesionesPacienteModal', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     //showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', opt.$trigger[0].dataset.turnoid);
+                    break;
+
+                case 'sobreTurno':
+                    let parentNode = opt.$trigger[0].parentNode;
+                    let _cantidad = parseInt(parentNode.rowSpan);
+                    if (!validarReserva(parentNode.id)) {
+                        showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
+                    }
+                    else {
+                        let _celdaID = CeldaIdToObject(parentNode.id);
+                        console.dir(_celdaID);
+                        parentNode.dataset.sobreturno = "true";
+                        let _hora = _celdaID.hora;
+                        let sesionReserva = {
+                            "AgendaID": 1,
+                            "Aseguradora": "",
+                            "AseguradoraColor": "lightpink",
+                            "ConsultorioID": _celdaID.ConsultorioID,
+                            "Estado": 1,
+                            //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
+                            "FechaModificacion": new Date(),
+                            "Habilitado": true,
+                            "Numero": options.sesionesReservadas.length + 1,
+                            "Paciente": "",
+                            "PacienteID": "",
+                            "Plan": "",
+                            "TurnoID": 0,
+                            "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                            "UsuarioModificacion": "",
+                            "fecha": _celdaID.fecha,
+                            "hora": _hora,
+                            "sobreturno": true
+                        };
+
+                        sesionReserva.sesiones = [];
+
+                        for (let c = 0; c < _cantidad; c++) {
+                            sesionReserva.sesiones.push({
+                                "AgendaID": 1,
+                                "Aseguradora": "",
+                                "AseguradoraColor": "lightpink",
+                                "ConsultorioID": _celdaID.ConsultorioID,
+                                "Estado": 1,
+                                //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
+                                "FechaModificacion": new Date(),
+                                "Habilitado": true,
+                                "Numero": options.sesionesReservadas.length + 1,
+                                "Paciente": "",
+                                "PacienteID": "",
+                                "Plan": "",
+                                "TurnoID": 0,
+                                "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                                "UsuarioModificacion": "",
+                                "fecha": _celdaID.fecha,
+                                "hora": _hora
+                            });
+                            _hora = sesionSiguiente(_hora);
+                        }
+                        //    //if (validarSesiones(sesionReserva.sesiones)) {
+                        renderSesion(sesionReserva);
+                        options.sesionesReservadas.push(sesionReserva);
+                        renderListaReservas();
+
+                        //    //}
+                        //    //else {
+                        //    //    $('#bloquearReservarModal').modal('hide');
+                        //    //    showErrorMessage('Reservas', 'Existen sesiones ya asignadas a su seleccion.');
+                        //    //}
+
+                    }
                     break;
 
                 case 'posponer':
@@ -1034,7 +1170,8 @@
         let totalCol = 0;
         tablaInner += `<tr><td rowspan="2" style="width:auto;margin:0px;padding:0px">Hora</td>`;
         options.dias.forEach(d => {
-            tablaInner += `<td colspan=${getTotalConsultorios(options.consultorios)} class="center"><span class='etiqueta-dia'>${d.Name}</span> <br> <a href="#" class='ref-dia' data-fecha="${d.Fecha}">${d.Fecha}</a></td>`;
+            tablaInner += `<td colspan=${getTotalConsultorios(options.consultorios)} class="center ref-dia etiqueta-dia" data-fecha="${d.Fecha}">${d.Name}<br>${d.Fecha}</td>`;
+            //tablaInner += `<td colspan=${getTotalConsultorios(options.consultorios)} class="center"><span class='etiqueta-dia'>${d.Name}</span> <br> <a href="#" class='ref-dia' data-fecha="${d.Fecha}">${d.Fecha}</a></td>`;
         });
 
         tablaInner += `</tr><tr>`;
@@ -1164,7 +1301,7 @@
                         celda.classList.add('turno-tomado');
                         celda.dataset.estado = sesion.Estado;
                         celda.classList.remove('turno-vacio');
-                        celda.dataset.parentid = idCelda;                       
+                        celda.dataset.parentid = idCelda;
                         celda.dataset.sobreturno = sesion.DobleOrden ? "true" : "false";
                         celda.dataset.print = celda.dataset.print ? celda.dataset.print + '\n' : "";
                         celda.dataset.print += sesion.Estado == 7 ? 'BLOQUEADO' : sesion.Estado == 1 ? 'RESERVADO' :

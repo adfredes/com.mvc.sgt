@@ -10,7 +10,8 @@
         bindings: {
             paciente: "<?",
             parent: "<?",
-            onClose: "&?"
+            onClose: "&?",
+            onAdddiagnostico: "&?"
         }
     });
     sgtApp.component('datosSesiones', {
@@ -71,19 +72,7 @@
             return vm.Consultorios.find(function (consultorio) { return consultorio.ID === idConsultorio; }).Descripcion;
         };
         vm.turnoPrint = function (turno) {
-            var body = [];
-            var estadosImprimible = [2, 4, 5];
-            turno.Sesions.forEach(function (sesion) {
-                var row = [];
-                if (estadosImprimible.includes(sesion.Estado)) {
-                    row.push(vm.toDate(sesion.FechaHora));
-                    row.push(vm.toHourRange(sesion.FechaHora, sesion.sesiones));
-                    body.push(row);
-                }
-            });
-            body.unshift(['Fecha', 'Horario']);
-            var headerText = "Turno: " + turno.ID + " - " + vm.paciente.Apellido + ", " + vm.paciente.Nombre;
-            pdfService.CreateTurnoPdf(body, headerText);
+            return turnoService.turnoPrint(turno, vm.paciente);
         };
         vm.sendTurnoWhatsapp = function (turno) {
             window.open(turnoService.linkWhatsapp(turno, vm.paciente));
@@ -198,8 +187,13 @@
             getConsultorios();
         };
         vm.openDiagnostico = function (turno) {
-            turnoService.openDiagnostico(turno, function (promise) {
-                return promise.then(function (data) { return turno = turnoService.sesionesOrder(JSON.parse(data)); })
+            turnoService.openDiagnostico(vm.paciente, turno, function (promise) {
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    if (vm.onAdddiagnostico) {
+                        vm.onAdddiagnostico()();
+                    }
+                })
                     .catch(function (error) { });
             }, vm.parent.children());
         };

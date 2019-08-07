@@ -37,7 +37,7 @@
         vm.nextHour = turnoService.nextHour;
         vm.getNombreEstado = function (idEstado) { return turnoService.getNombreEstado(idEstado, vm.Estados); };
         vm.getNombreConsultorio = function (idConsultorio) { return turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios); };
-        vm.turnoPrint = function () { return turnoService.turnoPrint(vm.turno, vm.paciente, vm.Consultorios, vm.Estados); };
+        vm.turnoPrint = function () { return turnoService.turnoPrint(vm.turno, vm.paciente); };
         var getEstados = function () {
             var promise = turnoService.getEstados();
             promise.then(function (data) {
@@ -95,10 +95,9 @@
             getConsultorios();
         };
         vm.openDiagnostico = function () {
-            turnoService.openDiagnostico(vm.turno, function (promise) {
+            turnoService.openDiagnostico(vm.paciente, vm.turno, function (promise) {
                 return promise.then(function (data) {
                     eventService.UpdateTurnos();
-                    ;
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                 })
                     .catch(function (error) { });

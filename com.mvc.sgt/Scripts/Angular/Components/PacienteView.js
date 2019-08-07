@@ -8,7 +8,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
+        controller: ['turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
@@ -24,7 +24,7 @@
         $postLink
     */
 
-    function pacienteViewController(crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         //vm.paciente = {};
         vm.Provincias = [];
@@ -38,6 +38,7 @@
         vm.uploadingText = "";
         vm.parent = $element.children();
 
+        vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
        
 
         let loadPaciente = (id) => {
@@ -107,6 +108,11 @@
                 getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
+        };
+
+        vm.reloadDiagnostico = function () {
+            console.log("load diagnostico");
+            loadDiagnostico(vm.paciente.ID);
         };
 
         vm.takedPhoto = (data) => {

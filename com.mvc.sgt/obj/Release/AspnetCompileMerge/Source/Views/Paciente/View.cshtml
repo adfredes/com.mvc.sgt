@@ -310,7 +310,7 @@
                             </md-tab>
                             <md-tab label="Turnos">
                                 <md-content>
-                                    <paciente-turnos paciente="$ctrl.paciente" parent="$ctrl.parent" on-close="$ctrl.close()"></paciente-turnos>
+                                    <paciente-turnos paciente="$ctrl.paciente" parent="$ctrl.parent" on-close="$ctrl.close()" on-adddiagnostico = "$ctrl.reloadDiagnostico"></paciente-turnos>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Diagnosticos">
@@ -318,12 +318,17 @@
                                     <table ng-if="$ctrl.diagnosticos.length>0" class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                                         <thead>
                                             <tr>
+                                                <th scope="col" class="p-2">Turno</th>
                                                 <th scope="col" class="p-2">Fecha</th>
+                                                <th scope="col" class="p-2">Tipo</th>
                                                 <th scope="col" class="p-2">Diagnóstico</th>
+
                                             </tr>
                                         </thead>
                                         <tr ng-repeat="diagnostico in $ctrl.diagnosticos">
+                                            <td class="text-left w-auto p-1">{{diagnostico.TurnoID}}</td>
                                             <td class="text-left w-auto p-1">{{diagnostico.Fecha.substr(0,10) | date: "dd/MM/yyyy"}}</td>
+                                            <td class="text-left w-auto p-1">{{$ctrl.getTipoSesion(diagnostico.Tipo)}}</td>
                                             <td class="text-left w-100 p-1">
                                                 {{diagnostico.Diagnostico}}
                                             </td>

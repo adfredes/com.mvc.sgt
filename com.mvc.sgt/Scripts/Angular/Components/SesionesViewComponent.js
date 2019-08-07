@@ -53,7 +53,7 @@
 
         vm.getNombreConsultorio = (idConsultorio) => turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios);
 
-        vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente, vm.Consultorios, vm.Estados);
+        vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente);
 
 
         let getEstados = () => {
@@ -122,10 +122,10 @@
         };
 
         vm.openDiagnostico = () => {
-            turnoService.openDiagnostico(vm.turno,
+            turnoService.openDiagnostico(vm.paciente, vm.turno,
                 (promise) =>
                     promise.then(data => {
-                        eventService.UpdateTurnos();;
+                        eventService.UpdateTurnos();
                         vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                     })
                         .catch(error => { }), $element

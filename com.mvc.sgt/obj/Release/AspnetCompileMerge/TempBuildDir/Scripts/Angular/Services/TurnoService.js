@@ -52,19 +52,20 @@
         };
 
 
-        $this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
+        $this.turnoPrint = (turno, paciente) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
             let estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(sesion => {
                 let row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
+                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
                     body.push(row);
                 }
             });
-            body.unshift(['Fecha', 'Horario']);
+            body.unshift(['#','Fecha', 'Horario']);
 
             let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
             pdfService.CreateTurnoPdf(body, headerText);
@@ -573,6 +574,13 @@
                 .catch(() => success(false));
         };
 
+        let getNumeroSesionWp = (numero) => {
+            let resu = numero.toString();            
+            resu = numero < 10 ? '0' + numero.toString() : numero.toString();            
+
+            return resu;
+        };
+
         $this.linkWhatsapp = (turno, paciente) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
@@ -580,14 +588,19 @@
             turno.Sesions.forEach(sesion => {
 
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    let row = `${$this.toShortDate(moment(sesion.FechaHora).toDate())}%09${$this.toHour(sesion.FechaHora)}%0A`;
+                    let row = `${getNumeroSesionWp(sesion.Numero)}%20%20%20%20%09${$this.toShortDate(moment(sesion.FechaHora).toDate())}%20%20%20%20%09${$this.toHour(sesion.FechaHora)}%0A`;
                     row = convertirCaracteresFecha(row);
-                    body.push(row);
+                    body.push(row);                    
+                    //body.push('~----------------------------------~%0A');
                 }
             });
-            //body.unshift(['Fecha', 'Horario']);
+            body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
+            body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
+            body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
 
-            body.unshift(`Turno%20kinesiologia%3A%0A%0A`);
+            //body.unshift('%23%23%23*%09*Fecha%20%20%20%20%20*%09*Hora*%0A');
+
+            body.unshift(`*Turno%20kinesiología%3A*%0A%0A`);
             //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
             let wLink = `https://wa.me/54${paciente.Celular}?text=`;
             body.forEach(linea => wLink += linea);

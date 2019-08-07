@@ -52,19 +52,20 @@
         };
 
 
-        $this.turnoPrint = (turno, paciente, Consultorios, Estados) => {
+        $this.turnoPrint = (turno, paciente) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
             let estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(sesion => {
                 let row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
+                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
                     body.push(row);
                 }
             });
-            body.unshift(['Fecha', 'Horario']);
+            body.unshift(['#','Fecha', 'Horario']);
 
             let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
             pdfService.CreateTurnoPdf(body, headerText);
@@ -417,7 +418,7 @@
                 .catch(() => undefined);
         };
 
-        $this.openDiagnostico = (turno, success, parentEl) => {
+        $this.openDiagnostico = (paciente, turno, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -429,8 +430,14 @@
                                   <div class="md-dialog-content">        
                                     <md-input-container class="md-block">
                                         <label>Diagnóstico</label>
-                                            <textarea ng-model="diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
-                                    </md-input-container>
+                                            <textarea ng-model="diagnostico.diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
+                                    </md-input-container>        
+                                    <div ng-show="codigos.length>0">
+                                        <label>Código de Práctica:</label>
+                                        <md-radio-group ng-model="diagnostico.codigopractica" class="md-primary">
+                                          <md-radio-button ng-repeat="cod in codigos" ng-value="cod">{{cod}}</md-radio-button>                                      
+                                        </md-radio-group>
+                                    </div>
                                   </div>
                                 </md-dialog-content>
 
@@ -442,11 +449,28 @@
                               </form>
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
-                $scope.diagnostico = turno.Diagnostico;
+                $scope.diagnostico = {
+                    diagnostico: turno.Diagnostico,
+                    codigopractica: turno.CodigoPractica
+                };                
+                $scope.codigos = [];                                
+                let init = () => {
+                    switch (paciente.AseguradoraID) {
+                        case 1:                            
+                            $scope.codigos = ['25.01.81', '25.01.64'];
+                            break;
+                        case 22:                            
+                            $scope.codigos = ['90.25.22', '25.80.01'];
+                            break;
+                    }
+                };
+
+                init();
+
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
-                $scope.cancel = function () {
+                $scope.cancel = function () {                    
                     $mdDialog.cancel();
                 };
                 $scope.answer = function (answer) {
@@ -463,7 +487,8 @@
                 locals: { turno: turno }
             })
                 .then(answer => {
-                    turno.Diagnostico = answer;
+                    turno.Diagnostico = answer.diagnostico;
+                    turno.CodigoPractica = answer.codigopractica;
                     let url = "Turno/Diagnostico";
                     let promise = crudService.PutHttp(url, turno);
                     success(promise);
@@ -530,7 +555,7 @@
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
-                                    <h5 class="modal-title">Turno - Diagnóstico</h5>        
+                                    <h5 class="modal-title">Turno</h5>        
                                   </div>
                                 </md-toolbar>
                                 <md-dialog-content>
@@ -573,6 +598,13 @@
                 .catch(() => success(false));
         };
 
+        let getNumeroSesionWp = (numero) => {
+            let resu = numero.toString();            
+            resu = numero < 10 ? '0' + numero.toString() : numero.toString();            
+
+            return resu;
+        };
+
         $this.linkWhatsapp = (turno, paciente) => {
             //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);       
             let body = [];
@@ -580,14 +612,19 @@
             turno.Sesions.forEach(sesion => {
 
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    let row = `${$this.toShortDate(moment(sesion.FechaHora).toDate())}%09${$this.toHour(sesion.FechaHora)}%0A`;
+                    let row = `${getNumeroSesionWp(sesion.Numero)}%20%20%20%20%09${$this.toShortDate(moment(sesion.FechaHora).toDate())}%20%20%20%20%09${$this.toHour(sesion.FechaHora)}%0A`;
                     row = convertirCaracteresFecha(row);
-                    body.push(row);
+                    body.push(row);                    
+                    //body.push('~----------------------------------~%0A');
                 }
             });
-            //body.unshift(['Fecha', 'Horario']);
+            body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
+            body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
+            body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
 
-            body.unshift(`Turno%20kinesiologia%3A%0A%0A`);
+            //body.unshift('%23%23%23*%09*Fecha%20%20%20%20%20*%09*Hora*%0A');
+
+            body.unshift(`*Turno%20kinesiología%3A*%0A%0A`);
             //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
             let wLink = `https://wa.me/54${paciente.Celular}?text=`;
             body.forEach(linea => wLink += linea);

@@ -286,12 +286,12 @@ namespace com.mvc.sgt.Controllers
         [HttpPost]
         [Route("Sesion/Reservar")]
         [CreateUpdateActionFilter("admin")]
-        public JsonResult ReservarSesion(TurnoModel model)
+        public JsonResult ReservarSesion(TurnoModel model, List<int> sobreturnos)
         {
             try
             {
                 var turno = Mapper.Map<Turno>(model);
-                var sesiones = this.AgendaService.ReservarSesiones(turno);
+                var sesiones = this.AgendaService.ReservarSesiones(turno, sobreturnos);
                 var sesionesModel = Mapper.Map<TurnoModel>(sesiones);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json(sesionesModel);

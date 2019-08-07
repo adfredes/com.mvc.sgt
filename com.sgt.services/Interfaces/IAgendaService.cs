@@ -37,6 +37,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> CancelarSesiones(ICollection<Sesion> sesions);
 
         Turno ReservarSesiones(Turno turno);
+        Turno ReservarSesiones(Turno turno, List<int> sobreturnos);
         void CancelarReserva(int idTurno);
         void CancelarReserva(Turno turno);
         Turno CancelarSesionesPendientes(int idTurno, string user);

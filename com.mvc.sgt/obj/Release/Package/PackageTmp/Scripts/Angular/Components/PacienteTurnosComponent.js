@@ -13,7 +13,8 @@
         bindings: {
             paciente: "<?",
             parent: "<?",
-            onClose: "&?"
+            onClose: "&?",
+            onAdddiagnostico:"&?"
         }
     });
 
@@ -102,26 +103,8 @@
             return vm.Consultorios.find(consultorio => consultorio.ID === idConsultorio).Descripcion;
         };
 
-        vm.turnoPrint = function (turno) {
-            //pdfService.CreateTurnoPdf($window.document.querySelector('#div' + fecha).innerHTML);
-            
-            let body = [];
-            let estadosImprimible = [2, 4, 5];
-            turno.Sesions.forEach(sesion => {
-                let row = [];
-                if (estadosImprimible.includes(sesion.Estado)) {
-                   
-                    row.push(vm.toDate(sesion.FechaHora));
-                    row.push(vm.toHourRange(sesion.FechaHora, sesion.sesiones));
-                   
-                    body.push(row);
-                }
-            });
-            body.unshift(['Fecha', 'Horario']);
-
-            let headerText = `Turno: ${turno.ID} - ${vm.paciente.Apellido}, ${vm.paciente.Nombre}`;
-            pdfService.CreateTurnoPdf(body, headerText);
-        };
+        vm.turnoPrint = (turno) =>             
+            turnoService.turnoPrint(turno, vm.paciente);              
 
         vm.sendTurnoWhatsapp = (turno) => {
             window.open(turnoService.linkWhatsapp(turno, vm.paciente));
@@ -272,7 +255,12 @@
         vm.openDiagnostico = (turno) => {
             turnoService.openDiagnostico(turno,
                 (promise) =>
-                    promise.then(data => turno = turnoService.sesionesOrder(JSON.parse(data)))
+                    promise.then(data => {                        
+                        eventService.UpdateTurnos();                        
+                        if (vm.onAdddiagnostico) {                            
+                            vm.onAdddiagnostico()();
+                        }
+                    })
                         .catch(error => { }), vm.parent.children()
             );
         };

@@ -59,7 +59,7 @@
             $mdDialog.show({
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false
             })
                 .then(function (answer) {

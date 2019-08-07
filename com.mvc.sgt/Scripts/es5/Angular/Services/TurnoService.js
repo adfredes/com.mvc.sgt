@@ -39,18 +39,19 @@
                 dateValue.setMinutes(dateValue.getMinutes() + 30 * sesiones);
             return angular.isDate(dateValue) ? $this.addZero(dateValue.getHours()) + ':' + $this.addZero(dateValue.getMinutes()) : '';
         };
-        $this.turnoPrint = function (turno, paciente, Consultorios, Estados) {
+        $this.turnoPrint = function (turno, paciente) {
             var body = [];
             var estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(function (sesion) {
                 var row = [];
                 if (estadosImprimible.includes(sesion.Estado)) {
+                    row.push(sesion.Numero.toString());
                     row.push($this.toDate(sesion.FechaHora));
                     row.push($this.toHour(sesion.FechaHora));
                     body.push(row);
                 }
             });
-            body.unshift(['Fecha', 'Horario']);
+            body.unshift(['#', 'Fecha', 'Horario']);
             var headerText = "Turno: " + turno.ID + " - " + paciente.Apellido + ", " + paciente.Nombre;
             pdfService.CreateTurnoPdf(body, headerText);
         };
@@ -268,10 +269,25 @@
             })
                 .catch(function () { return undefined; });
         };
-        $this.openDiagnostico = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <md-input-container class=\"md-block\">\n                                        <label>Diagn\u00F3stico</label>\n                                            <textarea ng-model=\"diagnostico\" maxlength=\"150\" md-maxlength=\"150\" rows=\"3\" md-select-on-focus\" ng-init=\"" + turno.Diagnostico + "\"></textarea>\n                                    </md-input-container>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+        $this.openDiagnostico = function (paciente, turno, success, parentEl) {
+            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <md-input-container class=\"md-block\">\n                                        <label>Diagn\u00F3stico</label>\n                                            <textarea ng-model=\"diagnostico.diagnostico\" maxlength=\"150\" md-maxlength=\"150\" rows=\"3\" md-select-on-focus\" ng-init=\"" + turno.Diagnostico + "\"></textarea>\n                                    </md-input-container>        \n                                    <div ng-show=\"codigos.length>0\">\n                                        <label>C\u00F3digo de Pr\u00E1ctica:</label>\n                                        <md-radio-group ng-model=\"diagnostico.codigopractica\" class=\"md-primary\">\n                                          <md-radio-button ng-repeat=\"cod in codigos\" ng-value=\"cod\">{{cod}}</md-radio-button>                                      \n                                        </md-radio-group>\n                                    </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
-                $scope.diagnostico = turno.Diagnostico;
+                $scope.diagnostico = {
+                    diagnostico: turno.Diagnostico,
+                    codigopractica: turno.CodigoPractica
+                };
+                $scope.codigos = [];
+                var init = function () {
+                    switch (paciente.AseguradoraID) {
+                        case 1:
+                            $scope.codigos = ['25.01.81', '25.01.64'];
+                            break;
+                        case 22:
+                            $scope.codigos = ['90.25.22', '25.80.01'];
+                            break;
+                    }
+                };
+                init();
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
@@ -291,7 +307,8 @@
                 locals: { turno: turno }
             })
                 .then(function (answer) {
-                turno.Diagnostico = answer;
+                turno.Diagnostico = answer.diagnostico;
+                turno.CodigoPractica = answer.codigopractica;
                 var url = "Turno/Diagnostico";
                 var promise = crudService.PutHttp(url, turno);
                 success(promise);
@@ -343,7 +360,7 @@
             return promise;
         };
         $this.openContinuarSesiones = function (success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide(false);
@@ -368,17 +385,25 @@
             })
                 .catch(function () { return success(false); });
         };
+        var getNumeroSesionWp = function (numero) {
+            var resu = numero.toString();
+            resu = numero < 10 ? '0' + numero.toString() : numero.toString();
+            return resu;
+        };
         $this.linkWhatsapp = function (turno, paciente) {
             var body = [];
             var estadosImprimible = [1, 2, 4, 5];
             turno.Sesions.forEach(function (sesion) {
                 if (estadosImprimible.includes(sesion.Estado)) {
-                    var row = $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%09" + $this.toHour(sesion.FechaHora) + "%0A";
+                    var row = getNumeroSesionWp(sesion.Numero) + "%20%20%20%20%09" + $this.toShortDate(moment(sesion.FechaHora).toDate()) + "%20%20%20%20%09" + $this.toHour(sesion.FechaHora) + "%0A";
                     row = convertirCaracteresFecha(row);
                     body.push(row);
                 }
             });
-            body.unshift("Turno%20kinesiologia%3A%0A%0A");
+            body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
+            body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
+            body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
+            body.unshift("*Turno%20kinesiolog\u00EDa%3A*%0A%0A");
             var wLink = "https://wa.me/54" + paciente.Celular + "?text=";
             body.forEach(function (linea) { return wLink += linea; });
             return wLink;

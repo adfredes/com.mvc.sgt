@@ -5,14 +5,14 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
+        controller: ['turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
             divid: "@"
         }
     });
-    function pacienteViewController(crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         vm.Provincias = [];
         vm.Localidades = [];
@@ -24,6 +24,7 @@
         vm.files = [];
         vm.uploadingText = "";
         vm.parent = $element.children();
+        vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var loadPaciente = function (id) {
             vm.selectedIndex = 0;
             var promise = crudService.GetPHttp("Paciente/Get/" + id);
@@ -82,6 +83,10 @@
                 getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
+        };
+        vm.reloadDiagnostico = function () {
+            console.log("load diagnostico");
+            loadDiagnostico(vm.paciente.ID);
         };
         vm.takedPhoto = function (data) {
             vm.paciente.Foto = data;
