@@ -443,7 +443,8 @@ namespace com.sgt.services.Services
             }
             else
             {
-                turno.TipoSesionID = tiposSesiones.Min();
+
+                turno.TipoSesionID = tiposSesiones.Where(x=>x.Value==2).ToList().Count()>0?2:tiposSesiones.Min();
             }
 
             turno.Turno_Repeticiones = LogicaTurnoRepeticiones(turno.Sesions.ToList()).ToList();
@@ -558,7 +559,7 @@ namespace com.sgt.services.Services
             }
             else
             {
-                turno.TipoSesionID = tiposSesiones.Min();
+                turno.TipoSesionID = tiposSesiones.Where(x => x.Value == 2).ToList().Count() > 0 ? 2 : tiposSesiones.Min();
             }
 
             turno.Turno_Repeticiones = LogicaTurnoRepeticiones(turno.Sesions.ToList()).ToList();
@@ -831,9 +832,12 @@ namespace com.sgt.services.Services
             {
                 var lastTurno = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == turno.PacienteID
                 && (EstadoTurno)t.Estado == EstadoTurno.Confirmado
-                && t.TipoSesionID == turno.TipoSesionID
+                //&& t.TipoSesionID == turno.TipoSesionID
                 )
-                .OrderByDescending(t => t.ID)
+                .OrderByDescending(t => 
+                t.Sesions.Where(
+                        s=>EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)).Max(s=>s.FechaHora) 
+                    )
                 .Take(1).FirstOrDefault();
 
                 if (lastTurno != null)
@@ -877,7 +881,9 @@ namespace com.sgt.services.Services
                 unitOfWork.RepoSesion.Edit(x);
             });
 
+            
             unitOfWork.RepoTurno.Edit(saveTurno);
+            saveTurno.Sesions = SortSesiones(saveTurno.ID);
 
             return saveTurno;
         }
@@ -1913,26 +1919,36 @@ namespace com.sgt.services.Services
             }
             else
             {
-                foreach (var sesion in sesiones)
+                if (sesiones.Where(s => pp.HoraDesde.Hour > s.FechaHora.Hour
+                || (s.FechaHora.Hour == pp.HoraDesde.Hour && pp.HoraDesde.Minute > s.FechaHora.Minute)
+                ).ToList().Count() > 0)
                 {
-                    if (unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
-                     && x.TurnoSimultaneo == sesion.TurnoSimultaneo &&
-                     EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)).Count() > cantidad)
+                    isValid = false;
+                    throw new Exception("La sesión comienza antes del horario de apertura.");
+                }
+                else
+                {
+                    foreach (var sesion in sesiones)
                     {
-                        isValid = false;
-                        break;
+                        if (unitOfWork.RepoSesion.FindBy(x => x.FechaHora == sesion.FechaHora && x.ConsultorioID == sesion.ConsultorioID
+                         && x.TurnoSimultaneo == sesion.TurnoSimultaneo &&
+                         EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)).Count() > cantidad)
+                        {
+                            isValid = false;
+                            break;
+                        }
+                    }
+                    isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+                    isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
+                    isValid = isBlocked(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora, sesiones[0].ConsultorioID, sesiones[0].TurnoSimultaneo) ? false : isValid;
+                    //modifico
+                    if (dobleOrden)
+                    {
+                        isValid = isDobleOrdenExist(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora) ? false : isValid;
+
                     }
                 }
-                isValid = SearchFeriado(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
-                isValid = SearchRecesos(sesiones[0].FechaHora, sesiones[0].FechaHora).Count > 0 ? false : isValid;
-                isValid = isBlocked(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora, sesiones[0].ConsultorioID, sesiones[0].TurnoSimultaneo) ? false : isValid;
-                //modifico
-                if (dobleOrden)
-                {
-                    isValid = isDobleOrdenExist(sesiones[0].FechaHora, sesiones[sesiones.Count() - 1].FechaHora) ? false : isValid;
-
-                }
-            }
+            }            
 
 
             return isValid;

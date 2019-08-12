@@ -57,6 +57,8 @@
         <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Consu__3F6663D5" />
         <AssociationConnector Association="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" />
         <EntityTypeShape EntityType="TurnosModel.SmtpMail" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TurnosModel.PacienteDiagnostico" Width="1.5" PointX="7.5" PointY="25.25" />
+        <AssociationConnector Association="TurnosModel.FK_PacienteDiagnostico_Paciente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

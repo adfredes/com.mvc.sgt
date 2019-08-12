@@ -124,6 +124,9 @@
     <Compile Include="Paciente.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="PacienteDiagnostico.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Paciente_Aseguradora_Historico.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>

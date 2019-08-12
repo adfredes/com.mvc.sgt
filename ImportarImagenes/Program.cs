@@ -16,9 +16,11 @@ namespace ImportarImagenes
     {
         static void Main(string[] args)
         {
-            setTurnoRepeticiones();           
+           
+            setTurnoRepeticiones();
+            return;
 
-            string ruta = @"C:\temp\FotosPacientes\";
+            string ruta = @"K:\FotosPacientes\";
             IPacienteService servicio = new PacienteService(new UnitOfWork(new TurnosDB()));
             foreach (string fileRut in System.IO.Directory.GetFiles(ruta))
             {
@@ -44,6 +46,10 @@ namespace ImportarImagenes
 
         static void setTurnoRepeticiones()
         {
+            try
+            {
+
+            
             AgendaService servicio = new AgendaService(new UnitOfWork(new TurnosDB()));
             var turnos = servicio.GetTurnos();
             int ct = turnos.Count();
@@ -80,6 +86,12 @@ namespace ImportarImagenes
                 servicio.EditTurno(turno);
 
             });
+            }
+            catch(Exception ex)
+            {
+                Console.Write(ex.InnerException);
+                Console.ReadKey();
+            }
         }
 
 

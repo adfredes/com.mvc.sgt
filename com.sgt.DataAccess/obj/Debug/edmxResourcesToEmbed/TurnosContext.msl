@@ -426,5 +426,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="PacienteDiagnosticoes">
+      <EntityTypeMapping TypeName="TurnosModel.PacienteDiagnostico">
+        <MappingFragment StoreEntitySet="PacienteDiagnostico">
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

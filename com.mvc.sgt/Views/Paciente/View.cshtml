@@ -332,7 +332,8 @@
                                             <td class="text-left w-auto p-1">{{$ctrl.getTipoSesion(diagnostico.Tipo)}}</td>
                                             <td class="text-left w-auto p-1">{{diagnostico.CodigoPractica}}</td>                                            
                                             <td class="text-left w-100 p-1">
-                                                {{diagnostico.Diagnostico}}
+                                                <div ng-if="diagnostico.TurnoID > 0">{{diagnostico.Diagnostico}}</div>
+                                                <div ng-if="diagnostico.TurnoID == 0" ng-bind-html="$ctrl.OldDiagnostico"></div>                                                
                                             </td>
                                         </tr>
                                     </table>

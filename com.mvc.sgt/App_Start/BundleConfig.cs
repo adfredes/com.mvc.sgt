@@ -46,6 +46,7 @@ namespace com.mvc.sgt
                     "~/Scripts/angular-animate.min.js",
                     "~/Scripts/angular-messages.js",
                     "~/Scripts/angular-route.min.js",
+                    "~/Scripts/angular-sanitize.js",                    
                     "~/Scripts/angular-aria.js",
                     "~/Scripts/angular-material.js"                    
                 ));

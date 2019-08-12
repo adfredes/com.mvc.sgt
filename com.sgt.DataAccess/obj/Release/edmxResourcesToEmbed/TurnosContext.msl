@@ -382,6 +382,7 @@
     <EntitySetMapping Name="Turnoes">
       <EntityTypeMapping TypeName="TurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="CodigoPractica" ColumnName="CodigoPractica" />
           <ScalarProperty Name="TurnoDoble" ColumnName="TurnoDoble" />
           <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />
           <ScalarProperty Name="Fecha" ColumnName="Fecha" />
@@ -422,6 +423,14 @@
           <ScalarProperty Name="Port" ColumnName="Port" />
           <ScalarProperty Name="Host" ColumnName="Host" />
           <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacienteDiagnosticoes">
+      <EntityTypeMapping TypeName="TurnosModel.PacienteDiagnostico">
+        <MappingFragment StoreEntitySet="PacienteDiagnostico">
+          <ScalarProperty Name="Diagnostico" ColumnName="Diagnostico" />
+          <ScalarProperty Name="PacienteID" ColumnName="PacienteID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

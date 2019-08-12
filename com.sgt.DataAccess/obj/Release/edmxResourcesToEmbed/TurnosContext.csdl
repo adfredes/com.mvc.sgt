@@ -183,6 +183,7 @@
     <NavigationProperty Name="Turnoes" Relationship="TurnosModel.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
     <Property Name="Foto" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="Anual" Type="Boolean" />
+    <NavigationProperty Name="PacienteDiagnostico" Relationship="TurnosModel.FK_PacienteDiagnostico_Paciente" FromRole="Paciente" ToRole="PacienteDiagnostico" />
   </EntityType>
   <EntityType Name="Paciente_Aseguradora_Historico">
     <Key>
@@ -622,6 +623,11 @@
       <End Role="Turno_Repeticiones" EntitySet="Turno_Repeticiones" />
     </AssociationSet>
     <EntitySet Name="SmtpMails" EntityType="TurnosModel.SmtpMail" />
+    <EntitySet Name="PacienteDiagnosticoes" EntityType="TurnosModel.PacienteDiagnostico" />
+    <AssociationSet Name="FK_PacienteDiagnostico_Paciente" Association="TurnosModel.FK_PacienteDiagnostico_Paciente">
+      <End Role="Paciente" EntitySet="Pacientes" />
+      <End Role="PacienteDiagnostico" EntitySet="PacienteDiagnosticoes" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="TipoSesion">
     <Key>
@@ -746,6 +752,7 @@
     <NavigationProperty Name="Turno_Repeticiones" Relationship="TurnosModel.FK__Turno_Rep__Turno__3E723F9C" FromRole="Turno" ToRole="Turno_Repeticiones" />
     <Property Name="TipoSesionID" Type="Int32" />
     <Property Name="TurnoDoble" Type="Int32" />
+    <Property Name="CodigoPractica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -836,4 +843,24 @@
     <Property Name="Pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Mail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
+  <EntityType Name="PacienteDiagnostico">
+    <Key>
+      <PropertyRef Name="PacienteID" />
+    </Key>
+    <Property Name="PacienteID" Type="Int32" Nullable="false" />
+    <Property Name="Diagnostico" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Paciente" Relationship="TurnosModel.FK_PacienteDiagnostico_Paciente" FromRole="PacienteDiagnostico" ToRole="Paciente" />
+  </EntityType>
+  <Association Name="FK_PacienteDiagnostico_Paciente">
+    <End Type="TurnosModel.Paciente" Role="Paciente" Multiplicity="1" />
+    <End Type="TurnosModel.PacienteDiagnostico" Role="PacienteDiagnostico" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PacienteDiagnostico">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

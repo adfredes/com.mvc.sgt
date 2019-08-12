@@ -92,7 +92,7 @@
         };
 
         vm.SelectPaciente = data => {
-            vm.paciente = {};
+            //vm.paciente = {};
             vm.pacienteSeleccionado = data;
         };
 
@@ -102,6 +102,7 @@
         };
 
         vm.openDiagnostico = () => {
+            
             turnoService.openDiagnostico(vm.paciente, vm.turno,
                 (promise) =>
                     promise.then(data => {
@@ -113,7 +114,7 @@
         };
 
         vm.asignarPaciente = () => {
-            vm.paciente = vm.pacienteSeleccionado;
+            vm.paciente = JSON.parse(JSON.stringify(vm.pacienteSeleccionado));            
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(data => {

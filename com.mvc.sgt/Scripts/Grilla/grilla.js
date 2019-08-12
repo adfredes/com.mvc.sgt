@@ -238,7 +238,7 @@
             redibujarGrilla();
         };
 
-        let btnCantidadSesionesModal_click = e => {
+        let btnCantidadSesionesModal_click = e => {            
             e.preventDefault();
             e.stopPropagation();
             e.target.removeEventListener('click', btnCantidadSesionesModal_click);
@@ -313,19 +313,19 @@
         divReservas.innerHTML = "";
         if (options.sesionesReservadas.length > 0) {
             let innerDiv = `<p><span class='icon-calendar'></span>
-                                    Reservas
+                                    ${options.sesionesReservadas.length} Reservas
                                     <span id="btnDivReservasCancelar" class="icon-cancel"></span>
                                     <span id="btnDivReservasAceptar" class="icon-ok"></span>
                                     <span>&nbsp</span>
                                 </p>
                                 <ul>`;
-            options.sesionesReservadas.sort((a, b) => parseInt(a.fecha) - parseInt(b.fecha));
+            options.sesionesReservadas.sort((a, b) => parseInt(a.fecha) - parseInt(b.fecha));            
             options.sesionesReservadas.forEach(e => {
                 let _fecha = e.fecha.substr(6, 2) + '/' + e.fecha.substr(4, 2) + '/' + e.fecha.substr(0, 4);
                 let _desde = e.hora.substr(0, 2) + ':' + e.hora.substr(2, 2);
                 let _hasta = sesionSiguiente(e.sesiones[e.sesiones.length - 1].hora);
-                _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);
-                innerDiv += `<li>${_fecha} ${_desde} a ${_hasta} </li >`;
+                _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);                
+                innerDiv += `<li>${e.Numero} ${_fecha} ${_desde} a ${_hasta} </li >`;
             });
             innerDiv += "</ul>";
             divReservas.innerHTML = innerDiv;

@@ -418,7 +418,7 @@
                 .catch(() => undefined);
         };
 
-        $this.openDiagnostico = (turno, success, parentEl) => {
+        $this.openDiagnostico = (paciente, turno, success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -430,8 +430,14 @@
                                   <div class="md-dialog-content">        
                                     <md-input-container class="md-block">
                                         <label>Diagnóstico</label>
-                                            <textarea ng-model="diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
-                                    </md-input-container>
+                                            <textarea ng-model="diagnostico.diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
+                                    </md-input-container>        
+                                    <div ng-show="codigos.length>0">
+                                        <label>Código de Práctica:</label>
+                                        <md-radio-group ng-model="diagnostico.codigopractica" class="md-primary">
+                                          <md-radio-button ng-repeat="cod in codigos" ng-value="cod">{{cod}}</md-radio-button>                                      
+                                        </md-radio-group>
+                                    </div>
                                   </div>
                                 </md-dialog-content>
 
@@ -443,11 +449,28 @@
                               </form>
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
-                $scope.diagnostico = turno.Diagnostico;
+                $scope.diagnostico = {
+                    diagnostico: turno.Diagnostico,
+                    codigopractica: turno.CodigoPractica
+                };                
+                $scope.codigos = [];                                
+                let init = () => {
+                    switch (paciente.AseguradoraID) {
+                        case 1:                            
+                            $scope.codigos = ['25.01.81', '25.01.64'];
+                            break;
+                        case 22:                            
+                            $scope.codigos = ['90.25.22', '25.80.01'];
+                            break;
+                    }
+                };
+
+                init();
+
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
-                $scope.cancel = function () {
+                $scope.cancel = function () {                    
                     $mdDialog.cancel();
                 };
                 $scope.answer = function (answer) {
@@ -464,7 +487,8 @@
                 locals: { turno: turno }
             })
                 .then(answer => {
-                    turno.Diagnostico = answer;
+                    turno.Diagnostico = answer.diagnostico;
+                    turno.CodigoPractica = answer.codigopractica;
                     let url = "Turno/Diagnostico";
                     let promise = crudService.PutHttp(url, turno);
                     success(promise);
@@ -531,7 +555,7 @@
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
-                                    <h5 class="modal-title">Turno - Diagnóstico</h5>        
+                                    <h5 class="modal-title">Turno</h5>        
                                   </div>
                                 </md-toolbar>
                                 <md-dialog-content>

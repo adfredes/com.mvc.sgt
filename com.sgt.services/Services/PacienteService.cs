@@ -168,7 +168,7 @@ namespace com.sgt.services.Services
         public bool TurnosAnteriores(int PacienteID, int TipoSesionID)
         {
             var resu = unitOfWork.RepoTurno
-               .FindBy(t => t.PacienteID == PacienteID && t.TipoSesionID == TipoSesionID
+               .FindBy(t => t.PacienteID == PacienteID //&& t.TipoSesionID == TipoSesionID
                && t.Estado == (int)EstadoTurno.Confirmado).FirstOrDefault();              
             
 

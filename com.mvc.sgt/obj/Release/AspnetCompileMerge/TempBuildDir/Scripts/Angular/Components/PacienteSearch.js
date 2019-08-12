@@ -3,7 +3,7 @@
     
     sgtApp.component('searchPaciente', {        
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: ['crudService', '$mdDialog',searchPacienteController],
+        controller: ['crudService', '$mdDialog', '$element',searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -14,7 +14,7 @@
         }
     });
 
-    function searchPacienteController(crudService, $mdDialog) {
+    function searchPacienteController(crudService, $mdDialog, $element) {
         var vm = this;
         
         vm.$onInit = () => {
@@ -64,6 +64,7 @@
         
 
         vm.openQuickCreate = () => {
+            let parentView = $element.parent().parent().parent().parent();
             let modalHtml = `<md-dialog aria-label="Paciente">
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">
@@ -89,7 +90,8 @@
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
-                fullscreen: false
+                fullscreen: false,
+                parent: parentView
                 //,
                 //locals: { turno: turno }
             })

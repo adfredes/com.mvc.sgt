@@ -74,7 +74,6 @@
             vm.turnoChange();
         };
         vm.SelectPaciente = function (data) {
-            vm.paciente = {};
             vm.pacienteSeleccionado = data;
         };
         vm.sinPaciente = function () {
@@ -91,7 +90,7 @@
             }, $element);
         };
         vm.asignarPaciente = function () {
-            vm.paciente = vm.pacienteSeleccionado;
+            vm.paciente = JSON.parse(JSON.stringify(vm.pacienteSeleccionado));
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(function (data) {

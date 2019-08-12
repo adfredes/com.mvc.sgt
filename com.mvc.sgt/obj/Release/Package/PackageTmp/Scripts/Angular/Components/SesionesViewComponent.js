@@ -122,7 +122,7 @@
         };
 
         vm.openDiagnostico = () => {
-            turnoService.openDiagnostico(vm.turno,
+            turnoService.openDiagnostico(vm.paciente, vm.turno,
                 (promise) =>
                     promise.then(data => {
                         eventService.UpdateTurnos();

@@ -187,7 +187,7 @@
             getConsultorios();
         };
         vm.openDiagnostico = function (turno) {
-            turnoService.openDiagnostico(turno, function (promise) {
+            turnoService.openDiagnostico(vm.paciente, turno, function (promise) {
                 return promise.then(function (data) {
                     eventService.UpdateTurnos();
                     if (vm.onAdddiagnostico) {

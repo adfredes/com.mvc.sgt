@@ -24,6 +24,7 @@
         vm.files = [];
         vm.uploadingText = "";
         vm.parent = $element.children();
+        vm.OldDiagnostico = '';
         vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var loadPaciente = function (id) {
             vm.selectedIndex = 0;
@@ -38,9 +39,15 @@
                 .catch(function (err) { return vm.paciente = {}; });
         };
         var loadDiagnostico = function (id) {
+            vm.OldDiagnostico = '';
             var promise = crudService.GetPHttp("Paciente/" + id + "/Diagnostico");
             promise.then(function (data) {
                 vm.diagnosticos = JSON.parse(data);
+                vm.diagnosticos.forEach(function (d) {
+                    if (d.TurnoID == 0) {
+                        vm.OldDiagnostico = "" + unescape(d.Diagnostico);
+                    }
+                });
             })
                 .catch(function (err) { return vm.diagnosticos = {}; });
         };
@@ -83,6 +90,10 @@
                 getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
+        };
+        vm.decode = function (value) {
+            console.log(unescape(value));
+            return unescape(value);
         };
         vm.reloadDiagnostico = function () {
             console.log("load diagnostico");

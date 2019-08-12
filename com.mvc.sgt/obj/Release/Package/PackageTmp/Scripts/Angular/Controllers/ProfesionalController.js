@@ -57,6 +57,7 @@
 
         $scope.Create = function () {
             $scope.ProfesionalModel = {};
+            $scope.ProfesionalModel.Agenda = [];
             $scope.ProfesionalModel.Agenda.push({});
         };
 

@@ -37,6 +37,7 @@
         vm.files = [];
         vm.uploadingText = "";
         vm.parent = $element.children();
+        vm.OldDiagnostico = '';
 
         vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
        
@@ -55,9 +56,16 @@
         };   
 
         let loadDiagnostico = (id) => {
+            vm.OldDiagnostico = '';
             let promise = crudService.GetPHttp(`Paciente/${id}/Diagnostico`);
             promise.then(data => {                     
-                vm.diagnosticos = JSON.parse(data);                          
+                vm.diagnosticos = JSON.parse(data);    
+                vm.diagnosticos.forEach(d => {
+                    if (d.TurnoID == 0) {
+                        vm.OldDiagnostico = `${unescape(d.Diagnostico)}`;
+                    }
+
+                });                    
             })
                 .catch(err => vm.diagnosticos = {});
 
@@ -108,6 +116,11 @@
                 getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
+        };
+
+        vm.decode = (value) => {
+            console.log(unescape(value));
+            return unescape(value);
         };
 
         vm.reloadDiagnostico = function () {

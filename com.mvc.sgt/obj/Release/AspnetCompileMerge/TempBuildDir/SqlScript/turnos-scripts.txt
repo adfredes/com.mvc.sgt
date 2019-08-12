@@ -66,6 +66,9 @@ alter table dbo.Turno
   add Diagnostico varchar(MAX);
 
   alter table dbo.Turno
+  add CodigoPractica varchar(50);
+
+  alter table dbo.Turno
   add Fecha smalldatetime;
 
   alter table dbo.Turno

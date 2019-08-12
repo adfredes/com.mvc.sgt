@@ -21,6 +21,7 @@ namespace com.sgt.services.Services
 
         public void Add(Profesional entity)
         {
+            entity.Habilitado = true;
             entity = SetAgendaFechaUsuario(entity);
             this.unitOfWork.RepoProfesional.Add(entity);
         }

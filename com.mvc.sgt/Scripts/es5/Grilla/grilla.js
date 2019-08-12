@@ -300,14 +300,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var divReservas = options.divGrilla.querySelector('#divReservas');
         divReservas.innerHTML = "";
         if (options.sesionesReservadas.length > 0) {
-            var innerDiv_1 = "<p><span class='icon-calendar'></span>\n                                    Reservas\n                                    <span id=\"btnDivReservasCancelar\" class=\"icon-cancel\"></span>\n                                    <span id=\"btnDivReservasAceptar\" class=\"icon-ok\"></span>\n                                    <span>&nbsp</span>\n                                </p>\n                                <ul>";
+            var innerDiv_1 = "<p><span class='icon-calendar'></span>\n                                    " + options.sesionesReservadas.length + " Reservas\n                                    <span id=\"btnDivReservasCancelar\" class=\"icon-cancel\"></span>\n                                    <span id=\"btnDivReservasAceptar\" class=\"icon-ok\"></span>\n                                    <span>&nbsp</span>\n                                </p>\n                                <ul>";
             options.sesionesReservadas.sort(function (a, b) { return parseInt(a.fecha) - parseInt(b.fecha); });
+            var nroReserva_1 = 0;
             options.sesionesReservadas.forEach(function (e) {
                 var _fecha = e.fecha.substr(6, 2) + '/' + e.fecha.substr(4, 2) + '/' + e.fecha.substr(0, 4);
                 var _desde = e.hora.substr(0, 2) + ':' + e.hora.substr(2, 2);
                 var _hasta = sesionSiguiente(e.sesiones[e.sesiones.length - 1].hora);
                 _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);
-                innerDiv_1 += "<li>" + _fecha + " " + _desde + " a " + _hasta + " </li >";
+                nroReserva_1++;
+                innerDiv_1 += "<li>" + e.Numero + " " + _fecha + " " + _desde + " a " + _hasta + " </li >";
             });
             innerDiv_1 += "</ul>";
             divReservas.innerHTML = innerDiv_1;

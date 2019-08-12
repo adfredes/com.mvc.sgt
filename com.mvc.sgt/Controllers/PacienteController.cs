@@ -45,8 +45,17 @@ namespace com.mvc.sgt.Controllers
             var paciente = this.pacienteService.Find(id);
             Response.StatusCode = (int) HttpStatusCode.OK;
             if (paciente != null) {
+                try
+                {
+                    model.Add(new DiagnosticoModel
+                    {
+                        Diagnostico = Server.HtmlDecode(paciente.PacienteDiagnostico.Diagnostico)
+                    });
+                }
+                catch  { }
+
                 paciente.Turnoes
-                    .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0)
+                    .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0 && t.Estado<4 )
                     .ToList()
                     .ForEach(t => model.Add(new DiagnosticoModel
                     {
@@ -136,8 +145,8 @@ namespace com.mvc.sgt.Controllers
         {
             name = name.ToLower();
             var listModel = Mapper.Map<List<PacienteDto>>(this.pacienteService.GetAll()
-                .Where(x => x.Apellido.ToLower().StartsWith(name) || x.Nombre.ToLower().StartsWith(name)
-                        || (x.Apellido.ToLower() + " " + x.Nombre.ToLower()).StartsWith(name))
+                .Where(x => (x.Apellido.ToLower().StartsWith(name) || x.Nombre.ToLower().StartsWith(name)
+                        || (x.Apellido.ToLower() + " " + x.Nombre.ToLower()).StartsWith(name)) && x.Habilitado)
                 .OrderBy(x => x.Apellido).ThenBy(x => x.Nombre));
             return Json(JsonConvert.SerializeObject(listModel), JsonRequestBehavior.AllowGet);
         }

@@ -479,3 +479,5 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CoreCompileInputs
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.pdb
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\SqlScript\diagnostico-script.sql
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\SqlScript\turnos-scripts.txt

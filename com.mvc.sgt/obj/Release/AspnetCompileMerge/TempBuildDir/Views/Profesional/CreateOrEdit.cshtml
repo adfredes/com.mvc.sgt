@@ -4,9 +4,6 @@
             <div class="modal-header badge-primary">
                 <h4 class="modal-title text-capitalize"><span class="icon-hospital"></span>
                     {{$ctrl.profesional.Nombre + ' ' + $ctrl.profesional.Apellido}}</h4>
-                <pre>
-                    {{$ctrl.profesional.Agenda[0].HoraDesde}}
-                </pre>
                 <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.close()">&times;</button>
             </div>
             <div class="modal-body">
@@ -101,7 +98,7 @@
             </div>
         </div>*@
                     </fieldset>
-                </form>                             
+                </form>                        
             </div>
             <div class="modal-footer">
                 <md-button type="button" class="md-raised md-warn" ng-click="close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>

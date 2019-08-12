@@ -1,6 +1,6 @@
 (function () {
     window.Domain = window.location.origin + '/';
-    var sgtApp = angular.module("sgtApp", ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages']);
+    var sgtApp = angular.module("sgtApp", ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngMessages', 'ngSanitize']);
     sgtApp.config(['$routeProvider', function ($routeProvider) {
             $routeProvider
                 .when('/Pacientes', {

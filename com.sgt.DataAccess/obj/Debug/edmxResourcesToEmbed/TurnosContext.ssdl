@@ -73,7 +73,7 @@
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="comisiones">
     <Key>
       <PropertyRef Name="idcomision" />
@@ -95,7 +95,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.comisiones' no tiene definida ning
     <Property Name="TipoSesionID" Type="int" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Derivadores">
     <Key>
       <PropertyRef Name="idDerivador" />
@@ -125,7 +125,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.Derivadores' no tiene definida nin
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="fotos">
     <Key>
       <PropertyRef Name="idfoto" />
@@ -137,7 +137,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.fotos' no tiene definida ninguna c
     <Property Name="fecha" Type="datetime" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Historial">
     <Key>
       <PropertyRef Name="idHistorial" />
@@ -155,7 +155,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.Historial' no tiene definida ningu
     <Property Name="idturno" Type="int" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="HorariosProfesionales">
     <Key>
       <PropertyRef Name="ID" />
@@ -191,7 +191,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.HorariosProfesionales' no tiene de
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="opciones">
     <Key>
       <PropertyRef Name="Id" />
@@ -267,6 +267,13 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.opciones' no tiene definida ningun
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="PacienteDiagnostico">
+    <Key>
+      <PropertyRef Name="PacienteID" />
+    </Key>
+    <Property Name="PacienteID" Type="int" Nullable="false" />
+    <Property Name="Diagnostico" Type="varchar(max)" />
+  </EntityType>
   <EntityType Name="Profesional">
     <Key>
       <PropertyRef Name="ID" />
@@ -298,7 +305,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.opciones' no tiene definida ningun
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="repeticionesMedicos">
     <Key>
       <PropertyRef Name="lun" />
@@ -365,7 +372,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.repeticionesMedicos' no tiene defi
     <Property Name="Color" Type="varchar" MaxLength="7" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'sitk3.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Tratamientos">
     <Key>
       <PropertyRef Name="IdTratamiento" />
@@ -611,6 +618,18 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.Tratamientos' no tiene definida ni
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PacienteDiagnostico_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="PacienteDiagnostico" Type="Self.PacienteDiagnostico" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PacienteDiagnostico">
+        <PropertyRef Name="PacienteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Profesional_Horarios">
     <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -702,6 +721,7 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.Tratamientos' no tiene definida ni
     <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Paciente_Aseguradora_Historico" EntityType="Self.Paciente_Aseguradora_Historico" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PacienteDiagnostico" EntityType="Self.PacienteDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional" EntityType="Self.Profesional" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional_TipoSesion" EntityType="Self.Profesional_TipoSesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
@@ -876,6 +896,10 @@ advertencia 6002: La tabla o vista 'sitk3.dbo.Tratamientos' no tiene definida ni
     <AssociationSet Name="FK_Paciente_Provincia" Association="Self.FK_Paciente_Provincia">
       <End Role="Provincia" EntitySet="Provincia" />
       <End Role="Paciente" EntitySet="Paciente" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PacienteDiagnostico_Paciente" Association="Self.FK_PacienteDiagnostico_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="PacienteDiagnostico" EntitySet="PacienteDiagnostico" />
     </AssociationSet>
     <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
       <End Role="Profesional" EntitySet="Profesional" />

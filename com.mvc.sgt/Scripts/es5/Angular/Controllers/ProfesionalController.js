@@ -45,6 +45,7 @@
             };
             $scope.Create = function () {
                 $scope.ProfesionalModel = {};
+                $scope.ProfesionalModel.Agenda = [];
                 $scope.ProfesionalModel.Agenda.push({});
             };
             $scope.GetProfesionales = function () {

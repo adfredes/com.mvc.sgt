@@ -95,7 +95,7 @@
             getConsultorios();
         };
         vm.openDiagnostico = function () {
-            turnoService.openDiagnostico(vm.turno, function (promise) {
+            turnoService.openDiagnostico(vm.paciente, vm.turno, function (promise) {
                 return promise.then(function (data) {
                     eventService.UpdateTurnos();
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));

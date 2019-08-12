@@ -2,7 +2,7 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('searchPaciente', {
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: ['crudService', '$mdDialog', searchPacienteController],
+        controller: ['crudService', '$mdDialog', '$element', searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -12,7 +12,7 @@
             onAdd: "&?"
         }
     });
-    function searchPacienteController(crudService, $mdDialog) {
+    function searchPacienteController(crudService, $mdDialog, $element) {
         var vm = this;
         vm.$onInit = function () {
             vm.searchText = '';
@@ -44,6 +44,7 @@
         };
         vm.clear = function () { return vm.Paciente = {}; };
         vm.openQuickCreate = function () {
+            var parentView = $element.parent().parent().parent().parent();
             var modalHtml = "<md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Nuevo Paciente</h5>\n                                    </div>\n                                </md-toolbar>\n                                <paciente-quick-create on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
@@ -60,7 +61,8 @@
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
-                fullscreen: false
+                fullscreen: false,
+                parent: parentView
             })
                 .then(function (answer) {
                 vm.onAdd()(answer);

@@ -322,7 +322,12 @@
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Services\MessageService.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
-    <Content Include="SqlScript\turnos-scripts.txt" />
+    <Content Include="SqlScript\diagnostico-script.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlScript\turnos-scripts.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\addphoto-camera.svg" />
     <Content Include="Content\angular-material.css" />
     <Content Include="Content\angular-material.layout-attributes.css" />

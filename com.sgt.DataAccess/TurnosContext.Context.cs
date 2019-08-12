@@ -55,5 +55,6 @@ namespace com.sgt.DataAccess
         public virtual DbSet<Turno> Turnoes { get; set; }
         public virtual DbSet<Turno_Repeticiones> Turno_Repeticiones { get; set; }
         public virtual DbSet<SmtpMail> SmtpMails { get; set; }
+        public virtual DbSet<PacienteDiagnostico> PacienteDiagnosticoes { get; set; }
     }
 }

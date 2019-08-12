@@ -43,7 +43,7 @@
         //        });
         //})();
 
-        vm.$onChanges = (change) => {
+        vm.$onChanges = (change) => {            
             if (change.profesional && !change.profesional.isFirstChange()) {
                 SetFalseCheckboxes(vm.Tipos, vm.checkBoxTipos);
                 SetTrueCheckboxes(vm.checkBoxTipos, vm.profesional.TiposDeSesiones);
