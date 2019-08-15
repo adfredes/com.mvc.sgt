@@ -901,7 +901,7 @@
                 anularSesionesPendientes(modal.dataset.turnoID);
             }
             else {
-                setEstadoAnulado(modal.dataset.sesionID);
+                setEstadoCancelado(modal.dataset.sesionID);
             }
             $('#cancelarSesionModal').modal('hide');
             dibujarGrilla();
@@ -940,7 +940,7 @@
 
         async function CancelarBloqueo(opt) {
             let idSesion = opt.$trigger[0].dataset.id;
-            setEstadoAnulado(idSesion);
+            setEstadoCancelado(idSesion);
             deleteSesionGrilla(options.tabla.querySelector(`#${opt.$trigger[0].id.split('D')[0]}`));
             options.sesiones = await getSesiones();
         }
@@ -1726,8 +1726,8 @@
         promise.then(dibujarGrilla());
     }
 
-    function setEstadoAnulado(sesionID) {
-        let url = Domain + "Sesion/Estado/Anular";
+    function setEstadoCancelado(sesionID) {
+        let url = Domain + "Sesion/Estado/Cancelar";
         let params = {};
         params.id = sesionID;
         changeEstadoSesion(url, params, data => { });

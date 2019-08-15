@@ -58,7 +58,7 @@
                             <td class="text-center w-auto p-1">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreEstado(sesion.Estado)}}
-                            <span ng-show="sesion.Estado == 8" class="icon-calendar text-danger" 
+                            <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger" 
                                   ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
                             </td>
                             <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">

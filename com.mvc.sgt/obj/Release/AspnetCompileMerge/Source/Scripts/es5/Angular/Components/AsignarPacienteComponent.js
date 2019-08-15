@@ -151,6 +151,7 @@
             }, $element);
         };
         vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, function (data) {
+            eventService.UpdateTurnos();
             getTurno(vm.turno.ID);
             if (vm.onChanges) {
                 vm.onChanges()();

@@ -26,6 +26,7 @@
         var Consultorios = [];
         vm.selectedTurno = {};
         vm.deleteTurno = false;
+        var parentModal;
         vm.reading = false;
         vm.toDate = function (value) {
             var dateValue = moment(value).toDate();
@@ -77,6 +78,7 @@
         vm.sendTurnoWhatsapp = function (turno) {
             window.open(turnoService.linkWhatsapp(turno, vm.paciente));
         };
+        vm.bolder = function (estado) { return turnoService.bolder(estado); };
         vm.sendTurno = function (turno) {
             turnoService.sendTurno(turno.ID)
                 .then(function () { return undefined; })
@@ -132,6 +134,7 @@
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };
         var getTurnosPaciente = function (id) {
+            console.log(id);
             var promise = crudService.GetPHttp("Paciente/ListTurnos/" + id);
             promise.then(function (data) {
                 vm.reading = false;
@@ -140,32 +143,17 @@
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };
         var sesionesOrder = function (data) {
-            data.forEach(function (turno) {
-                var sesiones = JSON.parse(JSON.stringify(turno.Sesions.filter(function (value, index, self) {
-                    return self.findIndex(function (element) { return element.Numero === value.Numero && element.ID < value.ID + 3
-                        && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
-                        && element.TurnoSimultaneo === value.TurnoSimultaneo; })
-                        === index;
-                })));
-                sesiones.forEach(function (mValue) {
-                    var result = turno.Sesions.filter(function (fValue) {
-                        return mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
-                            && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
-                            && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo;
-                    }).length;
-                    mValue.sesiones = result;
-                });
-                turno.Sesions = sesiones.sort(function (a, b) { return a.Numero - b.Numero; });
-                var fechaActual = new Date();
-                if (fechaActual.getTime() <= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[0].FechaHora).toDate().getTime())
-                    turno.visible = true;
-                else
-                    turno.visible = false;
-                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-                turno.begin = turno.Sesions[0].FechaHora;
-            });
-            return data;
+            return turnoService.turnosSesionesOrder(data);
         };
+        vm.FacturacionTurnoShow = function (turno) {
+            turnoService.FacturacionTurnoShow(turno, undefined, vm.parent);
+        };
+        var updateData = function () {
+            eventService.UpdateTurnos();
+            getTurnosPaciente(vm.paciente.ID);
+        };
+        vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, updateData, vm.parent); };
+        vm.sesionAnular = function (id) { return turnoService.sesionAnular(id, updateData, vm.parent); };
         vm.openDobleOrden = function (turno) {
             turnoService.openDobleOrden(turno, function (promise) {
                 return promise.then(function (data) {
@@ -177,7 +165,7 @@
                     vm.turnos[indice].end = turno.end;
                 })
                     .catch(function (error) { });
-            }, vm.parent.children());
+            }, vm.parent.parent());
         };
         vm.$onChanges = function (change) {
             vm.turnos = [];
@@ -185,6 +173,12 @@
             Consultorios = [];
             vm.deleteTurno = false;
             getConsultorios();
+            if (vm.parent) {
+                parentModal = vm.parent.parent().parent().parent().parent();
+            }
+            else {
+                vm.parent = $element.parent().parent().parent().parent().parent();
+            }
         };
         vm.openDiagnostico = function (turno) {
             turnoService.openDiagnostico(vm.paciente, turno, function (promise) {
@@ -195,7 +189,7 @@
                     }
                 })
                     .catch(function (error) { });
-            }, vm.parent.children());
+            }, vm.parent.parent());
         };
         vm.showModal = function (ev) {
             var modalHtml = "\n                <md-dialog aria-label=\"Turnos\">\n                  <form ng-cloak>\n                    <md-toolbar>\n                      <div class=\"md-toolbar-tools  badge-warning\">\n                        <h5 class=\"modal-title\">Turnos</h5>        \n                      </div>\n                    </md-toolbar>\n                    <md-dialog-content>\n                      <div class=\"md-dialog-content\">        \n                        <p>\n                          Esta seguro que desea cancelar el turno " + vm.selectedTurno.ID + "?\n                        </p>\n                      </div>\n                    </md-dialog-content>\n\n                    <md-dialog-actions layout=\"row\">      \n                      <span flex></span>\n                      <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                      <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                    </md-dialog-actions>\n                  </form>\n                </md-dialog>\n                ";

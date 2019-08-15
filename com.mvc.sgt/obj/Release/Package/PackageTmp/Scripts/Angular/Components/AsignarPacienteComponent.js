@@ -184,6 +184,7 @@
         };
 
         vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {
+            eventService.UpdateTurnos();
             getTurno(vm.turno.ID);
             if (vm.onChanges) {
                 vm.onChanges()();

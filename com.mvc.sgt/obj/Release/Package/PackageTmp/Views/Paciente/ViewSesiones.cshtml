@@ -66,15 +66,17 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" style="cursor:pointer">
+                        <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" ng-class="{'font-weight-bold':$ctrl.bolder(sesion.Estado)}" style="cursor:pointer">
                             <td class="text-center w-auto p-1">{{sesion.Numero}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.toDate(sesion.FechaHora)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
                             <td class="text-center w-auto p-1">
                                 {{$ctrl.getNombreEstado(sesion.Estado)}}
-                                <span ng-show="sesion.Estado == 8" class="icon-calendar text-danger"
+                                <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"
                                       ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
+                                <span ng-show="sesion.Estado == 6" class="icon-trash-empty text-danger"
+                                      ng-click="$ctrl.sesionAnular(sesion.ID)"></span>
                             </td>
                             <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">
                                 <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />

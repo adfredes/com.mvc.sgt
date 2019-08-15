@@ -8,7 +8,10 @@
                 <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-whatsapp text-primary font-weight-bold" ng-click="$ctrl.sendTurnoWhatsapp(turno)" title="Enviar Turno Whatsapp"></span>
                 <span style="cursor:pointer" class="icon-stethoscope text-primary font-weight-bold" ng-click="$ctrl.openDiagnostico(turno)" title="Diagnóstico"></span>
                 <span style="cursor:pointer" class="icon-clone text-primary font-weight-bold" ng-class="{'text-warning' : turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden(turno)" title="Doble Orden"></span>
+                <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-credit-card text-primary font-weight-bold" ng-click="$ctrl.FacturacionTurnoShow(turno)" title="Facturacion"></span>
                 <span style="cursor:pointer" ng-hide="turno.Estado==4" class="icon-cancel text-danger font-weight-bold" ng-click="$ctrl.cancelarSesionSelect($event, turno)" title="Cancelar Turno"></span>
+
+
             </caption>
             <thead>
                 <tr ng-show="turno.visible" class="bg-light">
@@ -19,12 +22,18 @@
                     <th scope="col" class="text-center w-25">Estado</th>
                 </tr>
             </thead>
-            <tr ng-show="turno.visible" ng-repeat="sesion in turno.Sesions track by $index" ng-click="$ctrl.sesionClick(sesion.FechaHora)" style="cursor:pointer">
-                <td class="text-center w-auto">{{sesion.Numero}}</td>
-                <td class="text-center w-25">{{$ctrl.toDate(sesion.FechaHora)}}</td>
-                <td class="text-center w-25">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
-                <td class="text-center w-25">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
-                <td class="text-center w-25">{{$ctrl.getNombreEstado(sesion.Estado)}}</td>
+            <tr ng-show="turno.visible" ng-class="{'font-weight-bold':$ctrl.bolder(sesion.Estado)}"  ng-repeat="sesion in turno.Sesions track by $index" style="cursor:pointer">
+                <td class="text-center w-auto" ng-click="$ctrl.sesionClick(sesion.FechaHora)">{{sesion.Numero}}</td>
+                <td class="text-center w-25" ng-click="$ctrl.sesionClick(sesion.FechaHora)">{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                <td class="text-center w-25" ng-click="$ctrl.sesionClick(sesion.FechaHora)">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
+                <td class="text-center w-25" ng-click="$ctrl.sesionClick(sesion.FechaHora)">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                <td class="text-center w-25">
+                    {{$ctrl.getNombreEstado(sesion.Estado)}}
+                    <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"
+                          ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
+                    <span ng-show="sesion.Estado == 6" class="icon-trash-empty text-danger"
+                          ng-click="$ctrl.sesionAnular(sesion.ID)"></span>
+                </td>
             </tr>
         </table>
     </div>

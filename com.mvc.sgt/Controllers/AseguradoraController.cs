@@ -53,14 +53,15 @@ namespace com.mvc.sgt.Controllers
         public JsonResult GetAll()
         {
             List<AseguradoraModel> model;
-            model = Mapper.Map<List<AseguradoraModel>>(AseguradoraService.GetAll().OrderBy(x=>x.Descripcion));                                 
+            model = Mapper.Map<List<AseguradoraModel>>(AseguradoraService.GetAll().OrderBy(x=>x.Descripcion));               
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult Get(int id)
         {
-            AseguradoraModel model = Mapper.Map<AseguradoraModel>(AseguradoraService.Find(id));            
+            AseguradoraModel model = Mapper.Map<AseguradoraModel>(AseguradoraService.Find(id));
+            model.AseguradoraPlan = model.AseguradoraPlan.OrderBy(p => p.Descripcion).ToList();
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 

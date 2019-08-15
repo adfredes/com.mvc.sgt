@@ -43,6 +43,7 @@
         let Consultorios = [];
         vm.selectedTurno = {};
         vm.deleteTurno = false;
+        let parentModal;
         
 
         vm.reading = false;
@@ -110,6 +111,8 @@
             window.open(turnoService.linkWhatsapp(turno, vm.paciente));
             
         };
+
+        vm.bolder = (estado) => turnoService.bolder(estado);
 
         vm.sendTurno = (turno) => {
             turnoService.sendTurno(turno.ID)
@@ -180,6 +183,7 @@
         };
 
         let getTurnosPaciente = (id) => {
+            console.log(id);
             let promise = crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
             promise.then(data => {
                 vm.reading = false;
@@ -190,39 +194,52 @@
 
         let sesionesOrder = (data) => 
         {
-            data.forEach(turno => {
-                let sesiones = JSON.parse(JSON.stringify(turno.Sesions.filter((value, index, self) =>
-                    self.findIndex(element => element.Numero === value.Numero && element.ID < value.ID + 3
-                        && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
-                        && element.TurnoSimultaneo === value.TurnoSimultaneo
-                    )
-                    === index
-                )));
+            //data.forEach(turno => {
+            //    let sesiones = JSON.parse(JSON.stringify(turno.Sesions.filter((value, index, self) =>
+            //        self.findIndex(element => element.Numero === value.Numero && element.ID < value.ID + 3
+            //            && element.ID >= value.ID -1
+            //            && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
+            //            && element.TurnoSimultaneo === value.TurnoSimultaneo
+            //        )
+            //        === index
+            //    )));
 
-                sesiones.forEach(mValue => {
-                    let result = turno.Sesions.filter(fValue =>
-                        mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
-                        && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
-                        && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
-                    ).length;
-                    mValue.sesiones = result;
-                });
-                turno.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
-                );
-                let fechaActual = new Date();
-                if (fechaActual.getTime() <= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[0].FechaHora).toDate().getTime())
-                    turno.visible = true;
-                else
-                    turno.visible = false;
-                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-                turno.begin = turno.Sesions[0].FechaHora;
-            });
-            return data;
+            //    sesiones.forEach(mValue => {
+            //        let result = turno.Sesions.filter(fValue =>
+            //            mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
+            //            && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
+            //            && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
+            //        ).length;
+            //        mValue.sesiones = result;
+            //    });
+            //    turno.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
+            //    );
+            //    let fechaActual = new Date();
+            //    if (fechaActual.getTime() <= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[0].FechaHora).toDate().getTime())
+            //        turno.visible = true;
+            //    else
+            //        turno.visible = false;
+            //    turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
+            //    turno.begin = turno.Sesions[0].FechaHora;
+            //});
+            return turnoService.turnosSesionesOrder(data);
         };
         /*let _sesiones = options.sesiones.filter((value, index, self) =>
             self.findIndex(element => element.TurnoID == value.TurnoID && element.Numero == value.Numero) == index);
         _sesiones.map(mValue => mValue.sesiones = options.sesiones.filter(fValue => mValue.TurnoID == fValue.TurnoID && mValue.Numero == fValue.Numero));*/
 
+        vm.FacturacionTurnoShow = (turno) => {
+            turnoService.FacturacionTurnoShow(turno, undefined, vm.parent);
+        };
+
+        let updateData = () => {
+            eventService.UpdateTurnos();
+            getTurnosPaciente(vm.paciente.ID);
+        };
+
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, updateData, vm.parent);
+
+        vm.sesionAnular = (id) => turnoService.sesionAnular(id, updateData, vm.parent);
 
         vm.openDobleOrden = (turno) => {
             turnoService.openDobleOrden(turno,
@@ -235,7 +252,7 @@
                         vm.turnos[indice].begin = turno.begin;
                         vm.turnos[indice].end = turno.end;
                     })
-                        .catch(error => { }), vm.parent.children()
+                        .catch(error => { }), vm.parent.parent()
             );
         };
 
@@ -244,12 +261,18 @@
         //    getConsultorios();
         //};
 
-        vm.$onChanges = (change) => {
+        vm.$onChanges = (change) => {            
             vm.turnos = [];
             Estados = [];
             Consultorios = [];
             vm.deleteTurno = false;
             getConsultorios();
+            if (vm.parent) {
+                parentModal = vm.parent.parent().parent().parent().parent();
+            }
+            else {
+                vm.parent = $element.parent().parent().parent().parent().parent();
+            }
         };
 
         vm.openDiagnostico = (turno) => {
@@ -261,7 +284,7 @@
                             vm.onAdddiagnostico()();
                         }
                     })
-                        .catch(error => { }), vm.parent.children()
+                        .catch(error => { }), vm.parent.parent()
             );
         };
 
@@ -355,23 +378,7 @@
 
         vm.pacienteChange = () => {
             init();
-        };
-        
-
-
-        //let getTurnosPaciente = (id) => {
-        //    getPaciente(vm.PacienteID);
-        //    let promise = turnoService.getTurnosPaciente(id);
-        //    promise.then(data => {
-
-        //        vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));
-        //        vm.currentPage = vm.turnos.findIndex(e => e.ID == vm.TurnoID);
-        //        vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
-        //        vm.turno = vm.turnos[vm.currentPage];
-        //        vm.registerCount = vm.turnos.length;
-        //    })
-        //        .catch(err => { vm.turnos = []; });
-        //};
+        };              
 
         let getPaciente = id => {
             if (id && id > 0) {
@@ -385,6 +392,8 @@
                 vm.paciente = {};
             }
         };
+
+     
 
 
         vm.turnoChange = () => {

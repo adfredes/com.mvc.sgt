@@ -22,6 +22,7 @@ namespace com.sgt.services.Interfaces
         void EditAgenda(Agendum entity);
 
         ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate);
+        Sesion SetSesionCancelada(int sesionID, string usuario);
         Sesion SetSesionAnulada(int sesionID, string usuario);
         Sesion SetSesionAsistio(int sesionID, string usuario);
         Sesion SetSesionNoAsistio(int sesionID, string usuario);

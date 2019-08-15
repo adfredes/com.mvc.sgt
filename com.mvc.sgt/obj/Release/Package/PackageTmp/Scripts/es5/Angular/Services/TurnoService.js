@@ -55,6 +55,14 @@
             var headerText = "Turno: " + turno.ID + " - " + paciente.Apellido + ", " + paciente.Nombre;
             pdfService.CreateTurnoPdf(body, headerText);
         };
+        $this.bolder = function (estado) {
+            if (estado < 9 && estado != 6) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
         $this.getEstados = function () { return crudService.GetPHttp("api/grilla/Estados"); };
         $this.getConsultorios = function () { return crudService.GetPHttp("api/grilla/Consultorios"); };
         $this.getConsultoriosFecha = function (fechaConsultorio) { return crudService.GetPHttp("Consultorio/ListarHorarios/" + fechaConsultorio.getFullYear() + "/" + (fechaConsultorio.getMonth() + 1) + "/" + fechaConsultorio.getDate()); };
@@ -68,18 +76,21 @@
             data.forEach(function (turno) {
                 turno = $this.sesionesOrder(turno);
                 var fechaActual = new Date();
-                if (fechaActual.getTime() <= moment(turno.Sesions[0].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime())
+                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
+                var pos = 0;
+                turno.begin = turno.Sesions[pos].FechaHora;
+                if (fechaActual.getTime() >= moment(turno.begin).toDate().getTime() && fechaActual.getTime() <= moment(turno.end).toDate().getTime())
                     turno.visible = true;
                 else
                     turno.visible = false;
-                turno.begin = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-                turno.end = turno.Sesions[0].FechaHora;
             });
             return data;
         };
         $this.sesionesOrder = function (data) {
             var sesiones = JSON.parse(JSON.stringify(data.Sesions.filter(function (value, index, self) {
                 return self.findIndex(function (element) { return element.Numero === value.Numero && element.ID < value.ID + 3
+                    && element.ID >= value.ID - 1
+                    && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
                     && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
                     && element.TurnoSimultaneo === value.TurnoSimultaneo; })
                     === index;
@@ -87,6 +98,7 @@
             sesiones.forEach(function (mValue) {
                 var result = data.Sesions.filter(function (fValue) {
                     return mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
+                        && $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(mValue.FechaHora).toDate())
                         && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
                         && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo;
                 }).length;
@@ -94,6 +106,36 @@
             });
             data.Sesions = sesiones.sort(function (a, b) { return a.Numero - b.Numero; });
             return data;
+        };
+        $this.sesionAnular = function (sesionID, success, parentEl) {
+            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea eliminar la sesion?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+            $mdDialog.show({
+                parent: parentEl,
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: false,
+                locals: { TurnoID: TurnoID }
+            })
+                .then(function (answer) {
+                var url = "Sesion/Estado/Anular";
+                var params = {};
+                params.id = sesionID;
+                var promise = crudService.PutHttp(url, params);
+                promise.then(function () { return success(); });
+            })
+                .catch(function () { return undefined; });
         };
         $this.getTurnosSinFechaAsignada = function () { return crudService.GetPHttp('api/turno/SinFechaAsignada'); };
         $this.asignarPaciente = function (turno) {
@@ -224,7 +266,7 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: parentEl,
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
@@ -448,6 +490,31 @@
                 .ariaLabel('Alert Dialog')
                 .ok('Aceptar')
                 .multiple(true));
+        };
+        $this.FacturacionTurnoShow = function (turno, success, parentEl) {
+            function DialogController($scope, $mdDialog) {
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function () {
+                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
+                };
+            }
+            $mdDialog.show({
+                parent: parentEl,
+                templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion",
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: false,
+                fullscreen: false,
+                locals: { turno: turno }
+            })
+                .then(function (answer) {
+                success();
+            })
+                .catch(function () { return undefined; });
         };
     }
 })();

@@ -33,6 +33,17 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d => d.Text, opt => opt.MapFrom(src => src.Descripcion))
                 .ReverseMap();
 
+                mapper.CreateMap<Turno, TurnoFacturacionModel>()
+                .ForMember(d => d.Aseguradora, opt => opt.MapFrom(src => src.Paciente.Aseguradora.Descripcion))
+                .ForMember(d => d.AseguradoraPlan, opt => opt.MapFrom(src => src.Paciente.Aseguradora_Plan.Descripcion))
+                .ForMember(d => d.Cuit, opt => opt.MapFrom(src=>src.Paciente.Cuit))                
+                .ForMember(d => d.DocumentoNumero, opt => opt.MapFrom(src => src.Paciente.DocumentoNumero))
+                .ForMember(d => d.Nombre, opt => opt.MapFrom(src => src.Paciente.Nombre))
+                .ForMember(d => d.Apellido, opt => opt.MapFrom(src => src.Paciente.Apellido))
+                .ForMember(d => d.Direccion, opt => opt.MapFrom(src => src.Paciente.Direccion))
+                .ForMember(d => d.CodigoPostal, opt => opt.MapFrom(src => src.Paciente.CodigoPostal))
+                .ForMember(d => d.NumeroAfiliado, opt => opt.MapFrom(src => src.Paciente.NumeroAfiliado))
+                ;
 
                 mapper.CreateMap<Paciente, PacienteSearchDto>()                
                 .ReverseMap();

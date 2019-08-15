@@ -235,7 +235,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
           <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaNacimiento" Type="datetime" Nullable="false" />
-          <Property Name="Telefono" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="255" />
           <Property Name="Telefono2" Type="varchar" MaxLength="255" />
           <Property Name="Celular" Type="varchar" MaxLength="255" />
           <Property Name="AseguradoraID" Type="int" Nullable="false" />
@@ -401,10 +401,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
           <Property Name="CantidadSesiones" Type="int" />
           <Property Name="Diagnostico" Type="varchar(max)" />
+          <Property Name="CodigoPractica" Type="varchar" MaxLength="50" />
           <Property Name="Fecha" Type="smalldatetime" />
           <Property Name="TipoSesionID" Type="int" />
           <Property Name="TurnoDoble" Type="int" />
-          <Property Name="CodigoPractica" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Turno_Repeticiones">
           <Key>
@@ -1086,7 +1086,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Telefono2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Celular" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="AseguradoraID" Type="Int32" Nullable="false" />

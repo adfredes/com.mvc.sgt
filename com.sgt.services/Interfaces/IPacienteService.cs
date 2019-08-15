@@ -17,5 +17,6 @@ namespace com.sgt.services.Interfaces
         Boolean TurnosAnteriores(int PacienteID, int TipoSesionID);
         bool IsSesionesSuperpuestas(int turnoID);
         Paciente GetPacienteByDocumento(string documento);
+        
     }
 }

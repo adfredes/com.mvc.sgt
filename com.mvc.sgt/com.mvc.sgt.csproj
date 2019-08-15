@@ -294,6 +294,7 @@
     <Compile Include="Models\PacienteDto.cs" />
     <Compile Include="Models\PacienteModel.cs" />
     <Compile Include="Models\PacienteSearchDto.cs" />
+    <Compile Include="Models\TurnoFacturacionModel.cs" />
     <Compile Include="Models\ProfesionalModel.cs" />
     <Compile Include="Models\Profesional_TipoSesionModel.cs" />
     <Compile Include="Models\ProvinciaModel.cs" />
@@ -1337,7 +1338,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -1424,6 +1427,7 @@
     <Content Include="Views\Paciente\ViewFiles.cshtml" />
     <Content Include="Views\Agenda\DobleOrdenModal.cshtml" />
     <Content Include="Views\Paciente\DatosSesiones.cshtml" />
+    <Content Include="Views\Agenda\TurnoDatosFacturacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -302,13 +302,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (options.sesionesReservadas.length > 0) {
             var innerDiv_1 = "<p><span class='icon-calendar'></span>\n                                    " + options.sesionesReservadas.length + " Reservas\n                                    <span id=\"btnDivReservasCancelar\" class=\"icon-cancel\"></span>\n                                    <span id=\"btnDivReservasAceptar\" class=\"icon-ok\"></span>\n                                    <span>&nbsp</span>\n                                </p>\n                                <ul>";
             options.sesionesReservadas.sort(function (a, b) { return parseInt(a.fecha) - parseInt(b.fecha); });
-            var nroReserva_1 = 0;
             options.sesionesReservadas.forEach(function (e) {
                 var _fecha = e.fecha.substr(6, 2) + '/' + e.fecha.substr(4, 2) + '/' + e.fecha.substr(0, 4);
                 var _desde = e.hora.substr(0, 2) + ':' + e.hora.substr(2, 2);
                 var _hasta = sesionSiguiente(e.sesiones[e.sesiones.length - 1].hora);
                 _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);
-                nroReserva_1++;
                 innerDiv_1 += "<li>" + e.Numero + " " + _fecha + " " + _desde + " a " + _hasta + " </li >";
             });
             innerDiv_1 += "</ul>";
@@ -760,7 +758,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 anularSesionesPendientes(modal.dataset.turnoID);
             }
             else {
-                setEstadoAnulado(modal.dataset.sesionID);
+                setEstadoCancelado(modal.dataset.sesionID);
             }
             $('#cancelarSesionModal').modal('hide');
             dibujarGrilla();
@@ -786,7 +784,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     switch (_b.label) {
                         case 0:
                             idSesion = opt.$trigger[0].dataset.id;
-                            setEstadoAnulado(idSesion);
+                            setEstadoCancelado(idSesion);
                             deleteSesionGrilla(options.tabla.querySelector("#" + opt.$trigger[0].id.split('D')[0]));
                             _a = options;
                             return [4, getSesiones()];
@@ -1355,8 +1353,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var promise = ajaxPromise("PUT", url, params);
         promise.then(dibujarGrilla());
     }
-    function setEstadoAnulado(sesionID) {
-        var url = Domain + "Sesion/Estado/Anular";
+    function setEstadoCancelado(sesionID) {
+        var url = Domain + "Sesion/Estado/Cancelar";
         var params = {};
         params.id = sesionID;
         changeEstadoSesion(url, params, function (data) { });

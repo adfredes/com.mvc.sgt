@@ -2,6 +2,7 @@
 using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
 using com.sgt.DataAccess;
+using com.sgt.DataAccess.Enums;
 using com.sgt.services.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -151,6 +152,34 @@ namespace com.mvc.sgt.Controllers
             return Json(resu, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [Route("Turno/{ID}/Facturacion")]
+        public ActionResult TurnoDatosFacturacion(int ID)
+        {
+            var model = Mapper.Map<TurnoFacturacionModel>(this.AgendaService.GetTurno(ID));
+            model.Sesions = model.Sesions.Where(x => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)
+             || (EstadoSesion)x.Estado == EstadoSesion.Cancelado
+            )
+            .OrderBy(x=>x.Numero)
+            .ThenBy(x=>x.FechaHora)
+            .ToList();
+
+            List<SesionModel> sesiones = new List<SesionModel>();
+            int sesion = 0;            
+            model.Sesions.ToList().ForEach(s =>
+            {
+                if(s.Numero > sesion)
+                {
+                    sesiones.Add(s);
+                    sesion = s.Numero;
+                }
+            });
+            model.Sesions = sesiones;
+            ViewBag.nroSesiones = sesion;            
+
+            return PartialView(model);
+        }
+
         [HttpPut]
         [CreateUpdateActionFilter("admin")]
         [Route("Turno/Cancelar")]
@@ -169,6 +198,23 @@ namespace com.mvc.sgt.Controllers
                 resu = ex.Message;
             }
             return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
+        [Route("Sesion/Estado/Cancelar")]
+        public JsonResult setSesionCancelada(int id)
+        {
+            SesionGrillaModel resu;
+            try
+            {
+                resu = Mapper.Map<SesionGrillaModel>(this.AgendaService.SetSesionCancelada(id, User.Identity.Name ?? "admin"));
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                resu = new SesionGrillaModel();
+            }
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPut]
@@ -491,7 +537,8 @@ namespace com.mvc.sgt.Controllers
         public JsonResult GetTurno(int id)
         {
             TurnoModel turno = null;            
-            turno = Mapper.Map<TurnoModel>(this.AgendaService.GetTurno(id));            
+            turno = Mapper.Map<TurnoModel>(this.AgendaService.GetTurno(id));
+            turno.Sesions = turno.Sesions.Where(s => s.Estado != 3).ToList();
             return Json(JsonConvert.SerializeObject(turno), JsonRequestBehavior.AllowGet);
             //return Json(turnos, JsonRequestBehavior.AllowGet);
         }

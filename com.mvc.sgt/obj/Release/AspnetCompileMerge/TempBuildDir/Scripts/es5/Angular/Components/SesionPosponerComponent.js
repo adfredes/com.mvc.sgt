@@ -21,7 +21,7 @@
             vm.motivo = 9;
             var firstTurno = vm.turno.Sesions.filter(function (x) { return x.Estado == 2
                 || x.Estado == 1 || x.Estado == 4 || x.Estado == 5 || x.Estado == 8
-                || x.Estado == 7; })[0];
+                || x.Estado == 7; }).pop();
             vm.sesiones = vm.turno.Sesions.filter(function (x) { return x.selected; });
             ;
             vm.minDate = new Date(firstTurno.FechaHora);

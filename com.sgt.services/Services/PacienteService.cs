@@ -72,7 +72,8 @@ namespace com.sgt.services.Services
         {
             var resu = FindBy(x => x.DocumentoTipoID == paciente.DocumentoTipoID
                 && x.DocumentoNumero == paciente.DocumentoNumero
-                && x.ID != paciente.ID);
+                && x.ID != paciente.ID
+                && x.Habilitado);
             int pp = resu.Count();
             return resu.Count() == 0 ? false : true;
 

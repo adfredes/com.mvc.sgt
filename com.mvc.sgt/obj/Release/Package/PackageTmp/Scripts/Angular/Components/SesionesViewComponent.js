@@ -39,6 +39,8 @@
             init();
         };
 
+        vm.bolder = (estado) => turnoService.bolder(estado);
+
         vm.pacienteSeleccionado = {};
 
         vm.toDate = turnoService.toDate;
@@ -222,11 +224,16 @@
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
 
-        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, (data) => {
+        let updateData = () => {
             eventService.UpdateTurnos();
             getTurno(vm.turno.ID);
-            //vm.turno = turnoService.sesionesOrder(JSON.parse(data));
-        }, $element);
+        };
+
+        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, updateData, $element.children());
+
+        vm.sesionAnular = (id) => {            
+            turnoService.sesionAnular(id, updateData, $element.children());
+        };
 
         vm.sendTurnoWhatsapp = () => {
             window.open(turnoService.linkWhatsapp(vm.turno, vm.paciente));
