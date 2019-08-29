@@ -32,50 +32,57 @@
         vm.ObrasSociales = [];
         vm.Planes = [];
         vm.selectedIndex = 0;
-        vm.takeFoto = false;        
+        vm.takeFoto = false;
         vm.uploading = false;
         vm.files = [];
         vm.uploadingText = "";
         vm.parent = $element.children();
         vm.OldDiagnostico = '';
+        vm.paciente = { ID: 0 };
+        vm.pacienteid = 0;
 
         vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
        
 
         let loadPaciente = (id) => {
+            vm.paciente = {ID:0};
             vm.selectedIndex = 0;
             let promise = crudService.GetPHttp(`Paciente/Get/${id}`);
-            promise.then(data => {                       
+            promise.then(data => {      
+                console.log('loaddd');
                 vm.paciente = JSON.parse(data);
+                vm.pacienteid = vm.paciente.ID;
                 vm.getLocalidades();
                 vm.getPlanes();
-                loadDiagnostico(id);
+                loadDiagnostico(vm.paciente.ID);
                 getFiles(id);
             })
-                .catch(err => vm.paciente = {});
+                .catch(err => vm.paciente = {ID:0});
         };   
 
         let loadDiagnostico = (id) => {
             vm.OldDiagnostico = '';
-            let promise = crudService.GetPHttp(`Paciente/${id}/Diagnostico`);
-            promise.then(data => {                     
-                vm.diagnosticos = JSON.parse(data);    
-                vm.diagnosticos.forEach(d => {
-                    if (d.TurnoID == 0) {
-                        vm.OldDiagnostico = `${unescape(d.Diagnostico)}`;
-                    }
+            if (id) {
+                let promise = crudService.GetPHttp(`Paciente/${id}/Diagnostico`);
+                promise.then(data => {
+                    vm.diagnosticos = JSON.parse(data);
+                    vm.diagnosticos.forEach(d => {
+                        if (d.TurnoID == 0) {
+                            vm.OldDiagnostico = `${unescape(d.Diagnostico)}`;
+                        }
 
-                });                    
-            })
-                .catch(err => vm.diagnosticos = {});
-
+                    });
+                })
+                    .catch(err => vm.diagnosticos = {});
+            }            
         };
 
         vm.hiddenChange = (e) => {
+            console.log('hidden');
             if (!vm.paciente.ID || vm.paciente.ID === 0) {
-                vm.paciente = {};
+                vm.paciente = {ID:0};
             }
-            else {
+            else {                
                 loadPaciente(vm.paciente.ID);
             }
         };
@@ -92,9 +99,12 @@
             $mdSelect.destroy();
         };
 
-        vm.$onInit = () => {
-            vm.paciente = vm.paciente ? vm.paciente : {};
-            vm.paciente.ID = vm.paciente.ID ? vm.paciente.ID : 0;
+        vm.$onInit = () => {                        
+            init();          
+        };
+
+        let init = () => {
+            //vm.paciente = vm.paciente ? vm.paciente : {};
             vm.paciente.AseguradoraID = vm.paciente.AseguradoraID ? vm.paciente.AseguradoraID : 0;
             vm.paciente.ProvinciaID = vm.paciente.ProvinciaID ? vm.paciente.ProvinciaID : 0;
             getProvincias();
@@ -103,16 +113,18 @@
         };
 
         vm.$onChanges = (change) => {
+            vm.paciente = vm.paciente ? vm.paciente : {ID:0};
             if (change.paciente && !change.paciente.isFirstChange()) {
-                vm.getLocalidades();
-                vm.getPlanes();
+                //vm.getLocalidades();
+                //vm.getPlanes();
                 vm.uploadingText = "";
                 vm.uploading = false;
             }
+
             if (vm.paciente && vm.paciente.ID) {
                 loadPaciente(vm.paciente.ID);
-                loadDiagnostico(vm.paciente.ID);
-                getFiles(vm.paciente.ID);
+                //loadDiagnostico(vm.paciente.ID);
+                //getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
         };
@@ -271,8 +283,9 @@
             $('#ViewPaciente').modal('hide');
             $('#CreateOrUpdate').modal('hide');            
             $('#' + vm.divid).modal('hide');
+            vm.paciente = {};
             vm.frmPaciente.$setPristine();
-            vm.frmPaciente.$setUntouched();            
+            vm.frmPaciente.$setUntouched();                   
         };
 
         vm.setTouch = () => {
@@ -290,11 +303,11 @@
         };
 
         Message = (requestResponse) => {
-            requestResponse.then(function successCallback(response) {                                
-                vm.close();                                
+            requestResponse.then(function successCallback(response) {                                                
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
+                vm.close();                                
             }, function errorCallback(response) {                
             });
         };        

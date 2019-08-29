@@ -6,6 +6,10 @@
         sessionStorage.setItem('VistaGrillaTurnos', 's');
     };
 
+    let updating = () => options.divGrilla.querySelector('.procesando').style.display = 'block';
+
+    let updated = () => options.divGrilla.querySelector('.procesando').style.display = 'none';
+
     let loadFromSesionStorage = () => {
         let sesionST = {};
         if (sessionStorage) {
@@ -97,29 +101,440 @@
         dibujarGrilla();
     };
 
-    let init = () => {        
-        let btnHoy = document.querySelector('#btnVistaHoy');
-        //let btnProximo = document.querySelector('#btnVistaProximo');
-        let btnSemanal = document.querySelector('#btnVistaSemanal');
+    //////////////////////////////////////
+    let btnCantidadSesionesModal_click = e => {
+        $("#cantidadSesionesModal").modal("hide");
+        updating();
+        let divCantidadSesiones = options.divGrilla.querySelector('#cantidadSesionesModal');
+        e.preventDefault();
+        e.stopPropagation();        
+        let sobreturnos = [];
+        let _turno = {
+            "PacienteID": null,
+            "Estado": 1,
+            "Habilitado": true,
+            "UsuarioModificacion": null,
+            "FechaModificacion ": null,
+            "CantidadSesiones": parseInt( divCantidadSesiones.querySelector("#cmbCantidadSesiones").value),
+            "Diagnostico": "",
+            "Fecha": new Date(),
+            "Sesions": []
+        };
+
+        options.sesionesReservadas.forEach((s, i) => {
+            s.sesiones.forEach(se => {
+                let _sesion = {
+                    "AgendaID": 1,
+                    "TurnoID": null,
+                    "Numero": i + 1,
+                    "ConsultorioID": se.ConsultorioID,
+                    "TurnoSimultaneo": se.TurnoSimultaneo,
+                    "Estado": se.Estado,
+                    "FechaHora": parseFechaHora(se.fecha, se.hora),
+                    "Habilitado": true,
+                    "UsuarioModificacion": null,
+                    "FechaModificacion ": null
+                };
+                _turno.Sesions.push(_sesion);
+            });
+            if (s.sobreturno) {
+                sobreturnos.push(i + 1);
+            }
+        });
+
+        let params = {};
+        params.model = _turno;
+        params.sobreturnos = sobreturnos;
+
+        let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
+        promise.then(data => {
+            let turnoNuevo = JSON.parse(data);
+            options.sesionesReservadas = [];
+            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
+            renderListaReservas();
+            dibujarGrilla();            
+
+        }
+            , data => {
+                showErrorMessage('Reservas', data);
+                updated();
+            });
+
+        //'Sesion/Reservar'
+
+        //renderListaReservas();
+    };
+
+    let btnPosponerSesion_click = e => {        
+        e.stopPropagation();
+        e.preventDefault();
+        updating();
+        $("#posponerTurnoModal").modal('hide');
+
+        let modal = options.divGrilla.querySelector('#posponerTurnoModal');
+        //e.target.removeEventListener('click', btnPosponerSesion_click);
+
+        let turnoID = modal.dataset.turnoid;
+        let numero = modal.dataset.numero;
+        let motivo = modal.querySelector('#cmbMotivoPosponerTurno').value;
+        let _sesiones = options.sesiones.filter(s => s.TurnoID == turnoID && s.Numero == numero);
+        let _newSesiones = [];
+
+
+
+        _sesiones.forEach(s => {
+            s.Estado = motivo;
+            delete s.sesiones;
+        });
+
+        _newSesiones = _newSesiones.concat(_sesiones);
+        let url = Domain + "Sesion/Posponer";
+        ////modificar aca ahora
+        let promise = ajaxPromise("PUT", url, _newSesiones);
+        promise.then(data => {
+            //url = Domain + `Paciente/Turno/${turnoID}/IsSuperpuesto`;
+            //let newPromise = ajaxPromise("PUT", url, _newSesiones);
+            //newPromise.then(answer => {
+
+            //});
+            updated();
+            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+            dibujarGrilla();
+        }
+            , data => {
+                updated();
+                showErrorMessage('Posponer Turno', data);
+                dibujarGrilla();
+            });
+
+
+    };
+
+    let clickReservarBloquear = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        let modal = options.divGrilla.querySelector("#bloquearReservarModal");        
+        if (modal.dataset.bloquear=='true') {
+            clickBloquear(e);
+        }
+        else {
+            clickReservar(e);
+        }
+    };
+
+    let clickReservar = e => {        
+        updating();
+        $('#bloquearReservarModal').modal('hide');
+        let _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
+        if (!validarReserva(modal.dataset.id)) {            
+            updated();
+            showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');            
+        }
+        else {
+            let _celdaID = CeldaIdToObject(modal.dataset.id);
+            let _hora = _celdaID.hora;
+            let sesionReserva = {
+                "AgendaID": 1,
+                "Aseguradora": "",
+                "AseguradoraColor": "lightpink",
+                "ConsultorioID": _celdaID.ConsultorioID,
+                "Estado": 1,
+                //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
+                "FechaModificacion": new Date(),
+                "Habilitado": true,
+                "Numero": options.sesionesReservadas.length + 1,
+                "Paciente": "",
+                "PacienteID": "",
+                "Plan": "",
+                "TurnoID": 0,
+                "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                "UsuarioModificacion": "",
+                "fecha": _celdaID.fecha,
+                "hora": _hora
+            };
+
+            sesionReserva.sesiones = [];
+
+            for (let c = 0; c < _cantidad; c++) {
+                sesionReserva.sesiones.push({
+                    "AgendaID": 1,
+                    "Aseguradora": "",
+                    "AseguradoraColor": "lightpink",
+                    "ConsultorioID": _celdaID.ConsultorioID,
+                    "Estado": 1,
+                    //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
+                    "FechaModificacion": new Date(),
+                    "Habilitado": true,
+                    "Numero": options.sesionesReservadas.length + 1,
+                    "Paciente": "",
+                    "PacienteID": "",
+                    "Plan": "",
+                    "TurnoID": 0,
+                    "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                    "UsuarioModificacion": "",
+                    "fecha": _celdaID.fecha,
+                    "hora": _hora
+                });
+                _hora = sesionSiguiente(_hora);
+            }
+            if (validarSesiones(sesionReserva.sesiones)) {
+                renderSesion(sesionReserva);
+                options.sesionesReservadas.push(sesionReserva);
+                renderListaReservas();                
+                updated();
+            }
+            else {                
+                updated();
+                showErrorMessage('Reservas', 'Existen sesiones ya asignadas a su seleccion.');
+            }
+
+        }
+
+    };
+
+    let clickBloquear = e => {        
+        //e.target.removeEventListener('click', clickBloquear);
+        $('#bloquearReservarModal').modal('hide');
+        updating();
+        let _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
+        let _hora = modal.dataset.id.substr(modal.dataset.id.indexOf('H') + 1, 4);
+        let _fecha = modal.dataset.id.substr(modal.dataset.id.indexOf('F') + 1, 8);
+        let turnoBloqueo = {
+            "PacienteID": null,
+            "Estado": 1,
+            "Habilitado": true,
+            "UsuarioModificacion": null,
+            "FechaModificacion ": null,
+            "CantidadSesiones": 1,
+            "Diagnostico": "",
+            "Fecha": new Date(),
+            "Sesions": []
+        };
+
+        for (let c = 0; c < _cantidad; c++) {
+            turnoBloqueo.Sesions.push({
+                "AgendaID": 1,
+                "TurnoID": null,
+                "Numero": 1,
+                "ConsultorioID": modal.dataset.id.substr(modal.dataset.id.indexOf('C') + 1, modal.dataset.id.indexOf('S') - modal.dataset.id.indexOf('C') - 1),
+                "TurnoSimultaneo": modal.dataset.id.split('S')[1],
+                "Estado": 7,
+                "FechaHora": parseFechaHora(_fecha, _hora),
+                "Habilitado": true,
+                "UsuarioModificacion": null,
+                "FechaModificacion ": null
+            });
+            _hora = sesionSiguiente(_hora);
+        }
+
+        if (validarSesiones(turnoBloqueo.Sesions)) {
+            let url = Domain + "Agenda/BloquearSesion";
+
+            let promise = ajaxPromise("POST", url, turnoBloqueo);
+            promise.then(data => {
+                let _sesiones = JSON.parse(JSON.parse(data));
+                _sesiones.map(e => {
+                    e.FechaHora = moment(e.FechaHora).toDate();
+                    e.FechaHora.setHours(e.FechaHora.getHours() - 3);
+                    e.FechaHora = e.FechaHora.toISOString();
+                });
+                let _sesion = JSON.parse(JSON.stringify(_sesiones[0]));
+                _sesion.sesiones = _sesiones;
+                options.sesiones = options.sesiones.concat(_sesiones);
+                renderSesion(_sesion);
+                updated();
+            }
+                , data => {
+                    showErrorMessage('Bloqueos', data);
+                    updated();
+                });
+
+        }
+        else {
+            showErrorMessage('Bloqueos', 'Existen sesionesss ya asignadas a su seleccion.');
+            updated();
+        }
+        
+
+
+    };
+
+    let clickCancelarSesion = e => {
+        updating();
+        e.preventDefault();
+        e.stopPropagation();
+        $('#cancelarSesionModal').modal('hide');
+
+        if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
+            anularSesionesPendientes(modal.dataset.turnoID);
+        }
+        else {
+            setEstadoCancelado(modal.dataset.sesionID);
+        }
+        //dibujarGrilla();
+    };
+
+
+
+    //function CancelarReserva(celda) {
+    function CancelarReserva(divReserva) {
+        //let divReserva = celda.children[0];
+        updating();
+        if (divReserva.dataset.turnoid > 0) {
+            anularSesionesPendientes(divReserva.dataset.turnoid);
+            /*let url = Domain + 'Sesion/Reserva/Delete';
+            let param = {};
+            param.turnoID = divReserva.dataset.turnoid;
+            let promise = ajaxPromise('DELETE', url, param);
+            promise.then(data => dibujarGrilla()
+                , data => {
+                    showErrorMessage('Cancelar Reserva', data);
+                    //dibujarGrilla();
+                });*/
+        }
+        else {
+            let celda = divReserva.parentElement;
+            deleteSesionGrilla(celda);
+            let id = CeldaIdToObject(celda.id);
+            options.sesionesReservadas = options.sesionesReservadas.filter(sesion => sesion.fecha != id.fecha || sesion.hora != id.hora
+                || sesion.ConsultorioID != id.ConsultorioID || sesion.TurnoSimultaneo != id.TurnoSimultaneo);
+            renderListaReservas();            
+            redibujarGrilla();
+            updated();
+        }
+
+    }
+
+    async function CancelarBloqueo(opt) {
+        updating();
+        let idSesion = opt.$trigger[0].dataset.id;
+        setEstadoCancelado(idSesion);
+        deleteSesionGrilla(options.tabla.querySelector(`#${opt.$trigger[0].id.split('D')[0]}`));
+        options.sesiones = await getSesiones();
+        updated();
+    }
+
+    let showModalBloquearReservar = (celdaId, action, title, bloquear) => {
+        modal = options.divGrilla.querySelector("#bloquearReservarModal");
+        modal.dataset.id = celdaId;
+        modal.dataset.action = action;        
+        modal.dataset.bloquear = bloquear;
+        modal.querySelector('#bloquearReservarTitle').innerHTML = title;
+        modal.querySelector('#cmbSesiones').value = 2;
+
+        //modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickReservar);
+        //modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickBloquear);
+
+        //modal.querySelector('#btnBloquearReservarModal').addEventListener('click', bloquear ? clickBloquear : clickReservar);
+        //modal.dataset.action = bloquear ? clickBloquear : clickReservar
+
+        $('#bloquearReservarModal').modal();
+    };
+
+
+    let showModalCancelarSesion = (sesionID, turnoID) => {
+        modal = options.divGrilla.querySelector('#cancelarSesionModal');
+        modal.querySelector('#cmbCancelarSesion').value = 'false';
+        modal.dataset.sesionID = sesionID;
+        modal.dataset.turnoID = turnoID;
+        //modal.querySelector('#btnCancelarSesionModal').removeEventListener('click', clickCancelarSesion);
+        //modal.querySelector('#btnCancelarSesionModal').addEventListener('click', clickCancelarSesion);
+        $('#cancelarSesionModal').modal();
+    };
+
+
+
+    ////////////////////
+
+    let initModalListener = () => {
+        let modals = [];
+        //CancelarSesion
+        modals.push({
+            element: options.divGrilla.querySelector('#cancelarSesionModal'),
+            evento : 'click',
+            nombreObjeto: '#btnCancelarSesionModal',
+            callback: clickCancelarSesion
+        });        
+
+        //PosponerSesion
+        modals.push({
+            element: options.divGrilla.querySelector('#posponerTurnoModal'),
+            evento: 'click',
+            nombreObjeto: '#btnPosponerTurno',
+            callback: btnPosponerSesion_click
+        });        
+
+        //BloquearReservar
+        modals.push({
+            element: options.divGrilla.querySelector('#bloquearReservarModal'),
+            evento: 'click',
+            nombreObjeto: '#btnBloquearReservarModal',
+            callback: clickReservarBloquear
+        });        
+
+        //CantidadDias
+        modals.push({
+            element: options.divGrilla.querySelector('#cantidadSesionesModal'),
+            evento: 'click',
+            nombreObjeto: '#btnCantidadSesionesModal',
+            callback: btnCantidadSesionesModal_click
+        });        
+
+        modals.push({
+            element: options.divGrilla,
+            evento: 'click',
+            nombreObjeto: '#btnVistaHoy',
+            callback: btnVistaHoy_Click
+        });        
+
+        modals.push({
+            element: options.divGrilla,
+            evento: 'click',
+            nombreObjeto: '#btnVistaSemanal',
+            callback: btnVistaSemanal_Click
+        });                                
 
         let btnsNavegacion = document.querySelectorAll("button[data-dia]");
-
+        
         if (btnsNavegacion) {
             for (i = 0; i < btnsNavegacion.length; i++) {
-                btnsNavegacion[i].addEventListener('click', btnVistaDiaSemana_Click);
+                modals.push({
+                    element: btnsNavegacion[i],
+                    evento: 'click',
+                    nombreObjeto: undefined,
+                    callback: btnVistaDiaSemana_Click
+                });                     
             }
         }
 
+        modals.push({
+            element: document,
+            evento: 'UpdateTurnos',
+            nombreObjeto: undefined,
+            callback: dibujarGrilla
+        });                     
+        
+                
 
-        btnHoy.addEventListener('click', btnVistaHoy_Click);
-        //btnProximo.addEventListener('click', btnVistaProximo_Click);
-        btnSemanal.addEventListener('click', btnVistaSemanal_Click);
+        setlModalsItemsListener(modals);
 
-        document.addEventListener('UpdateTurnos', dibujarGrilla);
+    };
 
-        //presetSessionStorage();
-        let sessionST = loadFromSesionStorage();
+    let setlModalsItemsListener = (modals) =>
+        modals.forEach(m => setModalItemListener(m));
+    
+
+    let setModalItemListener = (modal) => {
+        let element = modal.nombreObjeto ? modal.element.querySelector(modal.nombreObjeto) : modal.element;        
+        element.addEventListener(modal.evento, modal.callback);
+    };
+
+    let init = () => {        
         options.divGrilla = document.querySelector('#GrillaContent');
+
+        initModalListener();
+        
+        let sessionST = loadFromSesionStorage();        
         options.tabla = document.createElement('table');
         options.tabla.id = 'grillaTurnos';
         options.tabla.classList.add('grillaTurnos');
@@ -160,9 +575,7 @@
     $(document).ready(function () {
         init();
     });
-
-
-    //init();
+    
 
     function validarSesiones(_sesiones) {
         return options.sesiones.findIndex(se =>
@@ -197,28 +610,38 @@
     }
 
     async function dibujarGrilla() {
-        options.divGrilla.querySelector('.procesando').style.display = 'block';
-        //options.tabla.innerHTML = options.tabla.innerHTML == '' ? `<tr><td>Procesando....</td></tr>` : options.tabla.innerHTML;
-        //options.tabla.innerHTML = `<tr><td>Procesando....</td></tr>`;
-        options.consultorios = await getConsultorios();
-        options.horarios = await getRangoHorario();
-        options.dias = await getRangoFecha();
-        options.sesiones = await getSesiones();
-        options.recesos = await getRecesos();
+        updating();
+        let awConsultorios = getConsultorios();
+        let awRangoHorario = getRangoHorario();
+        let awRangoFecha = getRangoFecha();        
+
+        
+        options.consultorios = await awConsultorios;
+        options.horarios = await awRangoHorario;
+        options.dias = await awRangoFecha;
+
+        let awSesiones = getSesiones();
+        let awRecesos = getRecesos();
+        let awFeriados = getFeriados();
+
+        options.sesiones = await awSesiones;
+        options.recesos = await awRecesos;
+        options.feriados = await awFeriados;
+
         options.bloqueosAgenda = [];
-        //options.bloqueosAgenda = await getBloqueosAgenda();
-        options.feriados = await getFeriados();
+
         renderGrilla();
         renderReservado();
         setCeldasDroppable();
         setDivsDraggable();
-        options.divGrilla.querySelector('.procesando').style.display = 'none';
+        updated();
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
     }
 
     function redibujarGrilla() {
+        updating();
         renderGrilla();
         renderReservado();
         setCeldasDroppable();
@@ -227,6 +650,7 @@
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
+        updated();
     }
 
     function renderListaReservas() {
@@ -239,72 +663,14 @@
             redibujarGrilla();
         };
 
-        let btnCantidadSesionesModal_click = e => {            
-            $("#cantidadSesionesModal").modal("hide");
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', btnCantidadSesionesModal_click);            
-            let sobreturnos = [];
-            let _turno = {
-                "PacienteID": null,
-                "Estado": 1,
-                "Habilitado": true,
-                "UsuarioModificacion": null,
-                "FechaModificacion ": null,
-                "CantidadSesiones": parseInt(divCantidadSesiones.querySelector("#cmbCantidadSesiones").value),
-                "Diagnostico": "",
-                "Fecha": new Date(),
-                "Sesions": []
-            };
-
-            options.sesionesReservadas.forEach((s, i) => {
-                s.sesiones.forEach(se => {
-                    let _sesion = {
-                        "AgendaID": 1,
-                        "TurnoID": null,
-                        "Numero": i + 1,
-                        "ConsultorioID": se.ConsultorioID,
-                        "TurnoSimultaneo": se.TurnoSimultaneo,
-                        "Estado": se.Estado,
-                        "FechaHora": parseFechaHora(se.fecha, se.hora),
-                        "Habilitado": true,
-                        "UsuarioModificacion": null,
-                        "FechaModificacion ": null
-                    };
-                    _turno.Sesions.push(_sesion);
-                });
-                if (s.sobreturno) {
-                    sobreturnos.push(i + 1);
-                }
-            });
-
-            let params = {};
-            params.model = _turno;
-            params.sobreturnos = sobreturnos;
-
-            let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
-            promise.then(data => {
-                let turnoNuevo = JSON.parse(data);
-                options.sesionesReservadas = [];
-                renderListaReservas();
-                dibujarGrilla();
-                console.dir(turnoNuevo);
-                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
-
-            }
-                , data => showErrorMessage('Reservas', data));
-
-            //'Sesion/Reservar'
-
-            //renderListaReservas();
-        };
+       
 
         let btnDivReservasAceptar_click = e => {
             e.preventDefault();
             e.stopPropagation();
             divCantidadSesiones.querySelector("#cmbCantidadSesiones").value = options.sesionesReservadas.length <= 20 ? options.sesionesReservadas.length : 20;
-            divCantidadSesiones.querySelector('#btnCantidadSesionesModal').removeEventListener('click', btnCantidadSesionesModal_click);
-            divCantidadSesiones.querySelector('#btnCantidadSesionesModal').addEventListener('click', btnCantidadSesionesModal_click);
+            //divCantidadSesiones.querySelector('#btnCantidadSesionesModal').removeEventListener('click', btnCantidadSesionesModal_click);
+            //divCantidadSesiones.querySelector('#btnCantidadSesionesModal').addEventListener('click', btnCantidadSesionesModal_click);
             $("#cantidadSesionesModal").modal("show");
 
         };
@@ -714,284 +1080,7 @@
                 }
             });
         })();
-
-
-
-
-        let btnPosponerSesion_click = e => {
-            e.stopPropagation();
-            e.preventDefault();
-            e.target.removeEventListener('click', btnPosponerSesion_click);
-
-            let turnoID = modal.dataset.turnoid;
-            let numero = modal.dataset.numero;
-            let motivo = modal.querySelector('#cmbMotivoPosponerTurno').value;
-            let _sesiones = options.sesiones.filter(s => s.TurnoID == turnoID && s.Numero == numero);
-            let _newSesiones = [];
-
-
-
-            _sesiones.forEach(s => {
-                s.Estado = motivo;
-                delete s.sesiones;
-            });
-
-            _newSesiones = _newSesiones.concat(_sesiones);
-            let url = Domain + "Sesion/Posponer";
-            ////modificar aca ahora
-            let promise = ajaxPromise("PUT", url, _newSesiones);
-            promise.then(data => {
-                //url = Domain + `Paciente/Turno/${turnoID}/IsSuperpuesto`;
-                //let newPromise = ajaxPromise("PUT", url, _newSesiones);
-                //newPromise.then(answer => {
-
-                //});
-                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
-                dibujarGrilla();
-            }
-                , data => {
-                    showErrorMessage('Posponer Turno', data);
-                    dibujarGrilla();
-                });
-
-
-
-
-            $("#posponerTurnoModal").modal('hide');
-
-
-        };
-
-        let clickReservar = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', clickReservar);
-            let _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
-            if (!validarReserva(modal.dataset.id)) {
-                $('#bloquearReservarModal').modal('hide');
-                showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
-            }
-            else {
-                let _celdaID = CeldaIdToObject(modal.dataset.id);
-                let _hora = _celdaID.hora;
-                let sesionReserva = {
-                    "AgendaID": 1,
-                    "Aseguradora": "",
-                    "AseguradoraColor": "lightpink",
-                    "ConsultorioID": _celdaID.ConsultorioID,
-                    "Estado": 1,
-                    //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
-                    "FechaModificacion": new Date(),
-                    "Habilitado": true,
-                    "Numero": options.sesionesReservadas.length + 1,
-                    "Paciente": "",
-                    "PacienteID": "",
-                    "Plan": "",
-                    "TurnoID": 0,
-                    "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
-                    "UsuarioModificacion": "",
-                    "fecha": _celdaID.fecha,
-                    "hora": _hora
-                };
-
-                sesionReserva.sesiones = [];
-
-                for (let c = 0; c < _cantidad; c++) {
-                    sesionReserva.sesiones.push({
-                        "AgendaID": 1,
-                        "Aseguradora": "",
-                        "AseguradoraColor": "lightpink",
-                        "ConsultorioID": _celdaID.ConsultorioID,
-                        "Estado": 1,
-                        //"FechaHora": parseFechaHora(_celdaID.fecha, _hora),
-                        "FechaModificacion": new Date(),
-                        "Habilitado": true,
-                        "Numero": options.sesionesReservadas.length + 1,
-                        "Paciente": "",
-                        "PacienteID": "",
-                        "Plan": "",
-                        "TurnoID": 0,
-                        "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
-                        "UsuarioModificacion": "",
-                        "fecha": _celdaID.fecha,
-                        "hora": _hora
-                    });
-                    _hora = sesionSiguiente(_hora);
-                }
-                if (validarSesiones(sesionReserva.sesiones)) {
-                    renderSesion(sesionReserva);
-                    options.sesionesReservadas.push(sesionReserva);
-                    renderListaReservas();
-                    $('#bloquearReservarModal').modal('hide');
-                }
-                else {
-                    $('#bloquearReservarModal').modal('hide');
-                    showErrorMessage('Reservas', 'Existen sesiones ya asignadas a su seleccion.');
-                }
-
-            }
-
-        };
-
-        let clickBloquear = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', clickBloquear);
-            let _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
-            let _hora = modal.dataset.id.substr(modal.dataset.id.indexOf('H') + 1, 4);
-            let _fecha = modal.dataset.id.substr(modal.dataset.id.indexOf('F') + 1, 8);
-            let turnoBloqueo = {
-                "PacienteID": null,
-                "Estado": 1,
-                "Habilitado": true,
-                "UsuarioModificacion": null,
-                "FechaModificacion ": null,
-                "CantidadSesiones": 1,
-                "Diagnostico": "",
-                "Fecha": new Date(),
-                "Sesions": []
-            };
-
-            for (let c = 0; c < _cantidad; c++) {
-                turnoBloqueo.Sesions.push({
-                    "AgendaID": 1,
-                    "TurnoID": null,
-                    "Numero": 1,
-                    "ConsultorioID": modal.dataset.id.substr(modal.dataset.id.indexOf('C') + 1, modal.dataset.id.indexOf('S') - modal.dataset.id.indexOf('C') - 1),
-                    "TurnoSimultaneo": modal.dataset.id.split('S')[1],
-                    "Estado": 7,
-                    "FechaHora": parseFechaHora(_fecha, _hora),
-                    "Habilitado": true,
-                    "UsuarioModificacion": null,
-                    "FechaModificacion ": null
-                });
-                _hora = sesionSiguiente(_hora);
-            }
-
-            if (validarSesiones(turnoBloqueo.Sesions)) {
-                let url = Domain + "Agenda/BloquearSesion";
-
-                let promise = ajaxPromise("POST", url, turnoBloqueo);
-                promise.then(data => {
-                    let _sesiones = JSON.parse(JSON.parse(data));
-                    _sesiones.map(e => {
-                        e.FechaHora = moment(e.FechaHora).toDate();
-                        e.FechaHora.setHours(e.FechaHora.getHours() - 3);
-                        e.FechaHora = e.FechaHora.toISOString();
-                    });
-                    let _sesion = JSON.parse(JSON.stringify(_sesiones[0]));
-                    _sesion.sesiones = _sesiones;
-                    options.sesiones = options.sesiones.concat(_sesiones);
-                    renderSesion(_sesion);
-                }
-                    , data => showErrorMessage('Bloqueos', data));
-
-            }
-            else {
-                showErrorMessage('Bloqueos', 'Existen sesionesss ya asignadas a su seleccion.');
-            }
-            $('#bloquearReservarModal').modal('hide');
-
-
-        };
-
-        let clickCancelarSesion = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
-                anularSesionesPendientes(modal.dataset.turnoID);
-            }
-            else {
-                setEstadoCancelado(modal.dataset.sesionID);
-            }
-            $('#cancelarSesionModal').modal('hide');
-            dibujarGrilla();
-        };
-
-
-
-        //function CancelarReserva(celda) {
-        function CancelarReserva(divReserva) {
-            //let divReserva = celda.children[0];
-
-            if (divReserva.dataset.turnoid > 0) {
-                anularSesionesPendientes(divReserva.dataset.turnoid);
-                /*let url = Domain + 'Sesion/Reserva/Delete';
-                let param = {};
-                param.turnoID = divReserva.dataset.turnoid;
-                let promise = ajaxPromise('DELETE', url, param);
-                promise.then(data => dibujarGrilla()
-                    , data => {
-                        showErrorMessage('Cancelar Reserva', data);
-                        //dibujarGrilla();
-                    });*/
-            }
-            else {
-                let celda = divReserva.parentElement;
-                deleteSesionGrilla(celda);
-                let id = CeldaIdToObject(celda.id);
-                options.sesionesReservadas = options.sesionesReservadas.filter(sesion => sesion.fecha != id.fecha || sesion.hora != id.hora
-                    || sesion.ConsultorioID != id.ConsultorioID || sesion.TurnoSimultaneo != id.TurnoSimultaneo);
-                renderListaReservas();
-
-                redibujarGrilla();
-            }
-
-        }
-
-        async function CancelarBloqueo(opt) {
-            let idSesion = opt.$trigger[0].dataset.id;
-            setEstadoCancelado(idSesion);
-            deleteSesionGrilla(options.tabla.querySelector(`#${opt.$trigger[0].id.split('D')[0]}`));
-            options.sesiones = await getSesiones();
-        }
-
-        let showModalBloquearReservar = (celdaId, action, title, bloquear) => {
-            modal = options.divGrilla.querySelector("#bloquearReservarModal");
-            modal.dataset.id = celdaId;
-            modal.dataset.action = action;
-            modal.querySelector('#bloquearReservarTitle').innerHTML = title;
-            modal.querySelector('#cmbSesiones').value = 2;
-
-            modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickReservar);
-            modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickBloquear);
-
-            modal.querySelector('#btnBloquearReservarModal').addEventListener('click', bloquear ? clickBloquear : clickReservar);
-
-            $('#bloquearReservarModal').modal();
-        };
-
-        let showModalCancelarSesion = (sesionID, turnoID) => {
-            modal = options.divGrilla.querySelector('#cancelarSesionModal');
-            modal.querySelector('#cmbCancelarSesion').value = 'false';
-            modal.dataset.sesionID = sesionID;
-            modal.dataset.turnoID = turnoID;
-            modal.querySelector('#btnCancelarSesionModal').removeEventListener('click', clickCancelarSesion);
-            modal.querySelector('#btnCancelarSesionModal').addEventListener('click', clickCancelarSesion);
-            $('#cancelarSesionModal').modal();
-        };
-
-        //let showModalAngularComponent = (modalName, elementName, value) => {
-        //    modal = options.divGrilla.querySelector(modalName);
-        //    if (modal) {
-        //        let elementID = modal.querySelector(elementName);
-        //        if (elementID) {
-        //            let evt = document.createEvent("HTMLEvents");
-        //            evt.initEvent("input", false, true);
-        //            if (elementID.value == value) {
-        //                elementID.value = 0;
-        //                elementID.dispatchEvent(evt);
-        //            }
-
-
-        //            elementID.value = value;
-        //            elementID.dispatchEvent(evt);
-
-        //            $(modalName).modal("show");
-        //        }
-        //    }
-        //};
-
+       
         function contextMenuClick(key, opt, e) {
             switch (key) {
                 case 'reservar':
@@ -1111,9 +1200,9 @@
 
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
-                    let btn = modal.querySelector('#btnPosponerTurno');
-                    btn.removeEventListener('click', btnPosponerSesion_click);
-                    btn.addEventListener('click', btnPosponerSesion_click);
+                    //let btn = modal.querySelector('#btnPosponerTurno');
+                    //btn.removeEventListener('click', btnPosponerSesion_click);
+                    //btn.addEventListener('click', btnPosponerSesion_click);
                     modal.dataset.turnoid = opt.$trigger[0].dataset.turnoid;
                     modal.dataset.numero = opt.$trigger[0].dataset.numero;
                     $('#posponerTurnoModal').modal('show');
@@ -1539,6 +1628,8 @@
     function cambiarTurnoDropped(celda, divId) {
 
         let btnCambiar_click = e => {
+            $("#cambiarTurnoDroppedModal").modal('hide');
+            updating();
             btnGuardar.removeEventListener('click', btnCambiar_click);
             if (!sobreturno) {
                 let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
@@ -1588,6 +1679,7 @@
                 }
                 else {
                     showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
+                    updated();
                 }
             }
             else {
@@ -1638,21 +1730,15 @@
             }
 
 
-
-
-            $("#cambiarTurnoDroppedModal").modal('hide');
+            
 
 
         };
-
-        let btnCancelar_click = e => {
-            btnCancelar.removeEventListener('click', btnCancelar_click);
-            $("#cambiarTurnoDroppedModal").modal('hide');
-        };
+        
 
         let modal = options.divGrilla.querySelector('#cambiarTurnoDroppedModal');
         let btnGuardar = modal.querySelector('#btnCambiarTurnoDropped');
-        let btnCancelar = modal.querySelector('#btnCancelarCambiarTurnoDropped');
+        
         let descripcion = modal.querySelector('#cambiarTurnoDroppedDescripcion');
         let cmbSesiones = modal.querySelector('#cmbSesionesCambiarTurnoDropped');
         let motivo = modal.querySelector('#cmbMotivoCambiarTurnoDropped');
@@ -1674,7 +1760,7 @@
 
 
         btnGuardar.addEventListener('click', btnCambiar_click);
-        btnCancelar.addEventListener('click', btnCancelar_click);
+        
         $("#cambiarTurnoDroppedModal").modal();
 
 

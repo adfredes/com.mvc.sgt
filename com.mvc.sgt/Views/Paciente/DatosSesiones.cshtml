@@ -9,7 +9,7 @@
                 <div class="border border-info p-0 m-0">                    
                     <input id="PacienteID" type="text" ng-hide="1==1" ng-model="$ctrl.PacienteID" ng-change="$ctrl.pacienteChange()" />
                     <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.TurnoID" />
-                    <paciente-turnos pacienteid="$ctrl.paciente.ID" parent="$ctrl.parent" on-close="$ctrl.close()"></paciente-turnos>
+                    <paciente-turnos paciente="$ctrl.paciente" pacienteid="$ctrl.paciente.ID" parent="$ctrl.parent" on-close="$ctrl.close()"></paciente-turnos>
                 </div>
             </div>
             <div class="modal-footer">

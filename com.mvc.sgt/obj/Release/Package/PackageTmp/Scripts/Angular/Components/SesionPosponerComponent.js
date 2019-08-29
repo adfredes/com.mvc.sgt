@@ -37,7 +37,7 @@
             vm.selectedDate.setDate(vm.selectedDate.getDate() + 1);
         };
 
-        vm.save = () => {
+        vm.save = () => {            
             if (!vm.saving) {
                 vm.saving = true;
             

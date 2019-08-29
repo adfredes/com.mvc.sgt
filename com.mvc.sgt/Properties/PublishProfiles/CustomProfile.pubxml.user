@@ -85,10 +85,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/21/2018 11:12:31</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/28/2019 14:48:46</publishTime>
+      <publishTime>08/29/2019 16:52:01</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/28/2019 14:48:46</publishTime>
+      <publishTime>08/29/2019 16:52:01</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>06/18/2018 13:00:14</publishTime>
@@ -97,10 +97,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/18/2018 13:00:14</publishTime>
     </File>
     <File Include="bin/com.mvc.sgt.dll">
-      <publishTime>08/28/2019 14:48:36</publishTime>
+      <publishTime>08/29/2019 16:51:51</publishTime>
     </File>
     <File Include="bin/com.mvc.sgt.pdb">
-      <publishTime>08/28/2019 14:48:36</publishTime>
+      <publishTime>08/29/2019 16:51:51</publishTime>
     </File>
     <File Include="bin/com.sgt.common.util.dll">
       <publishTime>08/26/2019 22:27:37</publishTime>
@@ -109,19 +109,19 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>08/26/2019 22:27:37</publishTime>
     </File>
     <File Include="bin/com.sgt.DataAccess.dll">
-      <publishTime>08/26/2019 22:27:38</publishTime>
+      <publishTime>08/29/2019 16:51:40</publishTime>
     </File>
     <File Include="bin/com.sgt.DataAccess.dll.config">
       <publishTime>08/15/2019 18:31:38</publishTime>
     </File>
     <File Include="bin/com.sgt.DataAccess.pdb">
-      <publishTime>08/26/2019 22:27:38</publishTime>
+      <publishTime>08/29/2019 16:51:40</publishTime>
     </File>
     <File Include="bin/com.sgt.services.dll">
-      <publishTime>08/26/2019 22:27:38</publishTime>
+      <publishTime>08/29/2019 16:51:40</publishTime>
     </File>
     <File Include="bin/com.sgt.services.pdb">
-      <publishTime>08/26/2019 22:27:38</publishTime>
+      <publishTime>08/29/2019 16:51:40</publishTime>
     </File>
     <File Include="bin/Content/font/fontello.eot">
       <publishTime>03/08/2019 11:17:48</publishTime>
@@ -802,7 +802,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/21/2018 11:12:05</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/28/2019 14:48:39</publishTime>
+      <publishTime>08/29/2019 16:51:54</publishTime>
     </File>
     <File Include="Scripts/angular-animate.js">
       <publishTime>06/21/2018 11:16:03</publishTime>
@@ -1114,7 +1114,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>04/16/2019 14:39:41</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/AsignarPacienteComponent.js">
-      <publishTime>08/22/2019 17:07:52</publishTime>
+      <publishTime>08/29/2019 16:36:49</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/BloqueoAgendaComponent.js">
       <publishTime>07/10/2019 14:08:40</publishTime>
@@ -1138,10 +1138,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>08/23/2019 14:28:33</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/PacienteTurnosComponent.js">
-      <publishTime>08/27/2019 09:39:01</publishTime>
+      <publishTime>08/28/2019 18:41:18</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/PacienteView.js">
-      <publishTime>08/23/2019 17:58:35</publishTime>
+      <publishTime>08/28/2019 18:43:54</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/ProfesionalComponent.js">
       <publishTime>08/08/2019 10:51:29</publishTime>
@@ -1156,7 +1156,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>08/27/2019 09:59:36</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/SesionPosponerComponent.js">
-      <publishTime>08/28/2019 14:48:13</publishTime>
+      <publishTime>08/28/2019 15:11:18</publishTime>
     </File>
     <File Include="Scripts/Angular/Components/TurnosSinFecha.js">
       <publishTime>03/20/2019 16:50:11</publishTime>
@@ -1174,7 +1174,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/31/2019 17:20:14</publishTime>
     </File>
     <File Include="Scripts/Angular/Controllers/PacienteController.js">
-      <publishTime>02/07/2019 10:20:25</publishTime>
+      <publishTime>08/28/2019 18:36:58</publishTime>
     </File>
     <File Include="Scripts/Angular/Controllers/ProfesionalController.js">
       <publishTime>08/08/2019 10:53:50</publishTime>
@@ -1243,214 +1243,214 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/21/2018 11:16:03</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/AgendaComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/AgendaComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/AsignarPacienteComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/AsignarPacienteComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/BloqueoAgendaComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/BloqueoAgendaComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/ConsultorioComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/ConsultorioComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/FeriadoComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/FeriadoComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteQuickCreateComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteQuickCreateComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacientesAnualesComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacientesAnualesComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteSearch.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteSearch.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteTurnosComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteTurnosComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteView.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/PacienteView.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/ProfesionalComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/ProfesionalComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/RecesoComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/RecesoComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionEditComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionEditComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionesViewComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionesViewComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionPosponerComponent.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/SesionPosponerComponent.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/TurnosSinFecha.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Components/TurnosSinFecha.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/AgendaController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/AgendaController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/AseguradoraController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/AseguradoraController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/ConsultorioController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/ConsultorioController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/NavBarController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/NavBarController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/PacienteController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/PacienteController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/ProfesionalController.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Controllers/ProfesionalController.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/AseguradoraDirectives.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/AseguradoraDirectives.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/PacienteDirectives.js">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/PacienteDirectives.js.map">
-      <publishTime>08/28/2019 14:48:29</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/WebCamDirectives.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Directives/WebCamDirectives.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Module/SgtModule.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Module/SgtModule.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/CrudService.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/CrudService.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/EventService.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/EventService.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/MessageService.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/MessageService.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/PdfService.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/PdfService.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/TurnoService.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Angular/Services/TurnoService.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/Compile/grilla.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:47</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/Compile/grilla.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:47</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/Compile/_grilla.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/Compile/_grilla.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/grilla.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/grilla.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/_grilla.js">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/es5/Grilla/_grilla.js.map">
-      <publishTime>08/28/2019 14:48:30</publishTime>
+      <publishTime>08/29/2019 16:51:46</publishTime>
     </File>
     <File Include="Scripts/esm/popper-utils.js">
       <publishTime>07/17/2018 11:58:24</publishTime>
@@ -1489,7 +1489,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>04/16/2019 16:31:46</publishTime>
     </File>
     <File Include="Scripts/Grilla/grilla.js">
-      <publishTime>08/27/2019 11:10:01</publishTime>
+      <publishTime>08/29/2019 16:27:12</publishTime>
     </File>
     <File Include="Scripts/Grilla/tsconfig.json">
       <publishTime>04/16/2019 15:56:53</publishTime>
@@ -4135,7 +4135,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/19/2019 10:12:27</publishTime>
     </File>
     <File Include="Views/Agenda/AsignarPacienteView.cshtml">
-      <publishTime>08/26/2019 12:18:59</publishTime>
+      <publishTime>08/29/2019 16:36:47</publishTime>
     </File>
     <File Include="Views/Agenda/CambiarFechaSesion.cshtml">
       <publishTime>06/10/2019 10:57:56</publishTime>
@@ -4168,7 +4168,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>04/09/2019 09:53:20</publishTime>
     </File>
     <File Include="Views/Agenda/Semanal.cshtml">
-      <publishTime>08/27/2019 11:09:56</publishTime>
+      <publishTime>08/29/2019 15:45:24</publishTime>
     </File>
     <File Include="Views/Agenda/TurnoDatosFacturacion.cshtml">
       <publishTime>08/14/2019 14:46:47</publishTime>
@@ -4222,7 +4222,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>08/26/2019 12:18:59</publishTime>
     </File>
     <File Include="Views/Paciente/DatosSesiones.cshtml">
-      <publishTime>08/26/2019 12:18:59</publishTime>
+      <publishTime>08/29/2019 16:41:50</publishTime>
     </File>
     <File Include="Views/Paciente/Index.cshtml">
       <publishTime>08/27/2019 10:06:32</publishTime>
@@ -4234,10 +4234,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>08/15/2019 12:30:11</publishTime>
     </File>
     <File Include="Views/Paciente/QuickSearch.cshtml">
-      <publishTime>07/09/2019 20:52:46</publishTime>
+      <publishTime>08/29/2019 08:57:04</publishTime>
     </File>
     <File Include="Views/Paciente/View.cshtml">
-      <publishTime>08/27/2019 10:06:28</publishTime>
+      <publishTime>08/29/2019 16:44:15</publishTime>
     </File>
     <File Include="Views/Paciente/ViewFiles.cshtml">
       <publishTime>08/21/2019 12:50:15</publishTime>

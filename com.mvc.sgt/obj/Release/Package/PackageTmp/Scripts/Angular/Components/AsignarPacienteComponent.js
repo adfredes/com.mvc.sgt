@@ -132,6 +132,8 @@
                 .catch(error => turnoService.Notify('Turnos', error, $element));
         };
 
+        vm.ConfirmarPacienteTurno = () => existTurnosAnteriores();
+
         let existTurnosAnteriores = () => {
             turnoService.existTurnosAnteriores(vm.turno.PacienteID, vm.turno.TipoSesionID)
                 .then(data => {

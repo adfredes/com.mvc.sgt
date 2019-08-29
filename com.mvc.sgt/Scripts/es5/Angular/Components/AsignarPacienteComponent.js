@@ -107,6 +107,7 @@
             })
                 .catch(function (error) { return turnoService.Notify('Turnos', error, $element); });
         };
+        vm.ConfirmarPacienteTurno = function () { return existTurnosAnteriores(); };
         var existTurnosAnteriores = function () {
             turnoService.existTurnosAnteriores(vm.turno.PacienteID, vm.turno.TipoSesionID)
                 .then(function (data) {

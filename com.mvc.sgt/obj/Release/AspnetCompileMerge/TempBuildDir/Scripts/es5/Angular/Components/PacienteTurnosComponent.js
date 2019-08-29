@@ -9,6 +9,7 @@
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
+            pacienteid: "<?",
             parent: "<?",
             onClose: "&?",
             onAdddiagnostico: "&?"
@@ -121,8 +122,8 @@
             var promise = crudService.GetPHttp("api/grilla/Estados");
             promise.then(function (data) {
                 vm.Estados = data;
-                if (vm.paciente && vm.paciente.ID) {
-                    getTurnosPaciente(vm.paciente.ID);
+                if (vm.pacienteid) {
+                    getTurnosPaciente(vm.pacienteid);
                 }
             })
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
@@ -137,7 +138,7 @@
         };
         var getTurnosPaciente = function (id) {
             vm.getInformation = true;
-            console.log(vm.getInformation);
+            console.log("Paciente/ListTurnos/" + id);
             var promise = crudService.GetPHttp("Paciente/ListTurnos/" + id);
             promise.then(function (data) {
                 vm.reading = false;
@@ -172,16 +173,18 @@
             }, vm.parent.parent());
         };
         vm.$onChanges = function (change) {
-            vm.turnos = [];
-            Estados = [];
-            Consultorios = [];
-            vm.deleteTurno = false;
-            getConsultorios();
-            if (vm.parent) {
-                parentModal = vm.parent.parent().parent().parent().parent();
-            }
-            else {
-                vm.parent = $element.parent().parent().parent().parent().parent();
+            if (change.pacienteid) {
+                vm.turnos = [];
+                Estados = [];
+                Consultorios = [];
+                vm.deleteTurno = false;
+                getConsultorios();
+                if (vm.parent) {
+                    parentModal = vm.parent.parent().parent().parent().parent();
+                }
+                else {
+                    vm.parent = $element.parent().parent().parent().parent().parent();
+                }
             }
         };
         vm.openDiagnostico = function (turno) {

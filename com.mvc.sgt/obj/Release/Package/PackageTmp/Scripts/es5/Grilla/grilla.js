@@ -39,6 +39,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         sessionStorage.setItem('FechaGrillaTurnos', new Date(2018, 2, 20));
         sessionStorage.setItem('VistaGrillaTurnos', 's');
     };
+    var updating = function () { return options.divGrilla.querySelector('.procesando').style.display = 'block'; };
+    var updated = function () { return options.divGrilla.querySelector('.procesando').style.display = 'none'; };
     var loadFromSesionStorage = function () {
         var sesionST = {};
         if (sessionStorage) {
@@ -109,20 +111,350 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.vista = 's';
         dibujarGrilla();
     };
-    var init = function () {
-        var btnHoy = document.querySelector('#btnVistaHoy');
-        var btnSemanal = document.querySelector('#btnVistaSemanal');
+    var btnCantidadSesionesModal_click = function (e) {
+        $("#cantidadSesionesModal").modal("hide");
+        updating();
+        var divCantidadSesiones = options.divGrilla.querySelector('#cantidadSesionesModal');
+        e.preventDefault();
+        e.stopPropagation();
+        var sobreturnos = [];
+        var _turno = {
+            "PacienteID": null,
+            "Estado": 1,
+            "Habilitado": true,
+            "UsuarioModificacion": null,
+            "FechaModificacion ": null,
+            "CantidadSesiones": parseInt(divCantidadSesiones.querySelector("#cmbCantidadSesiones").value),
+            "Diagnostico": "",
+            "Fecha": new Date(),
+            "Sesions": []
+        };
+        options.sesionesReservadas.forEach(function (s, i) {
+            s.sesiones.forEach(function (se) {
+                var _sesion = {
+                    "AgendaID": 1,
+                    "TurnoID": null,
+                    "Numero": i + 1,
+                    "ConsultorioID": se.ConsultorioID,
+                    "TurnoSimultaneo": se.TurnoSimultaneo,
+                    "Estado": se.Estado,
+                    "FechaHora": parseFechaHora(se.fecha, se.hora),
+                    "Habilitado": true,
+                    "UsuarioModificacion": null,
+                    "FechaModificacion ": null
+                };
+                _turno.Sesions.push(_sesion);
+            });
+            if (s.sobreturno) {
+                sobreturnos.push(i + 1);
+            }
+        });
+        var params = {};
+        params.model = _turno;
+        params.sobreturnos = sobreturnos;
+        var promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
+        promise.then(function (data) {
+            var turnoNuevo = JSON.parse(data);
+            options.sesionesReservadas = [];
+            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
+            renderListaReservas();
+            dibujarGrilla();
+        }, function (data) {
+            showErrorMessage('Reservas', data);
+            updated();
+        });
+    };
+    var btnPosponerSesion_click = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        updating();
+        $("#posponerTurnoModal").modal('hide');
+        var modal = options.divGrilla.querySelector('#posponerTurnoModal');
+        var turnoID = modal.dataset.turnoid;
+        var numero = modal.dataset.numero;
+        var motivo = modal.querySelector('#cmbMotivoPosponerTurno').value;
+        var _sesiones = options.sesiones.filter(function (s) { return s.TurnoID == turnoID && s.Numero == numero; });
+        var _newSesiones = [];
+        _sesiones.forEach(function (s) {
+            s.Estado = motivo;
+            delete s.sesiones;
+        });
+        _newSesiones = _newSesiones.concat(_sesiones);
+        var url = Domain + "Sesion/Posponer";
+        var promise = ajaxPromise("PUT", url, _newSesiones);
+        promise.then(function (data) {
+            updated();
+            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+            dibujarGrilla();
+        }, function (data) {
+            updated();
+            showErrorMessage('Posponer Turno', data);
+            dibujarGrilla();
+        });
+    };
+    var clickReservarBloquear = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var modal = options.divGrilla.querySelector("#bloquearReservarModal");
+        if (modal.dataset.bloquear == 'true') {
+            clickBloquear(e);
+        }
+        else {
+            clickReservar(e);
+        }
+    };
+    var clickReservar = function (e) {
+        updating();
+        $('#bloquearReservarModal').modal('hide');
+        var _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
+        if (!validarReserva(modal.dataset.id)) {
+            updated();
+            showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
+        }
+        else {
+            var _celdaID = CeldaIdToObject(modal.dataset.id);
+            var _hora = _celdaID.hora;
+            var sesionReserva = {
+                "AgendaID": 1,
+                "Aseguradora": "",
+                "AseguradoraColor": "lightpink",
+                "ConsultorioID": _celdaID.ConsultorioID,
+                "Estado": 1,
+                "FechaModificacion": new Date(),
+                "Habilitado": true,
+                "Numero": options.sesionesReservadas.length + 1,
+                "Paciente": "",
+                "PacienteID": "",
+                "Plan": "",
+                "TurnoID": 0,
+                "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                "UsuarioModificacion": "",
+                "fecha": _celdaID.fecha,
+                "hora": _hora
+            };
+            sesionReserva.sesiones = [];
+            for (var c = 0; c < _cantidad; c++) {
+                sesionReserva.sesiones.push({
+                    "AgendaID": 1,
+                    "Aseguradora": "",
+                    "AseguradoraColor": "lightpink",
+                    "ConsultorioID": _celdaID.ConsultorioID,
+                    "Estado": 1,
+                    "FechaModificacion": new Date(),
+                    "Habilitado": true,
+                    "Numero": options.sesionesReservadas.length + 1,
+                    "Paciente": "",
+                    "PacienteID": "",
+                    "Plan": "",
+                    "TurnoID": 0,
+                    "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
+                    "UsuarioModificacion": "",
+                    "fecha": _celdaID.fecha,
+                    "hora": _hora
+                });
+                _hora = sesionSiguiente(_hora);
+            }
+            if (validarSesiones(sesionReserva.sesiones)) {
+                renderSesion(sesionReserva);
+                options.sesionesReservadas.push(sesionReserva);
+                renderListaReservas();
+                updated();
+            }
+            else {
+                updated();
+                showErrorMessage('Reservas', 'Existen sesiones ya asignadas a su seleccion.');
+            }
+        }
+    };
+    var clickBloquear = function (e) {
+        $('#bloquearReservarModal').modal('hide');
+        updating();
+        var _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
+        var _hora = modal.dataset.id.substr(modal.dataset.id.indexOf('H') + 1, 4);
+        var _fecha = modal.dataset.id.substr(modal.dataset.id.indexOf('F') + 1, 8);
+        var turnoBloqueo = {
+            "PacienteID": null,
+            "Estado": 1,
+            "Habilitado": true,
+            "UsuarioModificacion": null,
+            "FechaModificacion ": null,
+            "CantidadSesiones": 1,
+            "Diagnostico": "",
+            "Fecha": new Date(),
+            "Sesions": []
+        };
+        for (var c = 0; c < _cantidad; c++) {
+            turnoBloqueo.Sesions.push({
+                "AgendaID": 1,
+                "TurnoID": null,
+                "Numero": 1,
+                "ConsultorioID": modal.dataset.id.substr(modal.dataset.id.indexOf('C') + 1, modal.dataset.id.indexOf('S') - modal.dataset.id.indexOf('C') - 1),
+                "TurnoSimultaneo": modal.dataset.id.split('S')[1],
+                "Estado": 7,
+                "FechaHora": parseFechaHora(_fecha, _hora),
+                "Habilitado": true,
+                "UsuarioModificacion": null,
+                "FechaModificacion ": null
+            });
+            _hora = sesionSiguiente(_hora);
+        }
+        if (validarSesiones(turnoBloqueo.Sesions)) {
+            var url = Domain + "Agenda/BloquearSesion";
+            var promise = ajaxPromise("POST", url, turnoBloqueo);
+            promise.then(function (data) {
+                var _sesiones = JSON.parse(JSON.parse(data));
+                _sesiones.map(function (e) {
+                    e.FechaHora = moment(e.FechaHora).toDate();
+                    e.FechaHora.setHours(e.FechaHora.getHours() - 3);
+                    e.FechaHora = e.FechaHora.toISOString();
+                });
+                var _sesion = JSON.parse(JSON.stringify(_sesiones[0]));
+                _sesion.sesiones = _sesiones;
+                options.sesiones = options.sesiones.concat(_sesiones);
+                renderSesion(_sesion);
+                updated();
+            }, function (data) {
+                showErrorMessage('Bloqueos', data);
+                updated();
+            });
+        }
+        else {
+            showErrorMessage('Bloqueos', 'Existen sesionesss ya asignadas a su seleccion.');
+            updated();
+        }
+    };
+    var clickCancelarSesion = function (e) {
+        updating();
+        e.preventDefault();
+        e.stopPropagation();
+        $('#cancelarSesionModal').modal('hide');
+        if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
+            anularSesionesPendientes(modal.dataset.turnoID);
+        }
+        else {
+            setEstadoCancelado(modal.dataset.sesionID);
+        }
+    };
+    function CancelarReserva(divReserva) {
+        updating();
+        if (divReserva.dataset.turnoid > 0) {
+            anularSesionesPendientes(divReserva.dataset.turnoid);
+        }
+        else {
+            var celda = divReserva.parentElement;
+            deleteSesionGrilla(celda);
+            var id_1 = CeldaIdToObject(celda.id);
+            options.sesionesReservadas = options.sesionesReservadas.filter(function (sesion) { return sesion.fecha != id_1.fecha || sesion.hora != id_1.hora
+                || sesion.ConsultorioID != id_1.ConsultorioID || sesion.TurnoSimultaneo != id_1.TurnoSimultaneo; });
+            renderListaReservas();
+            redibujarGrilla();
+            updated();
+        }
+    }
+    function CancelarBloqueo(opt) {
+        return __awaiter(this, void 0, void 0, function () {
+            var idSesion, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        updating();
+                        idSesion = opt.$trigger[0].dataset.id;
+                        setEstadoCancelado(idSesion);
+                        deleteSesionGrilla(options.tabla.querySelector("#" + opt.$trigger[0].id.split('D')[0]));
+                        _a = options;
+                        return [4, getSesiones()];
+                    case 1:
+                        _a.sesiones = _b.sent();
+                        updated();
+                        return [2];
+                }
+            });
+        });
+    }
+    var showModalBloquearReservar = function (celdaId, action, title, bloquear) {
+        modal = options.divGrilla.querySelector("#bloquearReservarModal");
+        modal.dataset.id = celdaId;
+        modal.dataset.action = action;
+        modal.dataset.bloquear = bloquear;
+        modal.querySelector('#bloquearReservarTitle').innerHTML = title;
+        modal.querySelector('#cmbSesiones').value = 2;
+        $('#bloquearReservarModal').modal();
+    };
+    var showModalCancelarSesion = function (sesionID, turnoID) {
+        modal = options.divGrilla.querySelector('#cancelarSesionModal');
+        modal.querySelector('#cmbCancelarSesion').value = 'false';
+        modal.dataset.sesionID = sesionID;
+        modal.dataset.turnoID = turnoID;
+        $('#cancelarSesionModal').modal();
+    };
+    var initModalListener = function () {
+        var modals = [];
+        modals.push({
+            element: options.divGrilla.querySelector('#cancelarSesionModal'),
+            evento: 'click',
+            nombreObjeto: '#btnCancelarSesionModal',
+            callback: clickCancelarSesion
+        });
+        modals.push({
+            element: options.divGrilla.querySelector('#posponerTurnoModal'),
+            evento: 'click',
+            nombreObjeto: '#btnPosponerTurno',
+            callback: btnPosponerSesion_click
+        });
+        modals.push({
+            element: options.divGrilla.querySelector('#bloquearReservarModal'),
+            evento: 'click',
+            nombreObjeto: '#btnBloquearReservarModal',
+            callback: clickReservarBloquear
+        });
+        modals.push({
+            element: options.divGrilla.querySelector('#cantidadSesionesModal'),
+            evento: 'click',
+            nombreObjeto: '#btnCantidadSesionesModal',
+            callback: btnCantidadSesionesModal_click
+        });
+        modals.push({
+            element: options.divGrilla,
+            evento: 'click',
+            nombreObjeto: '#btnVistaHoy',
+            callback: btnVistaHoy_Click
+        });
+        modals.push({
+            element: options.divGrilla,
+            evento: 'click',
+            nombreObjeto: '#btnVistaSemanal',
+            callback: btnVistaSemanal_Click
+        });
         var btnsNavegacion = document.querySelectorAll("button[data-dia]");
         if (btnsNavegacion) {
             for (i = 0; i < btnsNavegacion.length; i++) {
-                btnsNavegacion[i].addEventListener('click', btnVistaDiaSemana_Click);
+                modals.push({
+                    element: btnsNavegacion[i],
+                    evento: 'click',
+                    nombreObjeto: undefined,
+                    callback: btnVistaDiaSemana_Click
+                });
             }
         }
-        btnHoy.addEventListener('click', btnVistaHoy_Click);
-        btnSemanal.addEventListener('click', btnVistaSemanal_Click);
-        document.addEventListener('UpdateTurnos', dibujarGrilla);
-        var sessionST = loadFromSesionStorage();
+        modals.push({
+            element: document,
+            evento: 'UpdateTurnos',
+            nombreObjeto: undefined,
+            callback: dibujarGrilla
+        });
+        setlModalsItemsListener(modals);
+    };
+    var setlModalsItemsListener = function (modals) {
+        return modals.forEach(function (m) { return setModalItemListener(m); });
+    };
+    var setModalItemListener = function (modal) {
+        var element = modal.nombreObjeto ? modal.element.querySelector(modal.nombreObjeto) : modal.element;
+        element.addEventListener(modal.evento, modal.callback);
+    };
+    var init = function () {
         options.divGrilla = document.querySelector('#GrillaContent');
+        initModalListener();
+        var sessionST = loadFromSesionStorage();
         options.tabla = document.createElement('table');
         options.tabla.id = 'grillaTurnos';
         options.tabla.classList.add('grillaTurnos');
@@ -179,41 +511,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     function dibujarGrilla() {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, _d, _e, _f;
+            var awConsultorios, awRangoHorario, awRangoFecha, _a, _b, _c, awSesiones, awRecesos, awFeriados, _d, _e, _f;
             return __generator(this, function (_g) {
                 switch (_g.label) {
                     case 0:
-                        options.divGrilla.querySelector('.procesando').style.display = 'block';
+                        updating();
+                        awConsultorios = getConsultorios();
+                        awRangoHorario = getRangoHorario();
+                        awRangoFecha = getRangoFecha();
                         _a = options;
-                        return [4, getConsultorios()];
+                        return [4, awConsultorios];
                     case 1:
                         _a.consultorios = _g.sent();
                         _b = options;
-                        return [4, getRangoHorario()];
+                        return [4, awRangoHorario];
                     case 2:
                         _b.horarios = _g.sent();
                         _c = options;
-                        return [4, getRangoFecha()];
+                        return [4, awRangoFecha];
                     case 3:
                         _c.dias = _g.sent();
+                        awSesiones = getSesiones();
+                        awRecesos = getRecesos();
+                        awFeriados = getFeriados();
                         _d = options;
-                        return [4, getSesiones()];
+                        return [4, awSesiones];
                     case 4:
                         _d.sesiones = _g.sent();
                         _e = options;
-                        return [4, getRecesos()];
+                        return [4, awRecesos];
                     case 5:
                         _e.recesos = _g.sent();
-                        options.bloqueosAgenda = [];
                         _f = options;
-                        return [4, getFeriados()];
+                        return [4, awFeriados];
                     case 6:
                         _f.feriados = _g.sent();
+                        options.bloqueosAgenda = [];
                         renderGrilla();
                         renderReservado();
                         setCeldasDroppable();
                         setDivsDraggable();
-                        options.divGrilla.querySelector('.procesando').style.display = 'none';
+                        updated();
                         removeContextMenu();
                         setContextMenu();
                         options.tabla.querySelector('#btnPrintDia').addEventListener('click', function (e) { return createPDF(options.tabla); });
@@ -223,6 +561,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         });
     }
     function redibujarGrilla() {
+        updating();
         renderGrilla();
         renderReservado();
         setCeldasDroppable();
@@ -230,6 +569,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', function (e) { return createPDF(options.tabla); });
+        updated();
     }
     function renderListaReservas() {
         var btnDivReservasCancelar_click = function (e) {
@@ -240,62 +580,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             renderListaReservas();
             redibujarGrilla();
         };
-        var btnCantidadSesionesModal_click = function (e) {
-            $("#cantidadSesionesModal").modal("hide");
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', btnCantidadSesionesModal_click);
-            var sobreturnos = [];
-            var _turno = {
-                "PacienteID": null,
-                "Estado": 1,
-                "Habilitado": true,
-                "UsuarioModificacion": null,
-                "FechaModificacion ": null,
-                "CantidadSesiones": parseInt(divCantidadSesiones.querySelector("#cmbCantidadSesiones").value),
-                "Diagnostico": "",
-                "Fecha": new Date(),
-                "Sesions": []
-            };
-            options.sesionesReservadas.forEach(function (s, i) {
-                s.sesiones.forEach(function (se) {
-                    var _sesion = {
-                        "AgendaID": 1,
-                        "TurnoID": null,
-                        "Numero": i + 1,
-                        "ConsultorioID": se.ConsultorioID,
-                        "TurnoSimultaneo": se.TurnoSimultaneo,
-                        "Estado": se.Estado,
-                        "FechaHora": parseFechaHora(se.fecha, se.hora),
-                        "Habilitado": true,
-                        "UsuarioModificacion": null,
-                        "FechaModificacion ": null
-                    };
-                    _turno.Sesions.push(_sesion);
-                });
-                if (s.sobreturno) {
-                    sobreturnos.push(i + 1);
-                }
-            });
-            var params = {};
-            params.model = _turno;
-            params.sobreturnos = sobreturnos;
-            var promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
-            promise.then(function (data) {
-                var turnoNuevo = JSON.parse(data);
-                options.sesionesReservadas = [];
-                renderListaReservas();
-                dibujarGrilla();
-                console.dir(turnoNuevo);
-                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
-            }, function (data) { return showErrorMessage('Reservas', data); });
-        };
         var btnDivReservasAceptar_click = function (e) {
             e.preventDefault();
             e.stopPropagation();
             divCantidadSesiones.querySelector("#cmbCantidadSesiones").value = options.sesionesReservadas.length <= 20 ? options.sesionesReservadas.length : 20;
-            divCantidadSesiones.querySelector('#btnCantidadSesionesModal').removeEventListener('click', btnCantidadSesionesModal_click);
-            divCantidadSesiones.querySelector('#btnCantidadSesionesModal').addEventListener('click', btnCantidadSesionesModal_click);
             $("#cantidadSesionesModal").modal("show");
         };
         var divCantidadSesiones = options.divGrilla.querySelector('#cantidadSesionesModal');
@@ -610,213 +898,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 }
             });
         })();
-        var btnPosponerSesion_click = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            e.target.removeEventListener('click', btnPosponerSesion_click);
-            var turnoID = modal.dataset.turnoid;
-            var numero = modal.dataset.numero;
-            var motivo = modal.querySelector('#cmbMotivoPosponerTurno').value;
-            var _sesiones = options.sesiones.filter(function (s) { return s.TurnoID == turnoID && s.Numero == numero; });
-            var _newSesiones = [];
-            _sesiones.forEach(function (s) {
-                s.Estado = motivo;
-                delete s.sesiones;
-            });
-            _newSesiones = _newSesiones.concat(_sesiones);
-            var url = Domain + "Sesion/Posponer";
-            var promise = ajaxPromise("PUT", url, _newSesiones);
-            promise.then(function (data) {
-                showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
-                dibujarGrilla();
-            }, function (data) {
-                showErrorMessage('Posponer Turno', data);
-                dibujarGrilla();
-            });
-            $("#posponerTurnoModal").modal('hide');
-        };
-        var clickReservar = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', clickReservar);
-            var _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
-            if (!validarReserva(modal.dataset.id)) {
-                $('#bloquearReservarModal').modal('hide');
-                showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
-            }
-            else {
-                var _celdaID = CeldaIdToObject(modal.dataset.id);
-                var _hora = _celdaID.hora;
-                var sesionReserva = {
-                    "AgendaID": 1,
-                    "Aseguradora": "",
-                    "AseguradoraColor": "lightpink",
-                    "ConsultorioID": _celdaID.ConsultorioID,
-                    "Estado": 1,
-                    "FechaModificacion": new Date(),
-                    "Habilitado": true,
-                    "Numero": options.sesionesReservadas.length + 1,
-                    "Paciente": "",
-                    "PacienteID": "",
-                    "Plan": "",
-                    "TurnoID": 0,
-                    "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
-                    "UsuarioModificacion": "",
-                    "fecha": _celdaID.fecha,
-                    "hora": _hora
-                };
-                sesionReserva.sesiones = [];
-                for (var c = 0; c < _cantidad; c++) {
-                    sesionReserva.sesiones.push({
-                        "AgendaID": 1,
-                        "Aseguradora": "",
-                        "AseguradoraColor": "lightpink",
-                        "ConsultorioID": _celdaID.ConsultorioID,
-                        "Estado": 1,
-                        "FechaModificacion": new Date(),
-                        "Habilitado": true,
-                        "Numero": options.sesionesReservadas.length + 1,
-                        "Paciente": "",
-                        "PacienteID": "",
-                        "Plan": "",
-                        "TurnoID": 0,
-                        "TurnoSimultaneo": _celdaID.TurnoSimultaneo,
-                        "UsuarioModificacion": "",
-                        "fecha": _celdaID.fecha,
-                        "hora": _hora
-                    });
-                    _hora = sesionSiguiente(_hora);
-                }
-                if (validarSesiones(sesionReserva.sesiones)) {
-                    renderSesion(sesionReserva);
-                    options.sesionesReservadas.push(sesionReserva);
-                    renderListaReservas();
-                    $('#bloquearReservarModal').modal('hide');
-                }
-                else {
-                    $('#bloquearReservarModal').modal('hide');
-                    showErrorMessage('Reservas', 'Existen sesiones ya asignadas a su seleccion.');
-                }
-            }
-        };
-        var clickBloquear = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.target.removeEventListener('click', clickBloquear);
-            var _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
-            var _hora = modal.dataset.id.substr(modal.dataset.id.indexOf('H') + 1, 4);
-            var _fecha = modal.dataset.id.substr(modal.dataset.id.indexOf('F') + 1, 8);
-            var turnoBloqueo = {
-                "PacienteID": null,
-                "Estado": 1,
-                "Habilitado": true,
-                "UsuarioModificacion": null,
-                "FechaModificacion ": null,
-                "CantidadSesiones": 1,
-                "Diagnostico": "",
-                "Fecha": new Date(),
-                "Sesions": []
-            };
-            for (var c = 0; c < _cantidad; c++) {
-                turnoBloqueo.Sesions.push({
-                    "AgendaID": 1,
-                    "TurnoID": null,
-                    "Numero": 1,
-                    "ConsultorioID": modal.dataset.id.substr(modal.dataset.id.indexOf('C') + 1, modal.dataset.id.indexOf('S') - modal.dataset.id.indexOf('C') - 1),
-                    "TurnoSimultaneo": modal.dataset.id.split('S')[1],
-                    "Estado": 7,
-                    "FechaHora": parseFechaHora(_fecha, _hora),
-                    "Habilitado": true,
-                    "UsuarioModificacion": null,
-                    "FechaModificacion ": null
-                });
-                _hora = sesionSiguiente(_hora);
-            }
-            if (validarSesiones(turnoBloqueo.Sesions)) {
-                var url = Domain + "Agenda/BloquearSesion";
-                var promise = ajaxPromise("POST", url, turnoBloqueo);
-                promise.then(function (data) {
-                    var _sesiones = JSON.parse(JSON.parse(data));
-                    _sesiones.map(function (e) {
-                        e.FechaHora = moment(e.FechaHora).toDate();
-                        e.FechaHora.setHours(e.FechaHora.getHours() - 3);
-                        e.FechaHora = e.FechaHora.toISOString();
-                    });
-                    var _sesion = JSON.parse(JSON.stringify(_sesiones[0]));
-                    _sesion.sesiones = _sesiones;
-                    options.sesiones = options.sesiones.concat(_sesiones);
-                    renderSesion(_sesion);
-                }, function (data) { return showErrorMessage('Bloqueos', data); });
-            }
-            else {
-                showErrorMessage('Bloqueos', 'Existen sesionesss ya asignadas a su seleccion.');
-            }
-            $('#bloquearReservarModal').modal('hide');
-        };
-        var clickCancelarSesion = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
-                anularSesionesPendientes(modal.dataset.turnoID);
-            }
-            else {
-                setEstadoCancelado(modal.dataset.sesionID);
-            }
-            $('#cancelarSesionModal').modal('hide');
-            dibujarGrilla();
-        };
-        function CancelarReserva(divReserva) {
-            if (divReserva.dataset.turnoid > 0) {
-                anularSesionesPendientes(divReserva.dataset.turnoid);
-            }
-            else {
-                var celda = divReserva.parentElement;
-                deleteSesionGrilla(celda);
-                var id_1 = CeldaIdToObject(celda.id);
-                options.sesionesReservadas = options.sesionesReservadas.filter(function (sesion) { return sesion.fecha != id_1.fecha || sesion.hora != id_1.hora
-                    || sesion.ConsultorioID != id_1.ConsultorioID || sesion.TurnoSimultaneo != id_1.TurnoSimultaneo; });
-                renderListaReservas();
-                redibujarGrilla();
-            }
-        }
-        function CancelarBloqueo(opt) {
-            return __awaiter(this, void 0, void 0, function () {
-                var idSesion, _a;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
-                        case 0:
-                            idSesion = opt.$trigger[0].dataset.id;
-                            setEstadoCancelado(idSesion);
-                            deleteSesionGrilla(options.tabla.querySelector("#" + opt.$trigger[0].id.split('D')[0]));
-                            _a = options;
-                            return [4, getSesiones()];
-                        case 1:
-                            _a.sesiones = _b.sent();
-                            return [2];
-                    }
-                });
-            });
-        }
-        var showModalBloquearReservar = function (celdaId, action, title, bloquear) {
-            modal = options.divGrilla.querySelector("#bloquearReservarModal");
-            modal.dataset.id = celdaId;
-            modal.dataset.action = action;
-            modal.querySelector('#bloquearReservarTitle').innerHTML = title;
-            modal.querySelector('#cmbSesiones').value = 2;
-            modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickReservar);
-            modal.querySelector('#btnBloquearReservarModal').removeEventListener('click', clickBloquear);
-            modal.querySelector('#btnBloquearReservarModal').addEventListener('click', bloquear ? clickBloquear : clickReservar);
-            $('#bloquearReservarModal').modal();
-        };
-        var showModalCancelarSesion = function (sesionID, turnoID) {
-            modal = options.divGrilla.querySelector('#cancelarSesionModal');
-            modal.querySelector('#cmbCancelarSesion').value = 'false';
-            modal.dataset.sesionID = sesionID;
-            modal.dataset.turnoID = turnoID;
-            modal.querySelector('#btnCancelarSesionModal').removeEventListener('click', clickCancelarSesion);
-            modal.querySelector('#btnCancelarSesionModal').addEventListener('click', clickCancelarSesion);
-            $('#cancelarSesionModal').modal();
-        };
         function contextMenuClick(key, opt, e) {
             switch (key) {
                 case 'reservar':
@@ -916,9 +997,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     break;
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
-                    var btn = modal.querySelector('#btnPosponerTurno');
-                    btn.removeEventListener('click', btnPosponerSesion_click);
-                    btn.addEventListener('click', btnPosponerSesion_click);
                     modal.dataset.turnoid = opt.$trigger[0].dataset.turnoid;
                     modal.dataset.numero = opt.$trigger[0].dataset.numero;
                     $('#posponerTurnoModal').modal('show');
@@ -1211,6 +1289,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     function cambiarTurnoDropped(celda, divId) {
         var btnCambiar_click = function (e) {
+            $("#cambiarTurnoDroppedModal").modal('hide');
+            updating();
             btnGuardar.removeEventListener('click', btnCambiar_click);
             if (!sobreturno) {
                 var _sesiones = options.sesiones.filter(function (s) { return s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero; });
@@ -1252,6 +1332,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 }
                 else {
                     showErrorMessage('Cambio de Turno', 'Existen sesiones ya asignadas a su seleccion.');
+                    updated();
                 }
             }
             else {
@@ -1291,15 +1372,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     dibujarGrilla();
                 });
             }
-            $("#cambiarTurnoDroppedModal").modal('hide');
-        };
-        var btnCancelar_click = function (e) {
-            btnCancelar.removeEventListener('click', btnCancelar_click);
-            $("#cambiarTurnoDroppedModal").modal('hide');
         };
         var modal = options.divGrilla.querySelector('#cambiarTurnoDroppedModal');
         var btnGuardar = modal.querySelector('#btnCambiarTurnoDropped');
-        var btnCancelar = modal.querySelector('#btnCancelarCambiarTurnoDropped');
         var descripcion = modal.querySelector('#cambiarTurnoDroppedDescripcion');
         var cmbSesiones = modal.querySelector('#cmbSesionesCambiarTurnoDropped');
         var motivo = modal.querySelector('#cmbMotivoCambiarTurnoDropped');
@@ -1316,7 +1391,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             sobreturno = false;
         }
         btnGuardar.addEventListener('click', btnCambiar_click);
-        btnCancelar.addEventListener('click', btnCancelar_click);
         $("#cambiarTurnoDroppedModal").modal();
     }
     function _fechaActual() {

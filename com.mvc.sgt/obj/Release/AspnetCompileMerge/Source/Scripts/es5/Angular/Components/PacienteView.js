@@ -25,35 +25,43 @@
         vm.uploadingText = "";
         vm.parent = $element.children();
         vm.OldDiagnostico = '';
+        vm.paciente = { ID: 0 };
+        vm.pacienteid = 0;
         vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var loadPaciente = function (id) {
+            vm.paciente = { ID: 0 };
             vm.selectedIndex = 0;
             var promise = crudService.GetPHttp("Paciente/Get/" + id);
             promise.then(function (data) {
+                console.log('loaddd');
                 vm.paciente = JSON.parse(data);
+                vm.pacienteid = vm.paciente.ID;
                 vm.getLocalidades();
                 vm.getPlanes();
-                loadDiagnostico(id);
+                loadDiagnostico(vm.paciente.ID);
                 getFiles(id);
             })
-                .catch(function (err) { return vm.paciente = {}; });
+                .catch(function (err) { return vm.paciente = { ID: 0 }; });
         };
         var loadDiagnostico = function (id) {
             vm.OldDiagnostico = '';
-            var promise = crudService.GetPHttp("Paciente/" + id + "/Diagnostico");
-            promise.then(function (data) {
-                vm.diagnosticos = JSON.parse(data);
-                vm.diagnosticos.forEach(function (d) {
-                    if (d.TurnoID == 0) {
-                        vm.OldDiagnostico = "" + unescape(d.Diagnostico);
-                    }
-                });
-            })
-                .catch(function (err) { return vm.diagnosticos = {}; });
+            if (id) {
+                var promise = crudService.GetPHttp("Paciente/" + id + "/Diagnostico");
+                promise.then(function (data) {
+                    vm.diagnosticos = JSON.parse(data);
+                    vm.diagnosticos.forEach(function (d) {
+                        if (d.TurnoID == 0) {
+                            vm.OldDiagnostico = "" + unescape(d.Diagnostico);
+                        }
+                    });
+                })
+                    .catch(function (err) { return vm.diagnosticos = {}; });
+            }
         };
         vm.hiddenChange = function (e) {
+            console.log('hidden');
             if (!vm.paciente.ID || vm.paciente.ID === 0) {
-                vm.paciente = {};
+                vm.paciente = { ID: 0 };
             }
             else {
                 loadPaciente(vm.paciente.ID);
@@ -69,8 +77,9 @@
             $mdSelect.destroy();
         };
         vm.$onInit = function () {
-            vm.paciente = vm.paciente ? vm.paciente : {};
-            vm.paciente.ID = vm.paciente.ID ? vm.paciente.ID : 0;
+            init();
+        };
+        var init = function () {
             vm.paciente.AseguradoraID = vm.paciente.AseguradoraID ? vm.paciente.AseguradoraID : 0;
             vm.paciente.ProvinciaID = vm.paciente.ProvinciaID ? vm.paciente.ProvinciaID : 0;
             getProvincias();
@@ -78,16 +87,13 @@
             vm.selectedIndex = 0;
         };
         vm.$onChanges = function (change) {
+            vm.paciente = vm.paciente ? vm.paciente : { ID: 0 };
             if (change.paciente && !change.paciente.isFirstChange()) {
-                vm.getLocalidades();
-                vm.getPlanes();
                 vm.uploadingText = "";
                 vm.uploading = false;
             }
             if (vm.paciente && vm.paciente.ID) {
                 loadPaciente(vm.paciente.ID);
-                loadDiagnostico(vm.paciente.ID);
-                getFiles(vm.paciente.ID);
             }
             vm.selectedIndex = 0;
         };
@@ -217,6 +223,7 @@
             $('#ViewPaciente').modal('hide');
             $('#CreateOrUpdate').modal('hide');
             $('#' + vm.divid).modal('hide');
+            vm.paciente = {};
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();
         };
@@ -234,10 +241,10 @@
         };
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
-                vm.close();
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
+                vm.close();
             }, function errorCallback(response) {
             });
         };
