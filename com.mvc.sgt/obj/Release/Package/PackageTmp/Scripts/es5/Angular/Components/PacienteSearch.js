@@ -44,7 +44,7 @@
         };
         vm.clear = function () { return vm.Paciente = {}; };
         vm.openQuickCreate = function () {
-            var parentView = $element.parent().parent().parent().parent();
+            var parentView = $element.parent().parent().parent().parent().parent().parent();
             var modalHtml = "<md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Nuevo Paciente</h5>\n                                    </div>\n                                </md-toolbar>\n                                <paciente-quick-create on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {

@@ -8,7 +8,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
+        controller: ['messageService','turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
@@ -24,7 +24,7 @@
         $postLink
     */
 
-    function pacienteViewController(turnoService, crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         //vm.paciente = {};
         vm.Provincias = [];
@@ -93,7 +93,6 @@
         };
 
         vm.$onInit = () => {
-
             vm.paciente = vm.paciente ? vm.paciente : {};
             vm.paciente.ID = vm.paciente.ID ? vm.paciente.ID : 0;
             vm.paciente.AseguradoraID = vm.paciente.AseguradoraID ? vm.paciente.AseguradoraID : 0;
@@ -119,12 +118,11 @@
         };
 
         vm.decode = (value) => {
-            console.log(unescape(value));
+            
             return unescape(value);
         };
 
-        vm.reloadDiagnostico = function () {
-            console.log("load diagnostico");
+        vm.reloadDiagnostico = function () {            
             loadDiagnostico(vm.paciente.ID);
         };
 
@@ -192,6 +190,16 @@
             }
         };
 
+        vm.deleteFile = file => {            
+            messageService.showConfirm('Archivos', 'Esta seguro que desea eliminar el archivo?', 'Aceptar', 'Cancelar', vm.parent)
+                .then(() => {
+                    let _url = `Paciente/File/${file.ID}`;
+                    let promise = crudService.DeleteHttp(_url, file.ID);
+                    promise.then(data => getFiles(vm.paciente.ID))
+                        .catch(error => error = []);
+                });                
+        };
+
         vm.downloadFile = file => {
             let _url = `Paciente/File/${file.ID}`;
             let promise = crudService.GetPHttp(_url);
@@ -219,9 +227,9 @@
                 
                 getFiles(vm.paciente.ID);
             })
-                .catch((error) => {
+                .catch((error) => 
                     vm.uploadingText = "No fue posible subir el archivo."                                        
-                });
+                );
         };
 
         //Manejo de Obra Social

@@ -14,8 +14,10 @@
         vm.registerCount = 0;
         vm.PacienteID = 0;
         vm.TurnoID = 0;
+        vm.getInformation = false;
         vm.$onInit = function () { return init; };
         var init = function () {
+            vm.getInformation = true;
             vm.currentPage = 0;
             vm.initPage = 0;
             vm.registerCount = 0;
@@ -38,6 +40,7 @@
         vm.nextHour = turnoService.nextHour;
         vm.getNombreEstado = function (idEstado) { return turnoService.getNombreEstado(idEstado, vm.Estados); };
         vm.getNombreConsultorio = function (idConsultorio) { return turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios); };
+        vm.getColorConsultorio = function (idConsultorio) { return turnoService.getColorConsultorio(idConsultorio, vm.Consultorios); };
         vm.turnoPrint = function () { return turnoService.turnoPrint(vm.turno, vm.paciente); };
         var getEstados = function () {
             var promise = turnoService.getEstados();
@@ -69,6 +72,7 @@
                 vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];
                 vm.registerCount = vm.turnos.length;
+                vm.getInformation = false;
             })
                 .catch(function (err) { vm.turnos = []; });
         };

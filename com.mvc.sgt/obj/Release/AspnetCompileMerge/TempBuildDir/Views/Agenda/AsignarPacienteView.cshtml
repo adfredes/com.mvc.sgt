@@ -30,16 +30,17 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <search-paciente on-change="$ctrl.SelectPaciente" on-add="$ctrl.addedPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">                            
+                        <search-paciente on-change="$ctrl.SelectPaciente" on-add="$ctrl.addedPaciente" add-quick="true" ng-hide="$ctrl.turno.PacienteID > 0" class="w-100">
                             <button class="btn btn-outline-dark ml-1  my-2 my-sm-0"
-                                    type="submit" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()" title="Asignar Paciente"><i class="icon-user"></i>
+                                    type="submit" ng-disabled="$ctrl.paciente.ID > 0 || $ctrl.pacienteSeleccionado.ID == null" ng-click="$ctrl.asignarPaciente()" title="Asignar Paciente">
+                                <i class="icon-user"></i>
                             </button>
                         </search-paciente>
                         @*<div class="form-check" ng-show="($ctrl.turno.Estado == 1 || $ctrl.turno.Estado == 3) && $ctrl.turno.PacienteID > 0">
-                            <input type="checkbox" class="form-check-input" ng-model="$ctrl.continuar" id="checkContinuar">
-                            <label class="form-check-label" for="checkContinuar">Continuar sesiones anteriores.</label>
-                        </div>*@
-                    </fieldset>                   
+                                <input type="checkbox" class="form-check-input" ng-model="$ctrl.continuar" id="checkContinuar">
+                                <label class="form-check-label" for="checkContinuar">Continuar sesiones anteriores.</label>
+                            </div>*@
+                    </fieldset>
                     <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.turno.ID" ng-change="$ctrl.turnoChange()" />
                     <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                         <thead class="thead-light">
@@ -57,21 +58,23 @@
                             <td class="text-center w-auto p-1">{{$ctrl.toDate(sesion.FechaHora)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
                             <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
-                            <td class="text-center w-auto p-1">{{$ctrl.getNombreEstado(sesion.Estado)}}
-                            <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger" 
-                                  ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
+                            <td class="text-center w-auto p-1">
+                                {{$ctrl.getNombreEstado(sesion.Estado)}}
+                                <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"
+                                      ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
                             </td>
                             <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">
                                 <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
                             </td>
                         </tr>
                     </table>
-                </div>                
+                </div>
             </div>
             <div class="modal-footer">
-                <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cerrar</md-button>                
+                <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cerrar</md-button>
             </div>
         </div>
     </div>
 </div>
+
 

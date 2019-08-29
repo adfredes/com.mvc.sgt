@@ -350,7 +350,11 @@ namespace com.sgt.services.Services
             DateTime lastDay = sesiones.Max(s => s.FechaHora);
             repeticiones.ForEach(r =>
             {
-                DateTime fecha = sesiones.Where(s => s.FechaHora.DayOfWeek == (DayOfWeek)r.DiaSemana).Max(f => f.FechaHora).AddDays(r.Frecuencia);
+                DateTime fecha = sesiones.Where(s => s.FechaHora.DayOfWeek == (DayOfWeek)r.DiaSemana)
+               .Select(f => f.FechaHora)
+               .DefaultIfEmpty()
+               .Max();
+                fecha = r.Hora > fecha ? r.Hora : fecha;
                 fecha = fecha.AddMinutes(-fecha.Minute);
                 fecha = fecha.AddHours(-fecha.Hour);
                 while (fecha < lastDay
@@ -822,7 +826,7 @@ namespace com.sgt.services.Services
             return turno;
         }
 
-        public Turno ConfirmarTurno(Turno turno, bool continuar)
+        public Turno ConfirmarTurno(Turno turno, bool continuar, int? turnoID)
         {
             Turno oldTurno = GetTurno(turno.ID);
             var sesiones = oldTurno.Sesions.ToList();
@@ -830,15 +834,17 @@ namespace com.sgt.services.Services
 
             if (continuar)
             {
-                var lastTurno = unitOfWork.RepoTurno.FindBy(t => t.PacienteID == turno.PacienteID
-                && (EstadoTurno)t.Estado == EstadoTurno.Confirmado
-                //&& t.TipoSesionID == turno.TipoSesionID
-                )
-                .OrderByDescending(t =>
-                t.Sesions.Where(
-                        s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)).Max(s => s.FechaHora)
-                    )
-                .Take(1).FirstOrDefault();
+
+                var lastTurno = unitOfWork.RepoTurno.Find(turnoID.Value);
+                //    unitOfWork.RepoTurno.FindBy(t => t.PacienteID == turno.PacienteID
+                //&& (EstadoTurno)t.Estado == EstadoTurno.Confirmado
+                ////&& t.TipoSesionID == turno.TipoSesionID
+                //)
+                //.OrderByDescending(t =>
+                //t.Sesions.Where(
+                //        s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)).Max(s => s.FechaHora)
+                //    )
+                //.Take(1).FirstOrDefault();
 
                 if (lastTurno != null)
                 {
@@ -1028,10 +1034,13 @@ namespace com.sgt.services.Services
 
         public List<Turno> GetTurnosSinFecha()
         {
-            var sesiones = unitOfWork.RepoSesion.FindBy(s => (EstadoSesion)s.Estado == EstadoSesion.SinFechaLibre)
+            DateTime fecha = DateTime.Now.AddDays(-30);
+            var sesiones = unitOfWork.RepoSesion.FindBy(s => (EstadoSesion)s.Estado == EstadoSesion.SinFechaLibre
+            && s.FechaHora > fecha)
                 .Select(s => s.TurnoID).Distinct().ToList();
+
             return unitOfWork.RepoTurno.FindBy(x =>
-                sesiones.Contains(x.ID)
+                sesiones.Contains(x.ID) && x.PacienteID.HasValue && (EstadoTurno) x.Estado !=  EstadoTurno.Cancelado
             )
                 .Distinct()
                 .OrderBy(t => t.Paciente.Apellido)
@@ -1388,7 +1397,7 @@ namespace com.sgt.services.Services
             if (fechas.Count > 0)
             {
                 DateTime nextDay = fechas.Where(
-                                f => f > lastDay
+                                f => f >= lastDay
                                 ).Min(f => f);
 
                 var repeticion = repeticiones.FirstOrDefault(x => (DayOfWeek)x.DiaSemana == nextDay.DayOfWeek);
@@ -1607,16 +1616,23 @@ namespace com.sgt.services.Services
             lastDate = lastDate > semana ? lastDate : semana;
             lastDate = lastDate.AddMinutes(-lastDate.Minute).AddHours(-lastDate.Hour);
 
-            List<Sesion> newSesiones = getNextDay(lastDate, turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList(), consultorios.FirstOrDefault(x => x.ID == sesion.ConsultorioID).TipoSesionID.Value);
+            //List<Sesion> newSesiones = getNextDay(lastDate, turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList(), consultorios.FirstOrDefault(x => x.ID == sesion.ConsultorioID).TipoSesionID.Value);
 
-            if (newSesiones == null || newSesiones.Count == 0)
+
+            //if (newSesiones == null || newSesiones.Count == 0)
+            //{
+            //    newSesiones = getNextDay(lastDate, turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList());
+            //    newSesiones.ForEach(s =>
+            //    {
+            //        s.ConsultorioID = sesion.ConsultorioID;
+            //    });
+            //}
+
+            List<Sesion> newSesiones = getNextDay(lastDate, turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList());
+            newSesiones.ForEach(s =>
             {
-                newSesiones = getNextDay(lastDate, turno.Sesions.ToList(), turno.Turno_Repeticiones.ToList());
-                newSesiones.ForEach(s =>
-                {
-                    s.ConsultorioID = sesion.ConsultorioID;
-                });
-            }
+                s.ConsultorioID = sesion.ConsultorioID;
+            });
 
             if (newSesiones.Count > 0)
             {
@@ -1643,7 +1659,7 @@ namespace com.sgt.services.Services
                     s.FechaHora >= beginDate &&
                     s.FechaHora <= endDate &&
                     EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
-                ).FirstOrDefault();
+                ).OrderBy(x=>x.FechaHora).FirstOrDefault();
 
                 if (sesionSuperpuesta != null)
                 {

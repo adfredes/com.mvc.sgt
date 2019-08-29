@@ -87,6 +87,22 @@
             return promise;
         };
 
+        $this.DeleteHttp = (_url, data) => {
+            let defered = $q.defer();
+            let promise = defered.promise;
+            $http({
+                method: 'DELETE',
+                url: Domain + _url//,
+                //data: JSON.stringify(data),
+                //datatype: 'json'
+            })
+                .then(
+                    function (response) { defered.resolve(response.data); },
+                    function (err) { defered.reject(err); }
+                );
+            return promise;
+        };
+
         $this.GetPHttpParse = (_url) => {
             var defered = $q.defer();
             var promise = defered.promise;

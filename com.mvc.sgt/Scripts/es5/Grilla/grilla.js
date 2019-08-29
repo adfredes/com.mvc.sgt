@@ -13,8 +13,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -148,6 +148,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.sesiones = [];
         options.sesionesReservadas = [];
         dibujarGrilla();
+        window.setTimeout(function () { return $('.modal-dialog').draggable({ handle: ".modal-header" }); }, 5000);
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
     };
     $(document).ready(function () {
         init();
@@ -177,36 +179,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
     function dibujarGrilla() {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, _b, _c, _d, _e, _f;
+            var awConsultorios, awRangoHorario, awRangoFecha, _a, _b, _c, awSesiones, awRecesos, awFeriados, _d, _e, _f;
             return __generator(this, function (_g) {
                 switch (_g.label) {
                     case 0:
                         options.divGrilla.querySelector('.procesando').style.display = 'block';
+                        awConsultorios = getConsultorios();
+                        awRangoHorario = getRangoHorario();
+                        awRangoFecha = getRangoFecha();
                         _a = options;
-                        return [4, getConsultorios()];
+                        return [4, awConsultorios];
                     case 1:
                         _a.consultorios = _g.sent();
                         _b = options;
-                        return [4, getRangoHorario()];
+                        return [4, awRangoHorario];
                     case 2:
                         _b.horarios = _g.sent();
                         _c = options;
-                        return [4, getRangoFecha()];
+                        return [4, awRangoFecha];
                     case 3:
                         _c.dias = _g.sent();
+                        awSesiones = getSesiones();
+                        awRecesos = getRecesos();
+                        awFeriados = getFeriados();
                         _d = options;
-                        return [4, getSesiones()];
+                        return [4, awSesiones];
                     case 4:
                         _d.sesiones = _g.sent();
                         _e = options;
-                        return [4, getRecesos()];
+                        return [4, awRecesos];
                     case 5:
                         _e.recesos = _g.sent();
-                        options.bloqueosAgenda = [];
                         _f = options;
-                        return [4, getFeriados()];
+                        return [4, awFeriados];
                     case 6:
                         _f.feriados = _g.sent();
+                        options.bloqueosAgenda = [];
                         renderGrilla();
                         renderReservado();
                         setCeldasDroppable();
@@ -239,10 +247,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             redibujarGrilla();
         };
         var btnCantidadSesionesModal_click = function (e) {
+            $("#cantidadSesionesModal").modal("hide");
             e.preventDefault();
             e.stopPropagation();
             e.target.removeEventListener('click', btnCantidadSesionesModal_click);
-            $("#cantidadSesionesModal").modal("hide");
             var sobreturnos = [];
             var _turno = {
                 "PacienteID": null,
@@ -1357,7 +1365,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var url = Domain + "Sesion/Estado/Cancelar";
         var params = {};
         params.id = sesionID;
-        changeEstadoSesion(url, params, function (data) { });
+        changeEstadoSesion(url, params, dibujarGrilla);
     }
     function setEstadoConfirmado(sesionID) {
         var url = Domain + "Sesion/Estado/Confirmar";

@@ -58,7 +58,7 @@ namespace com.sgt.services.Interfaces
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);
-        Turno ConfirmarTurno(Turno turno, bool continuar);
+        Turno ConfirmarTurno(Turno turno, bool continuar, int? turnoID);
         void EditDiagnosticoTurno(Turno turno);
         Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar);
         Turno CancelarTurno(Turno turno);

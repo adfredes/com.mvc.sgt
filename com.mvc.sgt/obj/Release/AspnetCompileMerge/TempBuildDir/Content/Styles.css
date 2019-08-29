@@ -1,4 +1,7 @@
-﻿
+﻿.ui-draggable .modal-header{
+    cursor:move;
+}
+
 .modal-fixed{
     position: fixed;
     top:0 !important;

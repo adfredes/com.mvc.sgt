@@ -97,8 +97,7 @@
         dibujarGrilla();
     };
 
-    let init = () => {
-
+    let init = () => {        
         let btnHoy = document.querySelector('#btnVistaHoy');
         //let btnProximo = document.querySelector('#btnVistaProximo');
         let btnSemanal = document.querySelector('#btnVistaSemanal');
@@ -153,6 +152,8 @@
         options.sesionesReservadas = [];
 
         dibujarGrilla();
+        window.setTimeout(() => $('.modal-dialog').draggable({ handle: ".modal-header" }), 5000);
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
     };
     //window.addEventListener('load', init());
 
@@ -239,10 +240,10 @@
         };
 
         let btnCantidadSesionesModal_click = e => {            
+            $("#cantidadSesionesModal").modal("hide");
             e.preventDefault();
             e.stopPropagation();
-            e.target.removeEventListener('click', btnCantidadSesionesModal_click);
-            $("#cantidadSesionesModal").modal("hide");
+            e.target.removeEventListener('click', btnCantidadSesionesModal_click);            
             let sobreturnos = [];
             let _turno = {
                 "PacienteID": null,
@@ -1730,7 +1731,7 @@
         let url = Domain + "Sesion/Estado/Cancelar";
         let params = {};
         params.id = sesionID;
-        changeEstadoSesion(url, params, data => { });
+        changeEstadoSesion(url, params, dibujarGrilla);
     }
 
     function setEstadoConfirmado(sesionID) {

@@ -13,8 +13,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -148,6 +148,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.sesiones = [];
         options.sesionesReservadas = [];
         dibujarGrilla();
+        window.setTimeout(function () { return $('.modal-dialog').draggable({ handle: ".modal-header" }); }, 5000);
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
     };
     $(document).ready(function () {
         init();
@@ -239,10 +241,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             redibujarGrilla();
         };
         var btnCantidadSesionesModal_click = function (e) {
+            $("#cantidadSesionesModal").modal("hide");
             e.preventDefault();
             e.stopPropagation();
             e.target.removeEventListener('click', btnCantidadSesionesModal_click);
-            $("#cantidadSesionesModal").modal("hide");
             var sobreturnos = [];
             var _turno = {
                 "PacienteID": null,
@@ -1357,7 +1359,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var url = Domain + "Sesion/Estado/Cancelar";
         var params = {};
         params.id = sesionID;
-        changeEstadoSesion(url, params, function (data) { });
+        changeEstadoSesion(url, params, dibujarGrilla);
     }
     function setEstadoConfirmado(sesionID) {
         var url = Domain + "Sesion/Estado/Confirmar";

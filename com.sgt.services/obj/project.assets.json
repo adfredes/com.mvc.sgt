@@ -107,11 +107,14 @@
       "sha512": "ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
       "type": "package",
       "path": "entityframework/6.2.0",
+      "hasTools": true,
       "files": [
-        "EntityFramework.6.2.0.nupkg.sha512",
-        "EntityFramework.nuspec",
+        ".nupkg.metadata",
+        ".signature.p7s",
         "content/net40/App.config.transform",
         "content/net40/Web.config.transform",
+        "entityframework.6.2.0.nupkg.sha512",
+        "entityframework.nuspec",
         "lib/net40/EntityFramework.SqlServer.dll",
         "lib/net40/EntityFramework.SqlServer.xml",
         "lib/net40/EntityFramework.dll",
@@ -148,11 +151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "projectUniqueName": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
       "projectName": "com.sgt.services",
-      "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
       "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\obj\\",
+      "outputPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -164,14 +167,13 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://reactjs.net/packages/": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             }
           }
         }

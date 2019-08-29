@@ -45,6 +45,17 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d => d.NumeroAfiliado, opt => opt.MapFrom(src => src.Paciente.NumeroAfiliado))
                 ;
 
+                mapper.CreateMap<Turno, TurnoListModel>()
+                .ForMember(d => d.FechaDesde,
+                o => o.MapFrom(s => s.Sesions
+                    .Where(t => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)t.Estado) || EstadoSesion.SinFechaLibre == (EstadoSesion)t.Estado)
+                    .Min( t => t.FechaHora)))
+                .ForMember(d => d.FechaHasta,
+                o => o.MapFrom(s => s.Sesions
+                    .Where(t => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)t.Estado) || EstadoSesion.SinFechaLibre == (EstadoSesion)t.Estado)
+                    .Max(t => t.FechaHora)))
+                ;
+
                 mapper.CreateMap<Paciente, PacienteSearchDto>()                
                 .ReverseMap();
 

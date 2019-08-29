@@ -212,11 +212,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "projectUniqueName": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
       "projectName": "ImportarImagenes",
-      "projectPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "projectPath": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
       "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\obj\\",
+      "outputPath": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -228,17 +228,16 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://reactjs.net/packages/": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             },
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
+            "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
+              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
             }
           }
         }

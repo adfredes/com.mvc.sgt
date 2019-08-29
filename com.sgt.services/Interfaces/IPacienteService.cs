@@ -12,6 +12,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Turno> ListarTurnos(int PacienteID);
         ICollection<Paciente> ListarPacientesAnualesCondicionSesiones();
         Imagen AddFile(Imagen imagen);
+        void DeleteFile(int id, string usuario);
         ICollection<Imagen> GetFiles(int PacienteID);
         Imagen GetFile(int id);
         Boolean TurnosAnteriores(int PacienteID, int TipoSesionID);

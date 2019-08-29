@@ -180,7 +180,7 @@
                                                     <div class="form-group col-md-6">
                                                         <md-input-container class="form-group md-block">
                                                             <label for="provincia">Provincia</label>
-                                                            <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()" >
+                                                            <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()">
                                                                 <md-option ng-repeat="item in $ctrl.Provincias" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
                                                             <div ng-show="$ctrl.frmPaciente.provincia.$touched" ng-messages="$ctrl.frmPaciente.provincia.$error" role="alert">
@@ -191,7 +191,7 @@
                                                     <div class="form-group col-md-6">
                                                         <md-input-container class="form-group md-block">
                                                             <label for="ciudad">Ciudad</label>
-                                                            <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID" >
+                                                            <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID">
                                                                 <md-option ng-repeat="item in $ctrl.Localidades" ng-value="{{item.Value}}">{{item.Text}}</md-option>
                                                             </md-select>
                                                             <div ng-show="$ctrl.frmPaciente.ciudad.$touched" ng-messages="$ctrl.frmPaciente.ciudad.$error" role="alert">
@@ -227,7 +227,7 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="telefono">Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono"
-                                                                   name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off"/>
+                                                                   name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off" />
                                                             <div ng-show="$ctrl.frmPaciente.telefono.$touched" ng-messages="$ctrl.frmPaciente.telefono.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -302,7 +302,7 @@
                                                 </div>
                                             </fieldset>
                                             <fieldset class="m-0 p-2 bg-danger text-center text-white" ng-hide="$ctrl.frmPaciente.$valid">
-                                                <span>Hay datos incompletos/erroneos.</span>    
+                                                <span>Hay datos incompletos/erroneos.</span>
                                             </fieldset>
                                         </form>
                                     </div>
@@ -310,7 +310,7 @@
                             </md-tab>
                             <md-tab label="Turnos">
                                 <md-content>
-                                    <paciente-turnos paciente="$ctrl.paciente" parent="$ctrl.parent" on-close="$ctrl.close()" on-adddiagnostico = "$ctrl.reloadDiagnostico"></paciente-turnos>
+                                    <paciente-turnos paciente="$ctrl.paciente" parent="$ctrl.parent" on-close="$ctrl.close()" on-adddiagnostico="$ctrl.reloadDiagnostico"></paciente-turnos>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Diagnosticos">
@@ -330,10 +330,10 @@
                                             <td class="text-left w-auto p-1">{{diagnostico.TurnoID}}</td>
                                             <td class="text-left w-auto p-1">{{diagnostico.Fecha.substr(0,10) | date: "dd/MM/yyyy"}}</td>
                                             <td class="text-left w-auto p-1">{{$ctrl.getTipoSesion(diagnostico.Tipo)}}</td>
-                                            <td class="text-left w-auto p-1">{{diagnostico.CodigoPractica}}</td>                                            
+                                            <td class="text-left w-auto p-1">{{diagnostico.CodigoPractica}}</td>
                                             <td class="text-left w-100 p-1">
                                                 <div ng-if="diagnostico.TurnoID > 0">{{diagnostico.Diagnostico}}</div>
-                                                <div ng-if="diagnostico.TurnoID == 0" ng-bind-html="$ctrl.OldDiagnostico"></div>                                                
+                                                <div ng-if="diagnostico.TurnoID == 0" ng-bind-html="$ctrl.OldDiagnostico"></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -343,7 +343,7 @@
                             <md-tab label="Archivos">
                                 <md-content>
                                     <div class="container-fluid p-0" ng-if="$ctrl.paciente.ID>0">
-                                        @Html.Partial("ViewFiles", "Paciente")                                       
+                                        @Html.Partial("ViewFiles", "Paciente")
                                     </div>
                                 </md-content>
                             </md-tab>
@@ -353,10 +353,11 @@
             </div>
             <div class="modal-footer">
                 <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.savePaciente()" ><span class="icon-floppy"></span> Guardar</md-button>
+                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.savePaciente()"><span class="icon-floppy"></span> Guardar</md-button>
                 <div ng-transclude="botton"></div>
             </div>
         </div>
     </div>
 </div>
+
 

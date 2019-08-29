@@ -58,15 +58,17 @@
         };
 
         $scope.Edit = function (id) {
-            var getData = crudService.Get(id, 'Paciente');
-            getData.then(function (response) {
-                $scope.PacienteModel = JSON.parse(response.data);
-                //$scope.PacienteModel.FechaModificacion = moment($scope.PacienteModel.FechaModificacion).toDate();
-                //$scope.PacienteModel.FechaNacimiento = moment($scope.PacienteModel.FechaNacimiento).toDate();
-            },
-                function () {
-                    alert('Error al obtener los registros');
-                });
+            $scope.PacienteModel = {ID: id};
+
+            //var getData = crudService.Get(id, 'Paciente');
+            //getData.then(function (response) {
+            //    $scope.PacienteModel = JSON.parse(response.data);
+            //    //$scope.PacienteModel.FechaModificacion = moment($scope.PacienteModel.FechaModificacion).toDate();
+            //    //$scope.PacienteModel.FechaNacimiento = moment($scope.PacienteModel.FechaNacimiento).toDate();
+            //},
+            //    function () {
+            //        alert('Error al obtener los registros');
+            //    });
         };
 
         $scope.Create = function () {

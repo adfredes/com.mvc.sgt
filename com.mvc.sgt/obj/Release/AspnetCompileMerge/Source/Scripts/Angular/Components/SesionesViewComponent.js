@@ -16,12 +16,14 @@
         vm.registerCount = 0;
         vm.PacienteID = 0;
         vm.TurnoID = 0;
+        vm.getInformation = false;
 
         vm.$onInit = () => init;
 
 
 
         let init = () => {
+            vm.getInformation = true;
             vm.currentPage = 0;
             vm.initPage = 0;            
             vm.registerCount = 0;
@@ -54,6 +56,8 @@
         vm.getNombreEstado = (idEstado) => turnoService.getNombreEstado(idEstado, vm.Estados);
 
         vm.getNombreConsultorio = (idConsultorio) => turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios);
+
+        vm.getColorConsultorio = (idConsultorio) => turnoService.getColorConsultorio(idConsultorio, vm.Consultorios);
 
         vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente);
 
@@ -91,6 +95,7 @@
                 vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];                
                 vm.registerCount = vm.turnos.length;
+                vm.getInformation = false;
             })
                 .catch(err => { vm.turnos = [];});
         };        

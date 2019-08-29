@@ -1,9 +1,9 @@
 ﻿@*@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
 
-        
-    
+
+
 <div>
     <div class="panel panel-default">
         <div class="panel-body">
@@ -91,4 +91,9 @@
     </div>
 
 </div>
+<script>
+    $(document).ready(function () {        
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
+    });    
+</script>
 

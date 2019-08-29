@@ -26,3 +26,15 @@ D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCom
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.services.dll
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.services.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\EntityFramework.SqlServer.dll
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\EntityFramework.dll
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll.config
+E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csprojAssemblyReference.cache
+E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCompileInputs.cache
+E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
+E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
+E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb

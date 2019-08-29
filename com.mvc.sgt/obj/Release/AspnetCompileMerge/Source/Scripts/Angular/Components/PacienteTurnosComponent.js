@@ -44,6 +44,7 @@
         vm.selectedTurno = {};
         vm.deleteTurno = false;
         let parentModal;
+        vm.getInformation = false;
         
 
         vm.reading = false;
@@ -103,6 +104,8 @@
         vm.getNombreConsultorio = function (idConsultorio) {
             return vm.Consultorios.find(consultorio => consultorio.ID === idConsultorio).Descripcion;
         };
+
+        vm.getColorConsultorio = (idConsultorio) => turnoService.getColorConsultorio(idConsultorio, vm.Consultorios);
 
         vm.turnoPrint = (turno) =>             
             turnoService.turnoPrint(turno, vm.paciente);              
@@ -182,12 +185,14 @@
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
 
-        let getTurnosPaciente = (id) => {
-            console.log(id);
+        let getTurnosPaciente = (id) => {         
+            vm.getInformation = true;
+            console.log(vm.getInformation);
             let promise = crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
             promise.then(data => {
                 vm.reading = false;
                 vm.turnos = sesionesOrder(JSON.parse(data));                
+                vm.getInformation = false;
             })
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };

@@ -5,14 +5,14 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
+        controller: ['messageService', 'turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
             divid: "@"
         }
     });
-    function pacienteViewController(turnoService, crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         vm.Provincias = [];
         vm.Localidades = [];
@@ -92,11 +92,9 @@
             vm.selectedIndex = 0;
         };
         vm.decode = function (value) {
-            console.log(unescape(value));
             return unescape(value);
         };
         vm.reloadDiagnostico = function () {
-            console.log("load diagnostico");
             loadDiagnostico(vm.paciente.ID);
         };
         vm.takedPhoto = function (data) {
@@ -153,6 +151,15 @@
                     .catch(function (error) { return vm.files = []; });
             }
         };
+        vm.deleteFile = function (file) {
+            messageService.showConfirm('Archivos', 'Esta seguro que desea eliminar el archivo?', 'Aceptar', 'Cancelar', vm.parent)
+                .then(function () {
+                var _url = "Paciente/File/" + file.ID;
+                var promise = crudService.DeleteHttp(_url, file.ID);
+                promise.then(function (data) { return getFiles(vm.paciente.ID); })
+                    .catch(function (error) { return error = []; });
+            });
+        };
         vm.downloadFile = function (file) {
             var _url = "Paciente/File/" + file.ID;
             var promise = crudService.GetPHttp(_url);
@@ -177,7 +184,7 @@
                 getFiles(vm.paciente.ID);
             })
                 .catch(function (error) {
-                vm.uploadingText = "No fue posible subir el archivo.";
+                return vm.uploadingText = "No fue posible subir el archivo.";
             });
         };
         getObrasSociales = function () {

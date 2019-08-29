@@ -4,3 +4,9 @@ D:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.csproj
 D:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.csproj.CoreCompileInputs.cache
 D:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.dll
 D:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\bin\Release\com.sgt.common.util.dll
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\bin\Release\com.sgt.common.util.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.csprojAssemblyReference.cache
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.csproj.CoreCompileInputs.cache
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.dll
+E:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Release\com.sgt.common.util.pdb

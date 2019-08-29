@@ -497,12 +497,12 @@ namespace com.mvc.sgt.Controllers
         [HttpPut]
         [Route("Turno/Confirmar")]
         [CreateUpdateActionFilter("admin")]
-        public JsonResult ConfirmarTurno(TurnoModel model, bool continuar)
+        public JsonResult ConfirmarTurno(TurnoModel model, bool continuar, int? turnoID)
         {
             try
             {
                 var turno = Mapper.Map<Turno>(model);
-                turno = this.AgendaService.ConfirmarTurno(turno, continuar);
+                turno = this.AgendaService.ConfirmarTurno(turno, continuar, turnoID);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 return Json(JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno)));
             }

@@ -111,7 +111,7 @@
             turnoService.existTurnosAnteriores(vm.turno.PacienteID, vm.turno.TipoSesionID)
                 .then(function (data) {
                 if (data) {
-                    turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                    vm.continuarSesiones();
                 }
                 else {
                     vm.confirmarTurno(false);
@@ -119,12 +119,17 @@
             })
                 .catch(function (ex) { return console.dir(ex); });
         };
-        vm.confirmarTurno = function (continuar) {
-            turnoService.confirmarTurno(vm.turno, continuar)
+        vm.continuarSesiones = function (continuar) {
+            turnoService.openSelectTurnoContinuar(vm.turno, vm.confirmarTurno, $element);
+        };
+        vm.confirmarTurno = function (continuar, turnoID) {
+            turnoService.confirmarTurno(vm.turno, continuar, turnoID)
                 .then(function (data) {
                 vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                 eventService.UpdateTurnos();
-                vm.openDiagnostico();
+                if (!continuar) {
+                    vm.openDiagnostico();
+                }
                 if (vm.onChanges) {
                     vm.onChanges()();
                 }
@@ -156,7 +161,7 @@
             if (vm.onChanges) {
                 vm.onChanges()();
             }
-        }, $element); };
+        }, $element.children()); };
         vm.changeSesionState = function (asistio) {
             var sesiones = [];
             vm.turno.Sesions.filter(function (s) { return s.selected === true; })

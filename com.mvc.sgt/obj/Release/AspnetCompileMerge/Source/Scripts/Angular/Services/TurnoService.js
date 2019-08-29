@@ -65,13 +65,13 @@
                     body.push(row);
                 }
             });
-            body.unshift(['#','Fecha', 'Horario']);
+            body.unshift(['#', 'Fecha', 'Horario']);
 
             let headerText = `Turno: ${turno.ID} - ${paciente.Apellido}, ${paciente.Nombre}`;
             pdfService.CreateTurnoPdf(body, headerText);
         };
 
-        $this.bolder = (estado) => {            
+        $this.bolder = (estado) => {
 
             if (estado < 9 && estado != 6) {
                 return true;
@@ -93,6 +93,8 @@
 
         $this.getNombreConsultorio = (idConsultorio, Consultorios) => Consultorios.find(consultorio => consultorio.ID === idConsultorio).Descripcion;
 
+        $this.getColorConsultorio = (idConsultorio, Consultorios) => Consultorios.find(consultorio => consultorio.ID === idConsultorio).Color;
+
         $this.getTurno = id => crudService.GetPHttp(`Turno/${id}`);
 
         $this.getSesion = id => crudService.GetPHttp(`api/sesiones/${id}`);
@@ -104,8 +106,8 @@
         $this.turnosSesionesOrder = (data) => {
             data.forEach(turno => {
                 turno = $this.sesionesOrder(turno);
-                let fechaActual = new Date();                
-                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;                
+                let fechaActual = new Date();
+                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
                 let pos = 0;
                 //while (!$this.bolder(turno.Sesions[pos].Estado) && pos < turno.sesion.length) {
                 //    pos++;
@@ -120,10 +122,12 @@
         };
 
         $this.sesionesOrder = (data) => {
+            
             let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) =>
-                self.findIndex(element => element.Numero === value.Numero && element.ID < value.ID + 3
-                    && element.ID >= value.ID - 1
+                self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3
+                    //&& element.ID >= value.ID - 1
                     && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
+                    //&& moment(element.FechaModificacion).toDate() == moment(value.FechaModificacion).toDate()
                     && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
                     && element.TurnoSimultaneo === value.TurnoSimultaneo
                 )
@@ -132,8 +136,10 @@
 
             sesiones.forEach(mValue => {
                 let result = data.Sesions.filter(fValue =>
-                    mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
-                    && $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(mValue.FechaHora).toDate())
+                    //mValue.ID + 3 > fValue.ID && 
+                    mValue.Numero === fValue.Numero &&
+                    $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(fValue.FechaHora).toDate())
+                    //&& moment(mValue.FechaModificacion).toDate() == moment(fValue.FechaModificacion).toDate()
                     && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
                     && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
                 ).length;
@@ -146,8 +152,8 @@
             return data;
         };
 
-        $this.sesionAnular = (sesionID, success, parentEl) => {                                                
-           
+        $this.sesionAnular = (sesionID, success, parentEl) => {
+
 
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
@@ -195,8 +201,8 @@
                     let url = "Sesion/Estado/Anular";
                     let params = {};
                     params.id = sesionID;
-                    let promise = crudService.PutHttp(url, params);     
-                    promise.then(() => success());                    
+                    let promise = crudService.PutHttp(url, params);
+                    promise.then(() => success());
                 })
                 .catch(() => undefined);
 
@@ -225,7 +231,7 @@
                                   <div class="md-dialog-content">                                                                                    
                                         <div class="form-group">
                                             <label >Sesiones
-                                                <input type="number" class="form-control" ng-model="cantidad" placeholder="">
+                                                <input type="number" class="form-control" ng-model="cantidad" placeholder="" min="1">
                                             </label>
                                           </div>
                                           <div class="form-check">
@@ -243,7 +249,7 @@
                               </form>
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
-                $scope.cantidad = 0;
+                $scope.cantidad = 1;
                 $scope.continuar = true;
                 $scope.hide = function () {
                     $mdDialog.hide();
@@ -264,7 +270,7 @@
                 fullscreen: false,
                 locals: { turno: turno }
             })
-                .then(answer => {
+                .then(answer => {                    
                     let url = "Turno/AgregarSesiones";
                     let params = {};
                     params.model = turno;
@@ -379,7 +385,7 @@
                 .then(answer => {
                     let url = "Sesion/Cancelar";
                     let sesiones = turno.Sesions.filter(s => s.selected);
-                    
+
                     let params = {};
                     params.model = sesiones;
                     let promise = crudService.PutHttp(url, params);
@@ -397,11 +403,12 @@
             //return crudService.GetPHttp("api/turno/enviar/" + turnoId);
         };
 
-        $this.confirmarTurno = (turno, continuar) => {
+        $this.confirmarTurno = (turno, continuar, turnoID) => {
             let params = {};
             let url = "Turno/Confirmar";
             params.model = turno;
             params.continuar = continuar;
+            params.turnoID = turnoID;
             let promise = crudService.PutHttp(url, params);
             return promise;
         };
@@ -415,7 +422,7 @@
                                 </md-toolbar>
                                 <sesion-edit-modal sesion="sesion" on-save="answer" on-cancel="cancel" />
                             </md-dialog>`;
-           
+
 
             function DialogController($scope, $mdDialog) {
                 $scope.sesion = sesion;
@@ -485,7 +492,7 @@
                 //locals: { turno: turno }
             })
                 .then(answer => {
-                    
+
                     success(answer);
                 })
                 .catch(() => undefined);
@@ -503,12 +510,12 @@
                                   <div class="md-dialog-content">        
                                     <md-input-container class="md-block">
                                         <label>Diagnóstico</label>
-                                            <textarea ng-model="diagnostico.diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus" ng-init="${turno.Diagnostico}"></textarea>
+                                            <textarea ng-model="diagnostico.diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus"></textarea>
                                     </md-input-container>        
                                     <div ng-show="codigos.length>0">
                                         <label>Código de Práctica:</label>
                                         <md-radio-group ng-model="diagnostico.codigopractica" class="md-primary">
-                                          <md-radio-button ng-repeat="cod in codigos" ng-value="cod">{{cod}}</md-radio-button>                                      
+                                          <md-radio-button ng-repeat="cod in codigos" ng-value="cod" >{{cod}}</md-radio-button>                                      
                                         </md-radio-group>
                                     </div>
                                   </div>
@@ -522,20 +529,21 @@
                               </form>
                              </md-dialog>`;
             function DialogController($scope, $mdDialog) {
-                $scope.diagnostico = {
-                    diagnostico: turno.Diagnostico,
-                    codigopractica: turno.CodigoPractica
-                };                
-                $scope.codigos = [];                                
+
                 let init = () => {
+                    $scope.diagnostico = {};
+                    $scope.codigos = [];
+                    $scope.diagnostico.diagnostico = turno.Diagnostico;
+                    //$scope.diagnostico.codigopractica = turno.CodigoPractica;
                     switch (paciente.AseguradoraID) {
-                        case 1:                            
+                        case 1:
                             $scope.codigos = ['25.01.81', '25.01.64'];
                             break;
-                        case 22:                            
+                        case 22:
                             $scope.codigos = ['90.25.22', '25.80.01'];
                             break;
                     }
+                    $scope.diagnostico.codigopractica = turno.CodigoPractica;
                 };
 
                 init();
@@ -543,7 +551,7 @@
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
-                $scope.cancel = function () {                    
+                $scope.cancel = function () {
                     $mdDialog.cancel();
                 };
                 $scope.answer = function (answer) {
@@ -623,6 +631,86 @@
         };
 
 
+
+        $this.openSelectTurnoContinuar = (turno, success, parentEl) => {
+            let modalHtml = `<md-dialog aria-label="Turnos">
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Turno</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">                                                                                                                                                                                                                            
+                                        <md-input-container>                                          
+                                          <label>Continuar con sesiones anteriores?</label> 
+                                          <md-select ng-model="turnoID"> 
+                                            <md-option ng-value="null">------------------NO------------------</md-option>
+                                            <md-option ng-repeat="t in turnos" ng-value="t.ID">
+                                              Turno {{t.ID}} : {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}
+                                            </md-option>
+                                          </md-select>
+                                        </md-input-container>
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>                                  
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(turnoID)'><span class='icon-ok'></span> Aceptar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+
+            function DialogController($scope, $mdDialog) {
+                //$scope.Turnos = [];
+                //$scope.turno = {};                
+
+                let loadTurnos = (id) => {
+                    let url = "Paciente/ListarTurnosContinuar/" + id;
+                    
+                    let promise = crudService.GetPHttpParse(url);
+                    promise.then(data => {                        
+                        $scope.turnos = data.filter(t=> !(t.ID == turno.ID));
+                        //$scope.turnoID = $scope.turnos[0].ID;
+                    });
+                };
+
+                let init = () => {                    
+                    $scope.turnos = [];
+                    $scope.turnoID = null;                    
+                    loadTurnos(turno.PacienteID);
+                };
+
+                init();
+
+               
+
+                $scope.hide = function () {
+                    //$mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    //$mdDialog.hide();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: false,
+                fullscreen: false,
+                multiple: true
+            })
+                .then(answer => {
+                    success(answer?true:false, answer);
+                })
+                .catch(() => success(false));
+        };
+
+        //se reempleazo por openSelectTurnosContinuar
         $this.openContinuarSesiones = (success, parentEl) => {
             let modalHtml = `<md-dialog aria-label="Turnos">
                               <form ng-cloak>
@@ -643,7 +731,7 @@
                                   <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>
                                 </md-dialog-actions>
                               </form>
-                             </md-dialog>`;            
+                             </md-dialog>`;
 
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
@@ -672,8 +760,8 @@
         };
 
         let getNumeroSesionWp = (numero) => {
-            let resu = numero.toString();            
-            resu = numero < 10 ? '0' + numero.toString() : numero.toString();            
+            let resu = numero.toString();
+            resu = numero < 10 ? '0' + numero.toString() : numero.toString();
 
             return resu;
         };
@@ -687,7 +775,7 @@
                 if (estadosImprimible.includes(sesion.Estado)) {
                     let row = `${getNumeroSesionWp(sesion.Numero)}%20%20%20%20%09${$this.toShortDate(moment(sesion.FechaHora).toDate())}%20%20%20%20%09${$this.toHour(sesion.FechaHora)}%0A`;
                     row = convertirCaracteresFecha(row);
-                    body.push(row);                    
+                    body.push(row);
                     //body.push('~----------------------------------~%0A');
                 }
             });
@@ -709,7 +797,7 @@
             linea = linea.replace('/', '%2F');
             linea = linea.replace('/', '%2F');
             linea = linea.replace(':', '%3A');
-            linea = linea.replace(' ', '%20');          
+            linea = linea.replace(' ', '%20');
             return linea;
         };
 
@@ -732,12 +820,12 @@
             return resu;
         };
 
-        $this.existTurnosAnteriores = (pacienteID, tipoID) => {        
+        $this.existTurnosAnteriores = (pacienteID, tipoID) => {
             return crudService.GetPHttp(`Paciente/${pacienteID}/Tipo/${tipoID}/TurnosAnteriores`);
-        };             
+        };
 
         $this.IsTurnoSuperpuesto = (turnoID) => {
-            return crudService.GetPHttp(`Paciente/Turno/${turnoID}/IsSuperpuesto`);                
+            return crudService.GetPHttp(`Paciente/Turno/${turnoID}/IsSuperpuesto`);
         };
 
         $this.Notify = (title, message, parentEl) => {
@@ -748,14 +836,14 @@
                     .title(title)
                     .textContent(message)
                     .ariaLabel('Alert Dialog')
-                    .ok('Aceptar')                    
-                    .multiple(true)                 
+                    .ok('Aceptar')
+                    .multiple(true)
             );
         };
 
         $this.FacturacionTurnoShow = (turno, success, parentEl) => {
 
-            function DialogController($scope, $mdDialog) {               
+            function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
@@ -765,16 +853,16 @@
                 $scope.answer = function () {
                     $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
                 };
-            }                   
+            }
             $mdDialog.show({
-                parent: parentEl,                
+                parent: parentEl,
                 templateUrl: `${Domain}Turno/${turno.ID}/Facturacion`,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
                 fullscreen: false,
                 locals: { turno: turno }
             })
-                .then(answer => {                   
+                .then(answer => {
                     success();
                 })
                 .catch(() => undefined);

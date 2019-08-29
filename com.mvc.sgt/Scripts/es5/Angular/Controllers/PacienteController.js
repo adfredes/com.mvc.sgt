@@ -46,12 +46,7 @@
                 }
             };
             $scope.Edit = function (id) {
-                var getData = crudService.Get(id, 'Paciente');
-                getData.then(function (response) {
-                    $scope.PacienteModel = JSON.parse(response.data);
-                }, function () {
-                    alert('Error al obtener los registros');
-                });
+                $scope.PacienteModel = { ID: id };
             };
             $scope.Create = function () {
                 $scope.PacienteModel = {};

@@ -55,11 +55,14 @@ namespace com.mvc.sgt.Controllers
                 catch  { }
 
                 paciente.Turnoes
-                    .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0 && t.Estado<4 )
+                    .Where(t => t.Diagnostico != null && t.Diagnostico.Length > 0 && t.Estado<4 
+                        && t.Sesions.Where(s => s.Estado == 1 || s.Estado == 2 || s.Estado == 4 || s.Estado == 5).Count() > 0
+                    )
                     .ToList()
                     .ForEach(t => model.Add(new DiagnosticoModel
                     {
-                        Fecha = t.Sesions.FirstOrDefault(s => s.Estado < 9 && s.Numero == 1).FechaHora,
+                        Fecha = t.Sesions.Where(s => s.Estado == 1 || s.Estado == 2 || s.Estado == 4 || s.Estado == 5)
+                        .OrderByDescending(s => s.FechaHora).FirstOrDefault().FechaHora,
                         Diagnostico = t.Diagnostico,
                         CodigoPractica = t.CodigoPractica,
                         TurnoID = t.ID,
@@ -122,6 +125,22 @@ namespace com.mvc.sgt.Controllers
             return Json("OK");
         }
 
+        [Route("Paciente/File/{id}")]        
+        [HttpDelete]
+        public JsonResult DeleteFile(int? id)
+        {            
+            if (id.HasValue && id.Value>0)
+            {
+                pacienteService.DeleteFile(id.Value,User.Identity.Name);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }            
+            else
+            {                
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            return Json("OK");
+        }
+
         [Route("Paciente/{PacienteID}/File")]
         [HttpGet]
         public JsonResult GetFiles(int PacienteID)
@@ -170,6 +189,20 @@ namespace com.mvc.sgt.Controllers
             if (id.HasValue)
             {
                 turnos = Mapper.Map<List<TurnoModel>>(pacienteService.ListarTurnos(id.Value));                
+            }
+
+            return Json(JsonConvert.SerializeObject(turnos), JsonRequestBehavior.AllowGet);
+            //return Json(turnos, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ListarTurnosContinuar(int? id)
+        {
+            List<TurnoListModel> turnos = null;
+            if (id.HasValue)
+            {
+                turnos = Mapper.Map<List<TurnoListModel>>(pacienteService.ListarTurnos(id.Value))
+                    .OrderByDescending(t => t.ID).ToList();                    
             }
 
             return Json(JsonConvert.SerializeObject(turnos), JsonRequestBehavior.AllowGet);

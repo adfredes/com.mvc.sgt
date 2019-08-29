@@ -12,6 +12,7 @@
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog','$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
+            pacienteid: "<?",
             parent: "<?",
             onClose: "&?",
             onAdddiagnostico:"&?"
@@ -44,6 +45,7 @@
         vm.selectedTurno = {};
         vm.deleteTurno = false;
         let parentModal;
+        vm.getInformation = false;
         
 
         vm.reading = false;
@@ -103,6 +105,8 @@
         vm.getNombreConsultorio = function (idConsultorio) {
             return vm.Consultorios.find(consultorio => consultorio.ID === idConsultorio).Descripcion;
         };
+
+        vm.getColorConsultorio = (idConsultorio) => turnoService.getColorConsultorio(idConsultorio, vm.Consultorios);
 
         vm.turnoPrint = (turno) =>             
             turnoService.turnoPrint(turno, vm.paciente);              
@@ -166,8 +170,8 @@
             let promise = crudService.GetPHttp(`api/grilla/Estados`);
             promise.then(data => {
                 vm.Estados = data;
-                if (vm.paciente && vm.paciente.ID) {
-                    getTurnosPaciente(vm.paciente.ID);
+                if (vm.pacienteid) {
+                    getTurnosPaciente(vm.pacienteid);
                 }
             })
                 .catch(err => { vm.turnos = []; vm.reading = false; });
@@ -182,12 +186,14 @@
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
 
-        let getTurnosPaciente = (id) => {
-            console.log(id);
+        let getTurnosPaciente = (id) => {         
+            vm.getInformation = true;            
+            console.log(`Paciente/ListTurnos/${id}`);
             let promise = crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
             promise.then(data => {
                 vm.reading = false;
-                vm.turnos = sesionesOrder(JSON.parse(data));                
+                vm.turnos = sesionesOrder(JSON.parse(data));                   
+                vm.getInformation = false;
             })
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
@@ -262,16 +268,20 @@
         //};
 
         vm.$onChanges = (change) => {            
-            vm.turnos = [];
-            Estados = [];
-            Consultorios = [];
-            vm.deleteTurno = false;
-            getConsultorios();
-            if (vm.parent) {
-                parentModal = vm.parent.parent().parent().parent().parent();
-            }
-            else {
-                vm.parent = $element.parent().parent().parent().parent().parent();
+            if (change.pacienteid) {
+
+            
+                vm.turnos = [];
+                Estados = [];
+                Consultorios = [];
+                vm.deleteTurno = false;
+                getConsultorios();
+                if (vm.parent) {
+                    parentModal = vm.parent.parent().parent().parent().parent();
+                }
+                else {
+                    vm.parent = $element.parent().parent().parent().parent().parent();
+                    }
             }
         };
 

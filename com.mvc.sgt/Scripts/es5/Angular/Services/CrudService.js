@@ -70,6 +70,16 @@
                 .then(function (response) { defered.resolve(response.data); }, function (err) { defered.reject(err); });
             return promise;
         };
+        $this.DeleteHttp = function (_url, data) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+            $http({
+                method: 'DELETE',
+                url: Domain + _url
+            })
+                .then(function (response) { defered.resolve(response.data); }, function (err) { defered.reject(err); });
+            return promise;
+        };
         $this.GetPHttpParse = function (_url) {
             var defered = $q.defer();
             var promise = defered.promise;

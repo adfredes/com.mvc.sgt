@@ -26,6 +26,7 @@ namespace com.sgt.services.Services
         {
             if (!ExistPaciente(entity))
             {
+                entity.Habilitado = true;
                 entity.DocumentoTipoID = 1;
                 this.unitOfWork.RepoPaciente.Add(entity);
             }
@@ -84,42 +85,52 @@ namespace com.sgt.services.Services
             var resu = unitOfWork.RepoTurno
                 .FindBy(t => t.PacienteID == PacienteID)
                 .OrderByDescending(t => t.ID)
-                .Select(x => new
-                {
-                    ID = x.ID,
-                    CantidadSesiones = x.CantidadSesiones,
-                    Estado = x.Estado,
-                    Diagnostico = x.Diagnostico,
-                    Fecha = x.Fecha,
-                    FechaModificacion = x.FechaModificacion,
-                    Habilitado = x.Habilitado,
-                    Paciente = x.Paciente,
-                    PacienteID = x.PacienteID,
-                    UsuarioModificacion = x.UsuarioModificacion,
-                    TurnoDoble = x.TurnoDoble,
-                    TipoSesionID = x.TipoSesionID,
-                    Sesions = x.Sesions.Where(s => s.Estado != 3).ToList()
-                }).ToList();
+                .Where(t => 
+                    t.Sesions.Where(
+                        s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
+                        || EstadoSesion.SinFechaLibre == (EstadoSesion)s.Estado
+                        ).Count() > 0
+                ).ToList();
 
-            var final = resu.Where(x => x.Sesions.Count > 0)
-                .Select(x => new Turno
-                {
-                    ID = x.ID,
-                    CantidadSesiones = x.CantidadSesiones,
-                    Estado = x.Estado,
-                    Diagnostico = x.Diagnostico,
-                    Fecha = x.Fecha,
-                    FechaModificacion = x.FechaModificacion,
-                    Habilitado = x.Habilitado,
-                    Paciente = x.Paciente,
-                    PacienteID = x.PacienteID,
-                    UsuarioModificacion = x.UsuarioModificacion,
-                    TurnoDoble = x.TurnoDoble,
-                    TipoSesionID = x.TipoSesionID,
-                    Sesions = x.Sesions
-                }).ToList();
+            resu.ForEach(t => t.Sesions = t.Sesions.Where(s => (EstadoSesion)s.Estado != EstadoSesion.Anulado).ToList());
 
-            return final;
+            //    .Select(x => new
+            //    {
+            //        ID = x.ID,
+            //        CantidadSesiones = x.CantidadSesiones,
+            //        Estado = x.Estado,
+            //        Diagnostico = x.Diagnostico,
+            //        Fecha = x.Fecha,
+            //        FechaModificacion = x.FechaModificacion,
+            //        Habilitado = x.Habilitado,
+            //        Paciente = x.Paciente,
+            //        PacienteID = x.PacienteID,
+            //        UsuarioModificacion = x.UsuarioModificacion,
+            //        CodigoPractica = x.CodigoPractica,
+            //        TurnoDoble = x.TurnoDoble,
+            //        TipoSesionID = x.TipoSesionID,
+            //        Sesions = x.Sesions.Where(s => s.Estado != 3).ToList()
+            //    }).ToList();
+
+            //var final = resu.Where(x => x.Sesions.Count > 0)
+            //    .Select(x => new Turno
+            //    {
+            //        ID = x.ID,
+            //        CantidadSesiones = x.CantidadSesiones,
+            //        Estado = x.Estado,
+            //        Diagnostico = x.Diagnostico,
+            //        Fecha = x.Fecha,
+            //        FechaModificacion = x.FechaModificacion,
+            //        Habilitado = x.Habilitado,
+            //        Paciente = x.Paciente,
+            //        PacienteID = x.PacienteID,
+            //        UsuarioModificacion = x.UsuarioModificacion,
+            //        TurnoDoble = x.TurnoDoble,
+            //        TipoSesionID = x.TipoSesionID,
+            //        Sesions = x.Sesions
+            //    }).ToList();
+
+            return resu;
             //resu.ToList();
         }
 
@@ -151,6 +162,15 @@ namespace com.sgt.services.Services
         {
             imagen = unitOfWork.RepoImagen.Add(imagen);
             return imagen;
+        }
+
+        public void DeleteFile(int id, string usuario)
+        {
+            var imagen = GetFile(id);
+            imagen.Habilitado = false;
+            imagen.UsuarioModificacion = usuario;
+            imagen.FechaModificacion = DateTime.Now;
+            unitOfWork.RepoImagen.Edit(imagen);
         }
 
         public ICollection<Imagen> GetFiles(int PacienteID)
@@ -203,5 +223,7 @@ namespace com.sgt.services.Services
         {
             return this.unitOfWork.RepoPaciente.FindBy(x => x.DocumentoNumero == documento).FirstOrDefault();
         }
+
+        
     }
 }

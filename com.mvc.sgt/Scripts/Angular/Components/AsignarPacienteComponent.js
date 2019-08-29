@@ -137,7 +137,9 @@
                 .then(data => {
 
                     if (data) {
-                        turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
+                        vm.continuarSesiones();
+                        //turnoService.openContinuarSesiones(vm.continuarSesiones, $element);
+                        //turnoService.openContinuarSesiones(vm.confirmarTurno, $element);
                     }
                     else {
                         vm.confirmarTurno(false);
@@ -146,13 +148,24 @@
                 .catch(ex => console.dir(ex));
         };
 
+        vm.continuarSesiones = (continuar) => {
+            //if (continuar) {
+            turnoService.openSelectTurnoContinuar(vm.turno, vm.confirmarTurno, $element);
+            //}
+            //else {
+            //    vm.confirmarTurno(continuar, null);
+            //}
 
-        vm.confirmarTurno = (continuar) => {
-            turnoService.confirmarTurno(vm.turno, continuar)
+        };
+
+        vm.confirmarTurno = (continuar, turnoID) => {
+            turnoService.confirmarTurno(vm.turno, continuar, turnoID)
                 .then(data => {
                     vm.turno = turnoService.sesionesOrder(JSON.parse(data));
                     eventService.UpdateTurnos();
-                    vm.openDiagnostico();
+                    if (!continuar) {
+                        vm.openDiagnostico();                        
+                    }                    
                     if (vm.onChanges) {
                         vm.onChanges()();
                     }
@@ -189,7 +202,7 @@
             if (vm.onChanges) {
                 vm.onChanges()();
             }
-        }, $element);
+        }, $element.children());
 
         vm.changeSesionState = (asistio) => {
             let sesiones = [];

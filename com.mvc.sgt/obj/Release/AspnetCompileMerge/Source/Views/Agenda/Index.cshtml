@@ -165,3 +165,8 @@
     <agenda-edit agenda="ctr.agenda" on-save="ctr.saveAgenda"></agenda-edit>
     <bloqueo-agenda-edit bloqueo="ctr.bloqueo" on-save="ctr.GetBloqueos"></bloqueo-agenda-edit>
 </div>
+<script>
+    $(document).ready(function () {
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
+    });
+</script>

@@ -36,6 +36,7 @@ namespace com.sgt.DataAccess
         public UnitOfWork(TurnosDB dbContext)
         {
             this.dbContext = dbContext;
+            this.dbContext.Database.CommandTimeout = 100000;
         }
 
         public void Dispose()

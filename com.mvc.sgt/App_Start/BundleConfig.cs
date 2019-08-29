@@ -9,10 +9,13 @@ namespace com.mvc.sgt
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-{version}.min.js",
                         "~/Scripts/jquery.contextMenu.min.js",
                         "~/Scripts/pdfmake/pdfmake.min.js",
-                        "~/Scripts/pdfmake/vfs_fonts.js"
+                        "~/Scripts/pdfmake/vfs_fonts.js",
+                        "~/Scripts/jquery-ui-1.12.1.min.js"
+                        //"~/Scripts/jquery-ui-1.10.0.min.js"
+                        //"~/Scripts/jquery-ui-touch-punch.js"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -24,9 +27,9 @@ namespace com.mvc.sgt
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/Scripts/moment.js",
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/respond.min.js",
+                      "~/Scripts/moment.min.js",
                       "~/Scripts/bootstrap-datepicker.min.js",
                       "~/Scripts/locales/bootstrap-datepicker.es.min.js"));
 
@@ -44,11 +47,11 @@ namespace com.mvc.sgt
                     "~/Scripts/angular.js",
                     "~/Scripts/angular-locale_es-ar.js",
                     "~/Scripts/angular-animate.min.js",
-                    "~/Scripts/angular-messages.js",
+                    "~/Scripts/angular-messages.min.js",
                     "~/Scripts/angular-route.min.js",
-                    "~/Scripts/angular-sanitize.js",                    
-                    "~/Scripts/angular-aria.js",
-                    "~/Scripts/angular-material.js"                    
+                    "~/Scripts/angular-sanitize.min.js",                    
+                    "~/Scripts/angular-aria.min.js",
+                    "~/Scripts/angular-material.min.js"                    
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(                    

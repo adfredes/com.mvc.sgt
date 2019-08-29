@@ -64,7 +64,7 @@
         
 
         vm.openQuickCreate = () => {
-            let parentView = $element.parent().parent().parent().parent();
+            let parentView = $element.parent().parent().parent().parent().parent().parent();
             let modalHtml = `<md-dialog aria-label="Paciente">
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">

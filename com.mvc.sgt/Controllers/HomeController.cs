@@ -12,7 +12,7 @@ namespace com.mvc.sgt.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
-
+            //return RedirectToAction("Login", "Account",);            
             return View();
         }
 

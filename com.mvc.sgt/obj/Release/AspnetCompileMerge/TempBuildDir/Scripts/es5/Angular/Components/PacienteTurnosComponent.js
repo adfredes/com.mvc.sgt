@@ -27,6 +27,7 @@
         vm.selectedTurno = {};
         vm.deleteTurno = false;
         var parentModal;
+        vm.getInformation = false;
         vm.reading = false;
         vm.toDate = function (value) {
             var dateValue = moment(value).toDate();
@@ -72,6 +73,7 @@
         vm.getNombreConsultorio = function (idConsultorio) {
             return vm.Consultorios.find(function (consultorio) { return consultorio.ID === idConsultorio; }).Descripcion;
         };
+        vm.getColorConsultorio = function (idConsultorio) { return turnoService.getColorConsultorio(idConsultorio, vm.Consultorios); };
         vm.turnoPrint = function (turno) {
             return turnoService.turnoPrint(turno, vm.paciente);
         };
@@ -134,11 +136,13 @@
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };
         var getTurnosPaciente = function (id) {
-            console.log(id);
+            vm.getInformation = true;
+            console.log(vm.getInformation);
             var promise = crudService.GetPHttp("Paciente/ListTurnos/" + id);
             promise.then(function (data) {
                 vm.reading = false;
                 vm.turnos = sesionesOrder(JSON.parse(data));
+                vm.getInformation = false;
             })
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };

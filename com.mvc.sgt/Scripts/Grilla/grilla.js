@@ -97,8 +97,7 @@
         dibujarGrilla();
     };
 
-    let init = () => {
-
+    let init = () => {        
         let btnHoy = document.querySelector('#btnVistaHoy');
         //let btnProximo = document.querySelector('#btnVistaProximo');
         let btnSemanal = document.querySelector('#btnVistaSemanal');
@@ -153,6 +152,8 @@
         options.sesionesReservadas = [];
 
         dibujarGrilla();
+        window.setTimeout(() => $('.modal-dialog').draggable({ handle: ".modal-header" }), 5000);
+        $('.modal-dialog').draggable({ handle: ".modal-header" });
     };
     //window.addEventListener('load', init());
 
@@ -199,14 +200,32 @@
         options.divGrilla.querySelector('.procesando').style.display = 'block';
         //options.tabla.innerHTML = options.tabla.innerHTML == '' ? `<tr><td>Procesando....</td></tr>` : options.tabla.innerHTML;
         //options.tabla.innerHTML = `<tr><td>Procesando....</td></tr>`;
-        options.consultorios = await getConsultorios();
-        options.horarios = await getRangoHorario();
-        options.dias = await getRangoFecha();
-        options.sesiones = await getSesiones();
-        options.recesos = await getRecesos();
+        let awConsultorios = getConsultorios();
+        let awRangoHorario = getRangoHorario();
+        let awRangoFecha = getRangoFecha();        
+
+        
+        options.consultorios = await awConsultorios;
+        options.horarios = await awRangoHorario;
+        options.dias = await awRangoFecha;
+
+        let awSesiones = getSesiones();
+        let awRecesos = getRecesos();
+        let awFeriados = getFeriados();
+
+        options.sesiones = await awSesiones;
+        options.recesos = await awRecesos;
+        options.feriados = await awFeriados;
+
+        //options.consultorios = await getConsultorios();
+        //options.horarios = await getRangoHorario();
+        //options.dias = await getRangoFecha();
+        //options.sesiones = await getSesiones();
+        //options.recesos = await getRecesos();
+        //options.feriados = await getFeriados();
         options.bloqueosAgenda = [];
         //options.bloqueosAgenda = await getBloqueosAgenda();
-        options.feriados = await getFeriados();
+        
         renderGrilla();
         renderReservado();
         setCeldasDroppable();
@@ -239,10 +258,10 @@
         };
 
         let btnCantidadSesionesModal_click = e => {            
+            $("#cantidadSesionesModal").modal("hide");
             e.preventDefault();
             e.stopPropagation();
-            e.target.removeEventListener('click', btnCantidadSesionesModal_click);
-            $("#cantidadSesionesModal").modal("hide");
+            e.target.removeEventListener('click', btnCantidadSesionesModal_click);            
             let sobreturnos = [];
             let _turno = {
                 "PacienteID": null,
@@ -286,8 +305,7 @@
                 let turnoNuevo = JSON.parse(data);
                 options.sesionesReservadas = [];
                 renderListaReservas();
-                dibujarGrilla();
-                console.dir(turnoNuevo);
+                dibujarGrilla();                
                 showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
 
             }
@@ -1730,7 +1748,7 @@
         let url = Domain + "Sesion/Estado/Cancelar";
         let params = {};
         params.id = sesionID;
-        changeEstadoSesion(url, params, data => { });
+        changeEstadoSesion(url, params, dibujarGrilla);
     }
 
     function setEstadoConfirmado(sesionID) {
