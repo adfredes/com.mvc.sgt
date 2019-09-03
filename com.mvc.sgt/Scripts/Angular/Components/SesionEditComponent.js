@@ -26,6 +26,7 @@
         vm.selectedDate = null;
         vm.modulos = null;
         vm.motivo = 9;
+        vm.saving = false;
         let ConsultorioID;
 
 
@@ -118,79 +119,87 @@
         };
 
         vm.saveChange = () => {
-            let _sesiones = [];
+            if (!vm.saving) {
+                vm.saving = true;
+                let _sesiones = [];
 
 
-            for (let i = 0; i < vm.modulos; i++) {
-                let _fechaHora = new Date(vm.selectedDate.getTime());
-                _fechaHora.setMinutes(_fechaHora.getMinutes() + 30 * i);
-                let _sesion = {
-                    ID: null,
-                    AgendaID: vm.sesion.AgendaID,
-                    TurnoID: vm.sesion.TurnoID,
-                    Numero: vm.sesion.Numero,
-                    ConsultorioID: ConsultorioID,
-                    TurnoSimultaneo: 0,
-                    Estado: vm.sesion.Estado == 8 ? vm.sesion.Estado : 2,
-                    FechaHora: _fechaHora,
-                    Habilitado: true
-                };
-                _sesiones.push(_sesion);
+                for (let i = 0; i < vm.modulos; i++) {
+                    let _fechaHora = new Date(vm.selectedDate.getTime());
+                    _fechaHora.setMinutes(_fechaHora.getMinutes() + 30 * i);
+                    let _sesion = {
+                        ID: null,
+                        AgendaID: vm.sesion.AgendaID,
+                        TurnoID: vm.sesion.TurnoID,
+                        Numero: vm.sesion.Numero,
+                        ConsultorioID: ConsultorioID,
+                        TurnoSimultaneo: 0,
+                        Estado: vm.sesion.Estado == 8 ? vm.sesion.Estado : 2,
+                        FechaHora: _fechaHora,
+                        Habilitado: true
+                    };
+                    _sesiones.push(_sesion);
 
-            }
+                }
 
-            vm.sesion.sesiones.forEach(s => {
-                let _sesion = {
-                    ID: s.ID,
-                    AgendaID: s.AgendaID,
-                    TurnoID: s.TurnoID,
-                    Numero: s.Numero,
-                    ConsultorioID: s.ConsultorioID,
-                    TurnoSimultaneo: s.TurnoSimultaneo,
-                    Estado: vm.motivo,
-                    FechaHora: s.FechaHora,
-                    Habilitado: true
-                };
-                _sesiones.push(_sesion);
-            });
+                vm.sesion.sesiones.forEach(s => {
+                    let _sesion = {
+                        ID: s.ID,
+                        AgendaID: s.AgendaID,
+                        TurnoID: s.TurnoID,
+                        Numero: s.Numero,
+                        ConsultorioID: s.ConsultorioID,
+                        TurnoSimultaneo: s.TurnoSimultaneo,
+                        Estado: vm.motivo,
+                        FechaHora: s.FechaHora,
+                        Habilitado: true
+                    };
+                    _sesiones.push(_sesion);
+                });
 
-            let url = "Sesion/CambiarFecha";
+                let url = "Sesion/CambiarFecha";
 
-            let promise = crudService.PutHttp(url, _sesiones);
+                let promise = crudService.PutHttp(url, _sesiones);
 
-            promise.then(data => {
-                turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
-                    .then(answer => {
-                        if (answer) {
-                            turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
-                                .then(() => {
-                                    if (vm.onSave) {
-                                        vm.onSave()(data);
-                                    }
-                                    else {
-                                        eventService.UpdateTurnos();
-                                        $('#' + vm.divid).modal('hide');
-                                    }
-                                });
-                        }
-                        else {
-                            if (vm.onSave) {
-                                vm.onSave()(data);
+                promise.then(data => {                    
+                    turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
+                        .then(answer => {
+                            vm.saving = false;
+                            if (answer) {
+                                turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                                    .then(() => {
+                                        if (vm.onSave) {
+                                            vm.onSave()(data);
+                                        }
+                                        else {
+                                            $('#' + vm.divid).modal('hide');
+                                            eventService.UpdateTurnos();
+                                        }
+                                    });
                             }
                             else {
-                                eventService.UpdateTurnos();
-                                $('#' + vm.divid).modal('hide');
+                                if (vm.onSave) {
+                                    vm.onSave()(data);
+                                }
+                                else {
+                                    $('#' + vm.divid).modal('hide');
+                                    eventService.UpdateTurnos();
+                                }
                             }
-                        }
 
+                        })
+                        .catch(() => vm.saving = false);
+                        
+
+
+                    //vm.showModal(ev, 'Se modifico correctamente el turno');                
+                })
+                    .catch(err => {
+                        vm.saving = false;
+                        vm.showModal(err.data, $element);
                     });
-
-
-                //vm.showModal(ev, 'Se modifico correctamente el turno');                
-            })
-                .catch(err => {
-                    vm.showModal(err.data, $element);
-                });
+            }
+           
 
 
 

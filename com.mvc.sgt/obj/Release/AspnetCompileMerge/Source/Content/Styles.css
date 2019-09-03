@@ -545,12 +545,14 @@ input[readonly]{
     margin: 0px;
     /*height: 100%;
         width: 100%;*/
-    transition: all 0.4s;
+    transition: all 0.1s;
     padding: .2rem;
     display: flex;
     justify-content: center;
     align-content: center;
-    flex-direction: column;
+    flex-direction: column;   
+    overflow:hidden;    
+    
 }
 
 .tabla-consultorio {
@@ -563,11 +565,22 @@ input[readonly]{
     cursor: not-allowed;
 }
 
-.div-turno:hover {
+.div-turno:hover {    
     transform: scale(1.2);
     border-radius: 3px;
-    box-shadow: 2px 2px 2px #000;
-    z-index:500;
+    box-shadow: 2px 2px 2px 1px #000;
+    z-index: 500;
+}
+
+.h-50.div-turno:first-child {
+    border-bottom: dashed 1px #aaa;
+}
+
+.h-50.div-turno:hover {
+    overflow: visible;
+    height: auto !important;
+    min-height: 50%;
+    border-bottom: none;
 }
 
 .div-turno[data-estado="2"]:hover {

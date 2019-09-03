@@ -13,78 +13,93 @@
                 <div class="form-row">
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Nombre)</span>
-                        <span class="form-control"> @Html.DisplayFor(model => model.Nombre)</span>
+                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Nombre)</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             @Html.DisplayNameFor(model => model.Apellido)
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.Apellido)</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.Apellido)</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             Dni
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.DocumentoNumero)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.DocumentoNumero)&nbsp</span>
                     </div>
                 </div>
 
                 <div class="form-row mt-2">
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Direccion)</span>
-                        <span class="form-control"> @Html.DisplayFor(model => model.Direccion)&nbsp</span>
+                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Direccion)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             C.P.
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.CodigoPostal)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.CodigoPostal)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             @Html.DisplayNameFor(model => model.Cuit)
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.Cuit)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.Cuit)&nbsp</span>
                     </div>
                 </div>
 
                 <div class="form-row mt-2">
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Aseguradora)</span>
-                        <span class="form-control"> @Html.DisplayFor(model => model.Aseguradora)&nbsp</span>
+                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Aseguradora)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             Plan
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.AseguradoraPlan)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.AseguradoraPlan)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             Afiliado
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.NumeroAfiliado)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.NumeroAfiliado)&nbsp</span>
                     </div>
                 </div>
 
                 <div class="form-row mt-2">
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">Código</span>
-                        <span class="form-control"> @Html.DisplayFor(model => model.CodigoPractica)&nbsp</span>
+                        <span class="form-control h-75"> @Html.DisplayFor(model => model.CodigoPractica)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             @Html.DisplayNameFor(model => model.Diagnostico)
                         </span>
-                        <span class="form-control">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
                     </div>
                     <div class="form-group col-sm-4">
                         <span class="font-weight-bold">
                             Nro Sesiones
                         </span>
-                        <span class="form-control">@ViewBag.nroSesiones</span>
+                        <span class="form-control h-75">@ViewBag.nroSesiones</span>
                     </div>
                 </div>
+
+                @*<div class="form-row mt-2">
+                    <div class="form-group col-sm-4">
+                        <span class="font-weight-bold">
+                            Fecha Factura
+                        </span>
+                        <span class="form-control h-75">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
+                    </div>
+                    <div class="form-group col-sm-8">
+                        <span class="font-weight-bold">
+                            Número factura
+                        </span>
+                        <span class="form-control h-75">@ViewBag.nroSesiones</span>
+                    </div>
+                </div>*@
 
                 <table class="table mt-3">
                     <thead>

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -162,11 +163,26 @@ namespace com.mvc.sgt.Controllers
         [HttpGet]
         public JsonResult GetByNameOrLastName(string name)
         {
-            name = name.ToLower();
-            var listModel = Mapper.Map<List<PacienteDto>>(this.pacienteService.GetAll()
-                .Where(x => (x.Apellido.ToLower().StartsWith(name) || x.Nombre.ToLower().StartsWith(name)
-                        || (x.Apellido.ToLower() + " " + x.Nombre.ToLower()).StartsWith(name)) && x.Habilitado)
-                .OrderBy(x => x.Apellido).ThenBy(x => x.Nombre));
+            var pacientes = this.pacienteService.FindBy(x => x.Habilitado == true);
+            if (int.TryParse(name.Replace(".",""),out int resu)){
+                pacientes = pacientes.Where(x => (x.DocumentoNumero.Replace(".", "")).Contains(name.Replace(".", "")));
+            }
+            else
+            {
+                name = name.ToLower();
+                var filtros = name.Split(' ');
+                filtros.ToList().ForEach(f =>
+                {
+                    pacientes = pacientes.Where(x => (x.Apellido + x.Nombre).Contains(f));
+                });
+            }
+            
+            
+            
+            
+            
+            var listModel = Mapper.Map<List<PacienteDto>>(pacientes.OrderBy(x => x.Apellido).ThenBy(x => x.Nombre));
+            
             return Json(JsonConvert.SerializeObject(listModel), JsonRequestBehavior.AllowGet);
         }
 

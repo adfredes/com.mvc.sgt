@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using com.sgt.DataAccess.Enums;
 using com.sgt.DataAccess.ExtensionMethod;
 using System.Data.Entity;
+using System.Globalization;
 
 namespace com.sgt.services.Services
 {
@@ -22,8 +23,16 @@ namespace com.sgt.services.Services
             this.unitOfWork = unitOfWork;
         }
 
+        private Paciente SetFormat(Paciente entity)
+        {
+            entity.Nombre = entity.Nombre.toFirstName();
+            entity.Apellido = entity.Apellido.toLastName();
+            return entity;
+        }
+
         public void Add(Paciente entity)
         {
+            entity = SetFormat(entity);            
             if (!ExistPaciente(entity))
             {
                 entity.Habilitado = true;
@@ -44,6 +53,7 @@ namespace com.sgt.services.Services
 
         public void Edit(Paciente entity)
         {
+            entity = SetFormat(entity);
             if (!ExistPaciente(entity))
             {
                 this.unitOfWork.RepoPaciente.Edit(entity);

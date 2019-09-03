@@ -80,6 +80,7 @@
     <Compile Include="Enums\EstadoSesionLibre.cs" />
     <Compile Include="Enums\EstadoTurno.cs" />
     <Compile Include="ExtensionMethod\CollectionExtension.cs" />
+    <Compile Include="ExtensionMethod\StringExtension.cs" />
     <Compile Include="Feriado.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>

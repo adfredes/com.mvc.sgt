@@ -22,6 +22,7 @@
         vm.selectedDate = null;
         vm.modulos = null;
         vm.motivo = 9;
+        vm.saving = false;
         var ConsultorioID;
         vm.toDate = turnoService.toDate;
         vm.toHourRange = turnoService.toHourRange;
@@ -91,68 +92,74 @@
             }
         };
         vm.saveChange = function () {
-            var _sesiones = [];
-            for (var i = 0; i < vm.modulos; i++) {
-                var _fechaHora = new Date(vm.selectedDate.getTime());
-                _fechaHora.setMinutes(_fechaHora.getMinutes() + 30 * i);
-                var _sesion = {
-                    ID: null,
-                    AgendaID: vm.sesion.AgendaID,
-                    TurnoID: vm.sesion.TurnoID,
-                    Numero: vm.sesion.Numero,
-                    ConsultorioID: ConsultorioID,
-                    TurnoSimultaneo: 0,
-                    Estado: vm.sesion.Estado == 8 ? vm.sesion.Estado : 2,
-                    FechaHora: _fechaHora,
-                    Habilitado: true
-                };
-                _sesiones.push(_sesion);
-            }
-            vm.sesion.sesiones.forEach(function (s) {
-                var _sesion = {
-                    ID: s.ID,
-                    AgendaID: s.AgendaID,
-                    TurnoID: s.TurnoID,
-                    Numero: s.Numero,
-                    ConsultorioID: s.ConsultorioID,
-                    TurnoSimultaneo: s.TurnoSimultaneo,
-                    Estado: vm.motivo,
-                    FechaHora: s.FechaHora,
-                    Habilitado: true
-                };
-                _sesiones.push(_sesion);
-            });
-            var url = "Sesion/CambiarFecha";
-            var promise = crudService.PutHttp(url, _sesiones);
-            promise.then(function (data) {
-                turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
-                    .then(function (answer) {
-                    if (answer) {
-                        turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
-                            .then(function () {
+            if (!vm.saving) {
+                vm.saving = true;
+                var _sesiones_1 = [];
+                for (var i = 0; i < vm.modulos; i++) {
+                    var _fechaHora = new Date(vm.selectedDate.getTime());
+                    _fechaHora.setMinutes(_fechaHora.getMinutes() + 30 * i);
+                    var _sesion = {
+                        ID: null,
+                        AgendaID: vm.sesion.AgendaID,
+                        TurnoID: vm.sesion.TurnoID,
+                        Numero: vm.sesion.Numero,
+                        ConsultorioID: ConsultorioID,
+                        TurnoSimultaneo: 0,
+                        Estado: vm.sesion.Estado == 8 ? vm.sesion.Estado : 2,
+                        FechaHora: _fechaHora,
+                        Habilitado: true
+                    };
+                    _sesiones_1.push(_sesion);
+                }
+                vm.sesion.sesiones.forEach(function (s) {
+                    var _sesion = {
+                        ID: s.ID,
+                        AgendaID: s.AgendaID,
+                        TurnoID: s.TurnoID,
+                        Numero: s.Numero,
+                        ConsultorioID: s.ConsultorioID,
+                        TurnoSimultaneo: s.TurnoSimultaneo,
+                        Estado: vm.motivo,
+                        FechaHora: s.FechaHora,
+                        Habilitado: true
+                    };
+                    _sesiones_1.push(_sesion);
+                });
+                var url = "Sesion/CambiarFecha";
+                var promise = crudService.PutHttp(url, _sesiones_1);
+                promise.then(function (data) {
+                    turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
+                        .then(function (answer) {
+                        vm.saving = false;
+                        if (answer) {
+                            turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                                .then(function () {
+                                if (vm.onSave) {
+                                    vm.onSave()(data);
+                                }
+                                else {
+                                    $('#' + vm.divid).modal('hide');
+                                    eventService.UpdateTurnos();
+                                }
+                            });
+                        }
+                        else {
                             if (vm.onSave) {
                                 vm.onSave()(data);
                             }
                             else {
-                                eventService.UpdateTurnos();
                                 $('#' + vm.divid).modal('hide');
+                                eventService.UpdateTurnos();
                             }
-                        });
-                    }
-                    else {
-                        if (vm.onSave) {
-                            vm.onSave()(data);
                         }
-                        else {
-                            eventService.UpdateTurnos();
-                            $('#' + vm.divid).modal('hide');
-                        }
-                    }
+                    })
+                        .catch(function () { return vm.saving = false; });
+                })
+                    .catch(function (err) {
+                    vm.saving = false;
+                    vm.showModal(err.data, $element);
                 });
-            })
-                .catch(function (err) {
-                vm.showModal(err.data, $element);
-            });
+            }
         };
         vm.showModal = function (_error, parentEl) {
             var modalHtml = "\n<md-dialog aria-label=\"Turnos\">\n  <form ng-cloak>\n    <md-toolbar>\n      <div class=\"md-toolbar-tools  badge-warning\">\n        <h5 class=\"modal-title\">Turnos</h5>        \n      </div>\n    </md-toolbar>\n    <md-dialog-content>\n      <div class=\"md-dialog-content\">        \n        <p>\n          " + _error + "\n        </p>\n      </div>\n    </md-dialog-content>\n\n    <md-dialog-actions layout=\"row\">      \n      <span flex></span>      \n      <md-button type='button' class='md-raised md-primary' ng-click='hide()'><span class='icon-ok'></span> Aceptar</md-button>\n    </md-dialog-actions>\n  </form>\n</md-dialog>\n";
