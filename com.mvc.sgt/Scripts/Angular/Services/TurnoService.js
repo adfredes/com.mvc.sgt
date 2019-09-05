@@ -670,7 +670,7 @@
                     
                     let promise = crudService.GetPHttpParse(url);
                     promise.then(data => {                        
-                        $scope.turnos = data.filter(t=> !(t.ID == turno.ID));
+                        $scope.turnos = data.filter(t=> !(t.ID === turno.ID));
                         //$scope.turnoID = $scope.turnos[0].ID;
                     });
                 };

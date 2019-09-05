@@ -400,6 +400,8 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <Property Name="Fecha" Type="smalldatetime" />
     <Property Name="TipoSesionID" Type="int" />
     <Property Name="TurnoDoble" Type="int" />
+    <Property Name="FechaFactura" Type="smalldatetime" />
+    <Property Name="Factura" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>

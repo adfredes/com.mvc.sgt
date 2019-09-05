@@ -753,6 +753,8 @@
     <Property Name="TipoSesionID" Type="Int32" />
     <Property Name="TurnoDoble" Type="Int32" />
     <Property Name="CodigoPractica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FechaFactura" Type="DateTime" Precision="0" />
+    <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />

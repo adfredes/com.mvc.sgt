@@ -1,159 +1,312 @@
 ﻿@model com.mvc.sgt.Models.TurnoFacturacionModel
 
 <md-dialog aria-label="Turnos" class="w-50">
-    <form ng-cloak>
+    @*<form ng-cloak>*@
         <md-toolbar>
             <div class="md-toolbar-tools  badge-warning">
                 <h5 class="modal-title">Facturación</h5>
             </div>
         </md-toolbar>
         <md-dialog-content>
-            <div class="md-dialog-content form-group">
+            @using (Html.BeginForm("TurnoSetDatosFacturacion", "Agenda", FormMethod.Post, new { id = "frmFactura" }))
+            {
+                <div class="md-dialog-content form-group">
+                    @Html.HiddenFor(m => m.ID)
+                    <div class="form-row">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Nombre)</span>
+                            <span class="form-control h-75"> @Html.DisplayFor(model => model.Nombre)</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Apellido)
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.Apellido)</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                Dni
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.DocumentoNumero)&nbsp</span>
+                        </div>
+                    </div>
 
-                <div class="form-row">
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Nombre)</span>
-                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Nombre)</span>
+                    <div class="form-row mt-2">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Direccion)</span>
+                            <span class="form-control h-75"> @Html.DisplayFor(model => model.Direccion)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                C.P.
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.CodigoPostal)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Cuit)
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.Cuit)&nbsp</span>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            @Html.DisplayNameFor(model => model.Apellido)
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.Apellido)</span>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            Dni
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.DocumentoNumero)&nbsp</span>
-                    </div>
-                </div>
 
-                <div class="form-row mt-2">
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Direccion)</span>
-                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Direccion)&nbsp</span>
+                    <div class="form-row mt-2">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Aseguradora)</span>
+                            <span class="form-control h-75"> @Html.DisplayFor(model => model.Aseguradora)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                Plan
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.AseguradoraPlan)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                Afiliado
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.NumeroAfiliado)&nbsp</span>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            C.P.
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.CodigoPostal)&nbsp</span>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            @Html.DisplayNameFor(model => model.Cuit)
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.Cuit)&nbsp</span>
-                    </div>
-                </div>
 
-                <div class="form-row mt-2">
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">@Html.DisplayNameFor(model => model.Aseguradora)</span>
-                        <span class="form-control h-75"> @Html.DisplayFor(model => model.Aseguradora)&nbsp</span>
+                    <div class="form-row mt-2">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">Código</span>
+                            <span class="form-control h-75"> @Html.DisplayFor(model => model.CodigoPractica)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Diagnostico)
+                            </span>
+                            <span class="form-control h-75">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                Nro Sesiones
+                            </span>
+                            <span class="form-control h-75">@ViewBag.nroSesiones</span>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            Plan
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.AseguradoraPlan)&nbsp</span>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            Afiliado
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.NumeroAfiliado)&nbsp</span>
-                    </div>
-                </div>
 
-                <div class="form-row mt-2">
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">Código</span>
-                        <span class="form-control h-75"> @Html.DisplayFor(model => model.CodigoPractica)&nbsp</span>
+                    <div class="form-row mt-2" id="datosView">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.FechaFactura)
+                            </span>
+                            <span class="form-control h-75" id="spnFechaFactura">@Html.DisplayFor(model => model.FechaFactura)</span>
+                        </div>
+                        <div class="form-group col-sm-7">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Factura)
+                            </span>
+                            <span class="form-control h-75" id="spnFactura">@Html.DisplayFor(model => model.Factura)</span>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <span class="font-weight-bold">&nbsp</span>
+                            <button class="btn btn-outline-primary icon-edit" id="btnEditarFactura"></button>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            @Html.DisplayNameFor(model => model.Diagnostico)
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            Nro Sesiones
-                        </span>
-                        <span class="form-control h-75">@ViewBag.nroSesiones</span>
-                    </div>
-                </div>
 
-                @*<div class="form-row mt-2">
-                    <div class="form-group col-sm-4">
-                        <span class="font-weight-bold">
-                            Fecha Factura
-                        </span>
-                        <span class="form-control h-75">@Html.DisplayFor(model => model.Diagnostico)&nbsp</span>
+                    <div class="form-row mt-2" id="datosEdit">
+                        <div class="form-group col-sm-4">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.FechaFactura)
+                            </span>
+                            @Html.TextBoxFor(model => model.FechaFactura, new { @class = "form-control h-75", @type="date" })
+                        </div>
+                        <div class="form-group col-sm-7">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Factura)
+                            </span>
+                            @Html.TextBoxFor(model => model.Factura, new { @class = "form-control h-75" })
+                        </div>
+                        <div class="form-group col-sm-1">
+                            @*<input type="submit" class="btn btn-default icon-floppy" id="btnGuardarFactura" />*@
+                            <span class="font-weight-bold">&nbsp</span>
+                                <button class="btn btn-outline-primary icon-floppy" id="btnGuardarFactura">
+                                </button>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-8">
-                        <span class="font-weight-bold">
-                            Número factura
-                        </span>
-                        <span class="form-control h-75">@ViewBag.nroSesiones</span>
-                    </div>
-                </div>*@
 
-                <table class="table mt-3">
-                    <thead>
-                        <tr>
-                            <th scope="col">Numero</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var sesion in Model.Sesions)
-                        {
+                    <table class="table mt-3">
+                        <thead>
                             <tr>
-                                <th scope="row">
-                                    @Html.DisplayFor(modelSesion => sesion.Numero)
-                                </th>
-                                <td>
-                                    @Html.DisplayFor(modelSesion => sesion.FechaHora)
-                                </td>
-                                <td>
-                                    @switch (sesion.Estado)
-                                    {
-                                        case 1:
-                                            <span>Reservado</span>
-                                            break;
-                                        case 2:
-                                            <span>
-                                                Confirmado
-                                            </span>
-                                            break;
-                                        case 4:
-                                            <span>Atendido</span>
-                                            break;
-                                        case 5:
-                                            <span>No Asistio</span>
-                                            break;
-                                        case 8:
-                                            <span>Sin fecha libre</span>
-                                            break;                                        
-                                    }                                    
-                                </td>
-
+                                <th scope="col">Numero</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Estado</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var sesion in Model.Sesions)
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        @Html.DisplayFor(modelSesion => sesion.Numero)
+                                    </th>
+                                    <td>
+                                        @Html.DisplayFor(modelSesion => sesion.FechaHora)
+                                    </td>
+                                    <td>
+                                        @switch (sesion.Estado)
+                                        {
+                                            case 1:
+                                                <span>Reservado</span>
+                                                break;
+                                            case 2:
+                                                <span>
+                                                    Confirmado
+                                                </span>
+                                                break;
+                                            case 4:
+                                                <span>Atendido</span>
+                                                break;
+                                            case 5:
+                                                <span>No Asistio</span>
+                                                break;
+                                            case 8:
+                                                <span>Sin fecha libre</span>
+                                                break;
+                                        }
+                                    </td>
 
-            </div>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            }
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
             <span flex></span>
             <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Salir</md-button>
         </md-dialog-actions>
-    </form>
+    @*</form>*@
 </md-dialog>
 
+<script>
+    (function () {
+        let botonEdit = document.querySelector("#btnEditarFactura");
+        let botonGuardar = document.querySelector("#btnGuardarFactura");
+        let divView = document.querySelector("#datosView");
+        let divEdit = document.querySelector("#datosEdit");
+        divEdit.style.display = 'none';
+
+        document.querySelector("#frmFactura").addEventListener("submite", e => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        botonEdit.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            divView.style.display = 'none';
+            divEdit.style.display = 'flex';
+        });
+
+        botonGuardar.addEventListener('click', e => {
+            e.stopPropagation();
+            e.preventDefault();
+            divView.style.display = 'flex';
+            divEdit.style.display = 'none';
+            submitForm();
+        });
+
+
+        function submitForm() {
+            console.log("submit");
+                var param = serialize(document.querySelector('#frmFactura'));
+                ajax('POST', '/Agenda/TurnoSetDatosFacturacion', persona_saved, param);
+            
+        }
+
+        function ajax(method, url, callback, param) {
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.addEventListener('load', function (e) {
+                if (e.target.status == 200) {
+                    callback(e.target.response);
+                }
+            });
+            xhr.send(param);
+        }
+
+        function persona_saved(response) {            
+            //var frm = document.querySelector("#frmPersona");
+            //frm.reset();
+            let spnFecha = document.querySelector("#spnFechaFactura");
+            let spnFactura = document.querySelector("#spnFactura");
+            spnFecha.innerHTML = document.querySelector("#FechaFactura").value;
+            spnFactura.innerHTML = document.querySelector("#Factura").value;
+            console.log('reseteado');
+        }
+
+        //desarrollada por mi, el profe usa jquery
+        function serialize(form) {
+            var inputs = form.elements;
+            var objeto = {};
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].name) {
+                    objeto[inputs[i].name] = inputs[i].value;
+                }
+            }
+            return JSON.stringify(objeto);
+        }
+
+    })();
+</script>
+
+
+@*<script>
+    (function () {
+
+//        window.addEventListener('load', () => {
+            document.querySelector("#btnGuardarFactura").addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                submit();
+            });
+  //      })
+
+        function submit() {
+            console.log("submit");
+                var param = serialize(document.querySelector('#frmFactura'));
+                ajax('POST', '/Agenda/TurnoSetDatosFacturacion', persona_saved, param);
+            
+        }
+
+        function ajax(method, url, callback, param) {
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.addEventListener('load', function (e) {
+                if (e.target.status == 200) {
+                    callback(e.target.response);
+                }
+            });
+            xhr.send(param);
+        }
+
+        function persona_saved(response) {            
+            //var frm = document.querySelector("#frmPersona");
+            //frm.reset();
+            console.log('reseteado');
+        }
+
+        //desarrollada por mi, el profe usa jquery
+        function serialize(form) {
+            var inputs = form.elements;
+            var objeto = {};
+            for (i = 0; i < inputs.length; i++) {
+                if (inputs[i].name) {
+                    objeto[inputs[i].name] = inputs[i].value;
+                }
+            }
+            return JSON.stringify(objeto);
+        }
+
+        
+    })();
+</script>*@

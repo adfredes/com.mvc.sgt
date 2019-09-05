@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,7 @@ namespace com.mvc.sgt.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SesionModel> Sesions { get; set; }
 
+        public int ID { get; set; }
 
         public string Apellido { get; set; }
         public string Nombre { get; set; }
@@ -36,7 +38,8 @@ namespace com.mvc.sgt.Models
 
         public string Diagnostico { get; set; }
 
-        public DateTime? Fecha { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? FechaFactura { get; set; }
 
         public string Factura { get; set; }
 

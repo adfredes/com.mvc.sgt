@@ -152,10 +152,29 @@ namespace com.mvc.sgt.Controllers
             return Json(resu, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        //[Route("Turno/Facturacion")]
+        public JsonResult TurnoSetDatosFacturacion(TurnoFacturacionModel model)
+        {
+            string resu;
+            try
+            {
+                this.AgendaService.SetDatosTurnoFacturacion(model.ID, model.FechaFactura, model.Factura);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                resu = "";
+            }
+            catch(Exception ex)
+            {
+                resu = ex.Message;
+            }
+            
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [Route("Turno/{ID}/Facturacion")]
         public ActionResult TurnoDatosFacturacion(int ID)
-        {
+        {            
             var model = Mapper.Map<TurnoFacturacionModel>(this.AgendaService.GetTurno(ID));
             model.Sesions = model.Sesions.Where(x => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)x.Estado)
              || (EstadoSesion)x.Estado == EstadoSesion.Cancelado

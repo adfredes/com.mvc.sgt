@@ -382,6 +382,8 @@
     <EntitySetMapping Name="Turnoes">
       <EntityTypeMapping TypeName="TurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="Factura" ColumnName="Factura" />
+          <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
           <ScalarProperty Name="CodigoPractica" ColumnName="CodigoPractica" />
           <ScalarProperty Name="TurnoDoble" ColumnName="TurnoDoble" />
           <ScalarProperty Name="TipoSesionID" ColumnName="TipoSesionID" />

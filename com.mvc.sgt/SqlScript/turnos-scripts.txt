@@ -136,3 +136,8 @@ add TurnoDoble int null;
   UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =3;
   UPDATE CONSULTORIO SET TIPOSESIONID = 2 WHERE ID =4;
   UPDATE CONSULTORIO SET TIPOSESIONID = 3 WHERE ID =5;
+
+  alter table turno 
+add FechaFactura smalldatetime;
+alter table turno 
+add Factura nvarchar(50);

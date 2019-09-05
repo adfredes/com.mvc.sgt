@@ -33,6 +33,8 @@ namespace com.sgt.DataAccess
         public Nullable<int> TipoSesionID { get; set; }
         public Nullable<int> TurnoDoble { get; set; }
         public string CodigoPractica { get; set; }
+        public Nullable<System.DateTime> FechaFactura { get; set; }
+        public string Factura { get; set; }
     
         public virtual Paciente Paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

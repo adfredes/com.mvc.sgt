@@ -43,8 +43,9 @@ namespace com.sgt.services.Interfaces
         void CancelarReserva(Turno turno);
         Turno CancelarSesionesPendientes(int idTurno, string user);
         Turno CancelarSesionesPendientes(Turno turno);
-        
+        void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura);
 
+        
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);
         Agenda_Receso GetReceso(int id);
         void AddReceso(Agenda_Receso entity);

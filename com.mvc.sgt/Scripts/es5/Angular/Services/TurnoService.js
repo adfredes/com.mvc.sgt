@@ -408,7 +408,7 @@
                     var url = "Paciente/ListarTurnosContinuar/" + id;
                     var promise = crudService.GetPHttpParse(url);
                     promise.then(function (data) {
-                        $scope.turnos = data.filter(function (t) { return !(t.ID == turno.ID); });
+                        $scope.turnos = data.filter(function (t) { return !(t.ID === turno.ID); });
                     });
                 };
                 var init = function () {

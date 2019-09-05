@@ -308,7 +308,14 @@
                     vm.save({ newPaciente: vm.paciente });
                 }
                 vm.close();                                
-            }, function errorCallback(response) {                
+            }, function errorCallback(response) {  
+                    let promise = messageService.Notify('Paciente', `Se produjo un error: ${data.data}`, $element);
+                    promise.then(() => {
+                        if (vm.save) {
+                            vm.save({ newPaciente: {} });
+                        }
+                        vm.close();
+                    });                        
             });
         };        
 

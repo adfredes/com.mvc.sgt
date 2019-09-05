@@ -32,7 +32,7 @@ namespace com.sgt.services.Services
 
         public void Add(Paciente entity)
         {
-            entity = SetFormat(entity);            
+            entity = SetFormat(entity);
             if (!ExistPaciente(entity))
             {
                 entity.Habilitado = true;
@@ -95,7 +95,7 @@ namespace com.sgt.services.Services
             var resu = unitOfWork.RepoTurno
                 .FindBy(t => t.PacienteID == PacienteID)
                 .OrderByDescending(t => t.ID)
-                .Where(t => 
+                .Where(t =>
                     t.Sesions.Where(
                         s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
                         || EstadoSesion.SinFechaLibre == (EstadoSesion)s.Estado
@@ -149,11 +149,11 @@ namespace com.sgt.services.Services
             var pacientes = unitOfWork.RepoPaciente.FindBy(x => x.Anual == true);
             List<Paciente> listaPacientes = new List<Paciente>();
 
-            foreach(var paciente in pacientes)
+            foreach (var paciente in pacientes)
             {
                 int sesionesPendientes = paciente.Turnoes
                     .Sum(x => x.Sesions
-                        .Select( s => new { s.TurnoID,s.Numero,s.Estado})
+                        .Select(s => new { s.TurnoID, s.Numero, s.Estado })
                         .Distinct()
                         .Where(s => (EstadoSesion)s.Estado == EstadoSesion.Confirmado)
                         .ToList().Count)
@@ -162,10 +162,10 @@ namespace com.sgt.services.Services
                 {
                     listaPacientes.Add(paciente);
                 }
-                
+
             }
 
-            return listaPacientes;            
+            return listaPacientes;
         }
 
         public Imagen AddFile(Imagen imagen)
@@ -186,7 +186,7 @@ namespace com.sgt.services.Services
         public ICollection<Imagen> GetFiles(int PacienteID)
         {
             var imagenes = unitOfWork.RepoImagen.FindBy(x => x.PacienteID == PacienteID && x.Habilitado)
-                .OrderBy(x=> x.ID);
+                .OrderBy(x => x.ID);
             return imagenes.ToList();
         }
 
@@ -200,8 +200,8 @@ namespace com.sgt.services.Services
         {
             var resu = unitOfWork.RepoTurno
                .FindBy(t => t.PacienteID == PacienteID //&& t.TipoSesionID == TipoSesionID
-               && t.Estado == (int)EstadoTurno.Confirmado).FirstOrDefault();              
-            
+               && t.Estado == (int)EstadoTurno.Confirmado).FirstOrDefault();
+
 
             return resu != null;
         }
@@ -218,15 +218,19 @@ namespace com.sgt.services.Services
                     s.FechaHora = s.FechaHora.AddHours(-1 * s.FechaHora.Hour).AddMinutes(-1 * s.FechaHora.Minute);
                 });
 
-            var sesiones = turno.Sesions.Select(s => s.FechaHora).Distinct().ToList();
+            var sesiones = turno.Sesions.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)).Select(s => s.FechaHora).Distinct().ToList();
             
-            var turnos = unitOfWork.RepoTurno.FindBy(x => x.ID != turno.ID && x.Estado == (int)EstadoTurno.Confirmado
-            && x.PacienteID == turno.PacienteID
-            && x.Sesions.Where(s =>EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado) &&  sesiones.Contains(DbFunctions.TruncateTime(s.FechaHora).Value))
-            .Count()>0
-            );
+                var turnos = unitOfWork.RepoTurno.FindBy(x => x.ID != turno.ID && x.Estado == (int)EstadoTurno.Confirmado
+                && x.PacienteID == turno.PacienteID
+                && x.Sesions.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado) && sesiones.Contains(DbFunctions.TruncateTime(s.FechaHora).Value))
+                    .Count() > 0
+                );
+            
 
-            return turnos.Count() > 0;
+                
+                return turnos.Count() > 0;
+           
+
         }
 
         public Paciente GetPacienteByDocumento(string documento)
@@ -234,6 +238,6 @@ namespace com.sgt.services.Services
             return this.unitOfWork.RepoPaciente.FindBy(x => x.DocumentoNumero == documento).FirstOrDefault();
         }
 
-        
+
     }
 }

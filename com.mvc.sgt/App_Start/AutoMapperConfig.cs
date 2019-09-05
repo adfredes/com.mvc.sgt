@@ -13,7 +13,7 @@ namespace com.mvc.sgt.App_Start
     public class AutoMapperConfig
     {
         public static void RegisterMappers()
-        {
+        {            
             Mapper.Initialize(mapper =>
             {
                 

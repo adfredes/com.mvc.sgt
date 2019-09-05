@@ -246,6 +246,13 @@
                 }
                 vm.close();
             }, function errorCallback(response) {
+                var promise = messageService.Notify('Paciente', "Se produjo un error: " + data.data, $element);
+                promise.then(function () {
+                    if (vm.save) {
+                        vm.save({ newPaciente: {} });
+                    }
+                    vm.close();
+                });
             });
         };
     }

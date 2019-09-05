@@ -2094,5 +2094,13 @@ namespace com.sgt.services.Services
 
             return turno.Sesions;
         }
+
+        public void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura)
+        {
+            Turno entity = GetTurno(id);
+            entity.FechaFactura = fecha;
+            entity.Factura = factura;
+            unitOfWork.RepoTurno.Edit(entity);                        
+        }
     }
 }

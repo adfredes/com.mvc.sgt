@@ -2,14 +2,14 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('sesionPosponer', {
         templateUrl: Domain + 'Sesion/Posponer',
-        controller: ['turnoService', 'eventService', '$mdDialog', sesionPosponerController],
+        controller: ['messageService', 'turnoService', 'eventService', '$mdDialog', '$element', sesionPosponerController],
         bindings: {
             turno: "<?",
             onSave: "&?",
             onCancel: "&?"
         }
     });
-    function sesionPosponerController(turnoService, eventService, $mdDialog) {
+    function sesionPosponerController(messageService, turnoService, eventService, $mdDialog, $element) {
         var vm = this;
         vm.sesiones = [];
         vm.minDate = new Date();
@@ -41,7 +41,15 @@
                         vm.onSave()();
                     }
                 })
-                    .catch(function (data) { return vm.saving = false; });
+                    .catch(function (data) {
+                    vm.saving = false;
+                    var promise = messageService.Notify('Posponer', "Se produjo un error: " + data.data, $element);
+                    promise.then(function () {
+                        if (vm.onSave) {
+                            vm.onSave()();
+                        }
+                    });
+                });
             }
         };
         vm.close = function () {
