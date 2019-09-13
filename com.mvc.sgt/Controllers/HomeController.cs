@@ -12,8 +12,14 @@ namespace com.mvc.sgt.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
-            //return RedirectToAction("Login", "Account",);            
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }                        
         }
 
         public ActionResult FormElementError()

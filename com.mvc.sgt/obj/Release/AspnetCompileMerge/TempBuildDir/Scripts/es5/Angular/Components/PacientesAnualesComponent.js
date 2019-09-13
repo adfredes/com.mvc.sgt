@@ -11,7 +11,7 @@
         vm.$onInit = function () {
             vm.Pacientes = [];
             getData();
-            stopInterval = $interval(getData, 100000);
+            stopInterval = $interval(getData, 500000);
         };
         var getData = function () {
             var promise = crudService.GetPHttp("Paciente/Anual/Sesiones");

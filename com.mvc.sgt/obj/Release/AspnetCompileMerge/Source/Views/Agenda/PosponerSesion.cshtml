@@ -1,6 +1,9 @@
 ﻿<md-dialog-content>
     <div class="md-dialog-content">
-        <form name="frmsesion" id="frmsesion">
+        <div ng-if="$ctrl.saving == true" class="text-center" style="overflow:hidden">
+            <span class="icon-spinner animate-spin p-4 display-4"></span>
+        </div>
+        <form name="frmsesion" id="frmsesion" ng-if="$ctrl.saving == false">
             <fieldset>
                 <div class="row">
                     <div class="col-md-12 form-group">
@@ -16,8 +19,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 form-group">                                                    
-                            <md-calendar ng-model="$ctrl.selectedDate" required id="fecha" name="fecha" md-min-date="$ctrl.minDate"></md-calendar>                        
+                    <div class="col-md-12 form-group">
+                        <md-calendar ng-model="$ctrl.selectedDate" required id="fecha" name="fecha" md-min-date="$ctrl.minDate"></md-calendar>
                     </div>
                 </div>
             </fieldset>

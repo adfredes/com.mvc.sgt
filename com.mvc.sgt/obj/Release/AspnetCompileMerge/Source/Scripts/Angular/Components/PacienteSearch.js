@@ -54,6 +54,14 @@
             $('#ViewPaciente').modal('show');
         };
 
+        vm.openCreate = () => {
+
+            let selectedPaciente = {};
+            vm.Paciente = {};
+            vm.Paciente = selectedPaciente;
+            $('#ViewPaciente').modal('show');
+        };
+
         vm.clear = () => vm.Paciente = {};
         /*vm.UpdateDate = function () {
             if (vm.Paciente && vm.Paciente.FechaNacimiento)

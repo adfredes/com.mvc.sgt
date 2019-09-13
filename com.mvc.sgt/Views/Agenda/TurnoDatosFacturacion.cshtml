@@ -112,7 +112,7 @@
                             <span class="font-weight-bold">
                                 @Html.DisplayNameFor(model => model.FechaFactura)
                             </span>
-                            @Html.TextBoxFor(model => model.FechaFactura, new { @class = "form-control h-75", @type="date" })
+                            @Html.TextBoxFor(model => model.FechaFactura, "{0:yyyy-MM-dd}", new { @class = "form-control h-75", @type="date" })
                         </div>
                         <div class="form-group col-sm-7">
                             <span class="font-weight-bold">
@@ -214,8 +214,7 @@
         });
 
 
-        function submitForm() {
-            console.log("submit");
+        function submitForm() {            
                 var param = serialize(document.querySelector('#frmFactura'));
                 ajax('POST', '/Agenda/TurnoSetDatosFacturacion', persona_saved, param);
             
@@ -239,8 +238,7 @@
             let spnFecha = document.querySelector("#spnFechaFactura");
             let spnFactura = document.querySelector("#spnFactura");
             spnFecha.innerHTML = document.querySelector("#FechaFactura").value;
-            spnFactura.innerHTML = document.querySelector("#Factura").value;
-            console.log('reseteado');
+            spnFactura.innerHTML = document.querySelector("#Factura").value;            
         }
 
         //desarrollada por mi, el profe usa jquery
@@ -257,56 +255,3 @@
 
     })();
 </script>
-
-
-@*<script>
-    (function () {
-
-//        window.addEventListener('load', () => {
-            document.querySelector("#btnGuardarFactura").addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                submit();
-            });
-  //      })
-
-        function submit() {
-            console.log("submit");
-                var param = serialize(document.querySelector('#frmFactura'));
-                ajax('POST', '/Agenda/TurnoSetDatosFacturacion', persona_saved, param);
-            
-        }
-
-        function ajax(method, url, callback, param) {
-            var xhr = new XMLHttpRequest();
-            xhr.open(method, url);
-            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-            xhr.addEventListener('load', function (e) {
-                if (e.target.status == 200) {
-                    callback(e.target.response);
-                }
-            });
-            xhr.send(param);
-        }
-
-        function persona_saved(response) {            
-            //var frm = document.querySelector("#frmPersona");
-            //frm.reset();
-            console.log('reseteado');
-        }
-
-        //desarrollada por mi, el profe usa jquery
-        function serialize(form) {
-            var inputs = form.elements;
-            var objeto = {};
-            for (i = 0; i < inputs.length; i++) {
-                if (inputs[i].name) {
-                    objeto[inputs[i].name] = inputs[i].value;
-                }
-            }
-            return JSON.stringify(objeto);
-        }
-
-        
-    })();
-</script>*@

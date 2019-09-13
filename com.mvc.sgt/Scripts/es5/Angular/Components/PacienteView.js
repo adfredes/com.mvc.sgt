@@ -5,14 +5,14 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['messageService', 'turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
+        controller: ['eventService', 'messageService', 'turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
             divid: "@"
         }
     });
-    function pacienteViewController(messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(eventService, messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         vm.Provincias = [];
         vm.Localidades = [];
@@ -27,21 +27,32 @@
         vm.OldDiagnostico = '';
         vm.paciente = { ID: 0 };
         vm.pacienteid = 0;
+        vm.saving = false;
         vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var loadPaciente = function (id) {
             vm.paciente = { ID: 0 };
             vm.selectedIndex = 0;
-            var promise = crudService.GetPHttp("Paciente/Get/" + id);
-            promise.then(function (data) {
-                console.log('loaddd');
-                vm.paciente = JSON.parse(data);
-                vm.pacienteid = vm.paciente.ID;
+            if (id && id > 0) {
+                vm.saving = true;
+                var promise = crudService.GetPHttp("Paciente/Get/" + id);
+                promise.then(function (data) {
+                    vm.paciente = JSON.parse(data);
+                    vm.pacienteid = vm.paciente.ID;
+                    vm.saving = false;
+                    vm.getLocalidades();
+                    vm.getPlanes();
+                    loadDiagnostico(vm.paciente.ID);
+                    getFiles(id);
+                })
+                    .catch(function (err) {
+                    vm.saving = false;
+                    vm.paciente = { ID: 0 };
+                });
+            }
+            else {
                 vm.getLocalidades();
                 vm.getPlanes();
-                loadDiagnostico(vm.paciente.ID);
-                getFiles(id);
-            })
-                .catch(function (err) { return vm.paciente = { ID: 0 }; });
+            }
         };
         var loadDiagnostico = function (id) {
             vm.OldDiagnostico = '';
@@ -58,15 +69,22 @@
                     .catch(function (err) { return vm.diagnosticos = {}; });
             }
         };
-        vm.hiddenChange = function (e) {
-            console.log('hidden');
-            if (!vm.paciente.ID || vm.paciente.ID === 0) {
+        var pacienteChange = function () {
+            vm.diagnosticos = [];
+            vm.files = [];
+            vm.OldDiagnostico = "";
+            if (!vm.paciente || !vm.paciente.ID || vm.paciente.ID === 0) {
                 vm.paciente = { ID: 0 };
             }
             else {
-                loadPaciente(vm.paciente.ID);
+                vm.paciente = { ID: vm.paciente.ID };
             }
+            vm.uploadingText = "";
+            vm.uploading = false;
+            loadPaciente(vm.paciente.ID);
+            vm.selectedIndex = 0;
         };
+        vm.hiddenChange = function (e) { return pacienteChange(); };
         $window.document.addEventListener('click', function (e) {
             e.stopImmediatePropagation();
             if (!(e.target.nodeName === 'MD-SELECT' || e.target.nodeName === 'SPAN')) {
@@ -86,17 +104,7 @@
             getObrasSociales();
             vm.selectedIndex = 0;
         };
-        vm.$onChanges = function (change) {
-            vm.paciente = vm.paciente ? vm.paciente : { ID: 0 };
-            if (change.paciente && !change.paciente.isFirstChange()) {
-                vm.uploadingText = "";
-                vm.uploading = false;
-            }
-            if (vm.paciente && vm.paciente.ID) {
-                loadPaciente(vm.paciente.ID);
-            }
-            vm.selectedIndex = 0;
-        };
+        vm.$onChanges = function (change) { return pacienteChange(); };
         vm.decode = function (value) {
             return unescape(value);
         };
@@ -234,18 +242,37 @@
         };
         vm.savePaciente = function () {
             vm.setTouch();
-            if (vm.frmPaciente.$valid) {
-                var requestResponse = crudService.CreateOrEdit(vm.paciente, 'Paciente');
-                Message(requestResponse);
+            if (vm.frmPaciente.$valid && vm.saving === false) {
+                vm.saving = true;
+                crudService.CreateOrEdit(vm.paciente, 'Paciente')
+                    .then(function successCallback(response) {
+                    vm.saving = false;
+                    eventService.UpdateTurnos();
+                    if (vm.save) {
+                        vm.save({ newPaciente: vm.paciente });
+                    }
+                    vm.close();
+                }, function errorCallback(response) {
+                    vm.saving = false;
+                    var promise = messageService.Notify('Paciente', "Se produjo un error: " + data.data, $element);
+                    promise.then(function () {
+                        if (vm.save) {
+                            vm.save({ newPaciente: {} });
+                        }
+                        vm.close();
+                    });
+                });
             }
         };
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
+                vm.saving = false;
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
                 vm.close();
             }, function errorCallback(response) {
+                vm.saving = false;
                 var promise = messageService.Notify('Paciente', "Se produjo un error: " + data.data, $element);
                 promise.then(function () {
                     if (vm.save) {

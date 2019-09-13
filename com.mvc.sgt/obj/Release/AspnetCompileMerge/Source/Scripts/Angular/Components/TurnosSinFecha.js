@@ -16,7 +16,7 @@
             vm.selectedTurno.ID = 0;
             vm.Turnos = {};
             getData();
-            stopInterval = $interval(getData, 100000);
+            stopInterval = $interval(getData, 500000);
         };
 
         let getData = () => {            

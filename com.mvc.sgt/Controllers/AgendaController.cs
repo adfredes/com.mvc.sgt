@@ -172,6 +172,7 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpGet]
+        [OutputCache(NoStore = true, Duration = 0)]
         [Route("Turno/{ID}/Facturacion")]
         public ActionResult TurnoDatosFacturacion(int ID)
         {            
@@ -675,9 +676,8 @@ namespace com.mvc.sgt.Controllers
         public JsonResult SendMailTurnoP(int turnoId)
         {
             try
-            {
-                Response.StatusCode = (int)HttpStatusCode.Accepted;
-                AgendaService.TurnoSendMail(turnoId);
+            {                
+                Response.StatusCode = AgendaService.TurnoSendMail(turnoId) == true ? (int)HttpStatusCode.OK : (int)HttpStatusCode.BadRequest;
                 return Json("", JsonRequestBehavior.AllowGet) ;
             }
             catch (Exception ex)

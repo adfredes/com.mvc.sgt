@@ -1,8 +1,4 @@
-﻿<style>
-    /*.md-select-menu-container {
-        z-index: 99999 !important;
-    }*/
-</style>
+﻿
 <div id="{{$ctrl.divid}}" class="modal fade bd-example-modal-lg" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -14,7 +10,10 @@
                 @*<input type="hidden" class="form-control" ng-model="$ctrl.paciente.ID">*@
                 <div ng-cloak>
                     <md-content>
-                        <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedIndex">
+                        <div ng-if="$ctrl.saving == true" class="text-center" style="overflow:hidden">
+                            <span class="icon-spinner animate-spin p-4 display-4"></span>
+                        </div>
+                        <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedIndex" ng-show="$ctrl.saving == false">
 
                             <md-tab label="Datos Paciente">
                                 <md-content>
@@ -61,7 +60,13 @@
                                                                         Fecha Nacimiento
                                                                     </label>
 
-                                                                    <md-datepicker ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" md-open-on-focus></md-datepicker>
+                                                                    <md-datepicker ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" md-open-on-focus
+                                                                                   md-current-view="year">
+
+                                                                    </md-datepicker>
+
+                                                                    @*<input type="date" ng-model="$ctrl.paciente.FechaNacimiento" required id="nacimiento" name="nacimiento" autocomplete="off" maxlength="10" />*@
+
                                                                     <div ng-show="$ctrl.frmPaciente.nacimiento.$touched" ng-messages="$ctrl.frmPaciente.nacimiento.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
@@ -142,7 +147,7 @@
                                                             <label>
                                                                 Código Seguridad
                                                             </label>
-                                                            <input type="text" value="" id="afiliado" name="afiliado" class="form-control" ng-model="$ctrl.paciente.CodigoSeguridad" maxlength="5"/>
+                                                            <input type="text" value="" id="afiliado" name="afiliado" class="form-control" ng-model="$ctrl.paciente.CodigoSeguridad" maxlength="5" />
                                                             <div ng-show="$ctrl.frmPaciente.codigoseguridad.$touched" ng-messages="$ctrl.frmPaciente.codigoseguridad.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -164,7 +169,7 @@
                                                             <label>
                                                                 OS
                                                             </label>
-                                                            <input type="text" id="os" name="os" value="" class="form-control" ng-model="$ctrl.paciente.NumeroHC" autocomplete="off" maxlength="30"/>
+                                                            <input type="text" id="os" name="os" value="" class="form-control" ng-model="$ctrl.paciente.NumeroHC" autocomplete="off" maxlength="30" />
                                                             <div ng-show="$ctrl.frmPaciente.os.$touched" ng-messages="$ctrl.frmPaciente.os.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -227,7 +232,7 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="telefono">Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono"
-                                                                   name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off" maxlength="30"/>
+                                                                   name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off" maxlength="30" />
                                                             <div ng-show="$ctrl.frmPaciente.telefono.$touched" ng-messages="$ctrl.frmPaciente.telefono.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -237,7 +242,7 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="telefono2">Otro Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono2" autocomplete="off"
-                                                                   name="telefono2" ng-model="$ctrl.paciente.Telefono2" maxlength="30"/>
+                                                                   name="telefono2" ng-model="$ctrl.paciente.Telefono2" maxlength="30" />
                                                             <div ng-show="$ctrl.frmPaciente.telefono2.$touched" ng-messages="$ctrl.frmPaciente.telefono2.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -247,7 +252,7 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="celular">Celular</label>
                                                             <input type="tel" class="form-control" id="celular" autocomplete="off"
-                                                                   name="celular" ng-model="$ctrl.paciente.Celular" maxlength="30"/>
+                                                                   name="celular" ng-model="$ctrl.paciente.Celular" maxlength="30" />
                                                             <div ng-show="$ctrl.frmPaciente.celular.$touched" ng-messages="$ctrl.frmPaciente.celular.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -259,7 +264,7 @@
                                                         <md-input-container class="form-group md-block">
                                                             <label for="mail">E-Mail</label>
                                                             <input type="email" class="form-control" id="mail" autocomplete="off"
-                                                                   name="mail" ng-model="$ctrl.paciente.Mail"  maxlength="50"/>
+                                                                   name="mail" ng-model="$ctrl.paciente.Mail" maxlength="50" />
                                                             <div ng-show="$ctrl.frmPaciente.mail.$touched" ng-messages="$ctrl.frmPaciente.mail.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>

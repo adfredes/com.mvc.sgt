@@ -609,6 +609,15 @@ input[readonly]{
     display: none;    
 }
 
+.procesando > div {
+    height:100vh; 
+    z-index:2000;
+    display:flex;
+    justify-content: center; 
+    flex-direction: column;
+    text-align: center;
+}
+
 .sin-fecha{
     background: #fff;
     color:red;

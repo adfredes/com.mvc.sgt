@@ -408,7 +408,7 @@
                     var url = "Paciente/ListarTurnosContinuar/" + id;
                     var promise = crudService.GetPHttpParse(url);
                     promise.then(function (data) {
-                        $scope.turnos = data.filter(function (t) { return !(t.ID == turno.ID); });
+                        $scope.turnos = data.filter(function (t) { return !(t.ID === turno.ID); });
                     });
                 };
                 var init = function () {
@@ -534,24 +534,19 @@
                     $mdDialog.hide();
                 };
                 $scope.cancel = function () {
-                    $mdDialog.cancel();
+                    $mdDialog.hide();
                 };
                 $scope.answer = function () {
-                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
+                    $mdDialog.hide();
                 };
             }
             $mdDialog.show({
                 parent: parentEl,
-                templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion",
+                templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion?v=" + Math.floor(Math.random() * 100 + 1),
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
-                fullscreen: false,
-                locals: { turno: turno }
-            })
-                .then(function (answer) {
-                success();
-            })
-                .catch(function () { return undefined; });
+                fullscreen: false
+            });
         };
     }
 })();

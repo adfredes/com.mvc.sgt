@@ -898,6 +898,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 }
             });
         })();
+        function validarFechaEstado(idcol) {
+            var fecha = new Date(parseInt(idcol.substring(1, 5)), parseInt(idcol.substring(5, 7)) - 1, parseInt(idcol.substring(7, 9)));
+            var fecha2 = new Date();
+            return fecha <= fecha2;
+        }
         function contextMenuClick(key, opt, e) {
             switch (key) {
                 case 'reservar':
@@ -915,10 +920,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     }
                     break;
                 case 'asistio':
-                    setEstadoAsistio(opt.$trigger[0].dataset.id);
+                    if (validarFechaEstado(opt.$trigger[0].id)) {
+                        setEstadoAsistio(opt.$trigger[0].dataset.id);
+                    }
                     break;
                 case 'noAsistio':
-                    setEstadoNoAsistio(opt.$trigger[0].dataset.id);
+                    if (validarFechaEstado(opt.$trigger[0].id)) {
+                        setEstadoNoAsistio(opt.$trigger[0].dataset.id);
+                    }
                     break;
                 case 'anularSesion':
                     showModalCancelarSesion(opt.$trigger[0].dataset.id, opt.$trigger[0].dataset.turnoid);

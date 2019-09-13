@@ -3,7 +3,7 @@
 
     sgtApp.component('sesionPosponer', {
         templateUrl: Domain + 'Sesion/Posponer',
-        controller: ['turnoService', 'eventService', '$mdDialog',sesionPosponerController],
+        controller: ['messageService','turnoService', 'eventService', '$mdDialog','$element',sesionPosponerController],
         bindings: {
             turno: "<?",
             onSave: "&?",
@@ -11,7 +11,7 @@
         }
     });
 
-    function sesionPosponerController(turnoService, eventService, $mdDialog) {
+    function sesionPosponerController(messageService, turnoService, eventService, $mdDialog, $element) {
         let vm = this;
         vm.sesiones = [];
         vm.minDate = new Date();
@@ -50,7 +50,16 @@
                         }
                     }
                     )
-                    .catch((data) => vm.saving = false);
+                    .catch((data) => {
+                        
+                        vm.saving = false;
+                        let promise = messageService.Notify('Posponer', `Se produjo un error: ${data.data}`, $element);
+                        promise.then(() => {
+                            if (vm.onSave) {
+                                vm.onSave()();
+                            }
+                        });                        
+                    });
             }
         };
 

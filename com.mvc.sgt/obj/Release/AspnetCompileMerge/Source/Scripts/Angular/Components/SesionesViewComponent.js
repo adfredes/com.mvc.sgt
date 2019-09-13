@@ -3,13 +3,13 @@
 
     sgtApp.component('sesionesView', {
         templateUrl: Domain + 'Paciente/ViewSesiones',
-        controller: ['turnoService', 'eventService','$element', sesionesViewController],
+        controller: ['messageService','turnoService', 'eventService','$element', sesionesViewController],
         bindings: {
             divid: "@"
         }
     });
 
-    function sesionesViewController(turnoService, eventService, $element) {
+    function sesionesViewController(messageService, turnoService, eventService, $element) {
         vm = this;
         vm.currentPage = 0;
         vm.initPage = 0;
@@ -195,8 +195,8 @@
 
         vm.sendTurno = () => {
             turnoService.sendTurno(vm.turno.ID)
-                .then(() => undefined)
-                .catch(() => undefined);
+                .then(() => messageService.Notify('Turnos', 'Mail enviado.', $element))
+                .catch(() => messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element));
         };
 
         let refreshTurno = (data) => {

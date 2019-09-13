@@ -23,8 +23,8 @@
                     </fieldset>
                     <input id="PacienteID" type="text" ng-hide="1==1" ng-model="$ctrl.PacienteID" ng-change="$ctrl.pacienteChange()" />
                     <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.TurnoID" />
-                    <div ng-if="$ctrl.getInformation == true" class="text-center">
-                        <span class="icon-spinner animate-spin"></span>
+                    <div ng-if="$ctrl.getInformation == true" class="text-center" style="overflow:hidden">
+                        <span class="icon-spinner animate-spin p-4 display-4"></span>
                     </div>
                     <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border" style="caption-side: top">
                         <caption style="caption-side:top;" class="mb-0 pb-0">

@@ -8,7 +8,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/View',
-        controller: ['messageService','turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
+        controller: ['eventService','messageService','turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
         bindings: {
             paciente: "<?",
             save: "&?",
@@ -24,7 +24,7 @@
         $postLink
     */
 
-    function pacienteViewController(messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
+    function pacienteViewController(eventService, messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
         var vm = this;
         //vm.paciente = {};
         vm.Provincias = [];
@@ -40,24 +40,37 @@
         vm.OldDiagnostico = '';
         vm.paciente = { ID: 0 };
         vm.pacienteid = 0;
+        vm.saving = false;
 
         vm.getTipoSesion = (idTipo) => turnoService.getTipoSesion(idTipo);
        
 
-        let loadPaciente = (id) => {
-            vm.paciente = {ID:0};
+        let loadPaciente = (id) => {            
+            
+            vm.paciente = { ID: 0 };
             vm.selectedIndex = 0;
-            let promise = crudService.GetPHttp(`Paciente/Get/${id}`);
-            promise.then(data => {      
-                console.log('loaddd');
-                vm.paciente = JSON.parse(data);
-                vm.pacienteid = vm.paciente.ID;
+            if (id && id > 0) {
+                vm.saving = true;
+                let promise = crudService.GetPHttp(`Paciente/Get/${id}`);
+                promise.then(data => {
+                    vm.paciente = JSON.parse(data);
+                    vm.pacienteid = vm.paciente.ID;
+                    vm.saving = false;
+                    vm.getLocalidades();
+                    vm.getPlanes();
+                    loadDiagnostico(vm.paciente.ID);
+                    getFiles(id);
+                })
+                    .catch(err => {
+                        vm.saving = false;
+                        vm.paciente = { ID: 0 };
+                    });
+            }
+            else {
                 vm.getLocalidades();
                 vm.getPlanes();
-                loadDiagnostico(vm.paciente.ID);
-                getFiles(id);
-            })
-                .catch(err => vm.paciente = {ID:0});
+            }
+            
         };   
 
         let loadDiagnostico = (id) => {
@@ -77,15 +90,24 @@
             }            
         };
 
-        vm.hiddenChange = (e) => {
-            console.log('hidden');
-            if (!vm.paciente.ID || vm.paciente.ID === 0) {
-                vm.paciente = {ID:0};
+        let pacienteChange = () => {
+            vm.diagnosticos = [];
+            vm.files = [];
+            vm.OldDiagnostico = "";
+            if (!vm.paciente || !vm.paciente.ID || vm.paciente.ID === 0) {
+                vm.paciente = { ID: 0 };
             }
-            else {                
-                loadPaciente(vm.paciente.ID);
+            else {
+                vm.paciente = { ID: vm.paciente.ID };
             }
+
+            vm.uploadingText = "";
+            vm.uploading = false;
+            loadPaciente(vm.paciente.ID);
+            vm.selectedIndex = 0;
         };
+
+        vm.hiddenChange = (e) => pacienteChange();
 
         $window.document.addEventListener('click', function (e) {
             e.stopImmediatePropagation();
@@ -112,22 +134,7 @@
             vm.selectedIndex = 0;
         };
 
-        vm.$onChanges = (change) => {
-            vm.paciente = vm.paciente ? vm.paciente : {ID:0};
-            if (change.paciente && !change.paciente.isFirstChange()) {
-                //vm.getLocalidades();
-                //vm.getPlanes();
-                vm.uploadingText = "";
-                vm.uploading = false;
-            }
-
-            if (vm.paciente && vm.paciente.ID) {
-                loadPaciente(vm.paciente.ID);
-                //loadDiagnostico(vm.paciente.ID);
-                //getFiles(vm.paciente.ID);
-            }
-            vm.selectedIndex = 0;
-        };
+        vm.$onChanges = (change) => pacienteChange();
 
         vm.decode = (value) => {
             
@@ -296,19 +303,47 @@
 
         vm.savePaciente = () => {            
             vm.setTouch();
-            if (vm.frmPaciente.$valid) {
-                let requestResponse = crudService.CreateOrEdit(vm.paciente, 'Paciente');
-                Message(requestResponse);
+            if (vm.frmPaciente.$valid && vm.saving === false) {
+                vm.saving = true;
+
+                crudService.CreateOrEdit(vm.paciente, 'Paciente')
+                    .then(function successCallback(response) {                        
+                        vm.saving = false;
+                        eventService.UpdateTurnos();
+                        if (vm.save) {
+                            vm.save({ newPaciente: vm.paciente });
+                        }
+                        vm.close();
+                    }, function errorCallback(response) {                            
+                        vm.saving = false;
+                        let promise = messageService.Notify('Paciente', `Se produjo un error: ${data.data}`, $element);
+                        promise.then(() => {
+                            if (vm.save) {
+                                vm.save({ newPaciente: {} });
+                            }
+                            vm.close();
+                        });
+                    });
             }
         };
 
         Message = (requestResponse) => {
+
             requestResponse.then(function successCallback(response) {                                                
+                vm.saving = false;
                 if (vm.save) {
                     vm.save({ newPaciente: vm.paciente });
                 }
                 vm.close();                                
-            }, function errorCallback(response) {                
+            }, function errorCallback(response) {  
+                    vm.saving = false;
+                    let promise = messageService.Notify('Paciente', `Se produjo un error: ${data.data}`, $element);
+                    promise.then(() => {
+                        if (vm.save) {
+                            vm.save({ newPaciente: {} });
+                        }
+                        vm.close();
+                    });                        
             });
         };        
 

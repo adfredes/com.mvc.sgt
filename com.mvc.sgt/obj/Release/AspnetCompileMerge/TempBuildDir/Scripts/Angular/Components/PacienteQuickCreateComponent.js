@@ -16,7 +16,7 @@
 
     function pacienteQuickCreateController(crudService) {
         let vm = this;
-
+        vm.saving = false;
         
 
         vm.$onInit = () => {
@@ -35,7 +35,8 @@
         vm.save = () => {
             
             vm.setTouch();
-            if (vm.frmPaciente.$valid) {
+            if (vm.frmPaciente.$valid && vm.saving == false) {
+                vm.saving = true;
                 let requestResponse = crudService.CreateOrEdit(vm.paciente, 'Paciente');
                 Message(requestResponse);                
             }
@@ -44,11 +45,12 @@
         Message = (requestResponse) => {
             requestResponse.then(function successCallback(response) {
                 //vm.close();
+                vm.saving = false;
                 if (vm.onSave) {
                     vm.onSave()(response.data);
                 }
             }, function errorCallback(response) {
-
+                    vm.saving = false;
             });
         };    
 

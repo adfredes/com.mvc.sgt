@@ -7,9 +7,9 @@
             divid: "@",
             onChanges: "&?"
         },
-        controller: ['turnoService', 'eventService', '$element', asignarPacienteController]
+        controller: ['messageService', 'turnoService', 'eventService', '$element', asignarPacienteController]
     });
-    function asignarPacienteController(turnoService, eventService, $element) {
+    function asignarPacienteController(messageService, turnoService, eventService, $element) {
         var vm = this;
         vm.pacienteSeleccionado = {};
         vm.SelectedSesiones = [];
@@ -198,8 +198,8 @@
         };
         vm.sendTurno = function () {
             turnoService.sendTurno(vm.turno.ID)
-                .then(function () { return undefined; })
-                .catch(function () { return undefined; });
+                .then(function () { return messageService.Notify('Turnos', 'Mail enviado.', $element); })
+                .catch(function () { return messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element); });
         };
         vm.openDobleOrden = function () {
             turnoService.openDobleOrden(vm.turno, function (promise) {

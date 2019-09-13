@@ -9,10 +9,10 @@
             divid: "@",
             onChanges: "&?"
         },
-        controller: ['turnoService', 'eventService', '$element', asignarPacienteController]
+        controller: ['messageService','turnoService', 'eventService', '$element', asignarPacienteController]
     });
 
-    function asignarPacienteController(turnoService, eventService, $element) {
+    function asignarPacienteController(messageService, turnoService, eventService, $element) {
         let vm = this;
         vm.pacienteSeleccionado = {};
         vm.SelectedSesiones = [];
@@ -245,8 +245,8 @@
 
         vm.sendTurno = () => {
             turnoService.sendTurno(vm.turno.ID)
-                .then(() => undefined)
-                .catch(() => undefined);
+                .then(() => messageService.Notify('Turnos', 'Mail enviado.', $element))
+                .catch(() => messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element));
         };
 
         vm.openDobleOrden = () => {

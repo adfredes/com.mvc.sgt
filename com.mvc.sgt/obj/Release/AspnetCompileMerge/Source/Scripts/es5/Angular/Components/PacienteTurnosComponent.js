@@ -5,7 +5,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/ViewTurnos',
-        controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
+        controller: ['messageService', 'turnoService', 'eventService', 'pdfService', 'crudService', '$window',
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
@@ -20,7 +20,7 @@
         controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController]
     });
-    function pacienteTurnosController(turnoService, eventService, pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
+    function pacienteTurnosController(messageService, turnoService, eventService, pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
         var vm = this;
         vm.turnos = [];
         var Estados = [];
@@ -84,8 +84,8 @@
         vm.bolder = function (estado) { return turnoService.bolder(estado); };
         vm.sendTurno = function (turno) {
             turnoService.sendTurno(turno.ID)
-                .then(function () { return undefined; })
-                .catch(function () { return undefined; });
+                .then(function () { return messageService.Notify('Turnos', 'Mail enviado.', $element); })
+                .catch(function () { return messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element); });
         };
         vm.sesionClick = function (fecha) {
             $window.sessionStorage.removeItem('FechaGrillaTurnos');

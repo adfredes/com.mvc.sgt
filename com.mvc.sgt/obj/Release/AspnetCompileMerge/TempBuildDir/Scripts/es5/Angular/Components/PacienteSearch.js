@@ -42,6 +42,12 @@
             vm.Paciente = selectedPaciente;
             $('#ViewPaciente').modal('show');
         };
+        vm.openCreate = function () {
+            var selectedPaciente = {};
+            vm.Paciente = {};
+            vm.Paciente = selectedPaciente;
+            $('#ViewPaciente').modal('show');
+        };
         vm.clear = function () { return vm.Paciente = {}; };
         vm.openQuickCreate = function () {
             var parentView = $element.parent().parent().parent().parent().parent().parent();

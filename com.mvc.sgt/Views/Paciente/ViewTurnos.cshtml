@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid overflow-auto p-2 vh-50">    
-    <div ng-if="$ctrl.getInformation == true" class="text-center">
-        <span class="icon-spinner animate-spin"></span>
+    <div ng-if="$ctrl.getInformation == true" class="text-center" style="overflow:hidden">
+        <span class="icon-spinner animate-spin p-4 display-4"></span>
     </div>
     <div ng-repeat="turno in $ctrl.turnos" class="border border-info p-0 m-0" id="div{{turno.ID}}" ng-hide="$ctrl.reading" ng-if="!(turno.Estado==4)">        
         <table class="table table-sm table-responsive-sm table-hover table table-bordered m-0 p-1" style="caption-side:top;" ng-hide="$ctrl.reading">

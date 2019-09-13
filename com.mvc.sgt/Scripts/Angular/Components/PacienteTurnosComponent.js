@@ -8,7 +8,7 @@
             'botton': '?button'
         },
         templateUrl: Domain + 'Paciente/ViewTurnos',
-        controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
+        controller: ['messageService','turnoService', 'eventService', 'pdfService', 'crudService', '$window',
             '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog','$element', pacienteTurnosController],
         bindings: {
             paciente: "<?",
@@ -36,7 +36,7 @@
 
     //sgtApp.controller('DialogController', ['$scope', '$mdDialog', DialogController]);
 
-    function pacienteTurnosController(turnoService, eventService, pdfService, crudService,
+    function pacienteTurnosController(messageService ,turnoService, eventService, pdfService, crudService,
         $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
         let vm = this;
         vm.turnos = [];
@@ -120,8 +120,8 @@
 
         vm.sendTurno = (turno) => {
             turnoService.sendTurno(turno.ID)
-                .then(() => undefined)
-                .catch(() => undefined);
+                .then(() => messageService.Notify('Turnos', 'Mail enviado.', $element))
+                .catch(() => messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element));
         };
 
         vm.sesionClick = function (fecha) {
@@ -152,12 +152,7 @@
                 }
             });
         }, vm.parent.children());        
-        //}, $element.parent().parent().parent().parent().parent().parent().parent().parent().parent().parent());        
 
-        //    = function (ev, turno) {                       
-        //    vm.selectedTurno = turno;
-        //    vm.showModal(ev);
-        //};
 
         vm.confirmCancelarTurno = function () {
             vm.deleteTurno = false;
@@ -200,41 +195,12 @@
 
         let sesionesOrder = (data) => 
         {
-            //data.forEach(turno => {
-            //    let sesiones = JSON.parse(JSON.stringify(turno.Sesions.filter((value, index, self) =>
-            //        self.findIndex(element => element.Numero === value.Numero && element.ID < value.ID + 3
-            //            && element.ID >= value.ID -1
-            //            && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
-            //            && element.TurnoSimultaneo === value.TurnoSimultaneo
-            //        )
-            //        === index
-            //    )));
-
-            //    sesiones.forEach(mValue => {
-            //        let result = turno.Sesions.filter(fValue =>
-            //            mValue.ID + 3 > fValue.ID && mValue.Numero === fValue.Numero
-            //            && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
-            //            && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
-            //        ).length;
-            //        mValue.sesiones = result;
-            //    });
-            //    turno.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
-            //    );
-            //    let fechaActual = new Date();
-            //    if (fechaActual.getTime() <= moment(turno.Sesions[turno.Sesions.length - 1].FechaHora).toDate().getTime() && fechaActual.getTime() >= moment(turno.Sesions[0].FechaHora).toDate().getTime())
-            //        turno.visible = true;
-            //    else
-            //        turno.visible = false;
-            //    turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-            //    turno.begin = turno.Sesions[0].FechaHora;
-            //});
+           
             return turnoService.turnosSesionesOrder(data);
         };
-        /*let _sesiones = options.sesiones.filter((value, index, self) =>
-            self.findIndex(element => element.TurnoID == value.TurnoID && element.Numero == value.Numero) == index);
-        _sesiones.map(mValue => mValue.sesiones = options.sesiones.filter(fValue => mValue.TurnoID == fValue.TurnoID && mValue.Numero == fValue.Numero));*/
-
+        
         vm.FacturacionTurnoShow = (turno) => {
+            
             turnoService.FacturacionTurnoShow(turno, undefined, vm.parent);
         };
 
@@ -277,11 +243,11 @@
                 vm.deleteTurno = false;
                 getConsultorios();
                 if (vm.parent) {
-                    parentModal = vm.parent.parent().parent().parent().parent();
+                    parentModal = vm.parent.parent().parent().parent().parent();                    
                 }
                 else {
                     vm.parent = $element.parent().parent().parent().parent().parent();
-                    }
+                 }
             }
         };
 

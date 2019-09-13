@@ -534,24 +534,19 @@
                     $mdDialog.hide();
                 };
                 $scope.cancel = function () {
-                    $mdDialog.cancel();
+                    $mdDialog.hide();
                 };
                 $scope.answer = function () {
-                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
+                    $mdDialog.hide();
                 };
             }
             $mdDialog.show({
                 parent: parentEl,
-                templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion",
+                templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion?v=" + Math.floor(Math.random() * 100 + 1),
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
-                fullscreen: false,
-                locals: { turno: turno }
-            })
-                .then(function (answer) {
-                success();
-            })
-                .catch(function () { return undefined; });
+                fullscreen: false
+            });
         };
     }
 })();

@@ -670,7 +670,7 @@
                     
                     let promise = crudService.GetPHttpParse(url);
                     promise.then(data => {                        
-                        $scope.turnos = data.filter(t=> !(t.ID == turno.ID));
+                        $scope.turnos = data.filter(t=> !(t.ID === turno.ID));
                         //$scope.turnoID = $scope.turnos[0].ID;
                     });
                 };
@@ -841,31 +841,29 @@
             );
         };
 
-        $this.FacturacionTurnoShow = (turno, success, parentEl) => {
-
+        $this.FacturacionTurnoShow = (turno, success, parentEl) => {                        
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide();
                 };
                 $scope.cancel = function () {
-                    $mdDialog.cancel();
+                    $mdDialog.hide();
                 };
                 $scope.answer = function () {
-                    $mdDialog.hide({ cantidad: $scope.cantidad, continuar: $scope.continuar });
+                    $mdDialog.hide();
                 };
             }
             $mdDialog.show({
                 parent: parentEl,
-                templateUrl: `${Domain}Turno/${turno.ID}/Facturacion`,
+                templateUrl: `${Domain}Turno/${turno.ID}/Facturacion?v=${Math.floor(Math.random() * 100 + 1)}`,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
-                fullscreen: false,
-                locals: { turno: turno }
-            })
-                .then(answer => {
-                    success();
-                })
-                .catch(() => undefined);
+                fullscreen: false               
+            });
+                //.then(answer => {
+                //    success();
+                //})
+                //.catch(() => success());
 
 
         };

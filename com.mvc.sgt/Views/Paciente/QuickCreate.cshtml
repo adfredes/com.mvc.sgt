@@ -1,7 +1,10 @@
 ﻿
     <md-dialog-content>
         <div class="md-dialog-content">
-            <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate>
+            <div ng-if="$ctrl.saving == true" class="text-center" style="overflow:hidden">
+                <span class="icon-spinner animate-spin p-4 display-4"></span>
+            </div>
+            <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate ng-if="$ctrl.saving == false">
 
                 <div class="form-row m-0">
                     <md-input-container class="form-group md-block m-0">
@@ -41,7 +44,7 @@
                             <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                         </div>
                     </md-input-container>
-                </div>                
+                </div>
 
                 <div class="form-row m-0 mb-4">
                     <md-input-container class="form-group md-block w-100 m-0">

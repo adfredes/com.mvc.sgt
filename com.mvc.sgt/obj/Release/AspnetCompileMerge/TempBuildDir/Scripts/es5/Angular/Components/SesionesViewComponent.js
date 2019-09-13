@@ -2,12 +2,12 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('sesionesView', {
         templateUrl: Domain + 'Paciente/ViewSesiones',
-        controller: ['turnoService', 'eventService', '$element', sesionesViewController],
+        controller: ['messageService', 'turnoService', 'eventService', '$element', sesionesViewController],
         bindings: {
             divid: "@"
         }
     });
-    function sesionesViewController(turnoService, eventService, $element) {
+    function sesionesViewController(messageService, turnoService, eventService, $element) {
         vm = this;
         vm.currentPage = 0;
         vm.initPage = 0;
@@ -154,8 +154,8 @@
         };
         vm.sendTurno = function () {
             turnoService.sendTurno(vm.turno.ID)
-                .then(function () { return undefined; })
-                .catch(function () { return undefined; });
+                .then(function () { return messageService.Notify('Turnos', 'Mail enviado.', $element); })
+                .catch(function () { return messageService.Notify('Turnos', 'El mail no pudo enviarse.', $element); });
         };
         var refreshTurno = function (data) {
             turnoService.IsTurnoSuperpuesto(vm.turno.ID)

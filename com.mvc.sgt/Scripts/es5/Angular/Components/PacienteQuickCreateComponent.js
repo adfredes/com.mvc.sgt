@@ -10,6 +10,7 @@
     });
     function pacienteQuickCreateController(crudService) {
         var vm = this;
+        vm.saving = false;
         vm.$onInit = function () {
             vm.paciente = {};
             vm.ObrasSociales = [];
@@ -23,17 +24,20 @@
         };
         vm.save = function () {
             vm.setTouch();
-            if (vm.frmPaciente.$valid) {
+            if (vm.frmPaciente.$valid && vm.saving == false) {
+                vm.saving = true;
                 var requestResponse = crudService.CreateOrEdit(vm.paciente, 'Paciente');
                 Message(requestResponse);
             }
         };
         Message = function (requestResponse) {
             requestResponse.then(function successCallback(response) {
+                vm.saving = false;
                 if (vm.onSave) {
                     vm.onSave()(response.data);
                 }
             }, function errorCallback(response) {
+                vm.saving = false;
             });
         };
         vm.close = function () { return vm.onCancel()(); };

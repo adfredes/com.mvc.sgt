@@ -1080,7 +1080,13 @@
                 }
             });
         })();
-       
+
+        function validarFechaEstado(idcol) {
+            let fecha = new Date(parseInt(idcol.substring(1, 5)), parseInt(idcol.substring(5, 7)) - 1, parseInt(idcol.substring(7, 9)));
+            let fecha2 = new Date();
+            return fecha <= fecha2;
+        }
+
         function contextMenuClick(key, opt, e) {
             switch (key) {
                 case 'reservar':
@@ -1097,11 +1103,16 @@
                         CancelarReserva(opt.$trigger[0]);
                     }
                     break;
-                case 'asistio':
-                    setEstadoAsistio(opt.$trigger[0].dataset.id);
+                case 'asistio':                                        
+                    if (validarFechaEstado(opt.$trigger[0].id)) {
+                        setEstadoAsistio(opt.$trigger[0].dataset.id);
+                    }
+                    
                     break;
                 case 'noAsistio':
-                    setEstadoNoAsistio(opt.$trigger[0].dataset.id);
+                    if (validarFechaEstado(opt.$trigger[0].id)) {
+                        setEstadoNoAsistio(opt.$trigger[0].dataset.id);
+                    }                    
                     break;
                 case 'anularSesion':
                     showModalCancelarSesion(opt.$trigger[0].dataset.id, opt.$trigger[0].dataset.turnoid);
