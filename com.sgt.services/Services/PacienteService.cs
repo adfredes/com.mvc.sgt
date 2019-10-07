@@ -209,8 +209,11 @@ namespace com.sgt.services.Services
         public bool IsSesionesSuperpuestas(int turnoID)
         {
             var turno = unitOfWork.RepoTurno.Find(turnoID);
+            DateTime hoy = DateTime.Now;
             //DateTime minDate = turno.Sesions.Min(x => x.FechaHora);
             //DateTime maxDate = turno.Sesions.Max(x => x.FechaHora);
+
+            hoy = hoy.AddHours(-1 * hoy.Hour).AddMinutes(-1 * hoy.Minute);
 
             turno.Sesions.ToList()
                 .ForEach(s =>
@@ -218,18 +221,35 @@ namespace com.sgt.services.Services
                     s.FechaHora = s.FechaHora.AddHours(-1 * s.FechaHora.Hour).AddMinutes(-1 * s.FechaHora.Minute);
                 });
 
-            var sesiones = turno.Sesions.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)).Select(s => s.FechaHora).Distinct().ToList();
-            
+            try
+            {
+
+                var sesiones = turno.Sesions
+                    .Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
+                    && s.FechaHora >= hoy)
+                    .Select(s => s.FechaHora)
+                    .Distinct()
+                    .ToList();
+                //var sesiones = (turno.Sesions
+                //.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
+                //&& DbFunctions.TruncateTime(s.FechaHora) >= DbFunctions.TruncateTime(hoy))
+                //.Select(s => s.FechaHora))
+                //.Distinct()).ToList();
+
                 var turnos = unitOfWork.RepoTurno.FindBy(x => x.ID != turno.ID && x.Estado == (int)EstadoTurno.Confirmado
                 && x.PacienteID == turno.PacienteID
                 && x.Sesions.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado) && sesiones.Contains(DbFunctions.TruncateTime(s.FechaHora).Value))
                     .Count() > 0
                 );
-            
 
-                
+
+
                 return turnos.Count() > 0;
-           
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
 
         }
 

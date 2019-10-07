@@ -330,7 +330,7 @@ namespace com.sgt.services.Services
                 }
                 else
                 {
-                    oldRepeticion.Frecuencia = oldRepeticion.Frecuencia == 0 ? (int)(s.FechaHora - oldRepeticion.Hora).TotalDays
+                    oldRepeticion.Frecuencia = oldRepeticion.Frecuencia == 0 ? (int)(s.FechaHora - oldRepeticion.Hora.AddHours(-oldRepeticion.Hora.Hour)).TotalDays
                                         : oldRepeticion.Frecuencia;
                 }
             });
@@ -1287,6 +1287,15 @@ namespace com.sgt.services.Services
         private ICollection<Sesion> CambiarFechaSesion(ICollection<Sesion> sesiones, bool sobreturno)
         {
             var turno = unitOfWork.RepoTurno.Find(sesiones.FirstOrDefault().TurnoID);
+            var sesionesViejasID = sesiones.Where(x => x.ID > 0).Select(x => x.ID).ToList();
+
+            if(turno.Sesions.Where(x=> EstadoSesionCondicion.Libre.Contains((EstadoSesion)x.Estado) && EstadoSesion.SinFechaLibre != (EstadoSesion)x.Estado && sesionesViejasID.Contains(x.ID)).ToList().Count()>0)
+            {
+                throw new Exception("Los datos de la sesion no se encuentran actualizados.");
+            }
+
+            
+
             var estadoTurno = turno.Estado;
             var sesionesNuevas = sesiones.Where(x => x.ID == 0).ToList();
             if (!sobreturno)
@@ -1416,6 +1425,14 @@ namespace com.sgt.services.Services
                 ? (short)EstadoSesion.Anulado : sesion.Estado;
 
             var turno = unitOfWork.RepoTurno.Find(sesion.TurnoID);
+            var sesionBase = turno.Sesions.Where(x => x.ID == sesion.ID).FirstOrDefault();
+
+           
+
+            if (EstadoSesionCondicion.Libre.Contains((EstadoSesion)sesionBase.Estado))
+            {
+                throw new Exception("Los datos de la sesion no se encuentran actualizados.");
+            }
 
             sesion = turno.Sesions.FirstOrDefault(s => s.ID == sesion.ID);
 
@@ -1471,11 +1488,12 @@ namespace com.sgt.services.Services
                 ).OrderBy(x=>x.FechaHora).FirstOrDefault();
 
                 if (sesionSuperpuesta != null && sesionSuperpuesta.TurnoID > turno.ID &&
-                    (EstadoSesion)sesionSuperpuesta.Estado == EstadoSesion.Confirmado ||
+                    ((EstadoSesion)sesionSuperpuesta.Estado == EstadoSesion.Confirmado ||
                     (EstadoSesion)sesionSuperpuesta.Estado == EstadoSesion.Reservado ||
-                    (EstadoSesion)sesionSuperpuesta.Estado == EstadoSesion.Bloqueado
+                    (EstadoSesion)sesionSuperpuesta.Estado == EstadoSesion.Bloqueado)
                     )
                 {
+                    
                     PosponerSesion(sesionSuperpuesta, sesionSuperpuesta.FechaHora, usuarioModificacion, fechaModificacion);
                 }
 
@@ -1799,6 +1817,43 @@ namespace com.sgt.services.Services
             entity.FechaFactura = fecha;
             entity.Factura = factura;
             unitOfWork.RepoTurno.Edit(entity);                        
+        }
+
+        public bool AtiendeEl(DateTime fecha)
+        {
+            return AtiendeEl(fecha, GetAgenda());
+        }
+
+        public bool AtiendeEl(DateTime fecha, Agendum agenda)
+        {
+            bool resu = false;
+            switch ((int)fecha.DayOfWeek)
+            {
+                case (int) DayOfWeek.Monday:
+                    resu = agenda.AtiendeLunes;
+                    break;
+                case (int)DayOfWeek.Tuesday:
+                    resu = agenda.AtiendeMartes;
+                    break;
+                case (int)DayOfWeek.Wednesday:
+                    resu = agenda.AtiendeMiercoles;
+                    break;
+                case (int)DayOfWeek.Thursday:
+                    resu = agenda.AtiendeJueves;
+                    break;
+                case (int)DayOfWeek.Friday:
+                    resu = agenda.AtiendeViernes;
+                    break;
+                case (int)DayOfWeek.Saturday:
+                    resu = agenda.AtiendeSabado;
+                    break;
+                case (int)DayOfWeek.Sunday:
+                    resu = agenda.AtiendeDomingo;
+                    break;
+
+
+            }
+            return resu;
         }
     }
 }

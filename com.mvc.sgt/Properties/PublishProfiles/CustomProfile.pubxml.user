@@ -85,10 +85,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/21/2018 11:12:31</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>09/11/2019 22:00:02</publishTime>
+      <publishTime>09/13/2019 12:52:27</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>09/11/2019 22:00:02</publishTime>
+      <publishTime>09/13/2019 12:52:27</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>06/18/2018 13:00:14</publishTime>
@@ -97,10 +97,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/18/2018 13:00:14</publishTime>
     </File>
     <File Include="bin/com.mvc.sgt.dll">
-      <publishTime>09/11/2019 17:58:40</publishTime>
+      <publishTime>09/13/2019 12:50:50</publishTime>
     </File>
     <File Include="bin/com.mvc.sgt.pdb">
-      <publishTime>09/11/2019 17:58:40</publishTime>
+      <publishTime>09/13/2019 12:50:50</publishTime>
     </File>
     <File Include="bin/com.sgt.common.util.dll">
       <publishTime>09/11/2019 15:46:13</publishTime>
@@ -118,10 +118,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>09/11/2019 17:58:29</publishTime>
     </File>
     <File Include="bin/com.sgt.services.dll">
-      <publishTime>09/11/2019 17:58:29</publishTime>
+      <publishTime>09/13/2019 12:50:42</publishTime>
     </File>
     <File Include="bin/com.sgt.services.pdb">
-      <publishTime>09/11/2019 17:58:29</publishTime>
+      <publishTime>09/13/2019 12:50:42</publishTime>
     </File>
     <File Include="bin/Content/font/fontello.eot">
       <publishTime>03/08/2019 11:17:48</publishTime>
@@ -802,7 +802,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/21/2018 11:12:05</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>09/11/2019 21:59:53</publishTime>
+      <publishTime>09/13/2019 12:52:19</publishTime>
     </File>
     <File Include="Scripts/angular-animate.js">
       <publishTime>06/21/2018 11:16:03</publishTime>

@@ -173,18 +173,16 @@
             }, vm.parent.parent());
         };
         vm.$onChanges = function (change) {
-            if (change.pacienteid) {
-                vm.turnos = [];
-                Estados = [];
-                Consultorios = [];
-                vm.deleteTurno = false;
-                getConsultorios();
-                if (vm.parent) {
-                    parentModal = vm.parent.parent().parent().parent().parent();
-                }
-                else {
-                    vm.parent = $element.parent().parent().parent().parent().parent();
-                }
+            vm.turnos = [];
+            Estados = [];
+            Consultorios = [];
+            vm.deleteTurno = false;
+            getConsultorios();
+            if (vm.parent) {
+                parentModal = vm.parent.parent().parent().parent().parent();
+            }
+            else {
+                vm.parent = $element.parent().parent().parent().parent().parent();
             }
         };
         vm.openDiagnostico = function (turno) {

@@ -35,9 +35,9 @@
             let _url = 'Agenda/JSON';
             crudService.GetPHttp(_url)
                 .then(data => {
-                vm.agenda = JSON.parse(data);
-                vm.agenda.HoraDesde = moment(vm.agenda.HoraDesde).toDate();
-                vm.agenda.HoraHasta = moment(vm.agenda.HoraHasta).toDate();
+                vm.agenda = JSON.parse(data);                                        
+                    vm.agenda.HoraDesde = moment(vm.agenda.HoraDesde).toDate();
+                    vm.agenda.HoraHasta = moment(vm.agenda.HoraHasta).toDate();                    
                 })
                 .catch(err => vm.agenda = {});
         };

@@ -3,7 +3,7 @@
     
     sgtApp.component('searchPaciente', {        
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: ['crudService', '$mdDialog', '$element',searchPacienteController],
+        controller: ['crudService', '$mdDialog', '$element', '$timeout',searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -14,7 +14,7 @@
         }
     });
 
-    function searchPacienteController(crudService, $mdDialog, $element) {
+    function searchPacienteController(crudService, $mdDialog, $element, $timeout) {
         var vm = this;
         
         vm.$onInit = () => {
@@ -50,15 +50,18 @@
             
             let selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
             vm.Paciente = {};
+            $timeout(openViewPacienteTimeOut, 50, true, selectedPaciente);
+            //vm.Paciente = selectedPaciente;
+            //$('#ViewPaciente').modal('show');
+        };
+
+        let openViewPacienteTimeOut = (selectedPaciente) => {                        
             vm.Paciente = selectedPaciente;
             $('#ViewPaciente').modal('show');
         };
 
-        vm.openCreate = () => {
-
-            let selectedPaciente = {};
-            vm.Paciente = {};
-            vm.Paciente = selectedPaciente;
+        vm.openCreate = () => {            
+            vm.Paciente = {};            
             $('#ViewPaciente').modal('show');
         };
 

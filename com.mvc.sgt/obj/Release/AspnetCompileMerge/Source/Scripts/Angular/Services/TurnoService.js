@@ -642,12 +642,17 @@
                                 </md-toolbar>
                                 <md-dialog-content>
                                   <div class="md-dialog-content">                                                                                                                                                                                                                            
-                                        <md-input-container>                                          
+                                        <md-input-container class="form-group md-block">                                          
                                           <label>Continuar con sesiones anteriores?</label> 
                                           <md-select ng-model="turnoID"> 
-                                            <md-option ng-value="null">------------------NO------------------</md-option>
+                                            
                                             <md-option ng-repeat="t in turnos" ng-value="t.ID">
+                                              <span ng-if="t.ID">
                                               Turno {{t.ID}} : {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}
+                                              </span>
+                                              <span ng-hide="t.ID">
+                                              ------------------NO------------------
+                                              </span>
                                             </md-option>
                                           </md-select>
                                         </md-input-container>
@@ -670,7 +675,8 @@
                     
                     let promise = crudService.GetPHttpParse(url);
                     promise.then(data => {                        
-                        $scope.turnos = data.filter(t=> !(t.ID === turno.ID));
+                        $scope.turnos = data.filter(t => !(t.ID === turno.ID));
+                        $scope.turnos.unshift({ ID: null, FechaDesde: null, FechaHasta: null });
                         //$scope.turnoID = $scope.turnos[0].ID;
                     });
                 };

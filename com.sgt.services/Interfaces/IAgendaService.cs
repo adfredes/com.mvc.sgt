@@ -10,6 +10,8 @@ namespace com.sgt.services.Interfaces
 {
     public interface IAgendaService
     {
+        bool AtiendeEl(DateTime fecha);
+        bool AtiendeEl(DateTime fecha, Agendum agenda);
         void AddFeriado(Feriado entity);
         void DelFeriado(Feriado entity);
         void DelFeriado(int id);

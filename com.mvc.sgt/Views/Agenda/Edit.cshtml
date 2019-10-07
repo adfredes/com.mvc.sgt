@@ -23,8 +23,9 @@
                                         <div class="col-md-4 form-group">
                                             <md-input-container class="md-block">
                                                 <label for="Hasta">Hora Hasta:</label>
-                                                <input type="time" class="form-control" id="Hasta" name="hasta" ng-model="$ctrl.agenda.HoraHasta" required>
-                                            </md-input-container>
+                                                <input type="time" class="form-control" id="Hasta" name="hasta" ng-model="$ctrl.agenda.HoraHasta" required
+                                                       ng-change="$ctrl.changeHour()">
+                                            </md-input-container>                                            
                                         </div>
                                         <div class="col-md-4 form-group">
                                             <md-input-container class="md-block">

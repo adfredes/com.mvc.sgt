@@ -15,7 +15,9 @@ namespace com.sgt.DataAccess.Enums
       EstadoSesion.SinFechaLibre,
       EstadoSesion.PospuestoConsultorio,
       EstadoSesion.PospuestoEnElDia,
-      EstadoSesion.PospuestoNoAviso
+      EstadoSesion.PospuestoNoAviso,
+      EstadoSesion.PospuestoPreAviso
+            
     };
         public static List<EstadoSesion> Ocupado = new List<EstadoSesion>()
     {

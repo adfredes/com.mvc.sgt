@@ -76,6 +76,10 @@ namespace com.mvc.sgt.Controllers
             var model = Mapper.Map<List<ConsultorioHorariosModel>>(consultorioService.GetAll());
 
             var agenda = agendaService.GetAgenda();
+
+            if(agendaService.AtiendeEl(fecha,agenda))
+            {
+            
             var sesiones = agendaService.SearchSesions(fecha, fecha.AddDays(1));            
             List <string> horarios = new List<string>();            
             DateTime horaInicio = agenda.HoraDesde;
@@ -128,6 +132,7 @@ namespace com.mvc.sgt.Controllers
                 
             });
 
+            }
             return Json(model,JsonRequestBehavior.AllowGet);
         }
     }

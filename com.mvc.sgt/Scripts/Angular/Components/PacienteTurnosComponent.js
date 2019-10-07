@@ -234,7 +234,7 @@
         //};
 
         vm.$onChanges = (change) => {            
-            if (change.pacienteid) {
+            //if (change.pacienteid) {
 
             
                 vm.turnos = [];
@@ -248,7 +248,7 @@
                 else {
                     vm.parent = $element.parent().parent().parent().parent().parent();
                  }
-            }
+            //}
         };
 
         vm.openDiagnostico = (turno) => {
