@@ -15,7 +15,7 @@ namespace com.mvc.sgt.Models
         //}
 
         public int? ID { get; set; }
-        public int ProfesionalID { get; set; }
+        public int? ProfesionalID { get; set; }
         public string Descripcion { get; set; }
         public System.DateTime HoraDesde { get; set; }
         public System.DateTime HoraHasta { get; set; }

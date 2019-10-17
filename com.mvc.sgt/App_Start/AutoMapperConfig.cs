@@ -143,6 +143,11 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d=> d.Agenda, o => o.MapFrom(s => s.Agenda))
                 .ReverseMap();
 
+                mapper.CreateMap<Profesional, ComboDTO>()
+                .ForMember(d => d.Value, opt => opt.MapFrom(src => src.ID))
+                .ForMember(d => d.Text, opt => opt.MapFrom(src => src.Nombre + " " + src.Apellido))
+                .ReverseMap();
+
                 mapper.CreateMap<Agendum, AgendaModel>()                
                 .ReverseMap();
 
@@ -169,7 +174,13 @@ namespace com.mvc.sgt.App_Start
                 .ReverseMap();
 
                 mapper.CreateMap<Imagen, ImagenDescriptionModel>()
-                .ReverseMap();                
+                .ReverseMap();
+
+                mapper.CreateMap<Profesional_Ausencias, ProfesionalAusenciaModel>()
+                .ForMember(d => d.Profesional, o => o.MapFrom(s => s.Profesional.Nombre + " " + s.Profesional.Apellido));
+
+                mapper.CreateMap<ProfesionalAusenciaModel, Profesional_Ausencias>()
+                .ForMember(d => d.Profesional, o => o.Ignore());
 
             });
         }

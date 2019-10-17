@@ -22,7 +22,7 @@ namespace com.sgt.DataAccess
         }
     
         public int ID { get; set; }
-        public int ProfesionalID { get; set; }
+        public Nullable<int> ProfesionalID { get; set; }
         public string Descripcion { get; set; }
         public System.DateTime HoraDesde { get; set; }
         public System.DateTime HoraHasta { get; set; }

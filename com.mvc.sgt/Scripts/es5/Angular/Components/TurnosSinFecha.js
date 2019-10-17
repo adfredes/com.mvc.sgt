@@ -2,9 +2,9 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component("turnosSinFecha", {
         templateUrl: Domain + 'Turno/SinFechaAsignada',
-        controller: ['turnoService', 'eventService', '$interval', turnoSinFechaController]
+        controller: ['turnoService', 'eventService', '$interval', '$window', turnoSinFechaController]
     });
-    function turnoSinFechaController(turnoService, eventService, $interval) {
+    function turnoSinFechaController(turnoService, eventService, $interval, $window) {
         var vm = this;
         var stopInterval;
         vm.selectedTurno = {};
@@ -13,6 +13,7 @@
             vm.Turnos = {};
             getData();
             stopInterval = $interval(getData, 500000);
+            $window.addEventListener('UpdateTurnos', getData);
         };
         var getData = function () {
             var promise = turnoService.getTurnosSinFechaAsignada();

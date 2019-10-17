@@ -255,7 +255,7 @@ namespace com.mvc.sgt.Controllers
             var resu = "";
             try
             {
-                if (model.ID.HasValue)
+                if (model.ID.HasValue && model.ID.Value > 0)
                 {
                     pacienteService.Edit(Mapper.Map<Paciente>(model));
                     Response.StatusCode = (int)HttpStatusCode.OK;

@@ -40,7 +40,7 @@
                                 <input type="checkbox" class="form-control" ng-model="ctr.agenda.AtiendeDomingo" disabled />
                             </td>
                             <td class="text-center align-middle">
-                                <span class="icon-edit btn" data-target="#CreateOrUpdateAgenda" data-toggle="modal"></span>                                
+                                <span class="icon-edit btn" data-target="#CreateOrUpdateAgenda" data-toggle="modal"></span>
                             </td>
                         </tr>
                     </table>
@@ -70,7 +70,7 @@
                             <td class="text-center align-middle">
                                 <span class="icon-edit btn" data-target="#CreateOrUpdateFeriado" data-toggle="modal" ng-click="ctr.EditFeriado(feriado)"></span>
                                 <span class="icon-cancel btn" ng-click="ctr.DeleteFeriado(feriado)"></span>
-                                
+
                             </td>
                         </tr>
                     </table>
@@ -79,7 +79,7 @@
                             <md-tooltip md-direction="right">Nuevo feriado</md-tooltip>
                             <span class="icon-calendar-empty"></span>
                         </md-button>
-                    </div>                    
+                    </div>
                 </md-content>
             </md-tab>
             <md-tab label="Recesos">
@@ -158,12 +158,44 @@
                     </div>
                 </md-content>
             </md-tab>
+
+            <md-tab label="Ausencias">
+                <md-content class="md-padding">
+                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="text-center">Profesional</th>                                
+                                <th scope="col" class="text-center">Fecha Desde</th>
+                                <th scope="col" class="text-center">Fecha Hasta</th>                                
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="ausencia in ctr.ausencias">
+                            <td class="text-center">{{ausencia.Profesional}}</td>                            
+                            <td class="text-center">{{ausencia.FechaDesde | date: "dd/MM/yyyy"}}</td>
+                            <td class="text-center">{{ausencia.FechaHasta | date: "dd/MM/yyyy"}}</td>                            
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdatePacienteAusencia" data-toggle="modal" ng-click="ctr.EditAusencia(ausencia)"></span>
+                                <span class="icon-cancel btn" ng-click="ctr.DeleteAusencia(ausencia)"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-group">
+                        <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdatePacienteAusencia" data-toggle="modal" ng-click="ctr.CreateAusencia()">
+                            <md-tooltip md-direction="right">Nueva Ausencia</md-tooltip>
+                            <span class="icon-calendar-empty"></span>
+                        </md-button>
+                    </div>
+                </md-content>
+            </md-tab>
         </md-tabs>
     </md-content>
+
     <feriado-edit feriado="ctr.feriado" on-save="ctr.GetFeriados"></feriado-edit>
     <receso-edit receso="ctr.receso" on-save="ctr.GetRecesos"></receso-edit>
     <agenda-edit agenda="ctr.agenda" on-save="ctr.saveAgenda"></agenda-edit>
     <bloqueo-agenda-edit bloqueo="ctr.bloqueo" on-save="ctr.GetBloqueos"></bloqueo-agenda-edit>
+    <profesional-ausencia-edit ausencia="ctr.ausencia" on-save="ctr.GetAusencias"></profesional-ausencia-edit>
 </div>
 <script>
     $(document).ready(function () {

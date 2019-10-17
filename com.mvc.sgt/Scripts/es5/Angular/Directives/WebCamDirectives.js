@@ -2,7 +2,7 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.directive("webcam", function () {
         return {
-            template: "<div>\n\t\t\t<video id=\"videoFoto\" class=\"img-fluid\" ng-show=\"takeFoto\" autoplay></video>\n            <img class=\"img-fluid\" ng-hide=\"takeFoto\" ng-src=\"{{base64?base64:'../content/addphoto-camera.svg'}}\"/>\n            <canvas id=\"canvasFoto\" ng-hide=\"1==1\"></canvas>\n            <span ng-hide=\"takeFoto\" class=\"md-button\" ng-click=\"takingFoto()\">Tomar Foto</span>\n            <span ng-show=\"takeFoto\" class=\"md-button\" ng-click=\"take()\">Capturar</span>\n\t\t    </div>",
+            template: "<div>\n\t\t\t<video id=\"videoFoto\" class=\"img-fluid\" ng-show=\"takeFoto\" autoplay></video>\n            <img class=\"img-fluid p-1\" ng-hide=\"takeFoto\" ng-src=\"{{base64?base64:'../content/addphoto-camera.svg'}}\"/>\n            <canvas id=\"canvasFoto\" ng-hide=\"1==1\"></canvas>\n            <span ng-hide=\"takeFoto\" class=\"md-button\" ng-click=\"takingFoto()\">Tomar Foto</span>\n            <span ng-show=\"takeFoto\" class=\"md-button\" ng-click=\"take()\">Capturar</span>\n\t\t    </div>",
             scope: {
                 onTake: '&?',
                 base64: '<?'

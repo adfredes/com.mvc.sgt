@@ -270,6 +270,21 @@ input[readonly]{
     margin-left: 0.4rem;
 }
 
+/**********ausenciasProfesionalesComponent****************/
+.ausenciasProfesionalesComponent:hover > p:first-child > span:last-child::after {
+    content: "Profesionales Ausentes";
+    margin-left: 0.4rem;
+}
+
+.ausenciasProfesionalesComponent .boton {
+    color: #ccc;
+    cursor: pointer;
+}
+
+    .ausenciasProfesionalesComponent .boton:hover {
+        color: #fff;
+    }
+
 /**********TurnoSinFechaComponent****************/
 
 .sinFechaComponent:hover > p:first-child > span:last-child::after {
@@ -672,7 +687,12 @@ input[readonly]{
 
 .botonera-turno-confirmado .btn-mail:hover::after {
     content: "Enviar";
-}    
+}
+
+
+.reduce-input-container md-input-container label:not(.md-container-ignore) {
+    bottom: 80% !important;
+}
 
 
 

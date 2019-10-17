@@ -254,13 +254,7 @@
                     vm.close();
                 }, function errorCallback(response) {
                     vm.saving = false;
-                    var promise = messageService.Notify('Paciente', "Se produjo un error: " + data.data, $element);
-                    promise.then(function () {
-                        if (vm.save) {
-                            vm.save({ newPaciente: {} });
-                        }
-                        vm.close();
-                    });
+                    var promise = messageService.Notify('Paciente', "Se produjo un error: " + response.data, $element);
                 });
             }
         };

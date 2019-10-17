@@ -499,7 +499,7 @@
         };
 
         $this.openDiagnostico = (paciente, turno, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" class="w-50">
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
@@ -512,6 +512,16 @@
                                         <label>Diagnóstico</label>
                                             <textarea ng-model="diagnostico.diagnostico" maxlength="150" md-maxlength="150" rows="3" md-select-on-focus"></textarea>
                                     </md-input-container>        
+
+                                    <md-input-container class="md-block">
+                                                <label>
+                                                    Tipo Sesion
+                                                </label>
+                                                <md-select ng-model="diagnostico.tiposesionid" required>
+                                                    <md-option ng-repeat="item in tipos" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                                </md-select>                                                
+                                            </md-input-container>
+
                                     <div ng-show="codigos.length>0">
                                         <label>Código de Práctica:</label>
                                         <md-radio-group ng-model="diagnostico.codigopractica" class="md-primary">
@@ -534,6 +544,7 @@
                     $scope.diagnostico = {};
                     $scope.codigos = [];
                     $scope.diagnostico.diagnostico = turno.Diagnostico;
+                    $scope.tipos = [{ Value: 1, Text: "RPG" }, { Value: 2, Text: "FKT" }, { Value: 3, Text: "GYM" }];
                     //$scope.diagnostico.codigopractica = turno.CodigoPractica;
                     switch (paciente.AseguradoraID) {
                         case 1:
@@ -544,6 +555,7 @@
                             break;
                     }
                     $scope.diagnostico.codigopractica = turno.CodigoPractica;
+                    $scope.diagnostico.tiposesionid = turno.TipoSesionID;                    
                 };
 
                 init();
@@ -570,6 +582,7 @@
                 .then(answer => {
                     turno.Diagnostico = answer.diagnostico;
                     turno.CodigoPractica = answer.codigopractica;
+                    turno.TipoSesionID = answer.tiposesionid;
                     let url = "Turno/Diagnostico";
                     let promise = crudService.PutHttp(url, turno);
                     success(promise);
@@ -827,6 +840,7 @@
         };
 
         $this.existTurnosAnteriores = (pacienteID, tipoID) => {
+            tipoID = tipoID || 0;
             return crudService.GetPHttp(`Paciente/${pacienteID}/Tipo/${tipoID}/TurnosAnteriores`);
         };
 

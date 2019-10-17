@@ -1,0 +1,75 @@
+﻿@model com.mvc.sgt.Models.ProfesionalAusenciaModel
+
+    <div id="CreateOrUpdatePacienteAusencia" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header badge-primary">
+                    <h4 class="modal-title text-capitalize">
+                        <span class="icon-calendar-empty badge-primary"></span>
+                        <span ng-if="$ctrl.ausencia.ID == null">Nueva </span>
+                        <span ng-if="$ctrl.ausencia.ID != null">Modificar </span>
+                        Ausencia
+                    </h4>
+                    <button type="button" ng-click="$ctrl.close()" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body p-0">
+                    <div ng-cloak>
+                        <md-content>
+                            <div class="container-fluid p-1">
+                                <form name="frmAusencia" id="frmAusencia" ng-cloak novalidate>
+                                    <fieldset>
+                                        <div class="form-row">
+                                            <md-input-container class="form-group md-block col-12">
+                                                <label>
+                                                    Profesional
+                                                </label>
+                                                <md-select id="profesional" name="profesional" ng-model="$ctrl.ausencia.ProfesionalID" required>
+                                                    <md-option ng-repeat="item in $ctrl.Profesionales" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                                </md-select>
+                                                <div ng-show="$ctrl.frmAusencia.profesional.$touched" ng-messages="$ctrl.frmAusencia.profesional.$error" role="alert">
+                                                    <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                </div>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <md-input-container class="form-group md-block">
+                                                    <label for="fechaDesde">
+                                                        Desde:
+                                                    </label>
+
+                                                    <md-datepicker ng-model="$ctrl.ausencia.FechaDesde" required id="fechaDesde" name="fechaDesde" md-max-date="$ctrl.ausencia.FechaHasta" md-open-on-focus></md-datepicker>
+                                                    <span ng-show="frmAusencia.fechaDesde.$touched" ng-messages="frmAusencia.fechaDesde.$error" role="alert">
+                                                        <span ng-messages-include="~/Home/FormElementError"></span>
+                                                    </span>
+                                                </md-input-container>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <md-input-container class="form-group md-block">
+                                                    <label for="fechaHasta">
+                                                        Hasta:
+                                                    </label>
+
+                                                    <md-datepicker ng-model="$ctrl.ausencia.FechaHasta" required id="fechaHasta" name="fechaHasta" md-min-date="$ctrl.ausencia.FechaDesde" md-open-on-focus></md-datepicker>
+                                                    <span ng-show="frmAusencia.fechaHasta.$touched" ng-messages="frmAusencia.fechaHasta.$error" role="alert">
+                                                        <span ng-messages-include="~/Home/FormElementError"></span>
+                                                    </span>
+                                                </md-input-container>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="clearfix"></div>
+                                    <span ng-show="$ctrl.error.length>0" role="alert">{{$ctrl.error}}</span>
+                                </form>
+                            </div>
+                        </md-content>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                    <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.save($ctrl.ausencia)"><span class="icon-floppy"></span> Guardar</md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+

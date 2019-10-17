@@ -33,10 +33,10 @@ namespace com.sgt.services.Services
         public void Add(Paciente entity)
         {
             entity = SetFormat(entity);
+            entity.Habilitado = true;
+            entity.DocumentoTipoID = 1;
             if (!ExistPaciente(entity))
-            {
-                entity.Habilitado = true;
-                entity.DocumentoTipoID = 1;
+            {                
                 this.unitOfWork.RepoPaciente.Add(entity);
             }
             else

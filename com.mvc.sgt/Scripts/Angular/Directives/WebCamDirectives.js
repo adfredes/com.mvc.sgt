@@ -5,7 +5,7 @@
         return {
             template: `<div>
 			<video id="videoFoto" class="img-fluid" ng-show="takeFoto" autoplay></video>
-            <img class="img-fluid" ng-hide="takeFoto" ng-src="{{base64?base64:'../content/addphoto-camera.svg'}}"/>
+            <img class="img-fluid p-1" ng-hide="takeFoto" ng-src="{{base64?base64:'../content/addphoto-camera.svg'}}"/>
             <canvas id="canvasFoto" ng-hide="1==1"></canvas>
             <span ng-hide="takeFoto" class="md-button" ng-click="takingFoto()">Tomar Foto</span>
             <span ng-show="takeFoto" class="md-button" ng-click="take()">Capturar</span>

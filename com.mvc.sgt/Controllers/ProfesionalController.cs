@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
+using com.mvc.sgt.Models.DTO;
 using com.sgt.DataAccess;
 using com.sgt.services.Interfaces;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +61,15 @@ namespace com.mvc.sgt.Controllers
             return Json(resu);
         }
 
+        [Route("Profesional/Listar/Combo")]
+        [HttpGet]
+        public JsonResult GetAllCombo()
+        {
+            var model = Mapper.Map<List<ComboDTO>>(profesionalService.GetAll());
+            return Json(model.OrderBy(s => s.Text).ToList(), JsonRequestBehavior.AllowGet);
+
+        }
+
         [Route("Profesional/Listar/{page}/{count}")]
         [HttpGet]
         public JsonResult GetAll(int page, int count)
@@ -85,6 +96,30 @@ namespace com.mvc.sgt.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("Profesional/Ausencias")]
+        [HttpGet]
+        public JsonResult GetProfesionalAusencias()
+        {
+            var model = Mapper.Map<List<ProfesionalAusenciaModel>>(this.profesionalService.GetAllAusencias());
+            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Profesional/Ausencias/CreateOrEdit")]
+        [HttpPost]
+        public JsonResult CreateOrEditProfesionalAusencias(ProfesionalAusenciaModel model)
+        {
+            var entity = Mapper.Map<Profesional_Ausencias>(model);
+            this.profesionalService.SaveAusencia(entity);            
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Profesional/Ausencias/CreateOrEdit")]
+        [HttpGet]
+        public ActionResult CreateOrEditProfesionalAusencias()
+        {
+            return PartialView();
+        }
+        
 
         private ProfesionalModel Map(Profesional entity) =>
             Mapper.Map<ProfesionalModel>(entity);

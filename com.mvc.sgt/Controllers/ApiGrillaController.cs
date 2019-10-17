@@ -16,12 +16,14 @@ namespace com.mvc.sgt.Controllers
     {
         private IAgendaService agendaService;
         private IConsultorioService consultorioService;
+        private IProfesionalService profesionalService;
 
 
 
-        public ApiGrillaController(IAgendaService agendaService, IConsultorioService consultorioService) {
+        public ApiGrillaController(IAgendaService agendaService, IConsultorioService consultorioService, IProfesionalService profesionalService) {
             this.agendaService = agendaService;
             this.consultorioService = consultorioService;
+            this.profesionalService = profesionalService;
         }
 
         [Route("api/grilla/RangoHorario")]
@@ -215,6 +217,17 @@ namespace com.mvc.sgt.Controllers
             DateTime beginDate = Convert.ToDateTime(danio + "/" + dmes + "/" + ddia);
             DateTime endDate = Convert.ToDateTime(hanio + "/" + hmes + "/" + hdia);                      
             return Ok(agendaService.ExisteSesionesRangoFecha(beginDate, endDate));
+        }
+
+        [Route("api/grilla/Ausencias/{dia}/{mes}/{anio}/{vista}")]
+        public IHttpActionResult GetAusenciasGrilla(string dia, string mes, string anio, char vista)
+        {
+            List<FechaModel> fechas = new List<FechaModel>();
+            //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
+            DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
+            var ausencias = Mapper.Map <List<ProfesionalAusenciaModel>> (profesionalService.GetAusenciasByRango(desde, hasta));            
+            return Ok(ausencias);
         }
 
     }

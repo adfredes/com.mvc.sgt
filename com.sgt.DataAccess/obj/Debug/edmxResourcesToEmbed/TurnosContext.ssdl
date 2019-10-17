@@ -5,7 +5,7 @@
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProfesionalID" Type="int" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" />
     <Property Name="Descripcion" Type="varchar" MaxLength="40" Nullable="false" />
     <Property Name="HoraDesde" Type="datetime" Nullable="false" />
     <Property Name="HoraHasta" Type="datetime" Nullable="false" />
@@ -286,6 +286,16 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="Profesional_Ausencias">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" Nullable="false" />
+    <Property Name="FechaDesde" Type="smalldatetime" Nullable="false" />
+    <Property Name="FechaHasta" Type="smalldatetime" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" />
+  </EntityType>
   <EntityType Name="Profesional_TipoSesion">
     <Key>
       <PropertyRef Name="ID" />
@@ -475,7 +485,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Agenda_Profesional">
-    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1" />
     <End Role="Agenda" Type="Self.Agenda" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Profesional">
@@ -632,6 +642,20 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Profesional_Ausencias_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Profesional_Ausencias" Type="Self.Profesional_Ausencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_Ausencias">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Profesional_Horarios">
     <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -725,6 +749,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <EntitySet Name="Paciente_Aseguradora_Historico" EntityType="Self.Paciente_Aseguradora_Historico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PacienteDiagnostico" EntityType="Self.PacienteDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional" EntityType="Self.Profesional" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profesional_Ausencias" EntityType="Self.Profesional_Ausencias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional_TipoSesion" EntityType="Self.Profesional_TipoSesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
@@ -902,6 +927,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <AssociationSet Name="FK_PacienteDiagnostico_Paciente" Association="Self.FK_PacienteDiagnostico_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="PacienteDiagnostico" EntitySet="PacienteDiagnostico" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_Ausencias_Profesional" Association="Self.FK_Profesional_Ausencias_Profesional">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
     </AssociationSet>
     <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
       <End Role="Profesional" EntitySet="Profesional" />

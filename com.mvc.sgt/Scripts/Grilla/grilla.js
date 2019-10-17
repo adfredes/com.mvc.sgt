@@ -6,9 +6,18 @@
         sessionStorage.setItem('VistaGrillaTurnos', 's');
     };
 
-    let updating = () => options.divGrilla.querySelector('.procesando').style.display = 'block';
+    let updating = () => {
+        options.divGrilla.querySelector('.procesando').style.display = 'block';
+        if (options.intervalId) {
+            clearInterval(options.intervalId);
 
-    let updated = () => options.divGrilla.querySelector('.procesando').style.display = 'none';
+        }
+    };
+
+    let updated = () => {
+        options.divGrilla.querySelector('.procesando').style.display = 'none';
+        options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+    };
 
     let loadFromSesionStorage = () => {
         let sesionST = {};
@@ -19,6 +28,38 @@
             sessionStorage.removeItem('FechaGrillaTurnos');
         }
         return sesionST;
+    };
+
+    let renderAusencias = () => {
+        let divAusencias = options.notificationBar.querySelector("#divAusenciasGrilla");
+                
+        if (!divAusencias) {
+            divAusencias = document.createElement("div");
+            options.notificationBar.appendChild(divAusencias);
+        }
+        
+        divAusencias.id = "divAusenciasGrilla";
+        if (options.ausencias && options.ausencias.length > 0) {
+
+
+            let notifi = `<div class ="ausenciasProfesionalesComponent bar-component">
+                <p>
+                <span class="icon-stethoscope"></span>
+            </p>
+            <p>
+                <ul>`;
+
+            options.ausencias.forEach(s => {
+                notifi += `<li>${s.Profesional} desde ${moment(s.FechaDesde).format("DD/MM/YYYY")} hasta ${moment(s.FechaHasta).format("DD/MM/YYYY")}</li>`;
+            });
+
+            notifi += `        </ul>
+            </p></div>`;
+            divAusencias.innerHTML = notifi;
+        }
+        else {
+            divAusencias.innerHTML = "";
+        }
     };
 
     let showModalAngularComponent = (modalName, elementName, value) => {
@@ -532,6 +573,9 @@
     let init = () => {        
         options.divGrilla = document.querySelector('#GrillaContent');
 
+        options.notificationBar = document.querySelector('.notification-bar');
+        console.dir(options.notificationBar);
+
         initModalListener();
         
         let sessionST = loadFromSesionStorage();        
@@ -549,6 +593,7 @@
         options.feriados = [];
         options.vista = 's';//'d'
         options.fecha = new Date();
+        options.sesionesActual = '';        
 
         options.duracionModulo = 30;
 
@@ -565,10 +610,10 @@
 
         options.sesiones = [];
         options.sesionesReservadas = [];
-
+        options.intervalId = undefined;
         dibujarGrilla();
         window.setTimeout(() => $('.modal-dialog').draggable({ handle: ".modal-header" }), 5000);
-        $('.modal-dialog').draggable({ handle: ".modal-header" });
+        $('.modal-dialog').draggable({ handle: ".modal-header" });        
     };
     //window.addEventListener('load', init());
 
@@ -609,11 +654,32 @@
         $('#errorModal').modal();
     }
 
-    async function dibujarGrilla() {
+    async function sesionesIsUpdating() {
+        if (options.intervalId) {
+            window.clearInterval(options.intervalId);
+        }        
+        let mfecha = JSON.stringify(options.fecha);
+        let mvista = JSON.stringify(options.vista);
+        let awSesiones = getSesiones();
+        let newSesiones = await awSesiones;                
+        if (options.sesionesActual !== JSON.stringify(newSesiones)
+            && mfecha === JSON.stringify(options.fecha)
+            && mvista === JSON.stringify(options.vista)
+        ) {
+            dibujarGrillaSesiones(newSesiones);
+        }
+        else {
+            options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+        }
+        
+    }
+
+    async function dibujarGrilla() {        
+       
         updating();
         let awConsultorios = getConsultorios();
         let awRangoHorario = getRangoHorario();
-        let awRangoFecha = getRangoFecha();        
+        let awRangoFecha = getRangoFecha();            
 
         
         options.consultorios = await awConsultorios;
@@ -623,21 +689,42 @@
         let awSesiones = getSesiones();
         let awRecesos = getRecesos();
         let awFeriados = getFeriados();
+        let awAusencias = getAusencias();
 
         options.sesiones = await awSesiones;
+        options.sesionesActual = JSON.stringify(options.sesiones);
         options.recesos = await awRecesos;
         options.feriados = await awFeriados;
+        options.ausencias = await awAusencias;
+
 
         options.bloqueosAgenda = [];
 
-        renderGrilla();
-        renderReservado();
-        setCeldasDroppable();
-        setDivsDraggable();
-        updated();
-        removeContextMenu();
-        setContextMenu();
-        options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
+        redibujarGrilla();
+        
+        //renderGrilla();
+        //renderReservado();
+        //setCeldasDroppable();
+        //setDivsDraggable();        
+        //updated();
+        //removeContextMenu();
+        //setContextMenu();
+        //options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));        
+    }
+
+    async function dibujarGrillaSesiones(sesiones) {        
+        updating();
+        options.sesionesActual = JSON.stringify(sesiones);
+        options.sesiones = sesiones;                
+        redibujarGrilla();
+        //renderGrilla();
+        //renderReservado();
+        //setCeldasDroppable();
+        //setDivsDraggable();
+        //updated();
+        //removeContextMenu();
+        //setContextMenu();
+        //options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
     }
 
     function redibujarGrilla() {
@@ -650,6 +737,7 @@
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
+        renderAusencias();
         updated();
     }
 
@@ -1909,6 +1997,12 @@
 
     async function getRecesos() {
         url = `${Domain}/api/grilla/Receso/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
+        let responseDias = await fetch(url);
+        return await responseDias.json();
+    }
+
+    async function getAusencias() {
+        url = `${Domain}/api/grilla/Ausencias/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
         let responseDias = await fetch(url);
         return await responseDias.json();
     }

@@ -32,7 +32,17 @@
                             <span class="icon-cancel" ng-hide="profesional.Habilitado"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(profesional.ID)"></span>
+                            <div class="d-inline" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(profesional.ID)">
+                                <md-tooltip md-direction="bottom">Editar</md-tooltip>
+                                <span class="icon-edit btn"></span>
+                            </div>
+                            @*<md-button class="p-0 w-auto" data-target="#CreateOrUpdatePacienteAusencia" data-toggle="modal" ng-click="CreateAusencia(profesional.ID)">*@
+                            <div class="d-inline" data-target="#CreateOrUpdatePacienteAusencia" data-toggle="modal" ng-click="CreateAusencia(profesional.ID)">
+                                <md-tooltip md-direction="bottom">Nueva Ausencia</md-tooltip>
+                                <span class="icon-calendar btn"></span>
+                            </div>
+                            @*</md-button>*@
+
                             @*<button class="btn btn-xs btn-danger" ng-click="DeleteUser(employee.Id)"><i class="fa fa-trash"></i></button>*@
                         </td>
                     </tr>
@@ -69,7 +79,8 @@
                         <span class="icon-user-plus" style="font-size:1rem"></span>
                     </md-button>
                 </div>
-                <profesional-edit profesional="ProfesionalModel" save-callback="GetProfesionales" div-id="CreateOrUpdate"></profesional-edit>                                
+                <profesional-edit profesional="ProfesionalModel" save-callback="GetProfesionales" div-id="CreateOrUpdate"></profesional-edit>
+                <profesional-ausencia-edit ausencia="ausencia"></profesional-ausencia-edit>
             </div>
 
         </div>

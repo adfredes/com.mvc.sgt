@@ -49,8 +49,7 @@ E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.xml
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.resources.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Debug\es\EntityFramework.SqlServer.resources.dll
-E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache
-E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.pdb
+E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Debug\com.sgt.DataAccess.csprojAssemblyReference.cache

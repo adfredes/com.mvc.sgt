@@ -1,8 +1,9 @@
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -39,8 +40,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         sessionStorage.setItem('FechaGrillaTurnos', new Date(2018, 2, 20));
         sessionStorage.setItem('VistaGrillaTurnos', 's');
     };
-    var updating = function () { return options.divGrilla.querySelector('.procesando').style.display = 'block'; };
-    var updated = function () { return options.divGrilla.querySelector('.procesando').style.display = 'none'; };
+    var updating = function () {
+        options.divGrilla.querySelector('.procesando').style.display = 'block';
+        if (options.intervalId) {
+            clearInterval(options.intervalId);
+        }
+    };
+    var updated = function () {
+        options.divGrilla.querySelector('.procesando').style.display = 'none';
+        options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+    };
     var loadFromSesionStorage = function () {
         var sesionST = {};
         if (sessionStorage) {
@@ -50,6 +59,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             sessionStorage.removeItem('FechaGrillaTurnos');
         }
         return sesionST;
+    };
+    var renderAusencias = function () {
+        var divAusencias = options.notificationBar.querySelector("#divAusenciasGrilla");
+        if (!divAusencias) {
+            divAusencias = document.createElement("div");
+            options.notificationBar.appendChild(divAusencias);
+        }
+        divAusencias.id = "divAusenciasGrilla";
+        if (options.ausencias && options.ausencias.length > 0) {
+            var notifi_1 = "<div class =\"ausenciasProfesionalesComponent bar-component\">\n                <p>\n                <span class=\"icon-stethoscope\"></span>\n            </p>\n            <p>\n                <ul>";
+            options.ausencias.forEach(function (s) {
+                notifi_1 += "<li>" + s.Profesional + " desde " + moment(s.FechaDesde).format("DD/MM/YYYY") + " hasta " + moment(s.FechaHasta).format("DD/MM/YYYY") + "</li>";
+            });
+            notifi_1 += "        </ul>\n            </p></div>";
+            divAusencias.innerHTML = notifi_1;
+        }
+        else {
+            divAusencias.innerHTML = "";
+        }
     };
     var showModalAngularComponent = function (modalName, elementName, value) {
         modal = options.divGrilla.querySelector(modalName);
@@ -453,6 +481,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     };
     var init = function () {
         options.divGrilla = document.querySelector('#GrillaContent');
+        options.notificationBar = document.querySelector('.notification-bar');
+        console.dir(options.notificationBar);
         initModalListener();
         var sessionST = loadFromSesionStorage();
         options.tabla = document.createElement('table');
@@ -468,6 +498,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.feriados = [];
         options.vista = 's';
         options.fecha = new Date();
+        options.sesionesActual = '';
         options.duracionModulo = 30;
         options.fechaDia = new Date();
         options.fechaSemana = new Date();
@@ -479,6 +510,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         options.sesiones = [];
         options.sesionesReservadas = [];
+        options.intervalId = undefined;
         dibujarGrilla();
         window.setTimeout(function () { return $('.modal-dialog').draggable({ handle: ".modal-header" }); }, 5000);
         $('.modal-dialog').draggable({ handle: ".modal-header" });
@@ -509,11 +541,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         modalError.querySelector("#errorModalMessage").innerHTML = errorMessage;
         $('#errorModal').modal();
     }
+    function sesionesIsUpdating() {
+        return __awaiter(this, void 0, void 0, function () {
+            var mfecha, mvista, awSesiones, newSesiones;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (options.intervalId) {
+                            window.clearInterval(options.intervalId);
+                        }
+                        mfecha = JSON.stringify(options.fecha);
+                        mvista = JSON.stringify(options.vista);
+                        awSesiones = getSesiones();
+                        return [4, awSesiones];
+                    case 1:
+                        newSesiones = _a.sent();
+                        if (options.sesionesActual !== JSON.stringify(newSesiones)
+                            && mfecha === JSON.stringify(options.fecha)
+                            && mvista === JSON.stringify(options.vista)) {
+                            dibujarGrillaSesiones(newSesiones);
+                        }
+                        else {
+                            options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+                        }
+                        return [2];
+                }
+            });
+        });
+    }
     function dibujarGrilla() {
         return __awaiter(this, void 0, void 0, function () {
-            var awConsultorios, awRangoHorario, awRangoFecha, _a, _b, _c, awSesiones, awRecesos, awFeriados, _d, _e, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var awConsultorios, awRangoHorario, awRangoFecha, _a, _b, _c, awSesiones, awRecesos, awFeriados, awAusencias, _d, _e, _f, _g;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
                     case 0:
                         updating();
                         awConsultorios = getConsultorios();
@@ -522,41 +582,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         _a = options;
                         return [4, awConsultorios];
                     case 1:
-                        _a.consultorios = _g.sent();
+                        _a.consultorios = _h.sent();
                         _b = options;
                         return [4, awRangoHorario];
                     case 2:
-                        _b.horarios = _g.sent();
+                        _b.horarios = _h.sent();
                         _c = options;
                         return [4, awRangoFecha];
                     case 3:
-                        _c.dias = _g.sent();
+                        _c.dias = _h.sent();
                         awSesiones = getSesiones();
                         awRecesos = getRecesos();
                         awFeriados = getFeriados();
+                        awAusencias = getAusencias();
                         _d = options;
                         return [4, awSesiones];
                     case 4:
-                        _d.sesiones = _g.sent();
+                        _d.sesiones = _h.sent();
+                        options.sesionesActual = JSON.stringify(options.sesiones);
                         _e = options;
                         return [4, awRecesos];
                     case 5:
-                        _e.recesos = _g.sent();
+                        _e.recesos = _h.sent();
                         _f = options;
                         return [4, awFeriados];
                     case 6:
-                        _f.feriados = _g.sent();
+                        _f.feriados = _h.sent();
+                        _g = options;
+                        return [4, awAusencias];
+                    case 7:
+                        _g.ausencias = _h.sent();
                         options.bloqueosAgenda = [];
-                        renderGrilla();
-                        renderReservado();
-                        setCeldasDroppable();
-                        setDivsDraggable();
-                        updated();
-                        removeContextMenu();
-                        setContextMenu();
-                        options.tabla.querySelector('#btnPrintDia').addEventListener('click', function (e) { return createPDF(options.tabla); });
+                        redibujarGrilla();
                         return [2];
                 }
+            });
+        });
+    }
+    function dibujarGrillaSesiones(sesiones) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                updating();
+                options.sesionesActual = JSON.stringify(sesiones);
+                options.sesiones = sesiones;
+                redibujarGrilla();
+                return [2];
             });
         });
     }
@@ -569,6 +639,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', function (e) { return createPDF(options.tabla); });
+        renderAusencias();
         updated();
     }
     function renderListaReservas() {
@@ -1557,6 +1628,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 switch (_a.label) {
                     case 0:
                         url = Domain + "/api/grilla/Receso/" + options.fecha.getDate() + "/" + (options.fecha.getMonth() + 1) + "/" + options.fecha.getFullYear() + "/" + options.vista;
+                        return [4, fetch(url)];
+                    case 1:
+                        responseDias = _a.sent();
+                        return [4, responseDias.json()];
+                    case 2: return [2, _a.sent()];
+                }
+            });
+        });
+    }
+    function getAusencias() {
+        return __awaiter(this, void 0, void 0, function () {
+            var responseDias;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        url = Domain + "/api/grilla/Ausencias/" + options.fecha.getDate() + "/" + (options.fecha.getMonth() + 1) + "/" + options.fecha.getFullYear() + "/" + options.vista;
                         return [4, fetch(url)];
                     case 1:
                         responseDias = _a.sent();

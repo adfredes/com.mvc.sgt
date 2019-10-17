@@ -141,3 +141,20 @@ add TurnoDoble int null;
 add FechaFactura smalldatetime;
 alter table turno 
 add Factura nvarchar(50);
+
+create table dbo.Profesional_Ausencias (
+	ID int identity primary key,
+	ProfesionalID int not null,
+	FechaDesde smalldatetime not null,
+	FechaHasta smalldatetime not null,
+	Habilitado bit default  1
+);
+
+alter table dbo.Profesional_Ausencias 
+	add constraint FK_Profesional_Ausencias_Profesional foreign key (ProfesionalID)
+	references dbo.Profesional (ID)
+	on delete cascade
+	on update cascade
+;
+
+alter TABLE dbo.Agenda alter column ProfesionalID INT null;

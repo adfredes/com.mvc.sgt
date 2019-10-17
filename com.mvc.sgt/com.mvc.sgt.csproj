@@ -28,7 +28,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.6</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -294,6 +294,7 @@
     <Compile Include="Models\PacienteDto.cs" />
     <Compile Include="Models\PacienteModel.cs" />
     <Compile Include="Models\PacienteSearchDto.cs" />
+    <Compile Include="Models\ProfesionalAusenciaModel.cs" />
     <Compile Include="Models\TurnoFacturacionModel.cs" />
     <Compile Include="Models\ProfesionalModel.cs" />
     <Compile Include="Models\Profesional_TipoSesionModel.cs" />
@@ -370,6 +371,7 @@
     <Content Include="Scripts\Angular\Components\AgendaComponent.js" />
     <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
     <Content Include="Scripts\Angular\Components\BloqueoAgendaComponent.js" />
+    <Content Include="Scripts\Angular\Components\PacienteAusenciaComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteQuickCreateComponent.js" />
     <Content Include="Scripts\Angular\Components\PacientesAnualesComponent.js" />
     <Content Include="Scripts\Angular\Components\RecesoComponent.js" />
@@ -1486,6 +1488,7 @@
     <Content Include="Views\Agenda\DobleOrdenModal.cshtml" />
     <Content Include="Views\Paciente\DatosSesiones.cshtml" />
     <Content Include="Views\Agenda\TurnoDatosFacturacion.cshtml" />
+    <Content Include="Views\Profesional\CreateOrEditProfesionalAusencias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -31,6 +31,7 @@ namespace com.sgt.DataAccess
         private ITurnoRepeticionesRepository turnoRepeticionesRepository;
         private ISmtpMailRepository smtpMailRepository;
         private IImagenRepository imagenRepository;
+        private IProfesionalAusenciaRepository profesionalAusenciasRepository;
 
 
         public UnitOfWork(TurnosDB dbContext)
@@ -112,5 +113,8 @@ namespace com.sgt.DataAccess
 
         public IImagenRepository RepoImagen => 
             imagenRepository = imagenRepository?? new ImagenRepository(dbContext);
+
+        public IProfesionalAusenciaRepository RepoProfesionalAusencias => 
+            profesionalAusenciasRepository = profesionalAusenciasRepository?? new ProfesionalAusenciaRepository(dbContext);
     }
 }

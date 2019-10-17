@@ -3,10 +3,10 @@
 
     sgtApp.component("turnosSinFecha", {
         templateUrl: Domain + 'Turno/SinFechaAsignada',
-        controller: ['turnoService', 'eventService', '$interval', turnoSinFechaController]        
+        controller: ['turnoService', 'eventService', '$interval', '$window', turnoSinFechaController]        
     });
 
-    function turnoSinFechaController(turnoService, eventService, $interval) {
+    function turnoSinFechaController(turnoService, eventService, $interval, $window) {
         let vm = this;
         let stopInterval;
 
@@ -17,6 +17,7 @@
             vm.Turnos = {};
             getData();
             stopInterval = $interval(getData, 500000);
+            $window.addEventListener('UpdateTurnos', getData);
         };
 
         let getData = () => {            

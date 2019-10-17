@@ -74,6 +74,7 @@ namespace com.mvc.sgt
 
             container.RegisterType<IProfesionalService, ProfesionalService>();
             container.RegisterType<IProfesionalRepository, ProfesionalRepository>();
+            container.RegisterType<IProfesionalAusenciaRepository, ProfesionalAusenciaRepository>();
 
             container.RegisterType<System.Data.Entity.DbContext, TurnosDB>();
             container.RegisterType<IUnitOfWork, UnitOfWork>();

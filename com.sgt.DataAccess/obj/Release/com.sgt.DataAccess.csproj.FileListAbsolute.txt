@@ -21,7 +21,6 @@ E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.xml
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.SqlServer.xml
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.resources.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.SqlServer.resources.dll
-E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.pdb

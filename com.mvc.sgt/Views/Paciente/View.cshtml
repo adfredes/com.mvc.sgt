@@ -6,7 +6,7 @@
                 <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>{{$ctrl.paciente.Nombre}} {{$ctrl.paciente.Apellido}}</h4>
                 <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body p-0">
+            <div class="modal-body p-0 reduce-input-container" style="height:75vh;">
                 @*<input type="hidden" class="form-control" ng-model="$ctrl.paciente.ID">*@
                 <div ng-cloak>
                     <md-content>
@@ -16,20 +16,20 @@
                         <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedIndex" ng-show="$ctrl.saving == false">
 
                             <md-tab label="Datos Paciente">
-                                <md-content>
+                                <md-content style="height:70vh; overflow:auto;">
                                     <div class="container-fluid p-0">
                                         <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate>
                                             <fieldset class="m-0 pb-0">
                                                 <input type="text" id="hPacienteID" ng-model="$ctrl.paciente.ID" ng-change="$ctrl.hiddenChange()" ng-show="true==false" />
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-3 pr-4">
+                                                    <div class="form-group col-md-2 pr-4">
                                                         <webcam base64="$ctrl.paciente.Foto" on-take="$ctrl.takedPhoto(data)"></webcam>
                                                         @*<img class="img-fluid" src="../content/addphoto-camera.svg" />*@
                                                     </div>
-                                                    <div class="form-group col-md-9">
+                                                    <div class="form-group mt-1 mb-1 col-md-10">
                                                         <div class="form-row">
-                                                            <div class="col-md-6">
-                                                                <md-input-container class="form-group md-block">
+                                                            
+                                                                <md-input-container class="form-group mt-1 mb-1 md-block col-md-6">
                                                                     <label for="nombre">
                                                                         Nombre
                                                                     </label>
@@ -39,9 +39,9 @@
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <md-input-container class="form-group md-block">
+                                                            
+                                                            
+                                                                <md-input-container class="form-group mt-1 mb-1 md-block col-md-6">
                                                                     <label for="apellido">
                                                                         Apellido
                                                                     </label>
@@ -51,11 +51,11 @@
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
-                                                            </div>
+                                                            
                                                         </div>
                                                         <div class="form-row">
-                                                            <div class="col-md-4">
-                                                                <md-input-container class="form-group md-block">
+                                                            
+                                                                <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                                     <label for="nacimiento">
                                                                         Fecha Nacimiento
                                                                     </label>
@@ -71,9 +71,9 @@
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <md-input-container class="form-group md-block">
+                                                            
+                                                            
+                                                                <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                                     <label for="documento">
                                                                         Documento
                                                                     </label>
@@ -83,10 +83,10 @@
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
                                                                 </md-input-container>
-                                                            </div>
+                                                            
 
-                                                            <div class="col-md-4">
-                                                                <md-input-container class="form-group md-block">
+                                                            
+                                                                <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                                     <label for="cuit">
                                                                         Cuit
                                                                     </label>
@@ -95,19 +95,18 @@
                                                                     <div ng-show="$ctrl.frmPaciente.cuit.$touched" ng-messages="$ctrl.frmPaciente.cuit.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                                     </div>
-                                                                </md-input-container>
-                                                            </div>
+                                                                </md-input-container>                                                            
                                                         </div>
 
                                                     </div>
 
                                                 </div>
-                                            </fieldset>
-                                            <div class="clearfix"></div>
-                                            <fieldset class="m-0 pt-0 pb-0">
+                                            @*</fieldset>
+                                            
+                                            <fieldset class="m-0 pt-0 pb-0 ">*@
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-5">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-5">
                                                             <label>
                                                                 Aseguradora
                                                             </label>
@@ -118,9 +117,9 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4 col-lg-5">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4 col-lg-5">
                                                             <label>
                                                                 Plan
                                                             </label>
@@ -131,19 +130,19 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-lg-2 col-md-3">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-lg-2 col-md-3">
                                                             <md-checkbox id="gravado" name="gravado" ng-model="$ctrl.paciente.EsGravado">Gravado</md-checkbox>
                                                             <div ng-show="$ctrl.frmPaciente.gravado.$touched" ng-messages="$ctrl.frmPaciente.gravado.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label>
                                                                 Código Seguridad
                                                             </label>
@@ -152,9 +151,9 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label>
                                                                 Nro Afiliado
                                                             </label>
@@ -163,9 +162,9 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label>
                                                                 OS
                                                             </label>
@@ -173,63 +172,70 @@
                                                             <div ng-show="$ctrl.frmPaciente.os.$touched" ng-messages="$ctrl.frmPaciente.os.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
-                                                        </md-input-container>
-                                                    </div>
+                                                        </md-input-container>                                                    
 
 
                                                 </div>
-                                            </fieldset>
-                                            <div class="clearfix"></div>
-                                            <fieldset class="m-0 pt-0 pb-0">
+                                        
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <md-input-container class="form-group md-block">
-                                                            <label for="provincia">Provincia</label>
-                                                            <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()">
-                                                                <md-option ng-repeat="item in $ctrl.Provincias" ng-value="{{item.Value}}">{{item.Text}}</md-option>
-                                                            </md-select>
-                                                            <div ng-show="$ctrl.frmPaciente.provincia.$touched" ng-messages="$ctrl.frmPaciente.provincia.$error" role="alert">
-                                                                <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                                                            </div>
-                                                        </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <md-input-container class="form-group md-block">
-                                                            <label for="ciudad">Ciudad</label>
-                                                            <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID">
-                                                                <md-option ng-repeat="item in $ctrl.Localidades" ng-value="{{item.Value}}">{{item.Text}}</md-option>
-                                                            </md-select>
-                                                            <div ng-show="$ctrl.frmPaciente.ciudad.$touched" ng-messages="$ctrl.frmPaciente.ciudad.$error" role="alert">
-                                                                <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                                                            </div>
-                                                        </md-input-container>
-                                                    </div>
+
+                                                    <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
+                                                        <label for="provincia">Provincia</label>
+                                                        <md-select id="provincia" name="provincia" ng-model="$ctrl.paciente.ProvinciaID" ng-change="$ctrl.getLocalidades()">
+                                                            <md-option ng-repeat="item in $ctrl.Provincias" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                                        </md-select>
+                                                        <div ng-show="$ctrl.frmPaciente.provincia.$touched" ng-messages="$ctrl.frmPaciente.provincia.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+
+
+                                                    <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
+                                                        <label for="ciudad">Ciudad</label>
+                                                        <md-select id="ciudad" name="ciudad" ng-model="$ctrl.paciente.LocalidadID">
+                                                            <md-option ng-repeat="item in $ctrl.Localidades" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                                        </md-select>
+                                                        <div ng-show="$ctrl.frmPaciente.ciudad.$touched" ng-messages="$ctrl.frmPaciente.ciudad.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+
+                                                    <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
+                                                        <label for="codigopostal">Código Postal</label>
+                                                        <input type="text" id="codigopostal" name="codigopostal" autocomplete="off"
+                                                               class="form-control" ng-model="$ctrl.paciente.CodigoPostal" maxlength="7" />
+                                                        <div ng-show="$ctrl.frmPaciente.codigopostal.$touched" ng-messages="$ctrl.frmPaciente.codigopostal.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-8">
-                                                        <md-input-container class="form-group md-block">
-                                                            <label for="direccion">Dirección</label>
-                                                            <input type="text" id="direccion" name="direccion" autocomplete="off"
-                                                                   value="" class="form-control" ng-model="$ctrl.paciente.Direccion" maxlength="150" />
-                                                            <div ng-show="$ctrl.frmPaciente.direccion.$touched" ng-messages="$ctrl.frmPaciente.direccion.$error" role="alert">
-                                                                <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                                                            </div>
-                                                        </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
-                                                            <label for="codigopostal">Código Postal</label>
-                                                            <input type="text" id="codigopostal" name="codigopostal" autocomplete="off"
-                                                                   class="form-control" ng-model="$ctrl.paciente.CodigoPostal" maxlength="7" />
-                                                            <div ng-show="$ctrl.frmPaciente.codigopostal.$touched" ng-messages="$ctrl.frmPaciente.codigopostal.$error" role="alert">
-                                                                <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                                                            </div>
-                                                        </md-input-container>
-                                                    </div>
+
+                                                    <md-input-container class="form-group mt-1 mb-1 md-block col-md-6">
+                                                        <label for="direccion">Dirección</label>
+                                                        <input type="text" id="direccion" name="direccion" autocomplete="off"
+                                                               value="" class="form-control" ng-model="$ctrl.paciente.Direccion" maxlength="150" />
+                                                        <div ng-show="$ctrl.frmPaciente.direccion.$touched" ng-messages="$ctrl.frmPaciente.direccion.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+
+                                                    <md-input-container class="form-group mt-1 mb-1 md-block col-md-6">
+                                                        <label for="mail">E-Mail</label>
+                                                        <input type="email" class="form-control" id="mail" autocomplete="off"
+                                                               name="mail" ng-model="$ctrl.paciente.Mail" maxlength="50" />
+                                                        <div ng-show="$ctrl.frmPaciente.mail.$touched" ng-messages="$ctrl.frmPaciente.mail.$error" role="alert">
+                                                            <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                                        </div>
+                                                    </md-input-container>
+
+
+
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label for="telefono">Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono"
                                                                    name="telefono" ng-model="$ctrl.paciente.Telefono" autocomplete="off" maxlength="30" />
@@ -237,9 +243,9 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label for="telefono2">Otro Teléfono</label>
                                                             <input type="tel" class="form-control" id="telefono2" autocomplete="off"
                                                                    name="telefono2" ng-model="$ctrl.paciente.Telefono2" maxlength="30" />
@@ -247,9 +253,9 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col-md-4">
                                                             <label for="celular">Celular</label>
                                                             <input type="tel" class="form-control" id="celular" autocomplete="off"
                                                                    name="celular" ng-model="$ctrl.paciente.Celular" maxlength="30" />
@@ -257,53 +263,35 @@
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
                                                         </md-input-container>
-                                                    </div>
-                                                </div>
+                                                    
+                                                </div>                                                
+                       
                                                 <div class="form-row">
-                                                    <div class="form-group col-md">
-                                                        <md-input-container class="form-group md-block">
-                                                            <label for="mail">E-Mail</label>
-                                                            <input type="email" class="form-control" id="mail" autocomplete="off"
-                                                                   name="mail" ng-model="$ctrl.paciente.Mail" maxlength="50" />
-                                                            <div ng-show="$ctrl.frmPaciente.mail.$touched" ng-messages="$ctrl.frmPaciente.mail.$error" role="alert">
-                                                                <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
-                                                            </div>
-                                                        </md-input-container>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                            <div class="clearfix"></div>
-                                            <fieldset class="m-0 pt-0 pb-0">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-12">
-                                                        <md-input-container class="form-group md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-1 mb-1 md-block col">
                                                             <label for="observaciones">Observaciones</label>
                                                             <textarea id="observaciones" name="observaciones" ng-model="$ctrl.paciente.Observaciones" maxlength="150" rows="1" md-select-on-focus></textarea>
 
-                                                        </md-input-container>
-                                                    </div>
+                                                        </md-input-container>                                                    
                                                 </div>
-                                            </fieldset>
-
-                                            <fieldset class="m-0 pt-0 pb-0">
+                               
                                                 <div class="form-row">
-
-                                                    <div class="form-group col-sm">
-                                                        <md-input-container class="md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-0 mb-0 md-block col">
                                                             <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Anual">
                                                                 <span>Anual</span>
                                                             </md-switch>
                                                         </md-input-container>
-                                                    </div>
+                                                    
 
-                                                    <div class="form-group col-sm">
-                                                        <md-input-container class="md-block">
+                                                    
+                                                        <md-input-container class="form-group mt-0 mb-0 md-block col">
                                                             <md-switch class="md-primary" name="special" ng-model="$ctrl.paciente.Habilitado" ng-init="true">
                                                                 <span ng-show="$ctrl.paciente.Habilitado">Habilitado</span>
                                                                 <span ng-hide="$ctrl.paciente.Habilitado">Deshabilitado</span>
                                                             </md-switch>
                                                         </md-input-container>
-                                                    </div>
+                                                    
                                                 </div>
                                             </fieldset>
                                             <fieldset class="m-0 p-2 bg-danger text-center text-white" ng-hide="$ctrl.frmPaciente.$valid">
@@ -314,12 +302,12 @@
                                 </md-content>
                             </md-tab>
                             <md-tab label="Turnos">
-                                <md-content>
+                                <md-content style="height:70vh; overflow:auto;">
                                     <paciente-turnos paciente="$ctrl.paciente" pacienteid="$ctrl.pacienteid" parent="$ctrl.parent" on-close="$ctrl.close()" on-adddiagnostico="$ctrl.reloadDiagnostico"></paciente-turnos>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Diagnosticos">
-                                <md-content>
+                                <md-content style="height:70vh; overflow:auto;">
                                     <table ng-if="$ctrl.diagnosticos.length>0" class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                                         <thead>
                                             <tr>
@@ -346,7 +334,7 @@
                                 </md-content>
                             </md-tab>
                             <md-tab label="Archivos">
-                                <md-content>
+                                <md-content style="height:70vh; overflow:auto;">
                                     <div class="container-fluid p-0" ng-if="$ctrl.paciente.ID>0">
                                         @Html.Partial("ViewFiles", "Paciente")
                                     </div>

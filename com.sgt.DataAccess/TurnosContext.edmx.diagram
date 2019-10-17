@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="752d4ab0461d4bcea885963b0cb4180d" Name="Diagram1" ZoomLevel="94">
-        <EntityTypeShape EntityType="TurnosModel.Agendum" Width="1.5" PointX="7.5" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosModel.Agendum" Width="1.5" PointX="7.5" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Agenda_Bloqueos" Width="2" PointX="9.75" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Agenda_Receso" Width="1.5" PointX="9" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Aseguradora" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
@@ -59,6 +59,8 @@
         <EntityTypeShape EntityType="TurnosModel.SmtpMail" Width="1.5" PointX="17.375" PointY="0.75" />
         <EntityTypeShape EntityType="TurnosModel.PacienteDiagnostico" Width="1.5" PointX="7.5" PointY="25.25" />
         <AssociationConnector Association="TurnosModel.FK_PacienteDiagnostico_Paciente" />
+        <EntityTypeShape EntityType="TurnosModel.Profesional_Ausencias" Width="1.5" PointX="7.5" PointY="28.125" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_Ausencias_Profesional" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

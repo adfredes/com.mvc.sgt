@@ -18,7 +18,6 @@ E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.dll
 E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.pdb
 E:\GitHub\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.dll.config
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csprojAssemblyReference.cache
-E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CoreCompileInputs.cache
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.dll
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.pdb

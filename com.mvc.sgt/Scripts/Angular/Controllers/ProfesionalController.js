@@ -61,6 +61,14 @@
             $scope.ProfesionalModel.Agenda.push({});
         };
 
+        $scope.CreateAusencia = function (profesionalID) {
+            $scope.ausencia = {
+                Habilitado: true,
+                FechaDesde: new Date(),
+                ProfesionalID: profesionalID
+            };
+        };
+
         $scope.GetProfesionales = function () {
             let _url = '';
             if ($scope.selectedLetter == 'TODOS') { _url = 'Profesional/Listar/' + ($scope.currentPage + 1) + '/' + $scope.pageSize }

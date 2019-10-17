@@ -598,7 +598,6 @@ E:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.Twitter.resourc
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\System.Web.Http.Owin.resources.dll
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csprojAssemblyReference.cache
-E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CoreCompileInputs.cache
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.dll
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Debug\com.mvc.sgt.pdb

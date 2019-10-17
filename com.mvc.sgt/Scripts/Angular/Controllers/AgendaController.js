@@ -13,15 +13,25 @@
             vm.agenda = {};
             vm.recesos = [];
             vm.bloqueos = [];
+            vm.ausencias = [];
             vm.GetFeriados();
             vm.getDias();
             GetAgenda();
             vm.GetRecesos();
             vm.GetBloqueos();
+            vm.GetAusencias();
         };
 
         vm.getDias = () =>
             vm.dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];        
+
+
+        vm.GetAusencias = () => {
+            let _url = 'Profesional/Ausencias';
+            crudService.GetPHttp(_url)
+                .then(data => vm.ausencias = JSON.parse(data))
+                .catch(err => vm.ausencias = []);
+        };
 
         vm.GetFeriados = function () {
             let _url = 'Agenda/Feriados/Listar';
@@ -78,6 +88,26 @@
 
         vm.CreateFeriado = function (feriado) {
             vm.feriado = {};
+        };
+
+        vm.EditAusencia = function (ausencia) {            
+            vm.ausencia = ausencia;
+        };
+
+        vm.DeleteAusencia = (ausencia) => {
+            messageService.showConfirm('Ausencias', 'Esta seguro que desea eliminar el registro?', 'Aceptar', 'Cancelar', $element)
+                .then(() => {
+                    ausencia.Habilitado = false;                    
+                    var promise = crudService.PostHttp('/Profesional/Ausencias/CreateOrEdit', ausencia);
+                    promise.then(data => vm.GetAusencias());
+                });
+        };
+
+        vm.CreateAusencia = function (ausencia) {
+            vm.ausencia = {
+                Habilitado: true,
+                FechaDesde: new Date()
+            };
         };
 
         vm.EditReceso = function (receso) {            

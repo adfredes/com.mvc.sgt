@@ -3,6 +3,7 @@ using com.sgt.DataAccess.Interfaces;
 using com.sgt.services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -88,6 +89,37 @@ namespace com.sgt.services.Services
                 Skip((page - 1) * count).
                 Take(count)
                 .ToList();            
+        }
+
+        public ICollection<Profesional_Ausencias> GetAllAusencias()
+        {
+            return unitOfWork.RepoProfesionalAusencias.FindBy(s => DbFunctions.TruncateTime(s.FechaHasta) >= DbFunctions.TruncateTime(DateTime.Now) && s.Habilitado == true)
+                .OrderBy(s=>s.FechaDesde)
+                .ToList();
+        }
+
+        public void SaveAusencia(Profesional_Ausencias entity)
+        {
+            if (entity.ID > 0)
+            {
+                unitOfWork.RepoProfesionalAusencias.Edit(entity);
+            }
+            else
+            {
+                unitOfWork.RepoProfesionalAusencias.Add(entity);
+            }            
+        }
+
+        public ICollection<Profesional_Ausencias> GetAusenciasByRango(DateTime desde, DateTime hasta)
+        {
+            return unitOfWork.RepoProfesionalAusencias
+                .FindBy(s => 
+                        DbFunctions.TruncateTime(s.FechaHasta) >= DbFunctions.TruncateTime(desde) 
+                        && DbFunctions.TruncateTime(s.FechaDesde) <= DbFunctions.TruncateTime(hasta)
+                        && s.Habilitado == true
+                    )
+                .OrderBy(s => s.FechaDesde)
+                .ToList();
         }
     }
 }

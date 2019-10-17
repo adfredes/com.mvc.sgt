@@ -1578,7 +1578,7 @@ namespace com.sgt.services.Services
         {
             short numero = 0;
             var sesiones =
-            turno.Sesions.Where(x => x.Estado == (short)EstadoSesion.Confirmado || x.Estado == (short)EstadoSesion.SinFechaLibre || x.Estado == (short)EstadoSesion.Reservado)
+            turno.Sesions.Where(x => x.Estado == (short)EstadoSesion.Confirmado || x.Estado == (short)EstadoSesion.SinFechaLibre || x.Estado == (short)EstadoSesion.Reservado || x.Estado == (short)EstadoSesion.Bloqueado)
                 .ToList();
             sesiones.ForEach(sesion =>
             {

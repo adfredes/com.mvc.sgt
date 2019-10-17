@@ -316,13 +316,13 @@
                         vm.close();
                     }, function errorCallback(response) {                            
                         vm.saving = false;
-                        let promise = messageService.Notify('Paciente', `Se produjo un error: ${data.data}`, $element);
-                        promise.then(() => {
-                            if (vm.save) {
-                                vm.save({ newPaciente: {} });
-                            }
-                            vm.close();
-                        });
+                        let promise = messageService.Notify('Paciente', `Se produjo un error: ${response.data}`, $element);
+                        //promise.then(() => {
+                        //    if (vm.save) {
+                        //        vm.save({ newPaciente: {} });
+                        //    }
+                        //    vm.close();
+                        //});
                     });
             }
         };
