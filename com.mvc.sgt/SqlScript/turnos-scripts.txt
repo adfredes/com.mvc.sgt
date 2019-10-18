@@ -158,3 +158,8 @@ alter table dbo.Profesional_Ausencias
 ;
 
 alter TABLE dbo.Agenda alter column ProfesionalID INT null;
+
+  update [Consultorio].[dbo].[Sesion]
+  set FechaModificacion = (select top 1 FechaModificacion from [Consultorio].[dbo].[Sesion] s 
+  where sesion.Numero = s.Numero and sesion.TurnoID = s.TurnoID and s.Estado = sesion.Estado)
+  where Estado in (2,4,5);

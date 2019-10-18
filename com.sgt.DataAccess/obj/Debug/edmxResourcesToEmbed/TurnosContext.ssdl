@@ -734,6 +734,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Turno_TipoSesion">
+    <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="0..1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoSesion">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="TipoSesionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="TurnosModelStoreContainer">
     <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Agenda_Bloqueos" EntityType="Self.Agenda_Bloqueos" Schema="dbo" store:Type="Tables" />
@@ -954,6 +966,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     </AssociationSet>
     <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="Turno" EntitySet="Turno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Turno_TipoSesion" Association="Self.FK_Turno_TipoSesion">
+      <End Role="TipoSesion" EntitySet="TipoSesion" />
       <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
   </EntityContainer>

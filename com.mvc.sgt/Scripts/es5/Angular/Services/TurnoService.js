@@ -91,6 +91,7 @@
             var sesiones = JSON.parse(JSON.stringify(data.Sesions.filter(function (value, index, self) {
                 return self.findIndex(function (element) { return element.Numero === value.Numero
                     && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
+                    && value.FechaModificacion == element.FechaModificacion
                     && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
                     && element.TurnoSimultaneo === value.TurnoSimultaneo; })
                     === index;
@@ -99,11 +100,13 @@
                 var result = data.Sesions.filter(function (fValue) {
                     return mValue.Numero === fValue.Numero &&
                         $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(fValue.FechaHora).toDate())
+                        && fValue.FechaModificacion == mValue.FechaModificacion
                         && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
                         && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo;
                 }).length;
                 mValue.sesiones = result;
             });
+            console.dir(sesiones);
             data.Sesions = sesiones.sort(function (a, b) { return a.Numero - b.Numero; });
             return data;
         };

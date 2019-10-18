@@ -8,8 +8,11 @@
         
 
         vm.changeLink = function (link) {
-
             vm.activeLink = link;
+            let div = document.querySelector('#divAusenciasGrilla');
+            if (div) {
+                div.innerHTML = '';
+            }
         };
         
     }

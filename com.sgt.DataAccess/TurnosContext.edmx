@@ -739,6 +739,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Turno_TipoSesion">
+          <End Role="TipoSesion" Type="Self.TipoSesion" Multiplicity="0..1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="TipoSesionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TurnosModelStoreContainer">
           <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Agenda_Bloqueos" EntityType="Self.Agenda_Bloqueos" Schema="dbo" store:Type="Tables" />
@@ -959,6 +971,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           </AssociationSet>
           <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_TipoSesion" Association="Self.FK_Turno_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesion" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
         </EntityContainer>
@@ -1600,6 +1616,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             <End Role="Profesional" EntitySet="Profesionals" />
             <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
           </AssociationSet>
+          <AssociationSet Name="FK_Turno_TipoSesion" Association="TurnosModel.FK_Turno_TipoSesion">
+            <End Role="TipoSesion" EntitySet="TipoSesions" />
+            <End Role="Turno" EntitySet="Turnoes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="TipoSesion">
           <Key>
@@ -1610,6 +1630,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="Color" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Consultorios" Relationship="TurnosModel.FK_Consultorio_TipoSesion" FromRole="TipoSesion" ToRole="Consultorio" />
           <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_TipoSesion" FromRole="TipoSesion" ToRole="Profesional_TipoSesion" />
+          <NavigationProperty Name="Turnoes" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="TipoSesion" ToRole="Turno" />
         </EntityType>
         <Association Name="FK_Consultorio_TipoSesion">
           <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="0..1">
@@ -1727,6 +1748,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="CodigoPractica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaFactura" Type="DateTime" Precision="0" />
           <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="Turno" ToRole="TipoSesion" />
         </EntityType>
         <Association Name="FK_Sesion_Agenda">
           <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -1859,6 +1881,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Principal>
             <Dependent Role="Profesional_Ausencias">
               <PropertyRef Name="ProfesionalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_TipoSesion">
+          <End Type="TurnosModel.TipoSesion" Role="TipoSesion" Multiplicity="0..1" />
+          <End Type="TurnosModel.Turno" Role="Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSesion">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="TipoSesionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

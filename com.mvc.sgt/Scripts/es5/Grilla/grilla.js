@@ -41,6 +41,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         sessionStorage.setItem('VistaGrillaTurnos', 's');
     };
     var updating = function () {
+        options.updating = true;
         options.divGrilla.querySelector('.procesando').style.display = 'block';
         if (options.intervalId) {
             clearInterval(options.intervalId);
@@ -49,6 +50,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     var updated = function () {
         options.divGrilla.querySelector('.procesando').style.display = 'none';
         options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+        options.updating = false;
     };
     var loadFromSesionStorage = function () {
         var sesionST = {};
@@ -482,7 +484,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     var init = function () {
         options.divGrilla = document.querySelector('#GrillaContent');
         options.notificationBar = document.querySelector('.notification-bar');
-        console.dir(options.notificationBar);
         initModalListener();
         var sessionST = loadFromSesionStorage();
         options.tabla = document.createElement('table');
@@ -499,6 +500,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.vista = 's';
         options.fecha = new Date();
         options.sesionesActual = '';
+        options.updating = false;
         options.duracionModulo = 30;
         options.fechaDia = new Date();
         options.fechaSemana = new Date();
@@ -547,6 +549,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        if (!(options.updating === false)) return [3, 2];
                         if (options.intervalId) {
                             window.clearInterval(options.intervalId);
                         }
@@ -564,7 +567,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         else {
                             options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
                         }
-                        return [2];
+                        return [3, 3];
+                    case 2:
+                        if (options.intervalId) {
+                            window.clearInterval(options.intervalId);
+                        }
+                        options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+                        _a.label = 3;
+                    case 3: return [2];
                 }
             });
         });
@@ -1026,7 +1036,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     }
                     else {
                         var _celdaID = CeldaIdToObject(parentNode.id);
-                        console.dir(_celdaID);
                         parentNode.dataset.sobreturno = "true";
                         var _hora = _celdaID.hora;
                         var sesionReserva = {
@@ -1512,6 +1521,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function setEstadoCancelado(sesionID) {
         var url = Domain + "Sesion/Estado/Cancelar";
         var params = {};
+        ibuj;
         params.id = sesionID;
         changeEstadoSesion(url, params, dibujarGrilla);
     }

@@ -1,6 +1,7 @@
 (function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller("profesionalController", ['$scope', '$filter', 'crudService', function ($scope, $filter, crudService) {
+    sgtApp.controller("profesionalController", ['messageService', '$scope', '$filter', 'crudService', '$element',
+        function (messageService, $scope, $filter, crudService, $element) {
             $scope.currentPage = 0;
             $scope.initPage = 0;
             $scope.pageSize = 10;
@@ -27,6 +28,17 @@
                     $scope.initPage = $scope.currentPage - 9;
                 }
                 $scope.initPage = $scope.initPage < 0 ? 0 : $scope.initPage;
+            };
+            $scope.Delete = function (profesional) {
+                messageService.showConfirm("Profesionales", "Esta seguro que desea eliminar a " + profesional.Apellido + " " + profesional.Nombre + "?", 'SI', 'NO', $element.children())
+                    .then(function () {
+                    var promise = crudService.PostHttp('/Profesional/DeleteProfesional', { id: profesional.ID });
+                    promise.then(function (data) {
+                        $scope.GetProfesionales();
+                    })
+                        .catch(function (error) {
+                    });
+                });
             };
             $scope.Edit = function (id) {
                 var getData = crudService.Get(id, 'Profesional');

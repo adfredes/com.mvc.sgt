@@ -122,35 +122,71 @@
         };
 
         $this.sesionesOrder = (data) => {
-            
+
             let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) =>
+
                 self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3
                     //&& element.ID >= value.ID - 1
                     && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
-                    //&& moment(element.FechaModificacion).toDate() == moment(value.FechaModificacion).toDate()
+                    && value.FechaModificacion == element.FechaModificacion
+                    //&& moment(value.FechaModificacion).toDate() - moment(element.FechaModificacion).toDate() < 1000
                     && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
                     && element.TurnoSimultaneo === value.TurnoSimultaneo
                 )
                 === index
             )));
+            
 
             sesiones.forEach(mValue => {
+
                 let result = data.Sesions.filter(fValue =>
                     //mValue.ID + 3 > fValue.ID && 
                     mValue.Numero === fValue.Numero &&
                     $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(fValue.FechaHora).toDate())
                     //&& moment(mValue.FechaModificacion).toDate() == moment(fValue.FechaModificacion).toDate()
+                    && fValue.FechaModificacion == mValue.FechaModificacion
                     && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
                     && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
                 ).length;
                 mValue.sesiones = result;
             });
+            console.dir(sesiones);
             //modifico orden
-            data.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
-            );
+            data.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero);
 
             return data;
         };
+
+        //$this.sesionesOrder = (data) => {
+            
+        //    let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) =>
+        //        self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3
+        //            //&& element.ID >= value.ID - 1
+        //            && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
+        //            //&& moment(element.FechaModificacion).toDate() == moment(value.FechaModificacion).toDate()
+        //            && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
+        //            && element.TurnoSimultaneo === value.TurnoSimultaneo
+        //        )
+        //        === index
+        //    )));
+
+        //    sesiones.forEach(mValue => {
+        //        let result = data.Sesions.filter(fValue =>
+        //            //mValue.ID + 3 > fValue.ID && 
+        //            mValue.Numero === fValue.Numero &&
+        //            $this.toShortDate(moment(mValue.FechaHora).toDate()) == $this.toShortDate(moment(fValue.FechaHora).toDate())
+        //            //&& moment(mValue.FechaModificacion).toDate() == moment(fValue.FechaModificacion).toDate()
+        //            && mValue.Estado === fValue.Estado && mValue.ConsultorioID === fValue.ConsultorioID
+        //            && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
+        //        ).length;
+        //        mValue.sesiones = result;
+        //    });
+        //    //modifico orden
+        //    data.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero
+        //    );
+
+        //    return data;
+        //};
 
         $this.sesionAnular = (sesionID, success, parentEl) => {
 

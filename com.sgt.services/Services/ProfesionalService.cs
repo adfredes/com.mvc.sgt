@@ -65,13 +65,13 @@ namespace com.sgt.services.Services
 
         public ICollection<Profesional> GetAll()
         {
-            return unitOfWork.RepoProfesional.GetAll().ToList();
+            return unitOfWork.RepoProfesional.FindBy(p=>p.Habilitado==true).OrderBy(p=>p.Apellido).ThenBy(p=>p.Nombre).ToList();
         }
 
        
         public ICollection<Profesional> GetAll(int page, int count)
         {            
-            return unitOfWork.RepoProfesional.GetAll().
+            return unitOfWork.RepoProfesional.FindBy(p => p.Habilitado == true).
                 OrderBy(x => x.Apellido).
                 ThenBy(x => x.Nombre).
                 Skip((page - 1) * count).
@@ -83,7 +83,7 @@ namespace com.sgt.services.Services
         
         public ICollection<Profesional> FindByLetter(string letter, int page, int count)
         {            
-                return FindBy(x => x.Apellido.Substring(0, 1).ToUpper() == letter)                
+                return FindBy(x => x.Apellido.Substring(0, 1).ToUpper() == letter && x.Habilitado == true)                
                 .OrderBy(x => x.Apellido).
                 ThenBy(x => x.Nombre).
                 Skip((page - 1) * count).
@@ -93,7 +93,7 @@ namespace com.sgt.services.Services
 
         public ICollection<Profesional_Ausencias> GetAllAusencias()
         {
-            return unitOfWork.RepoProfesionalAusencias.FindBy(s => DbFunctions.TruncateTime(s.FechaHasta) >= DbFunctions.TruncateTime(DateTime.Now) && s.Habilitado == true)
+            return unitOfWork.RepoProfesionalAusencias.FindBy(s => DbFunctions.TruncateTime(s.FechaHasta) >= DbFunctions.TruncateTime(DateTime.Now) && s.Habilitado == true && s.Profesional.Habilitado==true)
                 .OrderBy(s=>s.FechaDesde)
                 .ToList();
         }
@@ -117,9 +117,15 @@ namespace com.sgt.services.Services
                         DbFunctions.TruncateTime(s.FechaHasta) >= DbFunctions.TruncateTime(desde) 
                         && DbFunctions.TruncateTime(s.FechaDesde) <= DbFunctions.TruncateTime(hasta)
                         && s.Habilitado == true
+                        && s.Profesional.Habilitado == true
                     )
                 .OrderBy(s => s.FechaDesde)
                 .ToList();
+        }
+
+        public void Delete(int id)
+        {
+            Delete(Find(id));
         }
     }
 }

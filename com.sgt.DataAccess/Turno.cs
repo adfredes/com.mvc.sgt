@@ -41,5 +41,6 @@ namespace com.sgt.DataAccess
         public virtual ICollection<Sesion> Sesions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turno_Repeticiones> Turno_Repeticiones { get; set; }
+        public virtual TipoSesion TipoSesion { get; set; }
     }
 }

@@ -61,6 +61,25 @@ namespace com.mvc.sgt.Controllers
             return Json(resu);
         }
 
+        
+        [HttpPost]
+        [Route("Profesional/DeleteProfesional")]
+        public JsonResult DeleteProfesional(int id)
+        {
+            var resu = "";
+            try
+            {                
+                    profesionalService.Delete(id);
+                    Response.StatusCode = (int)HttpStatusCode.OK;                
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(resu);
+        }
+
         [Route("Profesional/Listar/Combo")]
         [HttpGet]
         public JsonResult GetAllCombo()

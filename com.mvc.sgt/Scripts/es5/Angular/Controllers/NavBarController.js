@@ -5,6 +5,10 @@
         var vm = this;
         vm.changeLink = function (link) {
             vm.activeLink = link;
+            var div = document.querySelector('#divAusenciasGrilla');
+            if (div) {
+                div.innerHTML = '';
+            }
         };
     }
 })();

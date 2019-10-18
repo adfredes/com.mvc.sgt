@@ -19,6 +19,7 @@ namespace com.sgt.DataAccess
         {
             this.Consultorios = new HashSet<Consultorio>();
             this.Profesional_TipoSesion = new HashSet<Profesional_TipoSesion>();
+            this.Turnoes = new HashSet<Turno>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace com.sgt.DataAccess
         public virtual ICollection<Consultorio> Consultorios { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Profesional_TipoSesion> Profesional_TipoSesion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Turno> Turnoes { get; set; }
     }
 }

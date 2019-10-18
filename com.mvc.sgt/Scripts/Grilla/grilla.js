@@ -7,16 +7,17 @@
     };
 
     let updating = () => {
+        options.updating = true;
         options.divGrilla.querySelector('.procesando').style.display = 'block';
         if (options.intervalId) {
             clearInterval(options.intervalId);
-
         }
     };
 
     let updated = () => {
         options.divGrilla.querySelector('.procesando').style.display = 'none';
         options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+        options.updating = false;
     };
 
     let loadFromSesionStorage = () => {
@@ -573,8 +574,7 @@
     let init = () => {        
         options.divGrilla = document.querySelector('#GrillaContent');
 
-        options.notificationBar = document.querySelector('.notification-bar');
-        console.dir(options.notificationBar);
+        options.notificationBar = document.querySelector('.notification-bar');        
 
         initModalListener();
         
@@ -593,7 +593,8 @@
         options.feriados = [];
         options.vista = 's';//'d'
         options.fecha = new Date();
-        options.sesionesActual = '';        
+        options.sesionesActual = '';      
+        options.updating = false;
 
         options.duracionModulo = 30;
 
@@ -655,23 +656,30 @@
     }
 
     async function sesionesIsUpdating() {
-        if (options.intervalId) {
-            window.clearInterval(options.intervalId);
-        }        
-        let mfecha = JSON.stringify(options.fecha);
-        let mvista = JSON.stringify(options.vista);
-        let awSesiones = getSesiones();
-        let newSesiones = await awSesiones;                
-        if (options.sesionesActual !== JSON.stringify(newSesiones)
-            && mfecha === JSON.stringify(options.fecha)
-            && mvista === JSON.stringify(options.vista)
-        ) {
-            dibujarGrillaSesiones(newSesiones);
+        if (options.updating === false) {
+            if (options.intervalId) {
+                window.clearInterval(options.intervalId);
+            }
+            let mfecha = JSON.stringify(options.fecha);
+            let mvista = JSON.stringify(options.vista);
+            let awSesiones = getSesiones();
+            let newSesiones = await awSesiones;
+            if (options.sesionesActual !== JSON.stringify(newSesiones)
+                && mfecha === JSON.stringify(options.fecha)
+                && mvista === JSON.stringify(options.vista)
+            ) {
+                dibujarGrillaSesiones(newSesiones);
+            }
+            else {
+                options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+            }
         }
         else {
+            if (options.intervalId) {
+                window.clearInterval(options.intervalId);
+            }
             options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
         }
-        
     }
 
     async function dibujarGrilla() {        
@@ -1234,8 +1242,7 @@
                         showErrorMessage('Reservas', 'Ya existe una reserva para ese día.');
                     }
                     else {
-                        let _celdaID = CeldaIdToObject(parentNode.id);
-                        console.dir(_celdaID);
+                        let _celdaID = CeldaIdToObject(parentNode.id);                        
                         parentNode.dataset.sobreturno = "true";
                         let _hora = _celdaID.hora;
                         let sesionReserva = {
@@ -1576,8 +1583,7 @@
                 if (bloqueo.TurnoSimultaneo == 0) {
                     sDesde = 1;
                     sHasta = options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioID).TurnosSimultaneos;
-                }
-                //console.dir(options.consultorios.find(consultorio => consultorio.ID == bloqueo.ConsultorioId));
+                }                
                 for (let ts = sDesde; ts <= sHasta; ts++) {
                     let celSesionID = `#F${bloqueo.fecha}H${bloqueo.hora}C${bloqueo.ConsultorioID}S${ts}`;
                     let celda = options.divGrilla.querySelector(celSesionID);
@@ -1914,7 +1920,7 @@
 
     function setEstadoCancelado(sesionID) {
         let url = Domain + "Sesion/Estado/Cancelar";
-        let params = {};
+        let params = {};ibuj
         params.id = sesionID;
         changeEstadoSesion(url, params, dibujarGrilla);
     }

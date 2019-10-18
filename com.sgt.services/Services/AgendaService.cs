@@ -1140,10 +1140,10 @@ namespace com.sgt.services.Services
 
             short nroSesion = sesiones.FirstOrDefault().Numero;
             int turnoID = sesiones.FirstOrDefault().TurnoID;
-
+            DateTime fechaModificacion = DateTime.Now;
             foreach (Sesion sesion in sesiones)
             {
-                sesion.FechaModificacion = DateTime.Now;
+                sesion.FechaModificacion = fechaModificacion;
                 sesion.UsuarioModificacion = usuario;
                 sesion.Estado = estado;
                 sesion.Habilitado = hab;
@@ -1156,7 +1156,7 @@ namespace com.sgt.services.Services
                 sesiones = unitOfWork.RepoSesion.FindBy(x => x.Numero == nroSesion && x.TurnoID == turnoID).ToList();
                 foreach (Sesion sesion in sesiones)
                 {
-                    sesion.FechaModificacion = DateTime.Now;
+                    sesion.FechaModificacion = fechaModificacion;
                     sesion.UsuarioModificacion = usuario;
                     sesion.Estado = (short) EstadoSesion.Anulado;
                     sesion.Habilitado = false;

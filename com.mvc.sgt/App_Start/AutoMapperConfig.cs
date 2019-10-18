@@ -116,7 +116,7 @@ namespace com.mvc.sgt.App_Start
             .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
             .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
             .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
-            .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.Diagnostico))
+            .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.TipoSesion.Descripcion + ": " +  s.Turno.Diagnostico))
             .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
             .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
             .ForMember(d => d.TurnoDoble, o => o.MapFrom(s => s.Turno.TurnoDoble))
