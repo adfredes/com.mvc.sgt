@@ -87,14 +87,14 @@
 
         }
     </div>
-    <main class="container-fluid body-content mt-4 pt-4 h-75" id="main">
+    <main class="container-fluid body-content mt-4 pt-4" id="main">
         @RenderBody()
     </main>
-    <hr />
+    @*<hr />*@
 
 
-    <footer class="container-fluid body-content mt-1 pt-1">
-        <p class="text-center">&copy; @DateTime.Now.Year - Gestión de Turnos</p>      
+    <footer class="container-fluid body-content mt-1 pt-3 border-top">
+        <p class="text-center p-0 m-0">&copy; @DateTime.Now.Year - Gestión de Turnos</p>      
     </footer>
 </body>
 </html>

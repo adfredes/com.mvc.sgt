@@ -50,12 +50,12 @@ namespace com.sgt.DataAccess
         public virtual DbSet<Tratamiento> Tratamientos { get; set; }
         public virtual DbSet<TipoSesion> TipoSesions { get; set; }
         public virtual DbSet<Profesional_TipoSesion> Profesional_TipoSesion { get; set; }
-        public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
         public virtual DbSet<Sesion> Sesions { get; set; }
         public virtual DbSet<Turno> Turnoes { get; set; }
         public virtual DbSet<Turno_Repeticiones> Turno_Repeticiones { get; set; }
         public virtual DbSet<SmtpMail> SmtpMails { get; set; }
         public virtual DbSet<PacienteDiagnostico> PacienteDiagnosticoes { get; set; }
         public virtual DbSet<Profesional_Ausencias> Profesional_Ausencias { get; set; }
+        public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
     }
 }

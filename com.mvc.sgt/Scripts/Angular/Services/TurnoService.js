@@ -697,7 +697,7 @@
                                             
                                             <md-option ng-repeat="t in turnos" ng-value="t.ID">
                                               <span ng-if="t.ID">
-                                              Turno {{t.ID}} : {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}
+                                              Turno {{t.ID}} ({{t.CantidadSesiones}}): {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}
                                               </span>
                                               <span ng-hide="t.ID">
                                               ------------------NO------------------

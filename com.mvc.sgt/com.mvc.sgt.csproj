@@ -295,6 +295,7 @@
     <Compile Include="Models\PacienteModel.cs" />
     <Compile Include="Models\PacienteSearchDto.cs" />
     <Compile Include="Models\ProfesionalAusenciaModel.cs" />
+    <Compile Include="Models\ProfesionalHorariosModel.cs" />
     <Compile Include="Models\TurnoFacturacionModel.cs" />
     <Compile Include="Models\ProfesionalModel.cs" />
     <Compile Include="Models\Profesional_TipoSesionModel.cs" />
@@ -380,6 +381,7 @@
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Services\MessageService.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
+    <Content Include="Scripts\autoscroll.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="SqlScript\diagnostico-script.sql">

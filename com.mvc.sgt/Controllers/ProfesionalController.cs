@@ -58,7 +58,7 @@ namespace com.mvc.sgt.Controllers
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 resu = ex.Message;
             }            
-            return Json(resu);
+            return Json(JsonConvert.SerializeObject(resu));
         }
 
         
@@ -94,8 +94,8 @@ namespace com.mvc.sgt.Controllers
         public JsonResult GetAll(int page, int count)
         {
             //var model = Mapper.Map<List<PacienteModel>>(this.pacienteService.GetAll().OrderBy(x => x.Apellido));            
-            var model = Map(profesionalService.GetAll(page,count));
-            return Json(new { list = model, count = this.profesionalService.GetAll().Count }, JsonRequestBehavior.AllowGet);
+            var model = Map(profesionalService.GetAll(page,count));            
+            return Json(JsonConvert.SerializeObject(new { list = model, count = this.profesionalService.GetAll().Count }), JsonRequestBehavior.AllowGet);
         }
 
         [Route("Profesional/Listar/{letter}/{page}/{count}")]
@@ -105,14 +105,14 @@ namespace com.mvc.sgt.Controllers
             var model = Map(profesionalService.FindByLetter(letter,page,count));
             var regisCount = this.profesionalService.FindBy(x => x.Apellido.Substring(0, 1).ToUpper() == letter)                                
                                 .Count();
-            return Json(new { list = model, count = regisCount }, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(new { list = model, count = regisCount }), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult Get (int id)
         {
             var model = Map(profesionalService.Find(id));
-            return Json(model, JsonRequestBehavior.AllowGet);
+            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
         }
 
         [Route("Profesional/Ausencias")]

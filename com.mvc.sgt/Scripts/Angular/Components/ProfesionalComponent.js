@@ -7,19 +7,25 @@
         controller: ['crudService', '$filter', profesionalEditController],
         bindings: {
             profesional: "<",
+            diasSemana: "<",
             saveCallback: "="
         }
     });
 
 
     function profesionalEditController(crudService, $filter) {
-        var vm = this;
+        let vm = this;
         vm.error = '';
         vm.Tipos = [];
         vm.checkBoxTipos = {};
+        vm.minHours = '';
+        vm.maxHours = '';        
+        vm.NuevoDia = {};
+        let agenda;
+        
 
         vm.$onInit = () => {
-            var promise = crudService.GetPHttp('api/tiposesion/all/cmb');
+            let promise = crudService.GetPHttp('api/tiposesion/all/cmb');
             promise.then(data => {
                 vm.Tipos = data;
                 vm.checkBoxTipos = {};
@@ -28,6 +34,39 @@
                     vm.Tipos = [];
                     vm.checkBoxTipos = {};
                 });
+
+            let promise2 = crudService.GetPHttp('Agenda/JSON');
+            promise2.then(data => {
+                agenda = JSON.parse(data);
+                vm.minHours = agenda.HoraDesde.split("T")[1];
+                vm.maxHours = agenda.HoraHasta.split("T")[1];                                
+            })
+                .catch(err => {                    
+                }); 
+
+            
+
+            
+        };
+
+        vm.addDay = (dia) => {            
+            if (dia.diaSemana > 0
+                //&& dia.desde >= agenda.HoraDesde && dia.hasta <= agenda.HoraHasta
+                && dia.desde < dia.hasta) {
+                if (!vm.profesional.Horarios) {
+                    vm.profesional.Horarios = [];
+                }
+                vm.profesional.Horarios.push(JSON.parse(JSON.stringify(dia)));
+                vm.NuevoDia = {diaSemana: null, desde: null, hasta: null};
+            }                        
+        };
+
+        vm.removeDay = (index) => {
+            vm.profesional.Horarios.splice(index, 1);
+        };
+
+        vm.nameOfDay = (numero) => {               
+            return vm.diasSemana.find(e => e.Value == numero);
         };
 
         //(function GetTiposSesion() {
@@ -76,7 +115,7 @@
                 });
             }
             else {
-                var i = vm.profesional.TiposDeSesiones.findIndex(e => e.TipoSesionID == idTipo);
+                var i = vm.profesional.TiposDeSesiones.findIndex(e => e.TipoSesionID === idTipo);
                 vm.profesional.TiposDeSesiones.splice(i, 1);
             }
         };

@@ -351,17 +351,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="HorariosProfesionales">
-      <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
-        <MappingFragment StoreEntitySet="HorariosProfesionales">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="hasta" ColumnName="hasta" />
-          <ScalarProperty Name="desde" ColumnName="desde" />
-          <ScalarProperty Name="diasemana" ColumnName="diasemana" />
-          <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Sesions">
       <EntityTypeMapping TypeName="TurnosModel.Sesion">
         <MappingFragment StoreEntitySet="Sesion">
@@ -443,6 +432,17 @@
           <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
           <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
           <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HorariosProfesionales">
+      <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
+        <MappingFragment StoreEntitySet="HorariosProfesionales">
+          <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+          <ScalarProperty Name="hasta" ColumnName="hasta" />
+          <ScalarProperty Name="desde" ColumnName="desde" />
+          <ScalarProperty Name="diaSemana" ColumnName="diaSemana" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

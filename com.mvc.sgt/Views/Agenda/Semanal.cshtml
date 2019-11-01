@@ -142,23 +142,7 @@
                 <span class="icon-spinner animate-spin p-4 display-4"></span>            
         </div>
     </div>
-    <div class="botonera">
-        <md-button class="md-raised ml-1 m-0" id="btnVistaHoy">Hoy</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaDLunes" data-dia="1">Lunes</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaDMartes" data-dia="2">Martes</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaDMiercoles" data-dia="3">Miercoles</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaDJueves" data-dia="4">Jueves</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaDViernes" data-dia="5">Viernes</md-button>
-        <md-button class="md-raised ml-1 m-0" id="btnVistaProximo">
-            <div class="input-group date" id="ddatepickerP" data-provide="datepicker" style="display:inline;">
-                <input type="hidden" class="form-control date-picker" id="calendarioSesionP">
-                <div class="input-group-addon" style="display:inline;">
-                    <span class="icon-calendar"></span>Próximo
-                </div>
-            </div>
-        </md-button>
-        <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
-    </div>
+    
     <div id="divReservas" class="reservas">
 
     </div>
@@ -238,6 +222,26 @@
 
     <sesion-edit id="ctrlEditSesionGrilla" divid="EditSesionGrilla"></sesion-edit>
     <asignar-paciente divid="TurnoAsignarPacienteModal"></asignar-paciente>
+    
+    <div id="GrillaTableContent" style="max-height:calc(100vh - 195px); overflow-y:auto;">
+        <div class="botonera">
+            <md-button class="md-raised ml-1 m-0" id="btnVistaHoy">Hoy</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaDLunes" data-dia="1">Lunes</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaDMartes" data-dia="2">Martes</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaDMiercoles" data-dia="3">Miercoles</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaDJueves" data-dia="4">Jueves</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaDViernes" data-dia="5">Viernes</md-button>
+            <md-button class="md-raised ml-1 m-0" id="btnVistaProximo">
+                <div class="input-group date" id="ddatepickerP" data-provide="datepicker" style="display:inline;">
+                    <input type="hidden" class="form-control date-picker" id="calendarioSesionP">
+                    <div class="input-group-addon" style="display:inline;">
+                        <span class="icon-calendar"></span>Próximo
+                    </div>
+                </div>
+            </md-button>
+            <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
+        </div>
+    </div>
 </div>
 @*<table id="grillaTurnos" class="grillaTurnos"></table>*@
 

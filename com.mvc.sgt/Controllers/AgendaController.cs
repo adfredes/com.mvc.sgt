@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
+using com.mvc.sgt.Models.DTO;
 using com.sgt.DataAccess;
 using com.sgt.DataAccess.Enums;
 using com.sgt.services.Interfaces;
@@ -570,6 +571,45 @@ namespace com.mvc.sgt.Controllers
             var agenda = Mapper.Map<AgendaModel>(this.AgendaService.GetAgenda());
             Response.StatusCode = (int)HttpStatusCode.OK;
             return Json(JsonConvert.SerializeObject(agenda), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("Agenda/Dias")]
+        public JsonResult GetDiasAgenda()
+        {
+            var agenda = Mapper.Map<AgendaModel>(this.AgendaService.GetAgenda());
+            var dias = new List<ComboDTO>();
+            if (agenda.AtiendeDomingo)
+            {
+                dias.Add(new ComboDTO { Text = "Domingo", Value = 0 });
+            }
+            if (agenda.AtiendeLunes)
+            {
+                dias.Add(new ComboDTO { Text = "Lunes", Value = 1 });
+            }
+            if (agenda.AtiendeMartes)
+            {
+                dias.Add(new ComboDTO { Text = "Martes", Value = 2 });
+            }
+            if (agenda.AtiendeMiercoles)
+            {
+                dias.Add(new ComboDTO { Text = "Miercoles", Value = 3 });
+            }
+            if (agenda.AtiendeJueves)
+            {
+                dias.Add(new ComboDTO { Text = "Jueves", Value = 4 });
+            }
+            if (agenda.AtiendeViernes)
+            {
+                dias.Add(new ComboDTO { Text = "Viernes", Value = 5 });
+            }
+            if (agenda.AtiendeSabado)
+            {
+                dias.Add(new ComboDTO { Text = "Sabado", Value = 6 });
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(dias, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

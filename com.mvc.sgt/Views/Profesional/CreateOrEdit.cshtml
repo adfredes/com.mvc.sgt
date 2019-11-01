@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.close()">&times;</button>
             </div>
             <div class="modal-body">
-                <form name="frmprofesional" id="frmprofesional">
+                <form name="frmprofesional" id="frmprofesional" novalidate>
                     <input type="hidden" class="form-control" ng-model="$ctrl.profesional.ID">
                     <fieldset>
                         <div class="row">
@@ -32,8 +32,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12 form-group">
-                                <md-input-container class="md-block">
+                            <div class="col-md-12 form-group">                                
+                                <md-input-container class="md-block">                                    
                                     <md-checkbox ng-repeat="tipo in $ctrl.Tipos" ng-click="$ctrl.AddOrDelete(tipo.Value)"
                                                  ng-model="$ctrl.checkBoxTipos[tipo.Value]" aria-label="{{tipo.Text}}">
                                         {{tipo.Text}}
@@ -41,53 +41,90 @@
                                 </md-input-container>
                             </div>
                         </div>       
-                        
+                                              
                         <div class="row">
-                            <div class="col-md12 form-group">
+                            <div class="col-md-4 form-group">
                                 <md-input-container class="md-block">
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeLunes" aria-label="Lunes">
-                                        Lunes
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeMartes" aria-label="Martes">
-                                        Martes
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeMiercoles" aria-label="Miercoles">
-                                        Miercoles
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeJueves" aria-label="Jueves">
-                                        Jueves
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeViernes" aria-label="Viernes">
-                                        Viernes
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeSabado" aria-label="Sabado">
-                                        Sabado
-                                    </md-checkbox>
-                                    <md-checkbox ng-model="$ctrl.profesional.Agenda[0].AtiendeDomingo" aria-label="Domingo">
-                                        Domingo
-                                    </md-checkbox>
+                                    <label>
+                                        Día
+                                    </label>
+                                    <md-select id="dia" name="diasemana" ng-model="$ctrl.NuevoDia.diaSemana" required>
+                                        <md-option ng-repeat="item in $ctrl.diasSemana" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                    </md-select>
+                                    <div ng-show="$ctrl.frmprofesional.diasemana.$touched" ng-messages="$ctrl.frmprofesional.diasemana.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
                                 </md-input-container>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md6 form-group">
+                            <div class="col-md-3 form-group">
                                 <md-input-container class="md-block">
                                     <label for="Desde">Desde:</label>
-                                    <input type="time" class="form-control" id="Desde" name="desde" ng-model="$ctrl.profesional.Agenda[0].HoraDesde">
+                                    <input type="time" class="form-control" id="Desde" name="desde" min="{{$ctrl.minHours}}" max="{{$ctrl.maxHours}}" required
+                                           ng-model="$ctrl.NuevoDia.desde">
+                                    <div ng-show="$ctrl.frmprofesional.desde.$touched" ng-messages="$ctrl.frmprofesional.desde.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
                                 </md-input-container>
                             </div>
 
-                            <div class="col-md6 form-group">
+                            <div class="col-md-3 form-group">
                                 <md-input-container class="md-block">
                                     <label for="Hasta">Hasta:</label>
-                                    <input type="time" class="form-control" id="Hasta" name="hasta" ng-model="$ctrl.profesional.Agenda[0].HoraHasta">
+                                    <input type="time" class="form-control" id="Hasta" name="hasta" min="{{$ctrl.minHours}}" max="{{$ctrl.maxHours}}" required
+                                           ng-model="$ctrl.NuevoDia.hasta">
+                                    <div ng-show="$ctrl.frmprofesional.hasta.$touched" ng-messages="$ctrl.frmprofesional.hasta.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
                                 </md-input-container>
                             </div>
-                        </div>
+                            <div class="col-md-2 form-group">
+                            <button ng-click="$ctrl.addDay($ctrl.NuevoDia)" class="form-control">Agregar</button>    
+                            </div>
+                            </div>
 
+                            <div class="row">
+                                <table class="table" ng-show="$ctrl.profesional.Horarios.length > 0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="colgroup">*</th>
+                                            <th scope="col">
+                                                Día
+                                            </th>
+                                            <th scope="col">
+                                                Desde
+                                            </th>
+                                            <th>
+                                                Hasta
+                                            </th>
+                                            <th>
 
-                        @*<div class="row">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(index, dia) in $ctrl.profesional.Horarios track by index">
+                                            <th scope="row">
+                                                {{index+1}}
+                                            </th>
+                                            <td>
+                                                {{$ctrl.nameOfDay(dia.diaSemana).Text}}
+                                            </td>
+                                            <td>
+                                                {{dia.desde | date : "HH:mm"}}
+                                            </td>
+                                            <td>
+                                                {{dia.hasta | date : "HH:mm"}}
+                                            </td>
+                                            <td>
+                                                <span class="icon-trash-empty btn" ng-click="$ctrl.removeDay(index)"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            @*<div class="row">
             <div class="col-md-12 form-group">
                 <md-input-container class="md-block">
                     <md-checkbox ng-repeat="tipo in $ctrl.Tipos" ng-click="$ctrl.AddOrDelete(tipo.Value)"
@@ -97,7 +134,7 @@
                 </md-input-container>
             </div>
         </div>*@
-                    </fieldset>
+</fieldset>
                 </form>                        
             </div>
             <div class="modal-footer">

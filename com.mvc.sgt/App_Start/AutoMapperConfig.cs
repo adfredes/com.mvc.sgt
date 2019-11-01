@@ -138,9 +138,13 @@ namespace com.mvc.sgt.App_Start
                 mapper.CreateMap<Profesional_TipoSesion, Profesional_TipoSesionModel>()
                 .ReverseMap();
 
+                mapper.CreateMap<ProfesionalHorariosModel, HorariosProfesionale>()
+                .ReverseMap();
+
                 mapper.CreateMap<Profesional, ProfesionalModel>()
                 .ForMember(d => d.TiposDeSesiones, o => o.MapFrom(s => s.Profesional_TipoSesion))
                 .ForMember(d=> d.Agenda, o => o.MapFrom(s => s.Agenda))
+                .ForMember(d => d.Horarios, o => o.MapFrom(s => s.HorariosProfesionales))
                 .ReverseMap();
 
                 mapper.CreateMap<Profesional, ComboDTO>()

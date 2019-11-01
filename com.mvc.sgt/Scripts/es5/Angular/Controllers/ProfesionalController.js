@@ -11,6 +11,14 @@
             $scope.arrayLetter = ["TODOS", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
             $scope.selectedLetter = 'TODOS';
             $scope.ProfesionalModel = {};
+            (function () {
+                var promise3 = crudService.GetPHttp('Agenda/Dias');
+                promise3.then(function (data) {
+                    $scope.diasSemana = data;
+                })
+                    .catch(function (err) {
+                });
+            })();
             $scope.setLetter = function (letter) {
                 $scope.selectedLetter = letter;
                 $scope.setPage(0);
@@ -43,6 +51,7 @@
             $scope.Edit = function (id) {
                 var getData = crudService.Get(id, 'Profesional');
                 getData.then(function (response) {
+                    response.data = JSON.parse(response.data);
                     $scope.ProfesionalModel = response.data;
                     if (!$scope.ProfesionalModel.Agenda || !$scope.ProfesionalModel.Agenda[0]) {
                         $scope.ProfesionalModel.Agenda.push({});
@@ -77,10 +86,11 @@
                 }
                 var requestResponse = crudService.GetHttp(_url);
                 requestResponse.then(function (response) {
+                    response.data = JSON.parse(response.data);
                     $scope.registerCount = response.data.count;
                     $scope.profesionales = response.data.list;
                     $scope.pages = [];
-                    for (x = 0; (x * $scope.pageSize) < $scope.registerCount; x++) {
+                    for (x = 0; x * $scope.pageSize < $scope.registerCount; x++) {
                         $scope.pages.push(x + 1);
                     }
                 }, function () {

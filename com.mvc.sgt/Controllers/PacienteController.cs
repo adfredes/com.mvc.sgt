@@ -2,6 +2,7 @@
 using com.mvc.sgt.Controllers.Filters;
 using com.mvc.sgt.Models;
 using com.sgt.DataAccess;
+using com.sgt.DataAccess.Enums;
 using com.sgt.services.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -217,7 +218,7 @@ namespace com.mvc.sgt.Controllers
             List<TurnoListModel> turnos = null;
             if (id.HasValue)
             {
-                turnos = Mapper.Map<List<TurnoListModel>>(pacienteService.ListarTurnos(id.Value))
+                turnos = Mapper.Map<List<TurnoListModel>>(pacienteService.ListarTurnos(id.Value).Where(t => t.Estado == (short)EstadoTurno.Confirmado))
                     .OrderByDescending(t => t.ID).ToList();                    
             }
 

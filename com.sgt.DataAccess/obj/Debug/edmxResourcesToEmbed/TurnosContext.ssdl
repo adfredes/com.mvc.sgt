@@ -154,17 +154,15 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida
     <Property Name="ano" Type="smallint" />
     <Property Name="idturno" Type="int" />
   </EntityType>
-  <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="HorariosProfesionales">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
-    <Property Name="ProfesionalId" Type="int" />
-    <Property Name="diasemana" Type="int" />
-    <Property Name="desde" Type="datetime" />
-    <Property Name="hasta" Type="datetime" />
-    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="diaSemana" Type="int" Nullable="false" />
+    <Property Name="desde" Type="datetime" Nullable="false" />
+    <Property Name="hasta" Type="datetime" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Imagen">
     <Key>
@@ -522,6 +520,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_HorariosProfesionales_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+    <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="HorariosProfesionales">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Imagen_Paciente">
     <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
     <End Role="Imagen" Type="Self.Imagen" Multiplicity="*" />
@@ -656,20 +666,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Profesional_Horarios">
-    <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Profesional">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="HorariosProfesionales">
-        <PropertyRef Name="ProfesionalId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Profesional_TipoSesion_Profesional">
     <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -755,6 +751,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <EntitySet Name="Consultorio" EntityType="Self.Consultorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Documento_Tipo" EntityType="Self.Documento_Tipo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Feriado" EntityType="Self.Feriado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Imagen" EntityType="Self.Imagen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
@@ -810,15 +807,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     [Historial].[ano] AS [ano], 
     [Historial].[idturno] AS [idturno]
     FROM [dbo].[Historial] AS [Historial]</DefiningQuery>
-    </EntitySet>
-    <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [HorariosProfesionales].[ProfesionalId] AS [ProfesionalId], 
-    [HorariosProfesionales].[diasemana] AS [diasemana], 
-    [HorariosProfesionales].[desde] AS [desde], 
-    [HorariosProfesionales].[hasta] AS [hasta], 
-    [HorariosProfesionales].[ID] AS [ID]
-    FROM [dbo].[HorariosProfesionales] AS [HorariosProfesionales]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="opciones" EntityType="Self.opciones" store:Type="Tables" store:Schema="dbo">
       <DefiningQuery>SELECT 
@@ -900,6 +888,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       <End Role="TipoSesion" EntitySet="TipoSesion" />
       <End Role="Consultorio" EntitySet="Consultorio" />
     </AssociationSet>
+    <AssociationSet Name="FK_HorariosProfesionales_Profesional" Association="Self.FK_HorariosProfesionales_Profesional">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
+    </AssociationSet>
     <AssociationSet Name="FK_Imagen_Paciente" Association="Self.FK_Imagen_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="Imagen" EntitySet="Imagen" />
@@ -943,10 +935,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <AssociationSet Name="FK_Profesional_Ausencias_Profesional" Association="Self.FK_Profesional_Ausencias_Profesional">
       <End Role="Profesional" EntitySet="Profesional" />
       <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
-      <End Role="Profesional" EntitySet="Profesional" />
-      <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
     </AssociationSet>
     <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
       <End Role="Profesional" EntitySet="Profesional" />

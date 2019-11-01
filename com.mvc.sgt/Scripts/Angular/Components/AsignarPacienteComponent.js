@@ -114,7 +114,7 @@
         };
 
         vm.asignarPaciente = () => {
-            vm.paciente = JSON.parse(JSON.stringify(vm.pacienteSeleccionado));            
+            vm.paciente = JSON.parse(JSON.stringify(vm.pacienteSeleccionado));                        
             vm.turno.PacienteID = vm.paciente.ID;
             turnoService.asignarPaciente(vm.turno)
                 .then(data => {

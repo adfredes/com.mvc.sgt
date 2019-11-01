@@ -16,7 +16,7 @@
 
     let updated = () => {
         options.divGrilla.querySelector('.procesando').style.display = 'none';
-        options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+        options.intervalId = window.setInterval(sesionesIsUpdating, options.timeInterval);
         options.updating = false;
     };
 
@@ -574,6 +574,7 @@
     let init = () => {        
         options.divGrilla = document.querySelector('#GrillaContent');
 
+        let divGrillaContent = options.divGrilla.querySelector('#GrillaTableContent');
         options.notificationBar = document.querySelector('.notification-bar');        
 
         initModalListener();
@@ -582,7 +583,9 @@
         options.tabla = document.createElement('table');
         options.tabla.id = 'grillaTurnos';
         options.tabla.classList.add('grillaTurnos');
-        options.divGrilla.appendChild(options.tabla);
+        //options.divGrilla.appendChild(options.tabla);
+
+        divGrillaContent.appendChild(options.tabla);
 
         options.consultorios = [];
         options.horarios = [];
@@ -595,6 +598,7 @@
         options.fecha = new Date();
         options.sesionesActual = '';      
         options.updating = false;
+        options.timeInterval = 200000;
 
         options.duracionModulo = 30;
 
@@ -656,6 +660,7 @@
     }
 
     async function sesionesIsUpdating() {
+        console.log(new Date());
         if (options.updating === false) {
             if (options.intervalId) {
                 window.clearInterval(options.intervalId);
@@ -671,14 +676,14 @@
                 dibujarGrillaSesiones(newSesiones);
             }
             else {
-                options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+                options.intervalId = window.setInterval(sesionesIsUpdating, options.timeInterval);
             }
         }
         else {
             if (options.intervalId) {
                 window.clearInterval(options.intervalId);
             }
-            options.intervalId = window.setInterval(sesionesIsUpdating, 10000);
+            options.intervalId = window.setInterval(sesionesIsUpdating, options.timeInterval);
         }
     }
 
@@ -1721,6 +1726,7 @@
             tdDestino = e.target.parentElement;
         }
         e.target.classList.remove('dragenter');
+        //ver aca
         cambiarTurnoDropped(tdDestino, e.dataTransfer.getData('divId'));
 
     }
@@ -1735,7 +1741,8 @@
         let btnCambiar_click = e => {
             $("#cambiarTurnoDroppedModal").modal('hide');
             updating();
-            btnGuardar.removeEventListener('click', btnCambiar_click);
+            btnGuardar.onclick = undefined;
+            //btnGuardar.removeEventListener('click', btnCambiar_click);
             if (!sobreturno) {
                 let _sesiones = options.sesiones.filter(s => s.TurnoID == _sesionAnterior.TurnoID && s.Numero == _sesionAnterior.Numero);
                 let _estado = parseInt(_sesiones[0].Estado);
@@ -1863,8 +1870,10 @@
         }
 
 
-
-        btnGuardar.addEventListener('click', btnCambiar_click);
+        //btnGuardar.removeEventListener('click', btnCambiar_click);
+        //btnGuardar.addEventListener('click', btnCambiar_click);
+        btnGuardar.onclick = btnCambiar_click;
+        console.dir(btnGuardar);
         
         $("#cambiarTurnoDroppedModal").modal();
 
@@ -1920,7 +1929,7 @@
 
     function setEstadoCancelado(sesionID) {
         let url = Domain + "Sesion/Estado/Cancelar";
-        let params = {};ibuj
+        let params = {};
         params.id = sesionID;
         changeEstadoSesion(url, params, dibujarGrilla);
     }

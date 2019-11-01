@@ -148,22 +148,31 @@ namespace com.sgt.services.Services
         {
             var pacientes = unitOfWork.RepoPaciente.FindBy(x => x.Anual == true);
             List<Paciente> listaPacientes = new List<Paciente>();
-
-            foreach (var paciente in pacientes)
+            try
             {
-                int sesionesPendientes = paciente.Turnoes
-                    .Sum(x => x.Sesions
-                        .Select(s => new { s.TurnoID, s.Numero, s.Estado })
-                        .Distinct()
-                        .Where(s => (EstadoSesion)s.Estado == EstadoSesion.Confirmado)
-                        .ToList().Count)
-                    ;
-                if (sesionesPendientes <= 20)
+                DateTime hoy = DateTime.Now;
+                foreach (var paciente in pacientes)
                 {
-                    listaPacientes.Add(paciente);
-                }
+                    int sesionesPendientes = paciente.Turnoes
+                        .Sum(x => x.Sesions
+                        .Where(s => s.FechaHora >= hoy)
+                        .Select(s => new { s.TurnoID, s.Numero, s.Estado })
+                        .Where(s => (EstadoSesion)s.Estado == EstadoSesion.Confirmado)
+                            .Distinct()
+                            .ToList().Count)
+                        ;
+                    if (sesionesPendientes <= 20)
+                    {
+                        listaPacientes.Add(paciente);
+                    }
 
+                }
             }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
 
             return listaPacientes;
         }

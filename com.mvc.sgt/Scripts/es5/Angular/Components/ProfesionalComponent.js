@@ -5,6 +5,7 @@
         controller: ['crudService', '$filter', profesionalEditController],
         bindings: {
             profesional: "<",
+            diasSemana: "<",
             saveCallback: "="
         }
     });
@@ -13,6 +14,10 @@
         vm.error = '';
         vm.Tipos = [];
         vm.checkBoxTipos = {};
+        vm.minHours = '';
+        vm.maxHours = '';
+        vm.NuevoDia = {};
+        var agenda;
         vm.$onInit = function () {
             var promise = crudService.GetPHttp('api/tiposesion/all/cmb');
             promise.then(function (data) {
@@ -23,6 +28,30 @@
                 vm.Tipos = [];
                 vm.checkBoxTipos = {};
             });
+            var promise2 = crudService.GetPHttp('Agenda/JSON');
+            promise2.then(function (data) {
+                agenda = JSON.parse(data);
+                vm.minHours = agenda.HoraDesde.split("T")[1];
+                vm.maxHours = agenda.HoraHasta.split("T")[1];
+            })
+                .catch(function (err) {
+            });
+        };
+        vm.addDay = function (dia) {
+            if (dia.diaSemana > 0
+                && dia.desde < dia.hasta) {
+                if (!vm.profesional.Horarios) {
+                    vm.profesional.Horarios = [];
+                }
+                vm.profesional.Horarios.push(JSON.parse(JSON.stringify(dia)));
+                vm.NuevoDia = { diaSemana: null, desde: null, hasta: null };
+            }
+        };
+        vm.removeDay = function (index) {
+            vm.profesional.Horarios.splice(index, 1);
+        };
+        vm.nameOfDay = function (numero) {
+            return vm.diasSemana.find(function (e) { return e.Value == numero; });
         };
         vm.$onChanges = function (change) {
             if (change.profesional && !change.profesional.isFirstChange()) {
@@ -46,7 +75,7 @@
                 });
             }
             else {
-                var i = vm.profesional.TiposDeSesiones.findIndex(function (e) { return e.TipoSesionID == idTipo; });
+                var i = vm.profesional.TiposDeSesiones.findIndex(function (e) { return e.TipoSesionID === idTipo; });
                 vm.profesional.TiposDeSesiones.splice(i, 1);
             }
         };

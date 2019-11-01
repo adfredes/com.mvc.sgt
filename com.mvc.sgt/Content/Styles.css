@@ -15,7 +15,7 @@ body, html{
 }
 
 #main{
-    min-height:calc(100vh - 175px);
+    min-height:calc(100vh - 145px);
 }
 
 span.btn.ng-hide{

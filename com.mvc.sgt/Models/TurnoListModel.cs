@@ -11,6 +11,7 @@ namespace com.mvc.sgt.Models
 
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
-        
+        public int CantidadSesiones { get; set; }
+
     }
 }

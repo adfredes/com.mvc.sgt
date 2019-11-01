@@ -159,17 +159,15 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida
           <Property Name="ano" Type="smallint" />
           <Property Name="idturno" Type="int" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.HorariosProfesionales' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="HorariosProfesionales">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ProfesionalId" Type="int" />
-          <Property Name="diasemana" Type="int" />
-          <Property Name="desde" Type="datetime" />
-          <Property Name="hasta" Type="datetime" />
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="diaSemana" Type="int" Nullable="false" />
+          <Property Name="desde" Type="datetime" Nullable="false" />
+          <Property Name="hasta" Type="datetime" Nullable="false" />
+          <Property Name="ProfesionalID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Imagen">
           <Key>
@@ -527,6 +525,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HorariosProfesionales_Profesional">
+          <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+          <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HorariosProfesionales">
+              <PropertyRef Name="ProfesionalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Imagen_Paciente">
           <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
           <End Role="Imagen" Type="Self.Imagen" Multiplicity="*" />
@@ -661,20 +671,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Profesional_Horarios">
-          <End Role="Profesional" Type="Self.Profesional" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="HorariosProfesionales" Type="Self.HorariosProfesionales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profesional">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="HorariosProfesionales">
-              <PropertyRef Name="ProfesionalId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Profesional_TipoSesion_Profesional">
           <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -760,6 +756,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <EntitySet Name="Consultorio" EntityType="Self.Consultorio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Documento_Tipo" EntityType="Self.Documento_Tipo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Feriado" EntityType="Self.Feriado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Imagen" EntityType="Self.Imagen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Localidad" EntityType="Self.Localidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
@@ -815,15 +812,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     [Historial].[ano] AS [ano], 
     [Historial].[idturno] AS [idturno]
     FROM [dbo].[Historial] AS [Historial]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="HorariosProfesionales" EntityType="Self.HorariosProfesionales" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [HorariosProfesionales].[ProfesionalId] AS [ProfesionalId], 
-    [HorariosProfesionales].[diasemana] AS [diasemana], 
-    [HorariosProfesionales].[desde] AS [desde], 
-    [HorariosProfesionales].[hasta] AS [hasta], 
-    [HorariosProfesionales].[ID] AS [ID]
-    FROM [dbo].[HorariosProfesionales] AS [HorariosProfesionales]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="opciones" EntityType="Self.opciones" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -905,6 +893,10 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             <End Role="TipoSesion" EntitySet="TipoSesion" />
             <End Role="Consultorio" EntitySet="Consultorio" />
           </AssociationSet>
+          <AssociationSet Name="FK_HorariosProfesionales_Profesional" Association="Self.FK_HorariosProfesionales_Profesional">
+            <End Role="Profesional" EntitySet="Profesional" />
+            <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
+          </AssociationSet>
           <AssociationSet Name="FK_Imagen_Paciente" Association="Self.FK_Imagen_Paciente">
             <End Role="Paciente" EntitySet="Paciente" />
             <End Role="Imagen" EntitySet="Imagen" />
@@ -948,10 +940,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <AssociationSet Name="FK_Profesional_Ausencias_Profesional" Association="Self.FK_Profesional_Ausencias_Profesional">
             <End Role="Profesional" EntitySet="Profesional" />
             <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Profesional_Horarios" Association="Self.FK_Profesional_Horarios">
-            <End Role="Profesional" EntitySet="Profesional" />
-            <End Role="HorariosProfesionales" EntitySet="HorariosProfesionales" />
           </AssociationSet>
           <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
             <End Role="Profesional" EntitySet="Profesional" />
@@ -1194,8 +1182,8 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Agenda" Relationship="Self.FK_Agenda_Profesional" FromRole="Profesional" ToRole="Agenda" />
           <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional" ToRole="Profesional_TipoSesion" />
-          <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="Profesional" ToRole="HorariosProfesionale" />
           <NavigationProperty Name="Profesional_Ausencias" Relationship="TurnosModel.FK_Profesional_Ausencias_Profesional" FromRole="Profesional" ToRole="Profesional_Ausencias" />
+          <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_HorariosProfesionales_Profesional" FromRole="Profesional" ToRole="HorariosProfesionale" />
         </EntityType>
         <EntityType Name="Provincia">
           <Key>
@@ -1577,11 +1565,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             <End Role="TipoSesion" EntitySet="TipoSesions" />
             <End Role="Profesional_TipoSesion" EntitySet="Profesional_TipoSesion" />
           </AssociationSet>
-          <EntitySet Name="HorariosProfesionales" EntityType="TurnosModel.HorariosProfesionale" />
-          <AssociationSet Name="FK_Profesional_Horarios" Association="TurnosModel.FK_Profesional_Horarios">
-            <End Role="Profesional" EntitySet="Profesionals" />
-            <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
-          </AssociationSet>
           <EntitySet Name="Sesions" EntityType="TurnosModel.Sesion" />
           <EntitySet Name="Turnoes" EntityType="TurnosModel.Turno" />
           <AssociationSet Name="FK_Sesion_Agenda" Association="TurnosModel.FK_Sesion_Agenda">
@@ -1619,6 +1602,11 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <AssociationSet Name="FK_Turno_TipoSesion" Association="TurnosModel.FK_Turno_TipoSesion">
             <End Role="TipoSesion" EntitySet="TipoSesions" />
             <End Role="Turno" EntitySet="Turnoes" />
+          </AssociationSet>
+          <EntitySet Name="HorariosProfesionales" EntityType="TurnosModel.HorariosProfesionale" />
+          <AssociationSet Name="FK_HorariosProfesionales_Profesional" Association="TurnosModel.FK_HorariosProfesionales_Profesional">
+            <End Role="Profesional" EntitySet="Profesionals" />
+            <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="TipoSesion">
@@ -1681,31 +1669,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Principal>
             <Dependent Role="Profesional_TipoSesion">
               <PropertyRef Name="TipoSesionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="HorariosProfesionale">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ProfesionalId" Type="Int32" />
-          <Property Name="diasemana" Type="Int32" />
-          <Property Name="desde" Type="DateTime" Precision="3" />
-          <Property Name="hasta" Type="DateTime" Precision="3" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Horarios" FromRole="HorariosProfesionale" ToRole="Profesional" />
-        </EntityType>
-        <Association Name="FK_Profesional_Horarios">
-          <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="TurnosModel.HorariosProfesionale" Role="HorariosProfesionale" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profesional">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="HorariosProfesionale">
-              <PropertyRef Name="ProfesionalId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1893,6 +1856,29 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Principal>
             <Dependent Role="Turno">
               <PropertyRef Name="TipoSesionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HorariosProfesionale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="diaSemana" Type="Int32" Nullable="false" />
+          <Property Name="desde" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="hasta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_HorariosProfesionales_Profesional" FromRole="HorariosProfesionale" ToRole="Profesional" />
+        </EntityType>
+        <Association Name="FK_HorariosProfesionales_Profesional">
+          <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1" />
+          <End Type="TurnosModel.HorariosProfesionale" Role="HorariosProfesionale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HorariosProfesionale">
+              <PropertyRef Name="ProfesionalID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2252,17 +2238,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HorariosProfesionales">
-            <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
-              <MappingFragment StoreEntitySet="HorariosProfesionales">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="hasta" ColumnName="hasta" />
-                <ScalarProperty Name="desde" ColumnName="desde" />
-                <ScalarProperty Name="diasemana" ColumnName="diasemana" />
-                <ScalarProperty Name="ProfesionalId" ColumnName="ProfesionalId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Sesions">
             <EntityTypeMapping TypeName="TurnosModel.Sesion">
               <MappingFragment StoreEntitySet="Sesion">
@@ -2344,6 +2319,17 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
                 <ScalarProperty Name="FechaHasta" ColumnName="FechaHasta" />
                 <ScalarProperty Name="FechaDesde" ColumnName="FechaDesde" />
                 <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HorariosProfesionales">
+            <EntityTypeMapping TypeName="TurnosModel.HorariosProfesionale">
+              <MappingFragment StoreEntitySet="HorariosProfesionales">
+                <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
+                <ScalarProperty Name="hasta" ColumnName="hasta" />
+                <ScalarProperty Name="desde" ColumnName="desde" />
+                <ScalarProperty Name="diaSemana" ColumnName="diaSemana" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
