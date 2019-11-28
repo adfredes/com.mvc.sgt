@@ -1287,14 +1287,77 @@ namespace com.sgt.services.Services
             return sesiones;
         }
 
+        //private ICollection<Sesion> CambiarFechaSesion(ICollection<Sesion> sesiones, bool sobreturno)
+        //{
+        //    var turno = unitOfWork.RepoTurno.Find(sesiones.FirstOrDefault().TurnoID);
+        //    var sesionesViejasID = sesiones.Where(x => x.ID > 0).Select(x => x.ID).ToList();
+
+        //    if (turno.Sesions.Where(x => EstadoSesionCondicion.Libre.Contains((EstadoSesion)x.Estado) && EstadoSesion.SinFechaLibre != (EstadoSesion)x.Estado && sesionesViejasID.Contains(x.ID)).ToList().Count() > 0)
+        //    {
+        //        throw new Exception("Los datos de la sesion no se encuentran actualizados.");
+        //    }
+
+
+
+        //    var estadoTurno = turno.Estado;
+        //    var sesionesNuevas = sesiones.Where(x => x.ID == 0).ToList();
+        //    if (!sobreturno)
+        //    {
+        //        DateTime beginDate = sesiones.Where(x => x.ID == 0).Min(x => x.FechaHora);
+        //        DateTime endDate = sesiones.Where(x => x.ID == 0).Max(x => x.FechaHora);
+        //        short simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, sesionesNuevas.FirstOrDefault().ConsultorioID);
+
+        //        if (simultaneo == 0)
+        //        {
+        //            throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+        //        }
+        //        else
+        //        {
+        //            sesionesNuevas.ForEach(_s =>
+        //            {
+        //                _s.TurnoSimultaneo = (short)simultaneo;
+        //                _s.Estado = (EstadoTurno)estadoTurno == EstadoTurno.Reservado ? (short)EstadoSesion.Reservado : (short)EstadoSesion.Confirmado;
+        //            });
+        //        }
+        //    }
+        //    //cambio
+        //    if (ValidarNuevasSesiones(sesionesNuevas, turno.TurnoDoble.HasValue, sobreturno))
+        //    {
+        //        sesiones.ToList().ForEach(s =>
+        //        {
+        //            if (s.ID > 0)
+        //                unitOfWork.RepoSesion.Edit(s);
+        //            else
+        //                unitOfWork.RepoSesion.Add(s);
+        //        });
+        //        SortSesiones(sesiones.FirstOrDefault().TurnoID);
+        //        //Usar using com.sgt.DataAccess.ExtensionMethod;                
+        //    }
+        //    else
+        //    {
+        //        if (turno.TurnoDoble.HasValue)
+        //        {
+        //            throw new Exception("Existen sesiones ya asignadas a su seleccion o existe un paciente con doble orden en el mismo horario.");
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("Existen sesiones ya asignadas a su seleccion.");
+        //        }
+        //    }
+        //    return sesiones;
+
+        //}
+
         private ICollection<Sesion> CambiarFechaSesion(ICollection<Sesion> sesiones, bool sobreturno)
         {
+
+            
             var turno = unitOfWork.RepoTurno.Find(sesiones.FirstOrDefault().TurnoID);
             var sesionesViejasID = sesiones.Where(x => x.ID > 0).Select(x => x.ID).ToList();
 
             if (turno.Sesions.Where(x => EstadoSesionCondicion.Libre.Contains((EstadoSesion)x.Estado) && EstadoSesion.SinFechaLibre != (EstadoSesion)x.Estado && sesionesViejasID.Contains(x.ID)).ToList().Count() > 0)
-            {
-                throw new Exception("Los datos de la sesion no se encuentran actualizados.");
+            {                
+                throw new Exception("Los datos de la sesion no se encuentran actualizados.");                
             }
 
 
@@ -1303,12 +1366,22 @@ namespace com.sgt.services.Services
             var sesionesNuevas = sesiones.Where(x => x.ID == 0).ToList();
             if (!sobreturno)
             {
+                sesiones.Where(s => s.ID > 0).ToList().ForEach(s =>
+                {
+                    unitOfWork.RepoSesion.Edit(s);
+                });
+
                 DateTime beginDate = sesiones.Where(x => x.ID == 0).Min(x => x.FechaHora);
                 DateTime endDate = sesiones.Where(x => x.ID == 0).Max(x => x.FechaHora);
                 short simultaneo = SearchTurnosSimultaneoByDate(beginDate, endDate, sesionesNuevas.FirstOrDefault().ConsultorioID);
 
                 if (simultaneo == 0)
                 {
+                    sesiones.Where(s => s.ID > 0).ToList().ForEach(s =>
+                    {
+                        s.Estado = sesiones.Where(ss => ss.ID ==0).FirstOrDefault().Estado;
+                        unitOfWork.RepoSesion.Edit(s);
+                    });
                     throw new Exception("Existen sesiones ya asignadas a su seleccion.");
                 }
                 else
@@ -1335,6 +1408,14 @@ namespace com.sgt.services.Services
             }
             else
             {
+                if (!sobreturno)
+                {
+                    sesiones.Where(s => s.ID > 0).ToList().ForEach(s =>
+                    {
+                        s.Estado = sesiones.Where(ss => ss.ID == 0).FirstOrDefault().Estado;
+                        unitOfWork.RepoSesion.Edit(s);
+                    });
+                }                
                 if (turno.TurnoDoble.HasValue)
                 {
                     throw new Exception("Existen sesiones ya asignadas a su seleccion o existe un paciente con doble orden en el mismo horario.");

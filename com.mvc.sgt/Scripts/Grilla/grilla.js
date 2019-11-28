@@ -627,13 +627,15 @@
     });
     
 
-    function validarSesiones(_sesiones) {
+    function validarSesiones(_sesiones) {        
         return options.sesiones.findIndex(se =>
             se.ConsultorioID == _sesiones[0].ConsultorioID &&
             se.TurnoSimultaneo == _sesiones[0].TurnoSimultaneo &&
             se.fecha == _sesiones[0].fecha &&
             parseInt(se.hora) >= parseInt(_sesiones[0].hora) &&
-            parseInt(se.hora) <= parseInt(_sesiones[_sesiones.length - 1].hora)
+            parseInt(se.hora) <= parseInt(_sesiones[_sesiones.length - 1].hora) &&
+            !(se.Numero == _sesiones[0].Numero &&
+            se.TurnoID == _sesiones[0].TurnoID)
 
         ) === -1 ? true : false;
 
