@@ -14,11 +14,11 @@
     @Scripts.Render("~/bundles/angular")
     @RenderSection("scripts", required: false)
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="icon" href="@Url.Content("~/content/favicon.ico")" />
+    <link rel="icon" href="@Url.Content("~/content/favicon.ico")" />    
 </head>
-<body ng-app="sgtApp">
+<body ng-app="sgtApp" class="pb-0">
     <header ng-controller="navbarController as nvCtr">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top fixed-index p-2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top fixed-index p-0">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -26,9 +26,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" ng-class="{active: nvCtr.activeLink=='turnos'}">
                         <a class="navbar-brand" href="#" ng-click="nvCtr.changeLink('turnos');">
-                            <img src="~/Content/img/logo_calendar.png"
-                                 class="d-inline-block align-middle img p-0"
-                                 style="box-shadow: none; height:60px; " alt="" />
+                            <img src="~/Content/img/sgt.png"
+                                 class="d-inline-block align-middle img ml-2 p-0 mt-2"
+                                 style="box-shadow: none; height:40px; " alt="" />
                         </a>
                     </li>
 
@@ -87,14 +87,14 @@
 
         }
     </div>
-    <main class="container-fluid body-content mt-4 pt-4" id="main">
+    <main class="container-fluid body-content mt-3 pt-1 p-0" id="main">
         @RenderBody()
     </main>
     @*<hr />*@
 
 
-    <footer class="container-fluid body-content mt-1 pt-3 border-top">
+    @*<footer class="container-fluid body-content mt-1 pt-3 border-top">
         <p class="text-center p-0 m-0">&copy; @DateTime.Now.Year - Gestión de Turnos</p>      
-    </footer>
+    </footer>*@
 </body>
 </html>

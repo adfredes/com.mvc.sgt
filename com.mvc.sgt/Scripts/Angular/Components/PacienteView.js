@@ -47,7 +47,10 @@
 
         let loadPaciente = (id) => {            
             
-            vm.paciente = { ID: 0 };
+            vm.paciente = {
+                ID: 0,
+                Celular: "5411"
+            };
             vm.selectedIndex = 0;
             if (id && id > 0) {
                 vm.saving = true;
@@ -224,6 +227,10 @@
             let promise = crudService.GetPHttp(_url);
             promise.then(data => generateLink(data))
                 .catch(error => error = []);
+        };
+
+        vm.viewFile = file => {                        
+            turnoService.viewFile(file.ID, vm.parent);                
         };
 
         let generateLink = archivo => {

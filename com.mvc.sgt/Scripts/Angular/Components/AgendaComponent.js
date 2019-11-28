@@ -18,8 +18,7 @@
 
         vm.save = function (data) {
             
-            
-            console.dir(data);
+                        
             var promise = crudService.PutHttp('/Agenda/Edit', data);
             promise.then(function (data) {
                 if (vm.onSave) {

@@ -1,4 +1,4 @@
-﻿<div>
+﻿<div class="p-3 mt-4">
     <div class="panel panel-default">
         <div class="panel-body">
             <div ng-controller="profesionalController" ng-init="GetProfesionales()">
@@ -31,7 +31,7 @@
                             <span class="icon-ok" ng-show="profesional.Habilitado"></span>
                             <span class="icon-cancel" ng-hide="profesional.Habilitado"></span>
                         </td>
-                        <td class="text-center align-middle">                            
+                        <td class="text-center align-middle">
                             <div class="d-inline" ng-click="Delete(profesional)">
                                 <md-tooltip md-direction="bottom">Eliminar</md-tooltip>
                                 <span class="icon-trash-empty btn"></span>

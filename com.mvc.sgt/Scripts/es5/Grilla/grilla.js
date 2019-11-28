@@ -359,7 +359,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         e.stopPropagation();
         $('#cancelarSesionModal').modal('hide');
         if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
-            anularSesionesPendientes(modal.dataset.turnoID);
+            anularSesionesSiguientes(modal.dataset.sesionID);
         }
         else {
             setEstadoCancelado(modal.dataset.sesionID);
@@ -674,7 +674,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var divReservas = options.divGrilla.querySelector('#divReservas');
         divReservas.innerHTML = "";
         if (options.sesionesReservadas.length > 0) {
-            var innerDiv_1 = "<p><span class='icon-calendar'></span>\n                                    " + options.sesionesReservadas.length + " Reservas\n                                    <span id=\"btnDivReservasCancelar\" class=\"icon-cancel\"></span>\n                                    <span id=\"btnDivReservasAceptar\" class=\"icon-ok\"></span>\n                                    <span>&nbsp</span>\n                                </p>\n                                <ul>";
+            var innerDiv_1 = "<p><span class='icon-calendar'>" + options.sesionesReservadas.length + "</span>\n                                    \n                                    <span id=\"btnDivReservasCancelar\" class=\"icon-cancel\"></span>\n                                    <span id=\"btnDivReservasAceptar\" class=\"icon-ok\"></span>\n                                    <span>&nbsp</span>\n                                </p>\n                                <ul>";
             options.sesionesReservadas.sort(function (a, b) { return parseInt(a.fecha) - parseInt(b.fecha); });
             options.sesionesReservadas.forEach(function (e) {
                 var _fecha = e.fecha.substr(6, 2) + '/' + e.fecha.substr(4, 2) + '/' + e.fecha.substr(0, 4);
@@ -1334,6 +1334,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function dragEndEvent(e) {
         var celdaId = e.target.id.split('D')[0];
         var celda = options.tabla.querySelector(celdaId);
+        var col = options.tabla.querySelector('#' + options.idColDrag);
+        var row = options.tabla.querySelector('#' + options.idRowDrag);
+        if (col && row) {
+            col.classList.remove('hover-drag-title');
+            row.classList.remove('hover-drag-title');
+        }
     }
     function removeCeldaDroppable(celda) {
         celda.removeEventListener('dragenter', dragenterEvent);
@@ -1361,10 +1367,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         e.preventDefault();
         e.stopPropagation();
         e.target.classList.remove('dragenter');
+        var eID = e.target.id;
+        var idCol = eID.substr(0, 9) + eID.substr(14, eID.indexOf('S') - 14);
+        var idRow = eID.substr(9, 5);
+        var col = options.tabla.querySelector('#' + idCol);
+        var row = options.tabla.querySelector('#' + idRow);
+        if (col && row) {
+            row.classList.remove('hover-drag-title');
+            col.classList.remove('hover-drag-title');
+        }
     }
     function dragoverEvent(e) {
         e.preventDefault();
         e.stopPropagation();
+        var eID = e.target.id;
+        var idColDrag = eID.substr(0, 9) + eID.substr(14, eID.indexOf('S') - 14);
+        var idRowDrag = eID.substr(9, 5);
+        var col = options.tabla.querySelector('#' + idColDrag);
+        var row = options.tabla.querySelector('#' + idRowDrag);
+        if (col && row) {
+            col.classList.add('hover-drag-title');
+            row.classList.add('hover-drag-title');
+        }
     }
     function dropEvent(e) {
         e.preventDefault();
@@ -1515,6 +1539,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         }
         return resu;
     }
+    function anularSesionesSiguientes(sesionID) {
+        var url = Domain + "Sesion/Siguientes/Anular";
+        var params = {};
+        params.id = sesionID;
+        var promise = ajaxPromise("PUT", url, params);
+        promise.then(dibujarGrilla());
+    }
     function anularSesionesPendientes(turnoID) {
         var url = Domain + "Sesion/Pendiente/Anular";
         var params = {};
@@ -1657,22 +1688,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 switch (_a.label) {
                     case 0:
                         url = Domain + "/api/grilla/Ausencias/" + options.fecha.getDate() + "/" + (options.fecha.getMonth() + 1) + "/" + options.fecha.getFullYear() + "/" + options.vista;
-                        return [4, fetch(url)];
-                    case 1:
-                        responseDias = _a.sent();
-                        return [4, responseDias.json()];
-                    case 2: return [2, _a.sent()];
-                }
-            });
-        });
-    }
-    function getBloqueosAgenda() {
-        return __awaiter(this, void 0, void 0, function () {
-            var responseDias;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        url = Domain + "/api/grilla/Bloqueo/" + options.fecha.getDate() + "/" + (options.fecha.getMonth() + 1) + "/" + options.fecha.getFullYear() + "/" + options.vista;
                         return [4, fetch(url)];
                     case 1:
                         responseDias = _a.sent();

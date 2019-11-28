@@ -73,6 +73,7 @@
 
         $scope.Create = function () {
             $scope.PacienteModel = {};
+            
         };
 
         $scope.GetPacientes = function () {

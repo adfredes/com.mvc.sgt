@@ -316,6 +316,7 @@
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\font\fontello.svg" />
+    <Content Include="Content\img\sgt.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -379,6 +380,7 @@
     <Content Include="Scripts\Angular\Components\SesionPosponerComponent.js" />
     <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
+    <Content Include="Scripts\Angular\Components\ViewFile.js" />
     <Content Include="Scripts\Angular\Services\MessageService.js" />
     <Content Include="Scripts\Angular\Services\TurnoService.js" />
     <Content Include="Scripts\autoscroll.js" />

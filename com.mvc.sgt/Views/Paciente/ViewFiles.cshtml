@@ -29,10 +29,11 @@
         </td>
         <td class="text-left w-auto p-1">{{file.FechaModificacion.substr(0,10) | date: "dd/MM/yyyy"}}</td>
         <td class="text-center p-1">
-            <span class="icon-floppy btn" ng-click="$ctrl.downloadFile(file)"></span>         
-            <span class="icon-trash-empty btn" ng-click="$ctrl.deleteFile(file)"></span>
-        </td>
+            <span class="icon-search btn" ng-click="$ctrl.viewFile(file)"></span>
+            <span class="icon-floppy btn" ng-click="$ctrl.downloadFile(file)"></span>
+            <span class="icon-trash-empty btn" ng-click="$ctrl.deleteFile(file)"></span>            
+        </td>        
     </tr>
-    <a id="dwnl" ng-show="true==false" href="#"></a>
+    <a id="dwnl" ng-show="true==false" href="#"></a>    
 </table>
 

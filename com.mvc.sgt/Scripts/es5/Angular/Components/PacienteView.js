@@ -30,7 +30,10 @@
         vm.saving = false;
         vm.getTipoSesion = function (idTipo) { return turnoService.getTipoSesion(idTipo); };
         var loadPaciente = function (id) {
-            vm.paciente = { ID: 0 };
+            vm.paciente = {
+                ID: 0,
+                Celular: "5411"
+            };
             vm.selectedIndex = 0;
             if (id && id > 0) {
                 vm.saving = true;
@@ -179,6 +182,9 @@
             var promise = crudService.GetPHttp(_url);
             promise.then(function (data) { return generateLink(data); })
                 .catch(function (error) { return error = []; });
+        };
+        vm.viewFile = function (file) {
+            turnoService.viewFile(file.ID, vm.parent);
         };
         var generateLink = function (archivo) {
             var dlnk = $window.document.querySelector('#dwnl');

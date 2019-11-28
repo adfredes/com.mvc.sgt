@@ -9,6 +9,7 @@ using com.sgt.DataAccess;
 using com.sgt.DataAccess.Enums;
 using com.sgt.services.Interfaces;
 using com.sgt.services.Services;
+using System.Data.Entity;
 
 namespace ImportarImagenes
 {
@@ -16,17 +17,33 @@ namespace ImportarImagenes
     {
         static void Main(string[] args)
         {
-           
-            setTurnoRepeticiones();
-            return;
+            int[] turnosID = new int[] {20660
+,20667
+,20668
+,21918
+,24336
+//,24343
+//,24348
+,24369
+            };
+            turnosID.ToList().ForEach(t =>
+            {
+                LecturaTurno(t);
+            });
+            
 
+
+        }
+
+        static void ViejoMain()
+        {
             string ruta = @"K:\FotosPacientes\";
             IPacienteService servicio = new PacienteService(new UnitOfWork(new TurnosDB()));
             foreach (string fileRut in System.IO.Directory.GetFiles(ruta))
             {
-                Console.WriteLine(fileRut.Replace(ruta,""));
+                Console.WriteLine(fileRut.Replace(ruta, ""));
                 try
-                {                    
+                {
                     int PacienteID = Convert.ToInt32(fileRut.Replace(ruta, "").Replace(".jpg", ""));
                     var paciente = servicio.Find(PacienteID);
                     Byte[] bytes = File.ReadAllBytes(fileRut);
@@ -34,12 +51,12 @@ namespace ImportarImagenes
                     paciente.Foto = fileB64;
                     servicio.Edit(paciente);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                     //Console.ReadKey();
                 }
-                
+
             }
             Console.ReadKey();
         }
@@ -94,6 +111,43 @@ namespace ImportarImagenes
             }
         }
 
+
+        static void LecturaTurno(int id)
+        {
+            var uof = new UnitOfWork(new TurnosDB());
+            AgendaService servicio = new AgendaService(uof);
+            
+            DateTime modi = Convert.ToDateTime("04/11/2019");
+            var turno = servicio.GetTurno(id);
+            //var sesiones = turno.Sesions.Where(x => x.Estado == 6 && x.FechaModificacion == modi);
+            //var pedro = sesiones.ToList();
+            //uof.RepoSesion.FindBy(x => x.TurnoID == id && x.Estado == 6 && x.FechaModificacion > modi);
+
+            var fechas = uof.RepoSesion.FindBy(x => x.TurnoID == id && x.Estado == 6 && DbFunctions.TruncateTime(x.FechaModificacion) == modi)
+                .Select(x => new { fecha = DbFunctions.TruncateTime(x.FechaHora), modi = x.FechaModificacion })
+                .Distinct()
+                .OrderBy(x => x.fecha)
+                .ToList();
+
+            short numero = (short)turno.CantidadSesiones;
+            fechas.ForEach(s =>
+            {
+                numero++;
+                var sesiones = uof.RepoSesion.FindBy(x => x.TurnoID == id && x.Estado == 6 && x.FechaModificacion == s.modi
+                && DbFunctions.TruncateTime(x.FechaHora) == s.fecha).ToList();
+                DateTime modificado = DateTime.Now;
+                sesiones.ForEach(p =>
+                {
+                    p.Numero = numero;
+                    p.Estado = (short)2;
+                    p.FechaModificacion = modificado;
+                    p.UsuarioModificacion = "sistema";
+                    uof.RepoSesion.Edit(p);
+                });                                
+            });
+            turno.CantidadSesiones = numero;
+            uof.RepoTurno.Edit(turno);
+        }
 
     }
 }

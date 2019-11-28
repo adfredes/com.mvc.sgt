@@ -2,12 +2,12 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('sesionesView', {
         templateUrl: Domain + 'Paciente/ViewSesiones',
-        controller: ['messageService', 'turnoService', 'eventService', '$element', sesionesViewController],
+        controller: ['$route', '$location', '$timeout', '$window', 'messageService', 'turnoService', 'eventService', '$element', sesionesViewController],
         bindings: {
             divid: "@"
         }
     });
-    function sesionesViewController(messageService, turnoService, eventService, $element) {
+    function sesionesViewController($route, $location, $timeout, $window, messageService, turnoService, eventService, $element) {
         vm = this;
         vm.currentPage = 0;
         vm.initPage = 0;
@@ -31,6 +31,21 @@
         };
         vm.pacienteChange = function () {
             init();
+        };
+        vm.sesionClick = function (fecha) {
+            $window.sessionStorage.removeItem('FechaGrillaTurnos');
+            $window.sessionStorage.removeItem('VistaGrillaTurnos');
+            $window.sessionStorage.setItem('FechaGrillaTurnos', moment(fecha).toDate());
+            $window.sessionStorage.setItem('VistaGrillaTurnos', 'd');
+            $('#' + vm.divid).modal('hide');
+            $timeout(function () {
+                if ($location.path() == '/Turnos') {
+                    $route.reload();
+                }
+                else {
+                    $location.path('/Turnos');
+                }
+            }, 500);
         };
         vm.bolder = function (estado) { return turnoService.bolder(estado); };
         vm.pacienteSeleccionado = {};

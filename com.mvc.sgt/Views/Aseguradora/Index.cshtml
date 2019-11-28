@@ -4,47 +4,47 @@
     
 
 
-<div>
-   
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div ng-controller="aseguradoraController" ng-init="GetAseguradoras()">
-                <table class="table table-responsive-sm table-hover border">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col" class="w-50">Descripcion</th>
-                            <th scope="col" class="text-center">Color</th>
-                            <th scope="col" class="text-center">Habilitado</th>
-                            <th scope="col" class="text-center">Modificado</th>
-                            <th scope="col">Action</th>
+    <div class="p-3 mt-4">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div ng-controller="aseguradoraController" ng-init="GetAseguradoras()">
+                    <table class="table table-responsive-sm table-hover border">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col" class="w-50">Descripcion</th>
+                                <th scope="col" class="text-center">Color</th>
+                                <th scope="col" class="text-center">Habilitado</th>
+                                <th scope="col" class="text-center">Modificado</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="aseguradora in aseguradoras">
+                            <th scope="row">{{aseguradora.ID}}</th>
+                            <td>{{aseguradora.Descripcion}}</td>
+                            <td class="text-center"><span style="height:20px; width:20px; background:{{aseguradora.Color}}; display: inline-block"></span></td>
+                            <td class="text-center">
+                                <input type="checkbox" class="form-check-input" ng-model="aseguradora.Habilitado" disabled />
+                            </td>
+                            <td>{{aseguradora.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}</td>
+                            <td class="text-center align-middle">
+                                <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(aseguradora.ID)"></span>
+                            </td>
                         </tr>
-                    </thead>
-                    <tr ng-repeat="aseguradora in aseguradoras">
-                        <th scope="row">{{aseguradora.ID}}</th>
-                        <td>{{aseguradora.Descripcion}}</td>
-                        <td class="text-center"><span style="height:20px; width:20px; background:{{aseguradora.Color}}; display: inline-block"></span></td>
-                        <td class="text-center">
-                            <input type="checkbox" class="form-check-input" ng-model="aseguradora.Habilitado" disabled />
-                        </td>
-                        <td>{{aseguradora.FechaModificacion.substr(6,13) | date: "MM/dd/yyyy HH:mm:ss"}}</td>
-                        <td class="text-center align-middle">
-                            <span class="icon-edit btn" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Edit(aseguradora.ID)"></span>
-                        </td>
-                    </tr>
-                </table>
-                <div class="form-group">
+                    </table>
+                    <div class="form-group">
                         <md-button type="button" class="md-fab md-primary align-middle" data-target="#CreateOrUpdate" data-toggle="modal" ng-click="Create()">
                             <md-tooltip md-direction="right">Nueva Aseguradora</md-tooltip>
                             <span class="icon-hospital"></span>
                         </md-button>
                     </div>
-                <aseguradora-edit aseguradora="AseguradoraModel" save="Save"></aseguradora-edit>
+                    <aseguradora-edit aseguradora="AseguradoraModel" save="Save"></aseguradora-edit>
+                </div>
+
             </div>
-
         </div>
-    </div>
 
-</div>
+    </div>
 
 

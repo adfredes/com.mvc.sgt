@@ -9,13 +9,14 @@
 
 }
 
+
 body, html{
     height: auto !important;
     min-height: 100vh;
 }
 
-#main{
-    min-height:calc(100vh - 145px);
+#main {
+    min-height: calc(100vh - 145px);
 }
 
 span.btn.ng-hide{
@@ -35,13 +36,14 @@ span.btn.ng-hide{
     display: flex;
     flex-direction: row-reverse;
     position: fixed;
-    top: 5.5rem;
-    right: 0px;
+    top: 4.5rem;
+    right: 1rem;
     height: auto;
     width: auto;
     z-index: 2000;
     transition: all 0.4s;
 }
+
 
 .context-menu-list, .datepicker {
     z-index: 2000 !important;
@@ -370,7 +372,7 @@ input[readonly]{
 /*********Semanal***********/
 .reservas {
     position: fixed;
-    top: 5rem;
+    top: 4rem;
     left: 0px;
     display: none;
     height: auto;
@@ -608,6 +610,13 @@ input[readonly]{
     color: red;
 }
 
+.hover-drag-title {
+    /*font-weight: bold;*/
+    /*box-shadow: 2px 2px 2px #000 inset;*/
+    color: white;
+    background:#000;
+}
+
 .dragenter {
     background-color: #222 !important;
     cursor: cell !important;
@@ -649,6 +658,16 @@ input[readonly]{
 
 
     /**********Botonera turno confirmado*/
+    .botonera  .md-button{
+        font-size: 0.7rem !important;
+        min-height: 1rem !important;
+        line-height: 1.5rem !important;
+    }
+
+.botonera{
+    text-align: center;
+}
+
 .botonera-turno-confirmado [type="button"] {
     min-width: 2rem;
 }
@@ -698,12 +717,35 @@ input[readonly]{
 
 @media only screen and (max-width: 991px) and (min-width: 576px){
     .notification-bar {        
-        top: 4.5rem;        
+        top: 3.5rem;        
     }
     .reservas {
-        top: 4rem;
+        top: 3rem;
     }
 /*    .sinFechaComponent {
         top: 60px;
     }*/
+   
+}
+
+@media only screen and (max-width: 576px) {
+    .notification-bar {
+        top: 4.3rem;
+    }
+   
+
+    
+}
+
+@media only screen and (max-width:365px) {
+    .navbar search-paciente{
+        display:none;
+    }
+    .notification-bar {
+        top: 2.5rem;
+    }
+
+    .reservas {
+        top: 2rem;
+    }
 }

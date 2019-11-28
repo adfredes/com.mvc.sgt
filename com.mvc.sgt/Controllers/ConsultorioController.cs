@@ -96,20 +96,20 @@ namespace com.mvc.sgt.Controllers
                 horaInicio = horaInicio.AddMinutes(agenda.Frecuencia);
             }
 
-            var bloqueos = agendaService.SearchBloqueos(fecha, fecha);
-            bloqueos.ToList().ForEach(bloqueo =>
-            {
-                while(bloqueo.HoraDesde.Value.TimeOfDay <= bloqueo.HoraHasta.Value.TimeOfDay)
-                {
-                    sesiones.Add(new Sesion
-                    {
-                        FechaHora = bloqueo.HoraDesde.Value,
-                        ConsultorioID = bloqueo.ConsultorioId,
-                        TurnoSimultaneo = bloqueo.TurnoSimultaneo
-                    });
-                    bloqueo.HoraDesde = bloqueo.HoraDesde.Value.AddMinutes(agenda.Frecuencia);
-                }                
-            });
+            //var bloqueos = agendaService.SearchBloqueos(fecha, fecha);
+            //bloqueos.ToList().ForEach(bloqueo =>
+            //{
+            //    while(bloqueo.HoraDesde.Value.TimeOfDay <= bloqueo.HoraHasta.Value.TimeOfDay)
+            //    {
+            //        sesiones.Add(new Sesion
+            //        {
+            //            FechaHora = bloqueo.HoraDesde.Value,
+            //            ConsultorioID = bloqueo.ConsultorioId,
+            //            TurnoSimultaneo = bloqueo.TurnoSimultaneo
+            //        });
+            //        bloqueo.HoraDesde = bloqueo.HoraDesde.Value.AddMinutes(agenda.Frecuencia);
+            //    }                
+            //});
 
             model.ForEach(consultorio =>
             {

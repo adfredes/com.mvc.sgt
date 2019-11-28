@@ -149,8 +149,7 @@
                     && mValue.TurnoSimultaneo === fValue.TurnoSimultaneo
                 ).length;
                 mValue.sesiones = result;
-            });
-            console.dir(sesiones);
+            });            
             //modifico orden
             data.Sesions = sesiones.sort((a, b) => a.Numero - b.Numero);
 
@@ -842,7 +841,7 @@
 
             body.unshift(`*Turno%20kinesiología%3A*%0A%0A`);
             //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
-            let wLink = `https://wa.me/54${paciente.Celular}?text=`;
+            let wLink = `https://wa.me/${paciente.Celular}?text=`;
             body.forEach(linea => wLink += linea);
             return wLink;
         };
@@ -923,6 +922,49 @@
 
 
         };
+
+        $this.viewFile = (fileId, parentEl) => {
+                        
+            viewFileModal(fileId, parentEl);
+        };
+
+        function viewFileModal (file, parentEl) {
+            let modalHtml = 
+            `                                         
+                                        <view-file file-id='${file}' style="min-width:900px"></view-file>
+                                  `;
+
+            function DialogController($scope, $mdDialog) {
+                $scope.file = file;
+                $scope.hide = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.cancel = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                //parent: parentEl,
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: true,
+                multiple: false
+            });
+        }
+
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
     }
 }
 )();

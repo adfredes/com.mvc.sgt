@@ -63,10 +63,10 @@
                         </thead>
                         <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" ng-class="{'text-primary':$ctrl.bolder(sesion.Estado),'text-danger':$ctrl.bolder(sesion.Estado)==false}"
                             style="cursor:pointer; background:{{$ctrl.getColorConsultorio(sesion.ConsultorioID)}}">
-                            <td class="text-center w-auto p-1">{{sesion.Numero}}</td>
-                            <td class="text-center w-auto p-1">{{$ctrl.toDate(sesion.FechaHora)}}</td>
-                            <td class="text-center w-auto p-1">{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
-                            <td class="text-center w-auto p-1">{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{sesion.Numero}}</td>
+                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
+                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
                             <td class="text-center w-auto p-1">
                                 {{$ctrl.getNombreEstado(sesion.Estado)}}
                                 <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"

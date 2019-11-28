@@ -13,3 +13,17 @@ D:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.DataAccess.dll.config
 D:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.services.pdb
 D:\GitHub\com.mvc.sgt\ImportarImagenes\obj\Debug\ImportarImagenes.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\EntityFramework.SqlServer.dll
+E:\GitHub\com.mvc.sgt\ImportarImagenes\obj\Debug\ImportarImagenes.csprojAssemblyReference.cache
+E:\GitHub\com.mvc.sgt\ImportarImagenes\obj\Debug\ImportarImagenes.exe
+E:\GitHub\com.mvc.sgt\ImportarImagenes\obj\Debug\ImportarImagenes.pdb
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\ImportarImagenes.exe.config
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\ImportarImagenes.exe
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\ImportarImagenes.pdb
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\EntityFramework.SqlServer.dll
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\EntityFramework.dll
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.DataAccess.dll
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.services.dll
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.DataAccess.pdb
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.DataAccess.dll.config
+E:\GitHub\com.mvc.sgt\ImportarImagenes\bin\Debug\com.sgt.services.pdb
+E:\GitHub\com.mvc.sgt\ImportarImagenes\obj\Debug\ImportarImagenes.csproj.CopyComplete

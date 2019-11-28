@@ -106,7 +106,6 @@
                 }).length;
                 mValue.sesiones = result;
             });
-            console.dir(sesiones);
             data.Sesions = sesiones.sort(function (a, b) { return a.Numero - b.Numero; });
             return data;
         };
@@ -490,7 +489,7 @@
             body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
             body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
             body.unshift("*Turno%20kinesiolog\u00EDa%3A*%0A%0A");
-            var wLink = "https://wa.me/54" + paciente.Celular + "?text=";
+            var wLink = "https://wa.me/" + paciente.Celular + "?text=";
             body.forEach(function (linea) { return wLink += linea; });
             return wLink;
         };
@@ -556,6 +555,38 @@
                 fullscreen: false
             });
         };
+        $this.viewFile = function (fileId, parentEl) {
+            viewFileModal(fileId, parentEl);
+        };
+        function viewFileModal(file, parentEl) {
+            var modalHtml = "                                         \n                                        <view-file file-id='" + file + "' style=\"min-width:900px\"></view-file>\n                                  ";
+            function DialogController($scope, $mdDialog) {
+                $scope.file = file;
+                $scope.hide = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.cancel = function () {
+                    $mdDialog.hide(false);
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+            $mdDialog.show({
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: true,
+                fullscreen: true,
+                multiple: false
+            });
+        }
+        function dataURLtoBlob(dataurl) {
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1], bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+        }
     }
 })();
 //# sourceMappingURL=TurnoService.js.map

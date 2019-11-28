@@ -12,7 +12,7 @@
         var vm = this;
         vm.saving = false;
         vm.$onInit = function () {
-            vm.paciente = {};
+            vm.paciente = { Celular: "5411" };
             vm.ObrasSociales = [];
             vm.Planes = [];
             getObrasSociales();

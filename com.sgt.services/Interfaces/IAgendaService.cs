@@ -45,6 +45,9 @@ namespace com.sgt.services.Interfaces
         void CancelarReserva(Turno turno);
         Turno CancelarSesionesPendientes(int idTurno, string user);
         Turno CancelarSesionesPendientes(Turno turno);
+
+        Turno CancelarSesionesSiguientes(int idSesion, string user);
+                
         void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura);
 
         
@@ -57,7 +60,7 @@ namespace com.sgt.services.Interfaces
 
         void AddBloqueoAgenda(Agenda_Bloqueos entity);
         void EditBloqueoAgenda(Agenda_Bloqueos entity);
-        ICollection<Agenda_Bloqueos> SearchBloqueos(DateTime desde, DateTime hasta);
+        //ICollection<Agenda_Bloqueos> SearchBloqueos(DateTime desde, DateTime hasta);
 
         Turno GetTurno(int id);
         Turno AsignarPacienteTurno(Turno turno);

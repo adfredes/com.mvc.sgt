@@ -20,7 +20,7 @@
         
 
         vm.$onInit = () => {
-            vm.paciente = {};
+            vm.paciente = {Celular: "5411"};
             vm.ObrasSociales = [];
             vm.Planes = [];
             getObrasSociales();

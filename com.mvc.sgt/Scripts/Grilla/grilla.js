@@ -408,7 +408,7 @@
         $('#cancelarSesionModal').modal('hide');
 
         if (modal.querySelector('#cmbCancelarSesion').value == 'true') {
-            anularSesionesPendientes(modal.dataset.turnoID);
+            anularSesionesSiguientes(modal.dataset.sesionID);
         }
         else {
             setEstadoCancelado(modal.dataset.sesionID);
@@ -780,8 +780,8 @@
         let divReservas = options.divGrilla.querySelector('#divReservas');
         divReservas.innerHTML = "";
         if (options.sesionesReservadas.length > 0) {
-            let innerDiv = `<p><span class='icon-calendar'></span>
-                                    ${options.sesionesReservadas.length} Reservas
+            let innerDiv = `<p><span class='icon-calendar'>${options.sesionesReservadas.length}</span>
+                                    
                                     <span id="btnDivReservasCancelar" class="icon-cancel"></span>
                                     <span id="btnDivReservasAceptar" class="icon-ok"></span>
                                     <span>&nbsp</span>
@@ -1671,7 +1671,13 @@
 
     function dragEndEvent(e) {
         let celdaId = e.target.id.split('D')[0];
-        let celda = options.tabla.querySelector(celdaId);
+        let celda = options.tabla.querySelector(celdaId);        
+        let col = options.tabla.querySelector('#' + options.idColDrag);
+        let row = options.tabla.querySelector('#' + options.idRowDrag);
+        if (col && row) {
+            col.classList.remove('hover-drag-title');
+            row.classList.remove('hover-drag-title');
+        }
     }
 
     function removeCeldaDroppable(celda) {
@@ -1700,18 +1706,48 @@
     function dragenterEvent(e) {
         e.preventDefault();
         e.stopPropagation();
-        e.target.classList.add('dragenter');
+        e.target.classList.add('dragenter');        
+
+        //F20191107H1130C5S1
+        //let eID = e.target.id.split('D')[0];        
+        
+
     }
 
     function dragleaveEvent(e) {
         e.preventDefault();
         e.stopPropagation();
         e.target.classList.remove('dragenter');
+        let eID = e.target.id;
+        let idCol = eID.substr(0, 9) + eID.substr(14, eID.indexOf('S') - 14);
+        let idRow = eID.substr(9, 5);
+        let col = options.tabla.querySelector('#' + idCol);
+        let row = options.tabla.querySelector('#' + idRow);
+        if (col && row) {
+            //if (options.idRowDrag !== idRow) {
+                row.classList.remove('hover-drag-title');
+            //}
+
+            //if (options.idColDrag !== idCol) {
+                col.classList.remove('hover-drag-title');
+            //}
+            
+            
+        }
     }
 
     function dragoverEvent(e) {
         e.preventDefault();
         e.stopPropagation();
+        let eID = e.target.id;
+        let idColDrag = eID.substr(0, 9) + eID.substr(14, eID.indexOf('S') - 14);
+        let idRowDrag = eID.substr(9, 5);
+        let col = options.tabla.querySelector('#' + idColDrag);
+        let row = options.tabla.querySelector('#' + idRowDrag);
+        if (col && row) {
+            col.classList.add('hover-drag-title');
+            row.classList.add('hover-drag-title');
+        }
     }
 
     function dropEvent(e) {
@@ -1917,7 +1953,15 @@
         return resu;
     }
 
-    /*Funciones Llamadas ajax*/
+/*Funciones Llamadas ajax*/
+
+    function anularSesionesSiguientes(sesionID) {
+        let url = Domain + "Sesion/Siguientes/Anular";
+        let params = {};
+        params.id = sesionID;
+        let promise = ajaxPromise("PUT", url, params);
+        promise.then(dibujarGrilla());
+    }
 
     function anularSesionesPendientes(turnoID) {
         let url = Domain + "Sesion/Pendiente/Anular";
@@ -2022,11 +2066,11 @@
         return await responseDias.json();
     }
 
-    async function getBloqueosAgenda() {
-        url = `${Domain}/api/grilla/Bloqueo/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
-        let responseDias = await fetch(url);
-        return await responseDias.json();
-    }
+    //async function getBloqueosAgenda() {
+    //    url = `${Domain}/api/grilla/Bloqueo/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
+    //    let responseDias = await fetch(url);
+    //    return await responseDias.json();
+    //}
 
     async function getFeriados() {
         url = `${Domain}/api/grilla/Feriado/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;

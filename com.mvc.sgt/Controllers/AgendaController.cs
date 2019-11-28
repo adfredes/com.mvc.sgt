@@ -131,6 +131,26 @@ namespace com.mvc.sgt.Controllers
             return Json(resu, JsonRequestBehavior.AllowGet);
         }
 
+        //trabajado
+        [HttpPut]
+        [Route("Sesion/Siguientes/Anular")]
+        public JsonResult AnularSesionesSiguientes(int id)
+        {
+            string resu;
+            try
+            {
+                var turno = this.AgendaService.CancelarSesionesSiguientes(id, User.Identity.Name);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                resu = JsonConvert.SerializeObject(Mapper.Map<TurnoModel>(turno));
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+        
         [HttpPut]
         [Route("Sesion/Cancelar")]
         [CreateUpdateActionFilter("admin")]
