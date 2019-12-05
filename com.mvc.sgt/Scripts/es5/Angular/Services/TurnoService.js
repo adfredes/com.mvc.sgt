@@ -559,7 +559,7 @@
             viewFileModal(fileId, parentEl);
         };
         function viewFileModal(file, parentEl) {
-            var modalHtml = "                                         \n                                        <view-file file-id='" + file + "' style=\"min-width:900px\"></view-file>\n                                  ";
+            var modalHtml = "               <md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"modal-header badge-info\">\n                                        <h4 class=\"modal-title text-capitalize\"><span class=\"icon-file-pdf badge-info\">Visor Archivos</span></h4>\n                                        <button type=\"button\" ng-click=\"cancel()\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                                    </div>\n                                    \n                                </md-toolbar>\n                                <view-file file-id='" + file + "' style=\"width:" + window.innerWidth * .8 + "px;height:" + window.innerHeight * .80 + "px; \"></view-file>\n                            </md-dialog>                                        \n                                  ";
             function DialogController($scope, $mdDialog) {
                 $scope.file = file;
                 $scope.hide = function () {
@@ -576,7 +576,7 @@
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: true,
-                fullscreen: true,
+                fullscreen: false,
                 multiple: false
             });
         }

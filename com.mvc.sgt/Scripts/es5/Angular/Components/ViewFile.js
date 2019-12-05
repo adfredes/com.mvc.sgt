@@ -1,7 +1,7 @@
 (function () {
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('viewFile', {
-        template: "<iframe id='viewFileFrame' style='width:100%;height:70vh;'></iframe>\n",
+        template: "<iframe id='viewFileFrame' style='width:100%;height:100%; text-align:center;'></iframe>\n",
         controller: ['crudService', viewFileController],
         bindings: {
             fileId: "@"
