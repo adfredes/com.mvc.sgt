@@ -9,10 +9,10 @@
             divid: "@",
             onChanges: "&?"
         },
-        controller: ['messageService','turnoService', 'eventService', '$element', asignarPacienteController]
+        controller: ['$route', '$location', '$timeout', '$window','messageService','turnoService', 'eventService', '$element', asignarPacienteController]
     });
 
-    function asignarPacienteController(messageService, turnoService, eventService, $element) {
+    function asignarPacienteController($route, $location, $timeout, $window, messageService, turnoService, eventService, $element) {
         let vm = this;
         vm.pacienteSeleccionado = {};
         vm.SelectedSesiones = [];
@@ -31,6 +31,23 @@
 
         vm.turnoPrint = () => turnoService.turnoPrint(vm.turno, vm.paciente);
 
+        vm.sesionClick = function (fecha) {
+            $window.sessionStorage.removeItem('FechaGrillaTurnos');
+            $window.sessionStorage.removeItem('VistaGrillaTurnos');
+            $window.sessionStorage.setItem('FechaGrillaTurnos', moment(fecha).toDate());
+            $window.sessionStorage.setItem('VistaGrillaTurnos', 'd');
+            $('#' + vm.divid).modal('hide');
+
+            $timeout(() => {
+                if ($location.path() == '/Turnos') {
+                    $route.reload();
+                }
+                else {
+                    $location.path('/Turnos');
+                }
+
+            }, 500);
+        };
 
         let getEstados = () => {
             let promise = turnoService.getEstados();

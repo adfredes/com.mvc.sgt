@@ -127,5 +127,34 @@ namespace com.sgt.services.Services
         {
             Delete(Find(id));
         }
+
+        public void SaveSuplencia(Profesional_Suplencias entity)
+        {
+            if (entity.ID > 0)
+            {
+                unitOfWork.RepoProfesionalSuplencias.Edit(entity);
+            }
+            else
+            {
+                unitOfWork.RepoProfesionalSuplencias.Add(entity);
+            }
+        }
+
+        public ICollection<Profesional_Suplencias> GetSuplenciasByIdAusencia(int id)
+        {
+            return unitOfWork.RepoProfesionalSuplencias
+                .FindBy(s => s.AusenciaID == id && s.Habilitado == true)
+                .ToList();            
+        }
+
+        public void DeleteSuplencia(int id)
+        {
+            var entity = unitOfWork.RepoProfesionalSuplencias.Find(id);
+            if (entity != null)
+            {
+                entity.Habilitado = false;
+                unitOfWork.RepoProfesionalSuplencias.Edit(entity);
+            }
+        }
     }
 }

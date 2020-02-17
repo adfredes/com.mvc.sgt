@@ -315,6 +315,7 @@
                 .catch(function () { return undefined; });
         };
         $this.openDiagnostico = function (paciente, turno, success, parentEl) {
+            console.dir(turno);
             var modalHtml = "<md-dialog aria-label=\"Turnos\" class=\"w-50\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <md-input-container class=\"md-block\">\n                                        <label>Diagn\u00F3stico</label>\n                                            <textarea ng-model=\"diagnostico.diagnostico\" maxlength=\"150\" md-maxlength=\"150\" rows=\"3\" md-select-on-focus\"></textarea>\n                                    </md-input-container>        \n\n                                    <md-input-container class=\"md-block\">\n                                                <label>\n                                                    Tipo Sesion\n                                                </label>\n                                                <md-select ng-model=\"diagnostico.tiposesionid\" required>\n                                                    <md-option ng-repeat=\"item in tipos\" ng-value=\"{{item.Value}}\">{{item.Text}}</md-option>\n                                                </md-select>                                                \n                                            </md-input-container>\n\n                                    <div ng-show=\"codigos.length>0\">\n                                        <label>C\u00F3digo de Pr\u00E1ctica:</label>\n                                        <md-radio-group ng-model=\"diagnostico.codigopractica\" class=\"md-primary\">\n                                          <md-radio-button ng-repeat=\"cod in codigos\" ng-value=\"cod\" >{{cod}}</md-radio-button>                                      \n                                        </md-radio-group>\n                                    </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 var init = function () {
@@ -327,11 +328,11 @@
                             $scope.codigos = ['25.01.81', '25.01.64'];
                             break;
                         case 22:
-                            $scope.codigos = ['90.25.22', '25.80.01'];
+                            $scope.codigos = ['90.25.22', '25.80.01', '90.25.38'];
                             break;
                     }
                     $scope.diagnostico.codigopractica = turno.CodigoPractica;
-                    $scope.diagnostico.tiposesionid = turno.TipoSesionID;
+                    $scope.diagnostico.tiposesionid = turno.TipoSesionID ? turno.TipoSesionID : turno.Tipo;
                 };
                 init();
                 $scope.hide = function () {

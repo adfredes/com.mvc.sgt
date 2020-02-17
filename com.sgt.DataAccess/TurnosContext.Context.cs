@@ -57,5 +57,6 @@ namespace com.sgt.DataAccess
         public virtual DbSet<PacienteDiagnostico> PacienteDiagnosticoes { get; set; }
         public virtual DbSet<Profesional_Ausencias> Profesional_Ausencias { get; set; }
         public virtual DbSet<HorariosProfesionale> HorariosProfesionales { get; set; }
+        public virtual DbSet<Profesional_Suplencias> Profesional_Suplencias { get; set; }
     }
 }

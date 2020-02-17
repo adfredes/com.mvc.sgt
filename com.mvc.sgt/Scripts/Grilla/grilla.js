@@ -49,9 +49,20 @@
             </p>
             <p>
                 <ul>`;
-
+            let nombreDias = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];    
             options.ausencias.forEach(s => {
-                notifi += `<li>${s.Profesional} desde ${moment(s.FechaDesde).format("DD/MM/YYYY")} hasta ${moment(s.FechaHasta).format("DD/MM/YYYY")}</li>`;
+                console.dir(options.ausencias);
+                notifi += `<li style = "list-style-type: circle;">${s.Profesional} desde ${moment(s.FechaDesde).format("DD/MM/YYYY")} hasta ${moment(s.FechaHasta).format("DD/MM/YYYY")}`;                
+                if (s.Suplencias) {
+                    notifi += '<ul>';
+                    s.Suplencias.forEach(suplencia => {
+                        notifi += `<li>
+                            ${suplencia.Profesional} - ${nombreDias[suplencia.DiaSemana]} de ${suplencia.HoraDesde.substr(11, 5)} a ${suplencia.HoraHasta.substr(11, 5)}
+                        </li>`;
+                    });
+                    notifi += '</ul>';                        
+                }                
+                notifi += `</li>`;
             });
 
             notifi += `        </ul>
@@ -108,7 +119,7 @@
     let btnVistaHoy_Click = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        options.fechaDia = new Date();
+        //options.fechaDia = new Date();
         options.fecha = new Date();
         options.vista = 'd';
         dibujarGrilla();
@@ -127,17 +138,17 @@
     let btnVistaDiaSemana_Click = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        options.fechaDia = new Date();
+        //options.fechaDia = new Date();
         options.fecha = new Date();
         options.vista = 'd';
-        options.fecha = getDayOfWeek(options.fechaDia, e.target.dataset.dia);
+        options.fecha = getDayOfWeek(options.fecha, e.target.dataset.dia);
         dibujarGrilla();
     };
 
     let btnVistaSemanal_Click = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        options.fechaSemana = new Date();
+        //options.fechaSemana = new Date();
         options.fecha = new Date();
         options.vista = 's';
         dibujarGrilla();
@@ -250,6 +261,22 @@
             });
 
 
+    };
+
+    let clickDobleSesionAceptar = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        let modal = options.divGrilla.querySelector("#FueDobleSesionModel");        
+        let sesionID = modal.dataset.sesionID;
+        let cmbDoble = modal.querySelector("#cmbDoble");
+        let params = {
+            id: sesionID,
+            esDoble: cmbDoble.value
+        };                
+        let promise = ajaxPromise ("PUT", Domain + "Sesion/EsDoble", params);
+
+        promise.then((d) => $("#FueDobleSesionModel").modal('hide'))
+            .catch(() => $("#FueDobleSesionModel").modal('hide'));                
     };
 
     let clickReservarBloquear = e => {
@@ -484,6 +511,12 @@
         $('#cancelarSesionModal').modal();
     };
 
+    let showModalFueDobleSesion = (sesionID) => {
+        modal = options.divGrilla.querySelector('#FueDobleSesionModel');
+        
+        modal.dataset.sesionID = sesionID;                
+        $('#FueDobleSesionModel').modal();
+    };
 
 
     ////////////////////
@@ -512,7 +545,14 @@
             evento: 'click',
             nombreObjeto: '#btnBloquearReservarModal',
             callback: clickReservarBloquear
-        });        
+        });     
+
+        modals.push({
+            element: options.divGrilla.querySelector('#FueDobleSesionModel'),
+            evento: 'click',
+            nombreObjeto: '#btnDobleSesionAceptar',
+            callback: clickDobleSesionAceptar
+        });
 
         //CantidadDias
         modals.push({
@@ -598,19 +638,19 @@
         options.fecha = new Date();
         options.sesionesActual = '';      
         options.updating = false;
-        options.timeInterval = 200000;
+        options.timeInterval = 20000;
 
         options.duracionModulo = 30;
 
-        options.fechaDia = new Date();
-        options.fechaSemana = new Date();
+        //options.fechaDia = new Date();
+        //options.fechaSemana = new Date();
 
 
         if (sessionST) {
             options.vista = sessionST.vista ? sessionST.vista : options.vista;
             options.fecha = sessionST.fecha ? new Date(sessionST.fecha) : options.fecha;
-            options.fechaDia = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaDia;
-            options.fechaSemana = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaSemana;
+            //options.fechaDia = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaDia;
+            //options.fechaSemana = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaSemana;
         }
 
         options.sesiones = [];
@@ -662,7 +702,7 @@
     }
 
     async function sesionesIsUpdating() {
-        console.log(new Date());
+        
         if (options.updating === false) {
             if (options.intervalId) {
                 window.clearInterval(options.intervalId);
@@ -710,8 +750,7 @@
         options.sesionesActual = JSON.stringify(options.sesiones);
         options.recesos = await awRecesos;
         options.feriados = await awFeriados;
-        options.ausencias = await awAusencias;
-
+        options.ausencias = await awAusencias;        
 
         options.bloqueosAgenda = [];
 
@@ -752,7 +791,7 @@
         removeContextMenu();
         setContextMenu();
         options.tabla.querySelector('#btnPrintDia').addEventListener('click', e => createPDF(options.tabla));
-        renderAusencias();
+        renderAusencias();        
         updated();
     }
 
@@ -819,15 +858,16 @@
         $('#ddatepicker').datepicker()
             .on('changeDate', function (e) {
                 //options.fecha = e.target.getDate()
-                if (options.vista == 'd') {
-                    options.fechaDia = $('#ddatepicker').datepicker('getDate');
-                    options.fecha = $('#ddatepicker').datepicker('getDate');
+                options.fecha = $('#ddatepicker').datepicker('getDate');
+                //if (options.vista == 'd') {
+                //    options.fechaDia = $('#ddatepicker').datepicker('getDate');
+                //    options.fecha = $('#ddatepicker').datepicker('getDate');
 
-                }
-                else {
-                    options.fechaSemana = $('#ddatepicker').datepicker('getDate');
-                    options.fecha = $('#ddatepicker').datepicker('getDate');
-                }
+                //}
+                //else {
+                //    options.fechaSemana = $('#ddatepicker').datepicker('getDate');
+                //    options.fecha = $('#ddatepicker').datepicker('getDate');
+                //}
                 dibujarGrilla();
             });
 
@@ -842,7 +882,7 @@
             .on('changeDate', function (e) {
                 //options.fecha = e.target.getDate()
 
-                options.fechaDia = $('#ddatepickerP').datepicker('getDate');
+                //options.fechaDia = $('#ddatepickerP').datepicker('getDate');
                 options.fecha = $('#ddatepickerP').datepicker('getDate');
                 dibujarGrilla();
             });
@@ -863,12 +903,13 @@
                 e.preventDefault();
                 if (options.vista == 's') {
                     let vFecha = e.target.dataset.fecha.split('/');
-                    options.fechaDia = new Date(parseInt(vFecha[2]), parseInt(vFecha[1]) - 1, parseInt(vFecha[0]));
-                    options.fecha = options.fechaDia;
+                    options.fecha = new Date(parseInt(vFecha[2]), parseInt(vFecha[1]) - 1, parseInt(vFecha[0]));
+                    //options.fechaDia = new Date(parseInt(vFecha[2]), parseInt(vFecha[1]) - 1, parseInt(vFecha[0]));
+                    //options.fecha = options.fechaDia;
                     options.vista = 'd';
                 }
                 else {
-                    options.fecha = options.fechaSemana;
+                    //options.fecha = options.fechaSemana;
                     options.vista = 's';
                 }
                 dibujarGrilla();
@@ -883,7 +924,8 @@
         boton.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            options.fecha = getPrevDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
+            options.fecha = getPrevDate(options.fecha);
+            //options.fecha = getPrevDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
             dibujarGrilla();
         });
 
@@ -892,7 +934,8 @@
         boton.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            options.fecha = getNextDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
+            options.fecha = getNextDate(options.fecha);
+            //options.fecha = getNextDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
             dibujarGrilla();
         });
 
@@ -1028,13 +1071,17 @@
             //    }
             //});
 
+            function getNamePaciente(element) {                
+                return element.dataset.paciente;
+            }
+
             $.contextMenu({
                 selector: '.div-turno[data-estado=2]',
                 build: function ($triggerElement, e) {
                     return {
                         callback: contextMenuClick,
                         items: {
-                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "paciente": { name: `${getNamePaciente($triggerElement[0])}`, icon: "", className: 'font-weight-bold' },
                             "sep1": "---------",
                             "asistio": { name: "Asistio", icon: "" },
                             "noAsistio": { name: "No Asistio", icon: "" },
@@ -1071,7 +1118,7 @@
                     return {
                         callback: contextMenuClick,
                         items: {
-                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "paciente": { name: `${getNamePaciente($triggerElement[0])}`, icon: "", className: 'font-weight-bold' },
                             "sep2": "---------",
                             "confirmado": { name: "Confirmado", icon: "" },
                             "noAsistio": { name: "No Asistio", icon: "" },
@@ -1105,7 +1152,7 @@
                     return {
                         callback: contextMenuClick,
                         items: {
-                            "paciente": { name: `${$triggerElement[0].title}`, icon: "", className: 'font-weight-bold' },
+                            "paciente": { name: `${getNamePaciente($triggerElement[0])}`, icon: "", className: 'font-weight-bold' },
                             "sep2": "---------",
                             "confirmado": { name: "Confirmado", icon: "" },
                             "asistio": { name: "Asistio", icon: "" },
@@ -1207,8 +1254,11 @@
                     }
                     break;
                 case 'asistio':                                        
-                    if (validarFechaEstado(opt.$trigger[0].id)) {
-                        setEstadoAsistio(opt.$trigger[0].dataset.id);
+                    if (validarFechaEstado(opt.$trigger[0].id)) {                                                                        
+                        setEstadoAsistio(opt.$trigger[0].dataset.id);                                               
+                        if (opt.$trigger[0].dataset.dobleorden==='true') {
+                            showModalFueDobleSesion(opt.$trigger[0].dataset.id);                            
+                        }
                     }
                     
                     break;
@@ -1225,19 +1275,23 @@
                     break;
 
                 case 'datosPaciente':
+                    console.log(opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
 
                 case 'paciente':
+                    console.log(opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
                     break;
 
                 case 'datosSesiones':
+                    console.log(opt.$trigger[0].dataset.pacienteid);
                     //showModalAngularComponent('#sesionesPacienteModal', '#PacienteID', opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#DatosSesiones', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     break;
 
                 case 'datosTurno':
+                    console.log(opt.$trigger[0].dataset.pacienteid);
                     showModalAngularComponent('#sesionesPacienteModal', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
                     //showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', opt.$trigger[0].dataset.turnoid);
                     break;
@@ -1541,6 +1595,7 @@
     }
 
     function getDivTurno(divId, _sesion) {
+        let nombreDias = ['DO','LU','MA','MI','JU','VI','SA'];                
         //${_sesion.Estado == 2 ? 'celda-droppable' : '' } "
         let divCelda = `<div id=${divId} class="div-turno h-100 align-middle"
                             style="background-color:${_sesion.Estado == 7 ? 'blue' : _sesion.AseguradoraColor};
@@ -1549,8 +1604,13 @@
                             data-id=${_sesion.ID} data-estado=${_sesion.Estado}
                             data-turnoid=${_sesion.TurnoID} data-estadoturno=${_sesion.EstadoTurno}
                             data-pacienteid=${_sesion.PacienteId}
-                            data-numero=${_sesion.Numero}                            
-                            title="${_sesion.Paciente}">
+                            data-numero=${_sesion.Numero}      
+                            data-dobleorden=${_sesion.DobleOrden}
+                            data-toggle="tooltip" data-placement="top"
+                            data-paciente="${_sesion.Paciente}"
+                            title="${_sesion.Paciente}
+${_sesion.ProximaSesion ? nombreDias[moment(_sesion.ProximaSesion).toDate().getDay()] + ' - ' + moment(_sesion.ProximaSesion).format("DD/MM/YYYY HH:mm") : ''}
+${_sesion.Diagnostico ? _sesion.Diagnostico : ''}">
                             ${getDivTurnoInnerHTML(_sesion)}</div>`;
         return divCelda;
     }
@@ -1910,8 +1970,7 @@
 
         //btnGuardar.removeEventListener('click', btnCambiar_click);
         //btnGuardar.addEventListener('click', btnCambiar_click);
-        btnGuardar.onclick = btnCambiar_click;
-        console.dir(btnGuardar);
+        btnGuardar.onclick = btnCambiar_click;        
         
         $("#cambiarTurnoDroppedModal").modal();
 
@@ -2064,8 +2123,8 @@
 
     async function getAusencias() {
         url = `${Domain}/api/grilla/Ausencias/${options.fecha.getDate()}/${options.fecha.getMonth() + 1}/${options.fecha.getFullYear()}/${options.vista}`;
-        let responseDias = await fetch(url);
-        return await responseDias.json();
+        let responseAusencias = await fetch(url);
+        return await responseAusencias.json();
     }
 
     //async function getBloqueosAgenda() {

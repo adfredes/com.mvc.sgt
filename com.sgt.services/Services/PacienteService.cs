@@ -255,7 +255,7 @@ namespace com.sgt.services.Services
 
                 return turnos.Count() > 0;
             }
-            catch(Exception ex)
+            catch
             {
                 return false;
             }

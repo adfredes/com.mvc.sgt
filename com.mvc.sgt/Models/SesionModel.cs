@@ -15,6 +15,7 @@ namespace com.mvc.sgt.Models
         public short TurnoSimultaneo { get; set; }
         public short Estado { get; set; }
         public System.DateTime FechaHora { get; set; }
+        public Nullable<bool> FueDobleOrden { get; set; }
         public bool Habilitado { get; set; }
         public string UsuarioModificacion { get; set; }
         public System.DateTime FechaModificacion { get; set; }

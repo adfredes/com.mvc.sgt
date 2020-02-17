@@ -354,6 +354,7 @@
     <EntitySetMapping Name="Sesions">
       <EntityTypeMapping TypeName="TurnosModel.Sesion">
         <MappingFragment StoreEntitySet="Sesion">
+          <ScalarProperty Name="FueDobleOrden" ColumnName="FueDobleOrden" />
           <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
           <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
@@ -371,6 +372,7 @@
     <EntitySetMapping Name="Turnoes">
       <EntityTypeMapping TypeName="TurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="importe" ColumnName="importe" />
           <ScalarProperty Name="Factura" ColumnName="Factura" />
           <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
           <ScalarProperty Name="CodigoPractica" ColumnName="CodigoPractica" />

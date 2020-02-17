@@ -24,6 +24,7 @@ namespace com.sgt.services.Interfaces
         void EditAgenda(Agendum entity);
 
         ICollection<Sesion> SearchSesions(DateTime beginDate, DateTime endDate);
+        Sesion SetSesionEsDoble(int sesionID, bool esDoble);
         Sesion SetSesionCancelada(int sesionID, string usuario);
         Sesion SetSesionAnulada(int sesionID, string usuario);
         Sesion SetSesionAsistio(int sesionID, string usuario);
@@ -48,7 +49,7 @@ namespace com.sgt.services.Interfaces
 
         Turno CancelarSesionesSiguientes(int idSesion, string user);
                 
-        void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura);
+        void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura, decimal? importe);
 
         
         ICollection<Agenda_Receso> SearchRecesos(DateTime desde, DateTime hasta);

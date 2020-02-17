@@ -15,5 +15,8 @@ namespace com.sgt.services.Interfaces
         ICollection<Profesional_Ausencias> GetAllAusencias();
         void SaveAusencia(Profesional_Ausencias entity);
         ICollection<Profesional_Ausencias> GetAusenciasByRango(DateTime desde, DateTime hasta);
+        void SaveSuplencia(Profesional_Suplencias entity);
+        void DeleteSuplencia(int id);
+        ICollection<Profesional_Suplencias> GetSuplenciasByIdAusencia(int id);
     }
 }

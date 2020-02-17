@@ -226,7 +226,7 @@ namespace com.mvc.sgt.Controllers
             //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
             DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
-            var ausencias = Mapper.Map <List<ProfesionalAusenciaModel>> (profesionalService.GetAusenciasByRango(desde, hasta));            
+            var ausencias = Mapper.Map <List<AusenciasSuplenciasModel>> (profesionalService.GetAusenciasByRango(desde, hasta));            
             return Ok(ausencias);
         }
 

@@ -174,7 +174,8 @@
                             <td class="text-center">{{ausencia.Profesional}}</td>                            
                             <td class="text-center">{{ausencia.FechaDesde | date: "dd/MM/yyyy"}}</td>
                             <td class="text-center">{{ausencia.FechaHasta | date: "dd/MM/yyyy"}}</td>                            
-                            <td class="text-center align-middle">
+                            <td class="text-center align-middle">                                
+                                <span class="icon-user btn" data-target="#CreateOrUpdateSuplencias" data-toggle="modal" ng-click="ctr.CreateSuplencia(ausencia)"></span>
                                 <span class="icon-edit btn" data-target="#CreateOrUpdatePacienteAusencia" data-toggle="modal" ng-click="ctr.EditAusencia(ausencia)"></span>
                                 <span class="icon-cancel btn" ng-click="ctr.DeleteAusencia(ausencia)"></span>
                             </td>
@@ -195,7 +196,8 @@
     <receso-edit receso="ctr.receso" on-save="ctr.GetRecesos"></receso-edit>
     <agenda-edit agenda="ctr.agenda" on-save="ctr.saveAgenda"></agenda-edit>
     <bloqueo-agenda-edit bloqueo="ctr.bloqueo" on-save="ctr.GetBloqueos"></bloqueo-agenda-edit>
-    <profesional-ausencia-edit ausencia="ctr.ausencia" on-save="ctr.GetAusencias"></profesional-ausencia-edit>
+    <profesional-ausencia-edit2 ausencia="ctr.ausencia" on-save="ctr.GetAusencias"></profesional-ausencia-edit2>
+    <profesional-suplencia ausencia="ctr.ausenciaSuplencia"></profesional-suplencia>
 </div>
 <script>
     $(document).ready(function () {

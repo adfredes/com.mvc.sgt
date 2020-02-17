@@ -5,244 +5,272 @@
 }
 
 
-<div id="GrillaContent">
-    <div class="modal fade" id="bloquearReservarModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-primary">
-                    <h5 class="modal-title" id="bloquearReservarTitle">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>
-                            Tiempo Sesión:
-                        </label>
-                        <select class="form-control" id="cmbSesiones">
-                            <option value="1">1/2 Hora</option>
-                            <option value="2">1 Hora</option>
-                            <option value="3">1 1/2 Hora</option>
-                        </select>
+    <div id="GrillaContent">
+        <div class="modal fade" id="bloquearReservarModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-primary">
+                        <h5 class="modal-title" id="bloquearReservarTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="button" class="md-raised md-primary" id="btnBloquearReservarModal"><span class="icon-floppy"></span> Guardar</md-button>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>
+                                Tiempo Sesión:
+                            </label>
+                            <select class="form-control" id="cmbSesiones">
+                                <option value="1">1/2 Hora</option>
+                                <option value="2">1 Hora</option>
+                                <option value="3">1 1/2 Hora</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                        <md-button type="button" class="md-raised md-primary" id="btnBloquearReservarModal"><span class="icon-floppy"></span> Guardar</md-button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="cambiarTurnoDroppedModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-primary">
-                    <h5 class="modal-title" id="cambiarTurnoDroppedTitle">Cambio de Turno</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group p-1 m-0">
-                        <div id="cambiarTurnoDroppedDescripcion">
-
-                        </div>
-                        <div class="row">
-                            <div class="form-group p-1 m-0 col-12">
-                                <label for="cmbSesionesCambiarTurnoDropped">
-                                    Tiempo Sesión:
-                                </label>
-                                <select class="form-control w-100" id="cmbSesionesCambiarTurnoDropped">
-                                    <option value="1">1/2 Hora</option>
-                                    <option value="2">1 Hora</option>
-                                    <option value="3">1 1/2 Hora</option>
-                                </select>
+        <div class="modal fade" id="cambiarTurnoDroppedModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-primary">
+                        <h5 class="modal-title" id="cambiarTurnoDroppedTitle">Cambio de Turno</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group p-1 m-0">
+                            <div id="cambiarTurnoDroppedDescripcion">
 
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group p-1 m-0 col-12">
-                                <label for="cmbMotivoCambiarTurnoDropped">Motivo:</label>
-                                <select class="form-control w-100" id="cmbMotivoCambiarTurnoDropped" name="cmbMotivoCambiarTurnoDropped">
-                                    <option value="9">Pospuesto pre aviso</option>
-                                    <option value="10">Pospuesto en el día</option>
-                                    <option value="12">Pospuesto sin Aviso</option>
-                                    <option value="11">Pospuesto consultorio</option>
-                                </select>
+                            <div class="row">
+                                <div class="form-group p-1 m-0 col-12">
+                                    <label for="cmbSesionesCambiarTurnoDropped">
+                                        Tiempo Sesión:
+                                    </label>
+                                    <select class="form-control w-100" id="cmbSesionesCambiarTurnoDropped">
+                                        <option value="1">1/2 Hora</option>
+                                        <option value="2">1 Hora</option>
+                                        <option value="3">1 1/2 Hora</option>
+                                    </select>
+
+                                </div>
                             </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-                <div class="modal-footer p-1 m-0">
-                    <md-button type="button" class="md-raised md-warn" id="btnCancelarCambiarTurnoDropped" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="button" class="md-raised md-primary" id="btnCambiarTurnoDropped"><span class="icon-floppy"></span> Guardar</md-button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-danger">
-                    <h5 class="modal-title" id="errorModalTitle">Error</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <p id="errorModalMessage"></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-ok"></i>Aceptar</md-button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="cantidadSesionesModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-primary">
-                    <h5 class="modal-title" id="cantidadSesionesTitle">Sesiones</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>
-                            Número de  Sesiones:
-                        </label>
-                        <select class="form-control" id="cmbCantidadSesiones">
-                            @for (int i = 1; i < 21; i++)
-                            {
-                                <option @string.Format("value={0}", i)>@string.Format("{0}", i)</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="button" class="md-raised md-primary" id="btnCantidadSesionesModal"><span class="icon-floppy"></span> Guardar</md-button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="procesando">                
-        <div style="overflow:hidden">            
-                <span class="icon-spinner animate-spin p-4 display-4"></span>            
-        </div>
-    </div>
-    
-    <div id="divReservas" class="reservas">
-
-    </div>
-
-    <datos-sesiones></datos-sesiones>
-
-    <div class="modal fade" id="cancelarSesionModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-warning">
-                    <h5 class="modal-title" id="cancelarSesionTitle">Cancelar Sesion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>
-                            Cancelar sesiones posteriores?
-                        </label>
-                        <select class="form-control" id="cmbCancelarSesion">
-                            <option value="false">NO</option>
-                            <option value="true">SI</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="button" class="md-raised md-primary" id="btnCancelarSesionModal"><span class="icon-floppy"></span> Guardar</md-button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="posponerTurnoModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header badge-primary">
-                    <h5 class="modal-title" id="posponerTurnoTitle">Posponer Turno</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group p-1 m-0">
-                        <div id="posponerTurnoDescripcion">
-
-                        </div>
-                        <div class="row">
-                            <div class="form-group p-1 m-0 col-12">
-                                <label for="cmbMotivoPosponerTurno">Motivo:</label>
-                                <select class="form-control w-100" id="cmbMotivoPosponerTurno" name="cmbMotivoPosponerTurno">
-                                    <option value="9">Pospuesto pre aviso</option>
-                                    <option value="10">Pospuesto en el día</option>
-                                    <option value="12">Pospuesto sin Aviso</option>
-                                    <option value="11">Pospuesto consultorio</option>
-                                </select>
+                            <div class="row">
+                                <div class="form-group p-1 m-0 col-12">
+                                    <label for="cmbMotivoCambiarTurnoDropped">Motivo:</label>
+                                    <select class="form-control w-100" id="cmbMotivoCambiarTurnoDropped" name="cmbMotivoCambiarTurnoDropped">
+                                        <option value="9">Pospuesto pre aviso</option>
+                                        <option value="10">Pospuesto en el día</option>
+                                        <option value="12">Pospuesto sin Aviso</option>
+                                        <option value="11">Pospuesto consultorio</option>
+                                    </select>
+                                </div>
                             </div>
+
+
+
                         </div>
-
-
-
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <md-button type="button" class="md-raised md-warn" id="btnCancelarPosponerTurno" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                    <md-button type="button" class="md-raised md-primary" id="btnPosponerTurno"><span class="icon-floppy"></span> Posponer</md-button>
+                    <div class="modal-footer p-1 m-0">
+                        <md-button type="button" class="md-raised md-warn" id="btnCancelarCambiarTurnoDropped" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                        <md-button type="button" class="md-raised md-primary" id="btnCambiarTurnoDropped"><span class="icon-floppy"></span> Guardar</md-button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <paciente-view id="ctrlPacienteViewAgenda" divid="agendaViewPaciente">
-    </paciente-view>
-    <sesiones-view divid="sesionesPacienteModal"></sesiones-view>
-
-    <sesion-edit id="ctrlEditSesionGrilla" divid="EditSesionGrilla"></sesion-edit>
-    <asignar-paciente divid="TurnoAsignarPacienteModal"></asignar-paciente>
-    
-    <div id="GrillaTableContent" style="max-height:calc(100vh - 80px); overflow-y:auto;">
-        <div class="botonera mt-2">
-            <md-button class="md-raised ml-1 m-0" id="btnVistaHoy">Hoy</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaDLunes" data-dia="1">Lunes</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaDMartes" data-dia="2">Martes</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaDMiercoles" data-dia="3">Miercoles</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaDJueves" data-dia="4">Jueves</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaDViernes" data-dia="5">Viernes</md-button>
-            <md-button class="md-raised ml-1 m-0" id="btnVistaProximo">
-                <div class="input-group date" id="ddatepickerP" data-provide="datepicker" style="display:inline;">
-                    <input type="hidden" class="form-control date-picker" id="calendarioSesionP">
-                    <div class="input-group-addon" style="display:inline;">
-                        <span class="icon-calendar"></span>Próximo
+        <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-danger">
+                        <h5 class="modal-title" id="errorModalTitle">Error</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p id="errorModalMessage"></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-ok"></i>Aceptar</md-button>
                     </div>
                 </div>
-            </md-button>
-            <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="cantidadSesionesModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-primary">
+                        <h5 class="modal-title" id="cantidadSesionesTitle">Sesiones</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>
+                                Número de  Sesiones:
+                            </label>
+                            <select class="form-control" id="cmbCantidadSesiones">
+                                @for (int i = 1; i < 21; i++)
+                                {
+                                    <option @string.Format("value={0}", i)>@string.Format("{0}", i)</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                        <md-button type="button" class="md-raised md-primary" id="btnCantidadSesionesModal"><span class="icon-floppy"></span> Guardar</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="FueDobleSesionModel" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-primary">
+                        <h5 class="modal-title">Sesión Doble</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>
+                                Sesión:
+                            </label>
+                            <select class="form-control" id="cmbDoble">
+                                <option @string.Format("value={0}", true)>@string.Format("{0}", "DOBLE")</option>
+                                <option @string.Format("value={0}", false)>@string.Format("{0}", "SIMPLE")</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        @*<md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>*@
+                        <md-button type="button" class="md-raised md-primary" id="btnDobleSesionAceptar"><span class="icon-ok"></span> Confirmar</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="procesando">
+            <div style="overflow:hidden">
+                <span class="icon-spinner animate-spin p-4 display-4"></span>
+            </div>
+        </div>
+
+        <div id="divReservas" class="reservas">
+
+        </div>
+
+        <datos-sesiones></datos-sesiones>
+
+        <div class="modal fade" id="cancelarSesionModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-warning">
+                        <h5 class="modal-title" id="cancelarSesionTitle">Cancelar Sesion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>
+                                Cancelar sesiones posteriores?
+                            </label>
+                            <select class="form-control" id="cmbCancelarSesion">
+                                <option value="false">NO</option>
+                                <option value="true">SI</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                        <md-button type="button" class="md-raised md-primary" id="btnCancelarSesionModal"><span class="icon-floppy"></span> Guardar</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="posponerTurnoModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header badge-primary">
+                        <h5 class="modal-title" id="posponerTurnoTitle">Posponer Turno</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group p-1 m-0">
+                            <div id="posponerTurnoDescripcion">
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group p-1 m-0 col-12">
+                                    <label for="cmbMotivoPosponerTurno">Motivo:</label>
+                                    <select class="form-control w-100" id="cmbMotivoPosponerTurno" name="cmbMotivoPosponerTurno">
+                                        <option value="9">Pospuesto pre aviso</option>
+                                        <option value="10">Pospuesto en el día</option>
+                                        <option value="12">Pospuesto sin Aviso</option>
+                                        <option value="11">Pospuesto consultorio</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <md-button type="button" class="md-raised md-warn" id="btnCancelarPosponerTurno" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
+                        <md-button type="button" class="md-raised md-primary" id="btnPosponerTurno"><span class="icon-floppy"></span> Posponer</md-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <paciente-view id="ctrlPacienteViewAgenda" divid="agendaViewPaciente">
+        </paciente-view>
+        <sesiones-view divid="sesionesPacienteModal"></sesiones-view>
+
+        <sesion-edit id="ctrlEditSesionGrilla" divid="EditSesionGrilla"></sesion-edit>
+        <asignar-paciente divid="TurnoAsignarPacienteModal"></asignar-paciente>
+
+        <div id="GrillaTableContent" style="max-height:calc(100vh - 80px); overflow-y:auto;">
+            <div class="botonera mt-2">
+                <md-button class="md-raised ml-1 m-0" id="btnVistaHoy">Hoy</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaDLunes" data-dia="1">Lunes</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaDMartes" data-dia="2">Martes</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaDMiercoles" data-dia="3">Miercoles</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaDJueves" data-dia="4">Jueves</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaDViernes" data-dia="5">Viernes</md-button>
+                <md-button class="md-raised ml-1 m-0" id="btnVistaProximo">
+                    <div class="input-group date" id="ddatepickerP" data-provide="datepicker" style="display:inline;">
+                        <input type="hidden" class="form-control date-picker" id="calendarioSesionP">
+                        <div class="input-group-addon" style="display:inline;">
+                            <span class="icon-calendar"></span>Próximo
+                        </div>
+                    </div>
+                </md-button>
+                <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
+            </div>
         </div>
     </div>
-</div>
 @*<table id="grillaTurnos" class="grillaTurnos"></table>*@
 
 @Scripts.Render("~/bundles/grilla")

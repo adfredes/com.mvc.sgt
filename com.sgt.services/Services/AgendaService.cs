@@ -859,7 +859,11 @@ namespace com.sgt.services.Services
 
         public void EditDiagnosticoTurno(Turno turno)
         {
-            unitOfWork.RepoTurno.Edit(turno);
+            var oldTurno = GetTurno(turno.ID);
+            oldTurno.TipoSesionID = turno.TipoSesionID;
+            oldTurno.Diagnostico = turno.Diagnostico;
+            oldTurno.CodigoPractica = turno.CodigoPractica;
+            unitOfWork.RepoTurno.Edit(oldTurno);
         }
 
         public Turno AgregarSesiones(Turno turno, int cantidadSesiones, bool continuar)
@@ -1092,6 +1096,18 @@ namespace com.sgt.services.Services
         public ICollection<Sesion> FindSesion(int sesionID)
         {
             return SearchSesion(sesionID);
+        }
+
+        public Sesion SetSesionEsDoble(int sesionID, bool esDoble)
+        {
+            //return ChangeStateSesion(sesionID, (short)EstadoSesion.Cancelado, usuario);
+            var sesiones = SearchSesion(sesionID);
+            sesiones.ToList().ForEach(s =>
+            {
+                s.FueDobleOrden = esDoble;
+                unitOfWork.RepoSesion.Edit(s);
+            });
+            return sesiones.FirstOrDefault();
         }
 
         public Sesion SetSesionCancelada(int sesionID, string usuario)
@@ -1545,12 +1561,23 @@ namespace com.sgt.services.Services
                 DateTime beginDate = newSesiones.Min(x => x.FechaHora);
                 DateTime endDate = newSesiones.Max(x => x.FechaHora);
 
+                //var sesionSuperpuestas = unitOfWork
+                //.RepoSesion
+                //.FindBy(s =>
+                //    !(s.TurnoID ==  turno.ID) &&
+                //    s.Turno.PacienteID == turno.PacienteID &&
+                //    DbFunctions.TruncateTime(s.FechaHora) == DbFunctions.TruncateTime(beginDate) &&
+                //    EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
+                //    && s.Turno.TipoSesionID == turno.TipoSesionID
+                //).OrderBy(x => x.FechaHora).ToList();
+
                 var sesionSuperpuestas = unitOfWork
                 .RepoSesion
                 .FindBy(s =>
-                    !(s.TurnoID ==  turno.ID) &&
+                    !(s.TurnoID == turno.ID) &&
                     s.Turno.PacienteID == turno.PacienteID &&
-                    DbFunctions.TruncateTime(s.FechaHora) == DbFunctions.TruncateTime(beginDate) &&
+                    DbFunctions.TruncateTime(s.FechaHora) >= DbFunctions.TruncateTime(lastDate) &&
+                    DbFunctions.TruncateTime(s.FechaHora) <= DbFunctions.TruncateTime(beginDate) &&
                     EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado)
                     && s.Turno.TipoSesionID == turno.TipoSesionID
                 ).OrderBy(x => x.FechaHora).ToList();
@@ -2090,11 +2117,12 @@ namespace com.sgt.services.Services
             return turno.Sesions;
         }
 
-        public void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura)
+        public void SetDatosTurnoFacturacion(int id, DateTime? fecha, string factura, decimal? importe)
         {
             Turno entity = GetTurno(id);
             entity.FechaFactura = fecha;
             entity.Factura = factura;
+            entity.importe = importe;
             unitOfWork.RepoTurno.Edit(entity);
         }
 

@@ -294,6 +294,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
     <Property Name="FechaHasta" Type="smalldatetime" Nullable="false" />
     <Property Name="Habilitado" Type="bit" />
   </EntityType>
+  <EntityType Name="Profesional_Suplencias">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProfesionalID" Type="int" Nullable="false" />
+    <Property Name="AusenciaID" Type="int" Nullable="false" />
+    <Property Name="DiaSemana" Type="int" />
+    <Property Name="HoraDesde" Type="datetime" Nullable="false" />
+    <Property Name="HoraHasta" Type="datetime" Nullable="false" />
+    <Property Name="Habilitado" Type="bit" />
+  </EntityType>
   <EntityType Name="Profesional_TipoSesion">
     <Key>
       <PropertyRef Name="ID" />
@@ -349,6 +361,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
     <Property Name="Habilitado" Type="bit" Nullable="false" />
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="FueDobleOrden" Type="bit" />
   </EntityType>
   <EntityType Name="Sesion_Estado">
     <Key>
@@ -410,6 +423,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <Property Name="TurnoDoble" Type="int" />
     <Property Name="FechaFactura" Type="smalldatetime" />
     <Property Name="Factura" Type="nvarchar" MaxLength="50" />
+    <Property Name="importe" Type="decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>
@@ -666,6 +680,30 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Profesional_Suplencias_Ausencias">
+    <End Role="Profesional_Ausencias" Type="Self.Profesional_Ausencias" Multiplicity="1" />
+    <End Role="Profesional_Suplencias" Type="Self.Profesional_Suplencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional_Ausencias">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_Suplencias">
+        <PropertyRef Name="AusenciaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_Suplencias_Profesional">
+    <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
+    <End Role="Profesional_Suplencias" Type="Self.Profesional_Suplencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_Suplencias">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Profesional_TipoSesion_Profesional">
     <End Role="Profesional" Type="Self.Profesional" Multiplicity="1">
       <OnDelete Action="Cascade" />
@@ -759,6 +797,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <EntitySet Name="PacienteDiagnostico" EntityType="Self.PacienteDiagnostico" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional" EntityType="Self.Profesional" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional_Ausencias" EntityType="Self.Profesional_Ausencias" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profesional_Suplencias" EntityType="Self.Profesional_Suplencias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Profesional_TipoSesion" EntityType="Self.Profesional_TipoSesion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Sesion" EntityType="Self.Sesion" Schema="dbo" store:Type="Tables" />
@@ -935,6 +974,14 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <AssociationSet Name="FK_Profesional_Ausencias_Profesional" Association="Self.FK_Profesional_Ausencias_Profesional">
       <End Role="Profesional" EntitySet="Profesional" />
       <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_Suplencias_Ausencias" Association="Self.FK_Profesional_Suplencias_Ausencias">
+      <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
+      <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_Suplencias_Profesional" Association="Self.FK_Profesional_Suplencias_Profesional">
+      <End Role="Profesional" EntitySet="Profesional" />
+      <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
     </AssociationSet>
     <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
       <End Role="Profesional" EntitySet="Profesional" />

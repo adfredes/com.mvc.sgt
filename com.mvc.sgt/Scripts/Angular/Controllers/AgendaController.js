@@ -9,6 +9,7 @@
         vm.bloqueo = {};
 
         vm.init = () => {
+            vm.ausenciaSuplencia = {};
             vm.feriados = [];
             vm.agenda = {};
             vm.recesos = [];
@@ -108,6 +109,10 @@
                 Habilitado: true,
                 FechaDesde: new Date()
             };
+        };
+
+        vm.CreateSuplencia = (ausencia) => {         
+            vm.ausenciaSuplencia = ausencia;
         };
 
         vm.EditReceso = function (receso) {            

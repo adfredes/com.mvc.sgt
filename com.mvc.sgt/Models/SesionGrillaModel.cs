@@ -18,8 +18,8 @@ namespace com.mvc.sgt.Models
         public int ConsultorioID { get; set; }
         public short TurnoSimultaneo { get; set; }
         public short Estado { get; set; }
-        public System.DateTime FechaHora { get; set; }                
-
+        public System.DateTime FechaHora { get; set; }
+        public Nullable<bool> FueDobleOrden { get; set; }
         public int PacienteId { get; set; }
         public string Paciente { get; set; }
         public string Aseguradora { get; set; }
@@ -29,6 +29,8 @@ namespace com.mvc.sgt.Models
         public Nullable<int> TurnoDoble { get; set; }
         public bool DobleOrden { get; set; }
         public string Observaciones { get; set; }
+
+        public Nullable<DateTime> ProximaSesion { get; set; }
 
     }
 }

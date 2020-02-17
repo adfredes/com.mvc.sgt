@@ -21,6 +21,7 @@ namespace com.sgt.DataAccess
             this.Profesional_TipoSesion = new HashSet<Profesional_TipoSesion>();
             this.Profesional_Ausencias = new HashSet<Profesional_Ausencias>();
             this.HorariosProfesionales = new HashSet<HorariosProfesionale>();
+            this.Profesional_Suplencias = new HashSet<Profesional_Suplencias>();
         }
     
         public int ID { get; set; }
@@ -39,5 +40,7 @@ namespace com.sgt.DataAccess
         public virtual ICollection<Profesional_Ausencias> Profesional_Ausencias { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HorariosProfesionale> HorariosProfesionales { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Profesional_Suplencias> Profesional_Suplencias { get; set; }
     }
 }

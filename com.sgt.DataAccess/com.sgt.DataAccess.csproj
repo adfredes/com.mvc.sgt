@@ -107,6 +107,7 @@
     <Compile Include="Interfaces\IPacienteRepository.cs" />
     <Compile Include="Interfaces\IProfesionalAusenciaRepository.cs" />
     <Compile Include="Interfaces\IProfesionalRepository.cs" />
+    <Compile Include="Interfaces\IProfesionalSuplenciaRepository.cs" />
     <Compile Include="Interfaces\IProvinciaRepository.cs" />
     <Compile Include="Interfaces\IAgendaRecesoRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="Profesional_Ausencias.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Profesional_Suplencias.cs">
+      <DependentUpon>TurnosContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Profesional_TipoSesion.cs">
       <DependentUpon>TurnosContext.tt</DependentUpon>
     </Compile>
@@ -161,6 +165,7 @@
     <Compile Include="Repositories\PacienteRepository.cs" />
     <Compile Include="Repositories\ProfesionalAusenciaRepository.cs" />
     <Compile Include="Repositories\ProfesionalRepository.cs" />
+    <Compile Include="Repositories\ProfesionalSuplenciaRepository.cs" />
     <Compile Include="Repositories\ProvinciaRepository.cs" />
     <Compile Include="Repositories\SesionEstadosRepository.cs" />
     <Compile Include="Repositories\SesionRepository.cs" />

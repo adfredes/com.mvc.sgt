@@ -534,6 +534,7 @@
         };
 
         $this.openDiagnostico = (paciente, turno, success, parentEl) => {
+            console.dir(turno);
             let modalHtml = `<md-dialog aria-label="Turnos" class="w-50">
                               <form ng-cloak>
                                 <md-toolbar>
@@ -586,11 +587,11 @@
                             $scope.codigos = ['25.01.81', '25.01.64'];
                             break;
                         case 22:
-                            $scope.codigos = ['90.25.22', '25.80.01'];
+                            $scope.codigos = ['90.25.22', '25.80.01', '90.25.38'];
                             break;
                     }
                     $scope.diagnostico.codigopractica = turno.CodigoPractica;
-                    $scope.diagnostico.tiposesionid = turno.TipoSesionID;                    
+                    $scope.diagnostico.tiposesionid = turno.TipoSesionID ? turno.TipoSesionID : turno.Tipo;                    
                 };
 
                 init();

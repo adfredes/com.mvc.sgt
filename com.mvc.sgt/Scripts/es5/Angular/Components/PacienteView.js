@@ -117,6 +117,16 @@
         vm.takedPhoto = function (data) {
             vm.paciente.Foto = data;
         };
+        vm.openDiagnostico = function (diagnosticoTurno) {
+            diagnosticoTurno.ID = diagnosticoTurno.TurnoID;
+            turnoService.openDiagnostico(vm.paciente, diagnosticoTurno, function (promise) {
+                return promise.then(function (data) {
+                    eventService.UpdateTurnos();
+                    reloadDiagnostico();
+                })
+                    .catch(function (error) { });
+            }, $element);
+        };
         function getProvincias() {
             var _url = 'api/provincia/all/cmb';
             var requestResponse = crudService.GetHttp(_url);

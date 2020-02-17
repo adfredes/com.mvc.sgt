@@ -62,6 +62,9 @@
         <AssociationConnector Association="TurnosModel.FK_Turno_TipoSesion" />
         <EntityTypeShape EntityType="TurnosModel.HorariosProfesionale" Width="1.5" PointX="7.5" PointY="31.125" />
         <AssociationConnector Association="TurnosModel.FK_HorariosProfesionales_Profesional" />
+        <EntityTypeShape EntityType="TurnosModel.Profesional_Suplencias" Width="1.5" PointX="10.75" PointY="22.625" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_Suplencias_Profesional" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_Suplencias_Ausencias" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

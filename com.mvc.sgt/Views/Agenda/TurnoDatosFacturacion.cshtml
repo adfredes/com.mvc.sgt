@@ -95,11 +95,18 @@
                             </span>
                             <span class="form-control h-75" id="spnFechaFactura">@Html.DisplayFor(model => model.FechaFactura)</span>
                         </div>
-                        <div class="form-group col-sm-7">
+                        <div class="form-group col-sm-4">
                             <span class="font-weight-bold">
                                 @Html.DisplayNameFor(model => model.Factura)
                             </span>
                             <span class="form-control h-75" id="spnFactura">@Html.DisplayFor(model => model.Factura)</span>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Importe)
+                            </span>
+                            <span class="form-control h-75" id="spnImporte">@Html.DisplayFor(model => model.Importe)</span>
                         </div>
                         <div class="form-group col-sm-1">
                             <span class="font-weight-bold">&nbsp</span>
@@ -112,19 +119,27 @@
                             <span class="font-weight-bold">
                                 @Html.DisplayNameFor(model => model.FechaFactura)
                             </span>
-                            @Html.TextBoxFor(model => model.FechaFactura, "{0:yyyy-MM-dd}", new { @class = "form-control h-75", @type="date" })
+                            @Html.TextBoxFor(model => model.FechaFactura, "{0:yyyy-MM-dd}", new { @class = "form-control h-75", @type = "date" })
                         </div>
-                        <div class="form-group col-sm-7">
+                        <div class="form-group col-sm-4">
                             <span class="font-weight-bold">
                                 @Html.DisplayNameFor(model => model.Factura)
                             </span>
                             @Html.TextBoxFor(model => model.Factura, new { @class = "form-control h-75" })
                         </div>
+
+                        <div class="form-group col-sm-3">
+                            <span class="font-weight-bold">
+                                @Html.DisplayNameFor(model => model.Importe)
+                            </span>
+                            @Html.TextBoxFor(model => model.Importe, new { @class = "form-control h-75" })
+                        </div>
+
                         <div class="form-group col-sm-1">
                             @*<input type="submit" class="btn btn-default icon-floppy" id="btnGuardarFactura" />*@
                             <span class="font-weight-bold">&nbsp</span>
-                                <button class="btn btn-outline-primary icon-floppy" id="btnGuardarFactura">
-                                </button>
+                            <button class="btn btn-outline-primary icon-floppy" id="btnGuardarFactura">
+                            </button>
                         </div>
                     </div>
 
@@ -237,8 +252,10 @@
             //frm.reset();
             let spnFecha = document.querySelector("#spnFechaFactura");
             let spnFactura = document.querySelector("#spnFactura");
+            let spnImporte = document.querySelector("#spnImporte");
             spnFecha.innerHTML = document.querySelector("#FechaFactura").value;
             spnFactura.innerHTML = document.querySelector("#Factura").value;            
+            spnImporte.innerHTML = document.querySelector("#Importe").value;
         }
 
         //desarrollada por mi, el profe usa jquery

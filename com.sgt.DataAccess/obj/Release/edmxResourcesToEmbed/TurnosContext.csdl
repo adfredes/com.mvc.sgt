@@ -719,6 +719,7 @@
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Agendum" Relationship="TurnosModel.FK_Sesion_Agenda" FromRole="Sesion" ToRole="Agendum" />
     <NavigationProperty Name="Turno" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Sesion" ToRole="Turno" />
+    <Property Name="FueDobleOrden" Type="Boolean" />
   </EntityType>
   <EntityType Name="Turno">
     <Key>
@@ -742,6 +743,7 @@
     <Property Name="FechaFactura" Type="DateTime" Precision="0" />
     <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="Turno" ToRole="TipoSesion" />
+    <Property Name="importe" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />

@@ -138,7 +138,6 @@
         };
         var getTurnosPaciente = function (id) {
             vm.getInformation = true;
-            console.log("Paciente/ListTurnos/" + id);
             var promise = crudService.GetPHttp("Paciente/ListTurnos/" + id);
             promise.then(function (data) {
                 vm.reading = false;

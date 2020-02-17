@@ -154,6 +154,17 @@
         };
         //Manejo de Provincia Localidad                
 
+        vm.openDiagnostico = (diagnosticoTurno) => {            
+            diagnosticoTurno.ID = diagnosticoTurno.TurnoID;
+            turnoService.openDiagnostico(vm.paciente, diagnosticoTurno,
+                (promise) =>
+                    promise.then(data => {
+                        eventService.UpdateTurnos();
+                        reloadDiagnostico();
+                    })
+                        .catch(error => { }), $element
+            );
+        };
 
         function getProvincias() {
             let _url = 'api/provincia/all/cmb';

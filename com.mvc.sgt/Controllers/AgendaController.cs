@@ -96,6 +96,23 @@ namespace com.mvc.sgt.Controllers
         }
 
         [HttpPut]
+        [Route("Sesion/EsDoble")]
+        public JsonResult setSesionEsDoble(int id, bool esDoble)
+        {
+            SesionGrillaModel resu;
+            try
+            {
+                resu = Mapper.Map<SesionGrillaModel>(this.AgendaService.SetSesionEsDoble(id,esDoble));
+                Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                resu = new SesionGrillaModel();
+            }
+            return Json(JsonConvert.SerializeObject(resu), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
         [Route("Sesion/Estado/Confirmar")]
         public JsonResult setSesionConfirmo(int id)
         {
@@ -180,7 +197,7 @@ namespace com.mvc.sgt.Controllers
             string resu;
             try
             {
-                this.AgendaService.SetDatosTurnoFacturacion(model.ID, model.FechaFactura, model.Factura);
+                this.AgendaService.SetDatosTurnoFacturacion(model.ID, model.FechaFactura, model.Factura, model.Importe);
                 Response.StatusCode = (int)HttpStatusCode.OK;
                 resu = "";
             }

@@ -121,6 +121,9 @@ namespace com.mvc.sgt.App_Start
             .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
             .ForMember(d => d.TurnoDoble, o => o.MapFrom(s => s.Turno.TurnoDoble))
             .ForMember(d => d.DobleOrden, o => o.MapFrom(s => s.Turno.TurnoDoble.HasValue && s.Turno.TurnoDoble.Value>0?true:false))
+
+            .ForMember(d => d.ProximaSesion, o => o.MapFrom(s => s.Turno.Sesions.OrderBy(se => se.Numero).ThenBy(se => se.FechaHora)
+                 .FirstOrDefault(se => se.Numero > s.Numero && EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)se.Estado)).FechaHora))
             .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Sesions
                 .Where(se => (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre)
                 .Count() > 0 ? true : false));                
@@ -178,13 +181,23 @@ namespace com.mvc.sgt.App_Start
                 .ReverseMap();
 
                 mapper.CreateMap<Imagen, ImagenDescriptionModel>()
-                .ReverseMap();
+                .ReverseMap();                
 
                 mapper.CreateMap<Profesional_Ausencias, ProfesionalAusenciaModel>()
                 .ForMember(d => d.Profesional, o => o.MapFrom(s => s.Profesional.Nombre + " " + s.Profesional.Apellido));
 
                 mapper.CreateMap<ProfesionalAusenciaModel, Profesional_Ausencias>()
                 .ForMember(d => d.Profesional, o => o.Ignore());
+
+                mapper.CreateMap<ProfesionalSuplenciaModel, Profesional_Suplencias>()
+                .ForMember(d => d.Profesional, o => o.Ignore());
+
+                mapper.CreateMap<Profesional_Suplencias, ProfesionalSuplenciaModel>()
+                .ForMember(d => d.Profesional, o => o.MapFrom(s => s.Profesional.Nombre + " " + s.Profesional.Apellido));
+
+                mapper.CreateMap<Profesional_Ausencias, AusenciasSuplenciasModel>()
+                .ForMember(d => d.Profesional, o => o.MapFrom(s => s.Profesional.Nombre + " " + s.Profesional.Apellido))
+                .ForMember(d => d.Suplencias, o => o.MapFrom(s => s.Profesional_Suplencias));
 
             });
         }

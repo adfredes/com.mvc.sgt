@@ -1,0 +1,148 @@
+﻿<div id="CreateOrUpdateSuplencias" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header badge-primary">
+                <h4 class="modal-title text-capitalize">
+                    <span class="icon-calendar"></span> Suplencia - 
+                    {{$ctrl.ausencia.Profesional}}
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.close()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form name="frmsuplencia" id="frmsuplencia" novalidate>
+                    <input type="hidden" class="form-control" ng-model="$ctrl.profesional.ID">
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <md-input-container class="md-block">
+                                    <label for="suplenciaProfesionalID">Profesional:</label>
+                                    <md-select id="suplenciaProfesionalID" name="suplenciaProfesionalID" ng-model="$ctrl.Suplencia.ProfesionalID" required>
+                                        <md-option ng-repeat="item in $ctrl.Profesionales" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                    </md-select>
+                                    <div ng-show="frmsuplencia.suplenciaProfesionalID.$touched" ng-messages="frmsuplencia.suplenciaProfesionalID.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
+                                </md-input-container>
+                            </div>                            
+                        </div>
+                        
+
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <md-input-container class="md-block">
+                                    <label>
+                                        Día
+                                    </label>
+                                    <md-select id="suplenciadia" name="suplenciadiasemana" ng-model="$ctrl.Suplencia.DiaSemana" required multiple>
+                                        <md-option ng-repeat="item in $ctrl.diasSemana" ng-value="{{item.Value}}">{{item.Text}}</md-option>
+                                    </md-select>
+                                    <div ng-show="$ctrl.frmsuplencia.suplenciadiasemana.$touched" ng-messages="$ctrl.frmsuplencia.suplenciadiasemana.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
+                                </md-input-container>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <md-input-container class="md-block">
+                                    <label for="suplenciaDesde">Desde:</label>
+                                    <input type="time" class="form-control" id="suplenciaDesde" name="suplenciadesde" min="{{$ctrl.minHours}}" max="{{$ctrl.maxHours}}" required
+                                           ng-model="$ctrl.Suplencia.HoraDesde">
+                                    <div ng-show="$ctrl.frmsuplencia.suplenciadesde.$touched" ng-messages="$ctrl.frmsuplencia.suplenciadesde.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
+                                </md-input-container>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                <md-input-container class="md-block">
+                                    <label for="suplenciaHasta">Hasta:</label>
+                                    <input type="time" class="form-control" id="suplenciaHasta" name="suplenciahasta" min="{{$ctrl.minHours}}" max="{{$ctrl.maxHours}}" required
+                                           ng-model="$ctrl.Suplencia.HoraHasta">
+                                    <div ng-show="$ctrl.frmsuplencia.suplenciahasta.$touched" ng-messages="$ctrl.frmsuplencia.suplenciahasta.$error" role="alert">
+                                        <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                <button ng-click="$ctrl.addSuplencia()" class="form-control">Agregar</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <table class="table" ng-show="$ctrl.profesional.Horarios.length > 0">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="colgroup">*</th>
+                                        <th scope="col">
+                                            Día
+                                        </th>
+                                        <th scope="col">
+                                            Desde
+                                        </th>
+                                        <th>
+                                            Hasta
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="(index, dia) in $ctrl.profesional.Horarios track by index">
+                                        <th scope="row">
+                                            {{index+1}}
+                                        </th>
+                                        <td>
+                                            {{$ctrl.nameOfDay(dia.diaSemana).Text}}
+                                        </td>
+                                        <td>
+                                            {{dia.desde | date : "HH:mm"}}
+                                        </td>
+                                        <td>
+                                            {{dia.hasta | date : "HH:mm"}}
+                                        </td>
+                                        <td>
+                                            <span class="icon-trash-empty btn" ng-click="$ctrl.removeDay(index)"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                     
+                    </fieldset>
+                </form>
+                <pre>{{$ctrl.Suplencias}}</pre>
+                <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="text-center">Profesional</th>
+                            <th scope="col" class="text-center">Dia Semana</th>
+                            <th scope="col" class="text-center">Desde</th>
+                            <th scope="col" class="text-center">Hasta</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="suplencia in $ctrl.SuplenciasAusencias track by $index">
+                        <td class="text-center">{{suplencia.Profesional}}</td>
+                        <td class="text-center">{{$ctrl.nameOfDay(suplencia.DiaSemana).Text}}</td>
+                        <td class="text-center">{{suplencia.HoraDesde | date: "HH:mm"}}</td>
+                        <td class="text-center">{{suplencia.HoraHasta | date: "HH:mm"}}</td>
+                        <td class="text-center align-middle">                                                        
+                            <span class="icon-cancel btn" ng-click="$ctrl.delete(suplencia.ID)"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cerrar</md-button>                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //$(document).ready(function () {
+    //    $('.modal-dialog').draggable({handle: ".modal-header"});
+    //});
+</script>

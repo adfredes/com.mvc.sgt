@@ -182,8 +182,7 @@
         };
 
         let getTurnosPaciente = (id) => {         
-            vm.getInformation = true;            
-            console.log(`Paciente/ListTurnos/${id}`);
+            vm.getInformation = true;                        
             let promise = crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
             promise.then(data => {
                 vm.reading = false;

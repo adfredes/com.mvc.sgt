@@ -26,5 +26,7 @@ namespace com.sgt.DataAccess.Interfaces
         ISmtpMailRepository RepoSmtpMail { get; }
         IImagenRepository RepoImagen { get; }        
         IProfesionalAusenciaRepository RepoProfesionalAusencias { get; }
+
+        IProfesionalSuplenciaRepository RepoProfesionalSuplencias { get; }
     }
 }

@@ -214,6 +214,7 @@
     <NavigationProperty Name="Profesional_TipoSesion" Relationship="TurnosModel.FK_Profesional_TipoSesion_Profesional" FromRole="Profesional" ToRole="Profesional_TipoSesion" />
     <NavigationProperty Name="Profesional_Ausencias" Relationship="TurnosModel.FK_Profesional_Ausencias_Profesional" FromRole="Profesional" ToRole="Profesional_Ausencias" />
     <NavigationProperty Name="HorariosProfesionales" Relationship="TurnosModel.FK_HorariosProfesionales_Profesional" FromRole="Profesional" ToRole="HorariosProfesionale" />
+    <NavigationProperty Name="Profesional_Suplencias" Relationship="TurnosModel.FK_Profesional_Suplencias_Profesional" FromRole="Profesional" ToRole="Profesional_Suplencias" />
   </EntityType>
   <EntityType Name="Provincia">
     <Key>
@@ -638,6 +639,15 @@
       <End Role="Profesional" EntitySet="Profesionals" />
       <End Role="HorariosProfesionale" EntitySet="HorariosProfesionales" />
     </AssociationSet>
+    <EntitySet Name="Profesional_Suplencias" EntityType="TurnosModel.Profesional_Suplencias" />
+    <AssociationSet Name="FK_Profesional_Suplencias_Profesional" Association="TurnosModel.FK_Profesional_Suplencias_Profesional">
+      <End Role="Profesional" EntitySet="Profesionals" />
+      <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profesional_Suplencias_Ausencias" Association="TurnosModel.FK_Profesional_Suplencias_Ausencias">
+      <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
+      <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="TipoSesion">
     <Key>
@@ -719,6 +729,7 @@
     <Property Name="FechaModificacion" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Agendum" Relationship="TurnosModel.FK_Sesion_Agenda" FromRole="Sesion" ToRole="Agendum" />
     <NavigationProperty Name="Turno" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Sesion" ToRole="Turno" />
+    <Property Name="FueDobleOrden" Type="Boolean" />
   </EntityType>
   <EntityType Name="Turno">
     <Key>
@@ -742,6 +753,7 @@
     <Property Name="FechaFactura" Type="DateTime" Precision="0" />
     <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="Turno" ToRole="TipoSesion" />
+    <Property Name="importe" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -862,6 +874,7 @@
     <Property Name="FechaHasta" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Habilitado" Type="Boolean" />
     <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Ausencias_Profesional" FromRole="Profesional_Ausencias" ToRole="Profesional" />
+    <NavigationProperty Name="Profesional_Suplencias" Relationship="TurnosModel.FK_Profesional_Suplencias_Ausencias" FromRole="Profesional_Ausencias" ToRole="Profesional_Suplencias" />
   </EntityType>
   <Association Name="FK_Profesional_Ausencias_Profesional">
     <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1">
@@ -909,6 +922,44 @@
       </Principal>
       <Dependent Role="HorariosProfesionale">
         <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Profesional_Suplencias">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
+    <Property Name="AusenciaID" Type="Int32" Nullable="false" />
+    <Property Name="DiaSemana" Type="Int32" />
+    <Property Name="HoraDesde" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="HoraHasta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Habilitado" Type="Boolean" />
+    <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Suplencias_Profesional" FromRole="Profesional_Suplencias" ToRole="Profesional" />
+    <NavigationProperty Name="Profesional_Ausencias" Relationship="TurnosModel.FK_Profesional_Suplencias_Ausencias" FromRole="Profesional_Suplencias" ToRole="Profesional_Ausencias" />
+  </EntityType>
+  <Association Name="FK_Profesional_Suplencias_Profesional">
+    <End Type="TurnosModel.Profesional" Role="Profesional" Multiplicity="1" />
+    <End Type="TurnosModel.Profesional_Suplencias" Role="Profesional_Suplencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_Suplencias">
+        <PropertyRef Name="ProfesionalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profesional_Suplencias_Ausencias">
+    <End Type="TurnosModel.Profesional_Ausencias" Role="Profesional_Ausencias" Multiplicity="1" />
+    <End Type="TurnosModel.Profesional_Suplencias" Role="Profesional_Suplencias" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profesional_Ausencias">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Profesional_Suplencias">
+        <PropertyRef Name="AusenciaID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

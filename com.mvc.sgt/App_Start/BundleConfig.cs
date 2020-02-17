@@ -29,8 +29,8 @@ namespace com.mvc.sgt
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
                       "~/Scripts/respond.min.js",
-                      "~/Scripts/moment.min.js",
-                      "~/Scripts/bootstrap-datepicker.min.js",
+                      "~/Scripts/moment.min.js",                      
+                      "~/Scripts/bootstrap-datepicker.min.js",                      
                       "~/Scripts/locales/bootstrap-datepicker.es.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

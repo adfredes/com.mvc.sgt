@@ -354,6 +354,7 @@
     <EntitySetMapping Name="Sesions">
       <EntityTypeMapping TypeName="TurnosModel.Sesion">
         <MappingFragment StoreEntitySet="Sesion">
+          <ScalarProperty Name="FueDobleOrden" ColumnName="FueDobleOrden" />
           <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
           <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
           <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
@@ -371,6 +372,7 @@
     <EntitySetMapping Name="Turnoes">
       <EntityTypeMapping TypeName="TurnosModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="importe" ColumnName="importe" />
           <ScalarProperty Name="Factura" ColumnName="Factura" />
           <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />
           <ScalarProperty Name="CodigoPractica" ColumnName="CodigoPractica" />
@@ -443,6 +445,19 @@
           <ScalarProperty Name="hasta" ColumnName="hasta" />
           <ScalarProperty Name="desde" ColumnName="desde" />
           <ScalarProperty Name="diaSemana" ColumnName="diaSemana" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profesional_Suplencias">
+      <EntityTypeMapping TypeName="TurnosModel.Profesional_Suplencias">
+        <MappingFragment StoreEntitySet="Profesional_Suplencias">
+          <ScalarProperty Name="Habilitado" ColumnName="Habilitado" />
+          <ScalarProperty Name="HoraHasta" ColumnName="HoraHasta" />
+          <ScalarProperty Name="HoraDesde" ColumnName="HoraDesde" />
+          <ScalarProperty Name="DiaSemana" ColumnName="DiaSemana" />
+          <ScalarProperty Name="AusenciaID" ColumnName="AusenciaID" />
+          <ScalarProperty Name="ProfesionalID" ColumnName="ProfesionalID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
         </MappingFragment>
       </EntityTypeMapping>

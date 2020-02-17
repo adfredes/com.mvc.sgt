@@ -43,6 +43,8 @@ namespace com.mvc.sgt.Models
 
         public string Factura { get; set; }
 
+        public decimal Importe { get; set; }
+
 
         /*[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turno> Turnoes { get; set; }*/

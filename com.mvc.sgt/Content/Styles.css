@@ -40,7 +40,7 @@ span.btn.ng-hide{
     right: 1rem;
     height: auto;
     width: auto;
-    z-index: 1000;
+    z-index: 1050;
     transition: all 0.4s;
 }
 

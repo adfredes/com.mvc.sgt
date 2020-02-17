@@ -349,6 +349,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
     <Property Name="Habilitado" Type="bit" Nullable="false" />
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
+    <Property Name="FueDobleOrden" Type="bit" />
   </EntityType>
   <EntityType Name="Sesion_Estado">
     <Key>
@@ -410,6 +411,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <Property Name="TurnoDoble" Type="int" />
     <Property Name="FechaFactura" Type="smalldatetime" />
     <Property Name="Factura" Type="nvarchar" MaxLength="50" />
+    <Property Name="importe" Type="decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>

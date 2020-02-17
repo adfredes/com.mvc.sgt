@@ -7,9 +7,9 @@
             divid: "@",
             onChanges: "&?"
         },
-        controller: ['messageService', 'turnoService', 'eventService', '$element', asignarPacienteController]
+        controller: ['$route', '$location', '$timeout', '$window', 'messageService', 'turnoService', 'eventService', '$element', asignarPacienteController]
     });
-    function asignarPacienteController(messageService, turnoService, eventService, $element) {
+    function asignarPacienteController($route, $location, $timeout, $window, messageService, turnoService, eventService, $element) {
         var vm = this;
         vm.pacienteSeleccionado = {};
         vm.SelectedSesiones = [];
@@ -20,6 +20,21 @@
         vm.getNombreEstado = function (idEstado) { return turnoService.getNombreEstado(idEstado, vm.Estados); };
         vm.getNombreConsultorio = function (idConsultorio) { return turnoService.getNombreConsultorio(idConsultorio, vm.Consultorios); };
         vm.turnoPrint = function () { return turnoService.turnoPrint(vm.turno, vm.paciente); };
+        vm.sesionClick = function (fecha) {
+            $window.sessionStorage.removeItem('FechaGrillaTurnos');
+            $window.sessionStorage.removeItem('VistaGrillaTurnos');
+            $window.sessionStorage.setItem('FechaGrillaTurnos', moment(fecha).toDate());
+            $window.sessionStorage.setItem('VistaGrillaTurnos', 'd');
+            $('#' + vm.divid).modal('hide');
+            $timeout(function () {
+                if ($location.path() == '/Turnos') {
+                    $route.reload();
+                }
+                else {
+                    $location.path('/Turnos');
+                }
+            }, 500);
+        };
         var getEstados = function () {
             var promise = turnoService.getEstados();
             promise.then(function (data) {

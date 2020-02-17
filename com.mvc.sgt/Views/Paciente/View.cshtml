@@ -316,7 +316,7 @@
                                                 <th scope="col" class="p-2">Tipo</th>
                                                 <th scope="col" class="p-2">Código</th>
                                                 <th scope="col" class="p-2">Diagnóstico</th>
-
+                                                <th scope="col" class="p-2"></th>
                                             </tr>
                                         </thead>
                                         <tr ng-repeat="diagnostico in $ctrl.diagnosticos">
@@ -327,6 +327,9 @@
                                             <td class="text-left w-100 p-1">
                                                 <div ng-if="diagnostico.TurnoID > 0">{{diagnostico.Diagnostico}}</div>
                                                 <div ng-if="diagnostico.TurnoID == 0" ng-bind-html="$ctrl.OldDiagnostico"></div>
+                                            </td>
+                                            <td class="text-center w-auto p-1">
+                                                <span class="icon-edit btn" ng-click="$ctrl.openDiagnostico(diagnostico)"></span>
                                             </td>
                                         </tr>
                                     </table>

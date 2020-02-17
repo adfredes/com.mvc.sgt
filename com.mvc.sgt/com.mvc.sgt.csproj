@@ -280,6 +280,7 @@
     <Compile Include="Models\AgendaRecesoModel.cs" />
     <Compile Include="Models\AseguradoraModel.cs" />
     <Compile Include="Models\AseguradoraPlanModel.cs" />
+    <Compile Include="Models\AusenciasSuplenciasModel.cs" />
     <Compile Include="Models\ConsultorioHorariosModel.cs" />
     <Compile Include="Models\ConsultorioModel.cs" />
     <Compile Include="Models\DiagnosticoModel.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Models\PacienteSearchDto.cs" />
     <Compile Include="Models\ProfesionalAusenciaModel.cs" />
     <Compile Include="Models\ProfesionalHorariosModel.cs" />
+    <Compile Include="Models\ProfesionalSuplenciaModel.cs" />
     <Compile Include="Models\TurnoFacturacionModel.cs" />
     <Compile Include="Models\ProfesionalModel.cs" />
     <Compile Include="Models\Profesional_TipoSesionModel.cs" />
@@ -373,11 +375,12 @@
     <Content Include="Scripts\Angular\Components\AgendaComponent.js" />
     <Content Include="Scripts\Angular\Components\AsignarPacienteComponent.js" />
     <Content Include="Scripts\Angular\Components\BloqueoAgendaComponent.js" />
-    <Content Include="Scripts\Angular\Components\PacienteAusenciaComponent.js" />
+    <Content Include="Scripts\Angular\Components\ProfesionalAusenciaComponent.js" />
     <Content Include="Scripts\Angular\Components\PacienteQuickCreateComponent.js" />
     <Content Include="Scripts\Angular\Components\PacientesAnualesComponent.js" />
     <Content Include="Scripts\Angular\Components\RecesoComponent.js" />
     <Content Include="Scripts\Angular\Components\SesionPosponerComponent.js" />
+    <Content Include="Scripts\Angular\Components\SuplenciaComponent.js" />
     <Content Include="Scripts\Angular\Components\TurnosSinFecha.js" />
     <Content Include="Scripts\Angular\Components\SesionesViewComponent.js" />
     <Content Include="Scripts\Angular\Components\ViewFile.js" />
@@ -1493,6 +1496,7 @@
     <Content Include="Views\Paciente\DatosSesiones.cshtml" />
     <Content Include="Views\Agenda\TurnoDatosFacturacion.cshtml" />
     <Content Include="Views\Profesional\CreateOrEditProfesionalAusencias.cshtml" />
+    <Content Include="Views\Profesional\CreateOrEditSuplencias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

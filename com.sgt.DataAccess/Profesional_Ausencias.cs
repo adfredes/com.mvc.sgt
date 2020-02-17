@@ -14,6 +14,12 @@ namespace com.sgt.DataAccess
     
     public partial class Profesional_Ausencias
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Profesional_Ausencias()
+        {
+            this.Profesional_Suplencias = new HashSet<Profesional_Suplencias>();
+        }
+    
         public int ID { get; set; }
         public int ProfesionalID { get; set; }
         public System.DateTime FechaDesde { get; set; }
@@ -21,5 +27,7 @@ namespace com.sgt.DataAccess
         public Nullable<bool> Habilitado { get; set; }
     
         public virtual Profesional Profesional { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Profesional_Suplencias> Profesional_Suplencias { get; set; }
     }
 }

@@ -194,3 +194,10 @@ insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (
 insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (1,'1970-01-01 14:30:00.000','1970-01-01 18:30:00.000',13);		insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (3,'1970-01-01 14:30:00.000','1970-01-01 18:30:00.000',13);	insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (4,'1970-01-01 14:30:00.000','1970-01-01 18:30:00.000',13);	
 		insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (3,'1970-01-01 12:00:00.000','1970-01-01 20:30:00.000',14);		insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (5,'1970-01-01 12:00:00.000','1970-01-01 20:30:00.000',14);
 	insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (2,'1970-01-01 09:00:00.000','1970-01-01 11:30:00.000',15);	insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (3,'1970-01-01 09:00:00.000','1970-01-01 11:30:00.000',15);		insert into HorariosProfesionales (diasemana,desde,hasta,profesionalid) values (5,'1970-01-01 09:00:00.000','1970-01-01 11:30:00.000',15);
+
+
+	alter table sesion
+add FueDobleOrden bit DEFAULT 0;
+
+alter table turno
+add importe decimal (10,2);

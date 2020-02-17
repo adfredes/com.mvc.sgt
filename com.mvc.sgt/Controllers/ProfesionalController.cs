@@ -34,6 +34,8 @@ namespace com.mvc.sgt.Controllers
             return PartialView();
         }
 
+        
+
         [CreateUpdateActionFilter("admin")]
         [HttpPost]
         public JsonResult CreateOrEdit(ProfesionalModel model)
@@ -138,7 +140,69 @@ namespace com.mvc.sgt.Controllers
         {
             return PartialView();
         }
-        
+
+
+        [Route("Profesional/Suplencias")]
+        [HttpGet]
+        public ActionResult CreateOrEditSuplencias()
+        {
+            return PartialView();
+        }
+
+        [Route("Profesional/Suplencias/{id}")]
+        [HttpGet]
+        public JsonResult GetSuplenciasByAusencias(int id)
+        {
+            var model = Mapper.Map<List<ProfesionalSuplenciaModel>>(this.profesionalService.GetSuplenciasByIdAusencia(id));
+            return Json(JsonConvert.SerializeObject(model), JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [Route("Profesional/Suplencias")]
+        [CreateUpdateActionFilter("admin")]
+        [HttpPost]
+        public JsonResult CreateOrEditSuplencias(List<ProfesionalSuplenciaModel> model)
+        {
+            var resu = "";
+            try
+            {
+                var entidades = Mapper.Map<List<Profesional_Suplencias>>(model);                
+                entidades.ForEach(entidad =>
+                {
+                    profesionalService.SaveSuplencia(entidad);
+                });                
+                Response.StatusCode = (int)HttpStatusCode.OK;                
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(JsonConvert.SerializeObject(resu));
+        }
+
+        [Route("Profesional/Suplencias/{id}")]        
+        [HttpDelete]
+        public JsonResult DeleteSuplencia(int id)
+        {
+            var resu = "";
+            try
+            {
+                
+                    profesionalService.DeleteSuplencia(id);                
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                resu = ex.Message;
+            }
+            return Json(JsonConvert.SerializeObject(resu));
+        }
+
+
+
 
         private ProfesionalModel Map(Profesional entity) =>
             Mapper.Map<ProfesionalModel>(entity);

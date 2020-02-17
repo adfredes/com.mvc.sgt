@@ -7,6 +7,7 @@
         vm.receso = {};
         vm.bloqueo = {};
         vm.init = function () {
+            vm.ausenciaSuplencia = {};
             vm.feriados = [];
             vm.agenda = {};
             vm.recesos = [];
@@ -91,6 +92,9 @@
                 Habilitado: true,
                 FechaDesde: new Date()
             };
+        };
+        vm.CreateSuplencia = function (ausencia) {
+            vm.ausenciaSuplencia = ausencia;
         };
         vm.EditReceso = function (receso) {
             var nreceso = JSON.parse(JSON.stringify(receso));
