@@ -24,6 +24,13 @@ namespace com.sgt.DataAccess
         public Nullable<System.DateTime> HoraHasta { get; set; }
         public Nullable<bool> TodoElDia { get; set; }
         public bool Habilitado { get; set; }
+        public Nullable<bool> bLunes { get; set; }
+        public Nullable<bool> bMartes { get; set; }
+        public Nullable<bool> bMiercoles { get; set; }
+        public Nullable<bool> bJueves { get; set; }
+        public Nullable<bool> bViernes { get; set; }
+        public Nullable<bool> bSabado { get; set; }
+        public Nullable<bool> bDomingo { get; set; }
     
         public virtual Agendum Agendum { get; set; }
         public virtual Consultorio Consultorio { get; set; }

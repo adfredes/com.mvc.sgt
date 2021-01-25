@@ -151,11 +151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
       "projectName": "com.sgt.services",
-      "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
+      "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj",
       "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\obj\\",
+      "outputPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -172,8 +172,8 @@
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             }
           }
         }

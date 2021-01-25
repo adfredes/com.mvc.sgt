@@ -1,6 +1,6 @@
 ﻿<div id="divTurnosSinAsignarFEchas" class="sinFechaComponent bar-component" ng-show="$ctrl.Turnos.length > 0">
     <p>
-        <span class="icon-calendar-times-o"></span>
+        <span class="icon-calendar-times-o" ng-click="$ctrl.refresh()"></span>
     </p>
     <p>
         <ul>
@@ -8,6 +8,6 @@
         </ul>
     </p>    
 </div>
-<asignar-paciente divid="divTurnoSinFecha" turno="$ctrl.selectedTurno" on-changes="$ctrl.changeTurno"></asignar-paciente>
+@*<asignar-paciente divid="divTurnoSinFecha" turno="$ctrl.selectedTurno" on-changes="$ctrl.changeTurno"></asignar-paciente>*@
 
 

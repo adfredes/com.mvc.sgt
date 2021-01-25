@@ -212,11 +212,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
       "projectName": "ImportarImagenes",
-      "projectPath": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "projectPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
       "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "E:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\obj\\",
+      "outputPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -233,11 +233,11 @@
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             },
-            "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
-              "projectPath": "E:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
+            "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
+              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
             }
           }
         }

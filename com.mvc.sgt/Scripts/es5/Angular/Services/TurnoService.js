@@ -110,7 +110,7 @@
             return data;
         };
         $this.sesionAnular = function (sesionID, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea eliminar la sesion?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea eliminar la sesion?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide();
@@ -123,12 +123,12 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
             })
                 .then(function (answer) {
                 var url = "Sesion/Estado/Anular";
@@ -146,7 +146,7 @@
             return promise;
         };
         $this.AgregarSesionesTurno = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Agregar Sesiones</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                                                                    \n                                        <div class=\"form-group\">\n                                            <label >Sesiones\n                                                <input type=\"number\" class=\"form-control\" ng-model=\"cantidad\" placeholder=\"\" min=\"1\">\n                                            </label>\n                                          </div>\n                                          <div class=\"form-check\">\n                                            <input type=\"checkbox\" class=\"form-check-input\" id=\"chkAgregarDias\" ng-model=\"continuar\">\n                                            <label class=\"form-check-label\" for=\"chkAgregarDias\">Continuar sesiones anteriores.</label>\n                                          </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer()'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Agregar Sesiones</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                                                                    \n                                        <div class=\"form-group\">\n                                            <label >Sesiones\n                                                <input type=\"number\" class=\"form-control\" ng-model=\"cantidad\" placeholder=\"\" min=\"1\">\n                                            </label>\n                                          </div>\n                                          <div class=\"form-check\">\n                                            <input type=\"checkbox\" class=\"form-check-input\" id=\"chkAgregarDias\" ng-model=\"continuar\">\n                                            <label class=\"form-check-label\" for=\"chkAgregarDias\">Continuar sesiones anteriores.</label>\n                                          </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer()'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.cantidad = 1;
                 $scope.continuar = true;
@@ -161,10 +161,11 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false,
                 locals: { turno: turno }
             })
@@ -180,7 +181,7 @@
                 .catch(function () { return undefined; });
         };
         $this.cancelarTurno = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea cancelar el turno " + turno.ID + "?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea cancelar el turno " + turno.ID + "?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide();
@@ -193,12 +194,13 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
+                locals: { TurnoID: turno.ID }
             })
                 .then(function (answer) {
                 var url = "Turno/Cancelar";
@@ -210,7 +212,7 @@
                 .catch(function () { return undefined; });
         };
         $this.cancelarSesiones = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea cancelar las sesiones seleccionadas?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-warning\">\n                                    <h5 class=\"modal-title\">Turnos</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <p>\n                                      Esta seguro que desea cancelar las sesiones seleccionadas?\n                                    </p>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cancelar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide();
@@ -223,12 +225,13 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
+                locals: { TurnoID: turno.ID }
             })
                 .then(function (answer) {
                 var url = "Sesion/Cancelar";
@@ -255,7 +258,7 @@
             return promise;
         };
         $this.openCambiarSesionModal = function (sesion, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Cambiar Turno</h5>\n                                    </div>\n                                </md-toolbar>\n                                <sesion-edit-modal sesion=\"sesion\" on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Paciente\" md-draggable>\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Cambiar Turno</h5>\n                                    </div>\n                                </md-toolbar>\n                                <sesion-edit-modal sesion=\"sesion\" on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.sesion = sesion;
                 $scope.hide = function () {
@@ -269,11 +272,12 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
-                fullscreen: false
+                clickOutsideToClose: false,
+                fullscreen: false,
+                multiple: true
             })
                 .then(function (answer) {
                 success(answer);
@@ -289,7 +293,7 @@
             return promise;
         };
         $this.openPosponerSesionModal = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Posponer Turno</h5>\n                                    </div>\n                                </md-toolbar>\n                                <sesion-posponer turno=\"turno\" on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Paciente\" md-draggable>\n                                <md-toolbar>\n                                    <div class=\"md-toolbar-tools  badge-warning\">\n                                        <h5 class=\"modal-title\">Posponer Turno</h5>\n                                    </div>\n                                </md-toolbar>\n                                <sesion-posponer turno=\"turno\" on-save=\"answer\" on-cancel=\"cancel\" />\n                            </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.turno = turno;
                 $scope.hide = function () {
@@ -303,10 +307,11 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false
             })
                 .then(function (answer) {
@@ -315,8 +320,7 @@
                 .catch(function () { return undefined; });
         };
         $this.openDiagnostico = function (paciente, turno, success, parentEl) {
-            console.dir(turno);
-            var modalHtml = "<md-dialog aria-label=\"Turnos\" class=\"w-50\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <md-input-container class=\"md-block\">\n                                        <label>Diagn\u00F3stico</label>\n                                            <textarea ng-model=\"diagnostico.diagnostico\" maxlength=\"150\" md-maxlength=\"150\" rows=\"3\" md-select-on-focus\"></textarea>\n                                    </md-input-container>        \n\n                                    <md-input-container class=\"md-block\">\n                                                <label>\n                                                    Tipo Sesion\n                                                </label>\n                                                <md-select ng-model=\"diagnostico.tiposesionid\" required>\n                                                    <md-option ng-repeat=\"item in tipos\" ng-value=\"{{item.Value}}\">{{item.Text}}</md-option>\n                                                </md-select>                                                \n                                            </md-input-container>\n\n                                    <div ng-show=\"codigos.length>0\">\n                                        <label>C\u00F3digo de Pr\u00E1ctica:</label>\n                                        <md-radio-group ng-model=\"diagnostico.codigopractica\" class=\"md-primary\">\n                                          <md-radio-button ng-repeat=\"cod in codigos\" ng-value=\"cod\" >{{cod}}</md-radio-button>                                      \n                                        </md-radio-group>\n                                    </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" class=\"w-50\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno - Diagn\u00F3stico</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">        \n                                    <md-input-container class=\"md-block\">\n                                        <label>Diagn\u00F3stico</label>\n                                            <textarea ng-model=\"diagnostico.diagnostico\" maxlength=\"150\" md-maxlength=\"150\" rows=\"3\" md-select-on-focus\"></textarea>\n                                    </md-input-container>        \n\n                                    <md-input-container class=\"md-block\">\n                                                <label>\n                                                    Tipo Sesion\n                                                </label>\n                                                <md-select ng-model=\"diagnostico.tiposesionid\" required>\n                                                    <md-option ng-repeat=\"item in tipos\" ng-value=\"{{item.Value}}\">{{item.Text}}</md-option>\n                                                </md-select>                                                \n                                            </md-input-container>\n\n                                    <div ng-show=\"codigos.length>0\">\n                                        <label>C\u00F3digo de Pr\u00E1ctica:</label>\n                                        <md-radio-group ng-model=\"diagnostico.codigopractica\" class=\"md-primary\">\n                                          <md-radio-button ng-repeat=\"cod in codigos\" ng-value=\"cod\" >{{cod}}</md-radio-button>                                      \n                                        </md-radio-group>\n                                    </div>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(diagnostico)'><span class='icon-save'></span> Guardar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 var init = function () {
                     $scope.diagnostico = {};
@@ -346,11 +350,12 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: turno }
             })
                 .then(function (answer) {
@@ -376,11 +381,12 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 templateUrl: Domain + 'Turno/DobleOrden',
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: turno }
             })
                 .then(function (answer) {
@@ -408,7 +414,7 @@
             return promise;
         };
         $this.openSelectTurnoContinuar = function (turno, success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                                                                                                                                                                                                            \n                                        <md-input-container class=\"form-group md-block\">                                          \n                                          <label>Continuar con sesiones anteriores?</label> \n                                          <md-select ng-model=\"turnoID\"> \n                                            \n                                            <md-option ng-repeat=\"t in turnos\" ng-value=\"t.ID\">\n                                              <span ng-if=\"t.ID\">\n                                              Turno {{t.ID}} ({{t.CantidadSesiones}}): {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}\n                                              </span>\n                                              <span ng-hide=\"t.ID\">\n                                              ------------------NO------------------\n                                              </span>\n                                            </md-option>\n                                          </md-select>\n                                        </md-input-container>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>                                  \n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(turnoID)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                                                                                                                                                                                                            \n                                        <md-input-container class=\"form-group md-block\">                                          \n                                          <label>Continuar con sesiones anteriores?</label> \n                                          <md-select ng-model=\"turnoID\"> \n                                            \n                                            <md-option ng-repeat=\"t in turnos\" ng-value=\"t.ID\">\n                                              <span ng-if=\"t.ID\">\n                                              Turno {{t.ID}} ({{t.CantidadSesiones}}): {{t.FechaDesde | date : 'dd-MM-yy'}} a {{t.FechaHasta | date : 'dd-MM-yy'}}\n                                              </span>\n                                              <span ng-hide=\"t.ID\">\n                                              ------------------NO------------------\n                                              </span>\n                                            </md-option>\n                                          </md-select>\n                                        </md-input-container>\n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>                                  \n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(turnoID)'><span class='icon-ok'></span> Aceptar</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 var loadTurnos = function (id) {
                     var url = "Paciente/ListarTurnosContinuar/" + id;
@@ -433,7 +439,7 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
@@ -446,7 +452,7 @@
                 .catch(function () { return success(false); });
         };
         $this.openContinuarSesiones = function (success, parentEl) {
-            var modalHtml = "<md-dialog aria-label=\"Turnos\">\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
+            var modalHtml = "<md-dialog aria-label=\"Turnos\" md-draggable>\n                              <form ng-cloak>\n                                <md-toolbar>\n                                  <div class=\"md-toolbar-tools  badge-primary\">\n                                    <h5 class=\"modal-title\">Turno</h5>        \n                                  </div>\n                                </md-toolbar>\n                                <md-dialog-content>\n                                  <div class=\"md-dialog-content\">                                            \n                                        <label>Continuar con sesiones anteriores?</label>                                                                                \n                                  </div>\n                                </md-dialog-content>\n\n                                <md-dialog-actions layout=\"row\">      \n                                  <span flex></span>\n                                  <md-button type='button' class='md-raised md-warn' ng-click='answer(false)'><i class='icon-cancel'></i> NO</md-button>\n                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(true)'><span class='icon-ok'></span> SI</md-button>\n                                </md-dialog-actions>\n                              </form>\n                             </md-dialog>";
             function DialogController($scope, $mdDialog) {
                 $scope.hide = function () {
                     $mdDialog.hide(false);
@@ -459,10 +465,10 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
                 multiple: true
             })
@@ -489,7 +495,13 @@
             body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
             body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
             body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
-            body.unshift("*Turno%20kinesiolog\u00EDa%3A*%0A%0A");
+            body.unshift("Diagn\u00F3stico: " + (turno.Diagnostico ? turno.Diagnostico : '') + "%0A");
+            body.unshift(paciente.Apellido + " " + paciente.Nombre + " (DNI" + paciente.DocumentoNumero + ")%0A");
+            body.unshift('%0AAsistir sin acompañantes.%0A%0A');
+            body.unshift('%0AEl tapaboca es de uso *OBLIGATORIO*.');
+            body.unshift('%0AAl ingresar al consultorio lavarse las manos y secarse con su propia toalla que deberá traer.');
+            body.unshift('%0A%0AActuemos con conciencia y de manera responsable, si tiene síntomas compatibles con Covid-19 por favor *NO ASISTIR*.');
+            body.unshift("*Turnos de kinesiolog\u00EDa. Licenciada Elvira Y.  De Lorenzo MN 14.957*%0A*Chacabuco 194 3\u00B0C*");
             var wLink = "https://wa.me/" + paciente.Celular + "?text=";
             body.forEach(function (linea) { return wLink += linea; });
             return wLink;
@@ -528,7 +540,7 @@
         };
         $this.Notify = function (title, message, parentEl) {
             return $mdDialog.show($mdDialog.alert()
-                .parent(parentEl.children())
+                .parent(angular.element(document.body))
                 .clickOutsideToClose(true)
                 .title(title)
                 .textContent(message)
@@ -549,10 +561,11 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),
                 templateUrl: Domain + "Turno/" + turno.ID + "/Facturacion?v=" + Math.floor(Math.random() * 100 + 1),
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false
             });
         };
@@ -560,7 +573,7 @@
             viewFileModal(fileId, parentEl);
         };
         function viewFileModal(file, parentEl) {
-            var modalHtml = "               <md-dialog aria-label=\"Paciente\">\n                                <md-toolbar>\n                                    <div class=\"modal-header badge-info\">\n                                        <h4 class=\"modal-title text-capitalize\"><span class=\"icon-file-pdf badge-info\">Visor Archivos</span></h4>\n                                        <button type=\"button\" ng-click=\"cancel()\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                                    </div>\n                                    \n                                </md-toolbar>\n                                <view-file file-id='" + file + "' style=\"width:" + window.innerWidth * .8 + "px;height:" + window.innerHeight * .80 + "px; \"></view-file>\n                            </md-dialog>                                        \n                                  ";
+            var modalHtml = "               <md-dialog aria-label=\"Paciente\" md-draggable>\n                                <md-toolbar>\n                                    <div class=\"modal-header badge-info\">\n                                        <h4 class=\"modal-title text-capitalize\"><span class=\"icon-file-pdf badge-info\">Visor Archivos</span></h4>\n                                        <button type=\"button\" ng-click=\"cancel()\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n                                    </div>\n                                    \n                                </md-toolbar>\n                                <view-file file-id='" + file + "' style=\"width:" + window.innerWidth * .8 + "px;height:" + window.innerHeight * .80 + "px; \"></view-file>\n                            </md-dialog>                                        \n                                  ";
             function DialogController($scope, $mdDialog) {
                 $scope.file = file;
                 $scope.hide = function () {
@@ -576,9 +589,9 @@
             $mdDialog.show({
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                multiple: false
+                multiple: true
             });
         }
         function dataURLtoBlob(dataurl) {

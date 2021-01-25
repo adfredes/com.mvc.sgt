@@ -73,7 +73,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             var notifi_1 = "<div class =\"ausenciasProfesionalesComponent bar-component\">\n                <p>\n                <span class=\"icon-stethoscope\"></span>\n            </p>\n            <p>\n                <ul>";
             var nombreDias_1 = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];
             options.ausencias.forEach(function (s) {
-                console.dir(options.ausencias);
                 notifi_1 += "<li style = \"list-style-type: circle;\">" + s.Profesional + " desde " + moment(s.FechaDesde).format("DD/MM/YYYY") + " hasta " + moment(s.FechaHasta).format("DD/MM/YYYY");
                 if (s.Suplencias) {
                     notifi_1 += '<ul>';
@@ -91,40 +90,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             divAusencias.innerHTML = "";
         }
     };
-    var showModalAngularComponent = function (modalName, elementName, value) {
-        modal = options.divGrilla.querySelector(modalName);
-        if (modal) {
-            if (Array.isArray(elementName)) {
-                for (var pos = 0; pos < elementName.length; pos++) {
-                    var elementID = modal.querySelector(elementName[pos]);
-                    if (elementID) {
-                        var evt = document.createEvent("HTMLEvents");
-                        evt.initEvent("input", false, true);
-                        if (elementID.value == value[pos]) {
-                            elementID.value = 0;
-                            elementID.dispatchEvent(evt);
-                        }
-                        elementID.value = value[pos];
-                        elementID.dispatchEvent(evt);
-                    }
-                }
-                $(modalName).modal("show");
+    var showModalAngularComponent = function (modalName, value) {
+        var evt = new CustomEvent('openmodal', {
+            detail: {
+                name: modalName,
+                valor: value
             }
-            else {
-                var elementID = modal.querySelector(elementName);
-                if (elementID) {
-                    var evt = document.createEvent("HTMLEvents");
-                    evt.initEvent("input", false, true);
-                    if (elementID.value == value) {
-                        elementID.value = 0;
-                        elementID.dispatchEvent(evt);
-                    }
-                    elementID.value = value;
-                    elementID.dispatchEvent(evt);
-                    $(modalName).modal("show");
-                }
-            }
-        }
+        });
+        options.divGrilla.dispatchEvent(evt);
+        return;
     };
     var btnVistaHoy_Click = function (e) {
         e.preventDefault();
@@ -147,6 +121,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.fecha = new Date();
         options.vista = 's';
         dibujarGrilla();
+    };
+    var btnRecargar_Click = function (e) {
+        console.log('click');
+        e.preventDefault();
+        e.stopPropagation();
+        redibujarGrilla();
     };
     var btnCantidadSesionesModal_click = function (e) {
         $("#cantidadSesionesModal").modal("hide");
@@ -193,7 +173,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         promise.then(function (data) {
             var turnoNuevo = JSON.parse(data);
             options.sesionesReservadas = [];
-            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoNuevo.ID);
+            showModalAngularComponent('AsignarPaciente', { turnoID: turnoNuevo.ID });
             renderListaReservas();
             dibujarGrilla();
         }, function (data) {
@@ -209,6 +189,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var modal = options.divGrilla.querySelector('#posponerTurnoModal');
         var turnoID = modal.dataset.turnoid;
         var numero = modal.dataset.numero;
+        var pacienteID = modal.dataset.pacienteid;
         var motivo = modal.querySelector('#cmbMotivoPosponerTurno').value;
         var _sesiones = options.sesiones.filter(function (s) { return s.TurnoID == turnoID && s.Numero == numero; });
         var _newSesiones = [];
@@ -221,7 +202,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         var promise = ajaxPromise("PUT", url, _newSesiones);
         promise.then(function (data) {
             updated();
-            showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', turnoID);
+            showModalAngularComponent('SesionesView', { turnoID: turnoID, pacienteID: pacienteID });
             dibujarGrilla();
         }, function (data) {
             updated();
@@ -428,7 +409,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         modal.dataset.action = action;
         modal.dataset.bloquear = bloquear;
         modal.querySelector('#bloquearReservarTitle').innerHTML = title;
-        modal.querySelector('#cmbSesiones').value = 2;
         $('#bloquearReservarModal').modal();
     };
     var showModalCancelarSesion = function (sesionID, turnoID) {
@@ -517,6 +497,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.divGrilla = document.querySelector('#GrillaContent');
         var divGrillaContent = options.divGrilla.querySelector('#GrillaTableContent');
         options.notificationBar = document.querySelector('.notification-bar');
+        var btnRecargar = document.querySelector('#btnRecargar');
+        btnRecargar.addEventListener('click', btnRecargar_Click);
         initModalListener();
         var sessionST = loadFromSesionStorage();
         options.tabla = document.createElement('table');
@@ -654,6 +636,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [4, awAusencias];
                     case 7:
                         _g.ausencias = _h.sent();
+                        console.dir(options.dias);
                         options.bloqueosAgenda = [];
                         redibujarGrilla();
                         return [2];
@@ -1042,23 +1025,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     showModalCancelarSesion(opt.$trigger[0].dataset.id, opt.$trigger[0].dataset.turnoid);
                     break;
                 case 'cambiarTurno':
-                    showModalAngularComponent('#EditSesionGrilla', '#dSesionID', opt.$trigger[0].dataset.id);
+                    showModalAngularComponent('SesionEdit', { sesionID: opt.$trigger[0].dataset.id });
                     break;
                 case 'datosPaciente':
-                    console.log(opt.$trigger[0].dataset.pacienteid);
-                    showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
+                    showModalAngularComponent('PacienteView', { pacienteID: opt.$trigger[0].dataset.pacienteid });
                     break;
                 case 'paciente':
-                    console.log(opt.$trigger[0].dataset.pacienteid);
-                    showModalAngularComponent('#agendaViewPaciente', '#hPacienteID', opt.$trigger[0].dataset.pacienteid);
+                    showModalAngularComponent('PacienteView', { pacienteID: opt.$trigger[0].dataset.pacienteid });
                     break;
                 case 'datosSesiones':
-                    console.log(opt.$trigger[0].dataset.pacienteid);
-                    showModalAngularComponent('#DatosSesiones', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
+                    showModalAngularComponent('DatosSesiones', { turnoID: opt.$trigger[0].dataset.turnoid, pacienteID: opt.$trigger[0].dataset.pacienteid });
                     break;
                 case 'datosTurno':
-                    console.log(opt.$trigger[0].dataset.pacienteid);
-                    showModalAngularComponent('#sesionesPacienteModal', ['#TurnoID', '#PacienteID'], [opt.$trigger[0].dataset.turnoid, opt.$trigger[0].dataset.pacienteid]);
+                    showModalAngularComponent('SesionesView', { turnoID: opt.$trigger[0].dataset.turnoid, pacienteID: opt.$trigger[0].dataset.pacienteid });
                     break;
                 case 'sobreTurno':
                     var parentNode = opt.$trigger[0].parentNode;
@@ -1118,6 +1097,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     break;
                 case 'posponer':
                     modal = options.divGrilla.querySelector('#posponerTurnoModal');
+                    modal.dataset.pacienteid = opt.$trigger[0].dataset.pacienteid;
                     modal.dataset.turnoid = opt.$trigger[0].dataset.turnoid;
                     modal.dataset.numero = opt.$trigger[0].dataset.numero;
                     $('#posponerTurnoModal').modal('show');
@@ -1126,7 +1106,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     setEstadoConfirmado(opt.$trigger[0].dataset.id);
                     break;
                 case 'asignarPaciente':
-                    showModalAngularComponent('#TurnoAsignarPacienteModal', '#TurnoID', opt.$trigger[0].dataset.turnoid);
+                    showModalAngularComponent('AsignarPaciente', { turnoID: opt.$trigger[0].dataset.turnoid });
                     break;
             }
         }

@@ -8,7 +8,6 @@ D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.SqlServer.x
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.resources.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.SqlServer.resources.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csprojAssemblyReference.cache
-D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.dll
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.pdb
@@ -25,3 +24,4 @@ E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.C
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.pdb
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csprojAssemblyReference.cache
+D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CoreCompileInputs.cache

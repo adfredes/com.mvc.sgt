@@ -8596,7 +8596,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
       onRemove: onRemove,
       disableBackdrop: false,
       escapeToClose: true,
-      clickOutsideToClose: true,
+      clickOutsideToClose: false,
       disableParentScroll: true
     };
 
@@ -9880,7 +9880,7 @@ function MdDialogDirective($$rAF, $mdTheming, $mdDialog) {
  *           '</md-dialog>',
  *         controllerAs: 'dialog',
  *         bindToController: true,
- *         clickOutsideToClose: true,
+ *         clickOutsideToClose: false,
  *         escapeToClose: true
  *       };
  *     }
@@ -9977,7 +9977,7 @@ function MdDialogDirective($$rAF, $mdTheming, $mdDialog) {
  *     function showCustomGreeting() {
  *
  *        $mdDialog.show({
- *           clickOutsideToClose: true,
+ *           clickOutsideToClose: false,
  *
  *           scope: $scope,        // use parent scope in template
  *           preserveScope: true,  // do not forget this if use parent scope
@@ -15069,7 +15069,7 @@ angular
  *       animation: panelAnimation,
  *       targetEvent: $event,
  *       templateUrl: 'dialog-template.html',
- *       clickOutsideToClose: true,
+ *       clickOutsideToClose: false,
  *       escapeToClose: true,
  *       focusOnOpen: true
  *     };

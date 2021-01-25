@@ -64,7 +64,7 @@ namespace com.mvc.sgt.Controllers
                     .ForEach(t => model.Add(new DiagnosticoModel
                     {
                         Fecha = t.Sesions.Where(s => s.Estado == 1 || s.Estado == 2 || s.Estado == 4 || s.Estado == 5)
-                        .OrderByDescending(s => s.FechaHora).FirstOrDefault().FechaHora,
+                        .OrderBy(s => s.FechaHora).FirstOrDefault().FechaHora,
                         Diagnostico = t.Diagnostico,
                         CodigoPractica = t.CodigoPractica,
                         TurnoID = t.ID,

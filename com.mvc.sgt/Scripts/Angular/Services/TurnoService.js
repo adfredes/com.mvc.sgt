@@ -22,7 +22,7 @@
             weekday[6] = "Sábado";
             return weekday[value.getDay()];
         };
-
+        
         $this.toShortDate = (value) => {
             let sDia = $this.addZero(value.getDate());
             let sMes = $this.addZero(value.getMonth() + 1);
@@ -190,7 +190,7 @@
         $this.sesionAnular = (sesionID, success, parentEl) => {
 
 
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-warning">
@@ -225,12 +225,13 @@
             }
 
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),//parent: parentEl,
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
+                
             })
                 .then(answer => {
                     let url = "Sesion/Estado/Anular";
@@ -255,7 +256,7 @@
 
         $this.AgregarSesionesTurno = (turno, success, parentEl) => {
 
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-warning">
@@ -298,10 +299,11 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false,
                 locals: { turno: turno }
             })
@@ -320,7 +322,7 @@
         };
 
         $this.cancelarTurno = (turno, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-warning">
@@ -355,12 +357,13 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
+                locals: { TurnoID: turno.ID }
             })
                 .then(answer => {
                     let url = "Turno/Cancelar";
@@ -375,7 +378,7 @@
         };
 
         $this.cancelarSesiones = (turno, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-warning">
@@ -410,12 +413,13 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                locals: { TurnoID: TurnoID }
+                multiple: true,
+                locals: { TurnoID: turno.ID }
             })
                 .then(answer => {
                     let url = "Sesion/Cancelar";
@@ -449,7 +453,7 @@
         };
 
         $this.openCambiarSesionModal = (sesion, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Paciente">
+            let modalHtml = `<md-dialog aria-label="Paciente" md-draggable>
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">
                                         <h5 class="modal-title">Cambiar Turno</h5>
@@ -472,11 +476,13 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl,
+                //parent: angular.element(document.body),//parent: parentEl,
+                parent: angular.element(document.body),//parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
-                fullscreen: false
+                clickOutsideToClose: false,
+                fullscreen: false,
+                multiple: true
                 //,
                 //locals: { turno: turno }
             })
@@ -496,7 +502,7 @@
         };
 
         $this.openPosponerSesionModal = (turno, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Paciente">
+            let modalHtml = `<md-dialog aria-label="Paciente" md-draggable>
                                 <md-toolbar>
                                     <div class="md-toolbar-tools  badge-warning">
                                         <h5 class="modal-title">Posponer Turno</h5>
@@ -518,10 +524,11 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false
                 //,
                 //locals: { turno: turno }
@@ -533,9 +540,8 @@
                 .catch(() => undefined);
         };
 
-        $this.openDiagnostico = (paciente, turno, success, parentEl) => {
-            console.dir(turno);
-            let modalHtml = `<md-dialog aria-label="Turnos" class="w-50">
+        $this.openDiagnostico = (paciente, turno, success, parentEl) => {            
+            let modalHtml = `<md-dialog aria-label="Turnos" class="w-50" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
@@ -608,11 +614,13 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: angular.element(document.body),
+                //parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: turno }
             })
                 .then(answer => {
@@ -644,11 +652,12 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 templateUrl: Domain + 'Turno/DobleOrden',
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
+                multiple: true,
                 locals: { turno: turno }
             })
                 .then(answer => {
@@ -682,7 +691,7 @@
 
 
         $this.openSelectTurnoContinuar = (turno, success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
@@ -752,7 +761,7 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
@@ -767,7 +776,7 @@
 
         //se reempleazo por openSelectTurnosContinuar
         $this.openContinuarSesiones = (success, parentEl) => {
-            let modalHtml = `<md-dialog aria-label="Turnos">
+            let modalHtml = `<md-dialog aria-label="Turnos" md-draggable>
                               <form ng-cloak>
                                 <md-toolbar>
                                   <div class="md-toolbar-tools  badge-primary">
@@ -801,10 +810,10 @@
             }
 
             $mdDialog.show({
-                parent: parentEl.children(),
+                parent: angular.element(document.body),//parent: parentEl.children(),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
                 multiple: true
             })
@@ -834,13 +843,20 @@
                     //body.push('~----------------------------------~%0A');
                 }
             });
+            //body.push('%0A%0A*%C2%B7*Chacabuco 193 3C*');
             body.push('%0A%0A*%C2%B7* _En caso de ausencia con aviso previo de 24hs, se reprogramarán *SÓLO* dos sesiones de las asignadas._');
             body.push('%0A*%C2%B7* _La ausencia sin previo aviso se computará la sesión._');
             body.push('%0A*%C2%B7* _Ante la segunda ausencia sin aviso, se cancelarán *TODOS* los turnos subsiguiente_');
 
             //body.unshift('%23%23%23*%09*Fecha%20%20%20%20%20*%09*Hora*%0A');
-
-            body.unshift(`*Turno%20kinesiología%3A*%0A%0A`);
+            body.unshift(`Diagnóstico: ${turno.Diagnostico ? turno.Diagnostico : ''}%0A`);
+            body.unshift(`${paciente.Apellido} ${paciente.Nombre} (DNI${paciente.DocumentoNumero})%0A`);
+            body.unshift('%0AAsistir sin acompañantes.%0A%0A');
+            body.unshift('%0AEl tapaboca es de uso *OBLIGATORIO*.');
+            body.unshift('%0AAl ingresar al consultorio lavarse las manos y secarse con su propia toalla que deberá traer.');
+            body.unshift('%0A%0AActuemos con conciencia y de manera responsable, si tiene síntomas compatibles con Covid-19 por favor *NO ASISTIR*.');
+            body.unshift(`*Turnos de kinesiología. Licenciada Elvira Y.  De Lorenzo MN 14.957*%0A*Chacabuco 194 3°C*`);
+            
             //let wLink = `https://api.whatsapp.com/send?phone=54${paciente.Celular}&text=`;
             let wLink = `https://wa.me/${paciente.Celular}?text=`;
             body.forEach(linea => wLink += linea);
@@ -887,7 +903,7 @@
         $this.Notify = (title, message, parentEl) => {
             return $mdDialog.show(
                 $mdDialog.alert()
-                    .parent(parentEl.children())
+                    .parent(angular.element(document.body))
                     .clickOutsideToClose(true)
                     .title(title)
                     .textContent(message)
@@ -910,10 +926,11 @@
                 };
             }
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),//parent: parentEl,
                 templateUrl: `${Domain}Turno/${turno.ID}/Facturacion?v=${Math.floor(Math.random() * 100 + 1)}`,
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
+                multiple: true,
                 fullscreen: false               
             });
                 //.then(answer => {
@@ -932,7 +949,7 @@
         function viewFileModal (file, parentEl) {
 
             let modalHtml = 
-            `               <md-dialog aria-label="Paciente">
+            `               <md-dialog aria-label="Paciente" md-draggable>
                                 <md-toolbar>
                                     <div class="modal-header badge-info">
                                         <h4 class="modal-title text-capitalize"><span class="icon-file-pdf badge-info">Visor Archivos</span></h4>
@@ -957,12 +974,12 @@
             }
 
             $mdDialog.show({
-                //parent: parentEl,
+                //parent: angular.element(document.body),//parent: parentEl,
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
-                multiple: false
+                multiple: true
             });
         }
 

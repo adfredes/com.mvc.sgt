@@ -7,9 +7,10 @@
         templateUrl: Domain + 'Paciente/View',
         controller: ['eventService', 'messageService', 'turnoService', 'crudService', '$window', '$mdSelect', '$filter', '$element', pacienteViewController],
         bindings: {
+            pacienteId: "<?",
             paciente: "<?",
             save: "&?",
-            divid: "@"
+            cancelar: "&"
         }
     });
     function pacienteViewController(eventService, messageService, turnoService, crudService, $window, $mdSelect, $filter, $element) {
@@ -76,6 +77,9 @@
             vm.diagnosticos = [];
             vm.files = [];
             vm.OldDiagnostico = "";
+            if (vm.pacienteId && vm.pacienteId > 0) {
+                vm.paciente.ID = vm.pacienteId;
+            }
             if (!vm.paciente || !vm.paciente.ID || vm.paciente.ID === 0) {
                 vm.paciente = { ID: 0 };
             }
@@ -98,6 +102,7 @@
             $mdSelect.destroy();
         };
         vm.$onInit = function () {
+            console.log('inicio');
             init();
         };
         var init = function () {
@@ -244,12 +249,10 @@
             return angular.isDate(date);
         };
         vm.close = function () {
-            $('#ViewPaciente').modal('hide');
-            $('#CreateOrUpdate').modal('hide');
-            $('#' + vm.divid).modal('hide');
             vm.paciente = {};
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();
+            vm.cancelar();
         };
         vm.setTouch = function () {
             angular.forEach(vm.frmPaciente.$error, function (field) { return angular.forEach(field, function (errorField) {

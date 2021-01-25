@@ -113,7 +113,6 @@ D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.Twitter.resourc
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\bin\es\System.Web.Http.Owin.resources.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csprojAssemblyReference.cache
-D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CoreCompileInputs.cache
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.dll
 D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.pdb
@@ -239,3 +238,4 @@ E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csprojAssemblyReferenc
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.dll
 E:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.pdb
+D:\GitHub\com.mvc.sgt\com.mvc.sgt\obj\Release\com.mvc.sgt.csproj.CoreCompileInputs.cache

@@ -1,91 +1,83 @@
-﻿<div id="{{$ctrl.divid}}" class="modal fade bd-example-modal-lg" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header badge-primary">
-                <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
-                <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+﻿
+<div class="modal-header badge-primary">
+    <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>Turno: {{$ctrl.turno.ID}} <span ng-if="$ctrl.turno.PacienteID">Paciente: {{$ctrl.paciente.Apellido}}, {{$ctrl.paciente.Nombre}}</span></h4>
+    <button type="button" ng-click="$ctrl.cancelar()" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body p-0 md-dialog-content" style="max-height:65vh; overflow:auto;">
+    <div class="border border-info p-0 m-0">
+        <fieldset class="m-0 p-0">
+            <div class="form-inline bg-light botonera-turno-confirmado">
+                <md-button type="button" class="m-0 btn-asistio" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i></md-button>
+                <md-button type="button" class="m-0 btn-noasistio" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i></md-button>
+                <md-button type="button" class="m-0 btn-posponer" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i></md-button>
+                <md-button type="button" class="m-0 btn-agregar" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i></md-button>
+                <md-button type="button" class="m-0 btn-cancelar" ng-click="$ctrl.cancelarSesiones()" title="Cancelar Sesion/es"><i class="icon-cancel"></i></md-button>
+                <md-button type="button" class="m-0 btn-diagnostico" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i></md-button>
+                <md-button type="button" class="m-0 btn-dobleorden" ng-class="{'text-warning' : $ctrl.turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden()" title="Doble Orden"><i class="icon-clone"></i></md-button>
+                <md-button type="button" class="m-0 btn-imprimir" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i></md-button>
+                <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurno()" title="Enviar Turno"><i class="icon-mail"></i></md-button>
+                <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurnoWhatsapp()" title="Enviar Turno Whatsapp"><i class="icon-whatsapp"></i></md-button>
             </div>
-            <div class="modal-body p-0">                
-                <div class="border border-info p-0 m-0">
-                    <fieldset class="m-0 p-0">
-                        <div class="form-inline bg-light botonera-turno-confirmado">
-                            <md-button type="button" class="m-0 btn-asistio" ng-click="$ctrl.changeSesionState(true)" title="Asistio a la/s Sesion/es"><i class="icon-calendar-check-o"></i></md-button>
-                            <md-button type="button" class="m-0 btn-noasistio" ng-click="$ctrl.changeSesionState(false)" title="No asistio a la/s Sesion/es"><i class="icon-calendar-times-o"></i></md-button>
-                            <md-button type="button" class="m-0 btn-posponer" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i></md-button>
-                            <md-button type="button" class="m-0 btn-agregar" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i></md-button>
-                            <md-button type="button" class="m-0 btn-cancelar" ng-click="$ctrl.cancelarSesiones()" title="Cancelar Sesion/es"><i class="icon-cancel"></i></md-button>
-                            <md-button type="button" class="m-0 btn-diagnostico" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i></md-button>
-                            <md-button type="button" class="m-0 btn-dobleorden" ng-class="{'text-warning' : $ctrl.turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden()" title="Doble Orden"><i class="icon-clone"></i></md-button>
-                            <md-button type="button" class="m-0 btn-imprimir" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i></md-button>
-                            <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurno()" title="Enviar Turno"><i class="icon-mail"></i></md-button>
-                            <md-button type="button" class="m-0 btn-mail" ng-click="$ctrl.sendTurnoWhatsapp()" title="Enviar Turno Whatsapp"><i class="icon-whatsapp"></i></md-button>
-                        </div>
-                    </fieldset>
-                    <input id="PacienteID" type="text" ng-hide="1==1" ng-model="$ctrl.PacienteID" ng-change="$ctrl.pacienteChange()" />
-                    <input id="TurnoID" type="text" ng-hide="1==1" ng-model="$ctrl.TurnoID" />
-                    <div ng-if="$ctrl.getInformation == true" class="text-center" style="overflow:hidden">
-                        <span class="icon-spinner animate-spin p-4 display-4"></span>
-                    </div>
-                    <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border" style="caption-side: top">
-                        <caption style="caption-side:top;" class="mb-0 pb-0">
-                            <nav class="mb-0 pb-0 badge-light">
-                                <ul class="pagination justify-content-center mb-0 pb-0 badge-light">
-                                    <li class="page-item text-center" ng-click="$ctrl.setPage(0)" ng-class="{disabled:$ctrl.currentPage==0}">
-                                        <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage(0)"><span class="icon-to-start-alt"></span></a>
-                                    </li>
-                                    <li class="page-item text-center" ng-class="{disabled:$ctrl.currentPage==0}">
-                                        <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage - 1)"><span class="icon-fast-bw"></span></a>
-                                    </li>
-                                    <li class="page-item text-center w-100 disabled">
-                                        <span class="page-link">{{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}}</span>
-                                    </li>
-                                    <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
-                                        <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage + 1)"><span class="icon-fast-fw"></span></a>
-                                    </li>
-                                    <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
-                                        <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.turnos.length - 1)"><span class="icon-to-end-alt"></span></a>
-                                    </li>
-                                </ul>
-                            </nav>
-
-                        </caption>
-                        <thead class="thead-light">
-                            <tr class="bg-light">
-                                <th scope="col" class="text-center w-auto p-2">Número</th>
-                                <th scope="col" class="text-center w-auto p-2">Fecha</th>
-                                <th scope="col" class="text-center w-auto p-2">Horario</th>
-                                <th scope="col" class="text-center w-auto p-2">Consultorio</th>
-                                <th scope="col" class="text-center w-auto p-2">Estado</th>
-                                <th ng-if="$ctrl.turno.Estado == 2">
-                                    <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
-                                </th>
-                            </tr>
-                        </thead>
-                        <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" ng-class="{'text-primary':$ctrl.bolder(sesion.Estado),'text-danger':$ctrl.bolder(sesion.Estado)==false}"
-                            style="cursor:pointer; background:{{$ctrl.getColorConsultorio(sesion.ConsultorioID)}}">
-                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{sesion.Numero}}</td>
-                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toDate(sesion.FechaHora)}}</td>
-                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
-                            <td class="text-center w-auto p-1" ng-click= '$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
-                            <td class="text-center w-auto p-1">
-                                {{$ctrl.getNombreEstado(sesion.Estado)}}
-                                <span ng-show="sesion.Estado == 4 && sesion.FueDobleOrden == 1"> - Doble</span>
-                                <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"
-                                      ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
-                                <span ng-show="sesion.Estado == 6" class="icon-trash-empty text-danger"
-                                      ng-click="$ctrl.sesionAnular(sesion.ID)"></span>
-                            </td>
-                            <td ng-if="$ctrl.turno.Estado == 2" class="text-center w-auto p-1">
-                                <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <md-button type="button" class="md-raised md-warn" data-dismiss="modal"><i class="icon-cancel"></i> Cerrar</md-button>
-            </div>
+        </fieldset>
+        <div ng-if="$ctrl.getInformation == true" class="text-center" style="overflow:hidden">
+            <span class="icon-spinner animate-spin p-4 display-4"></span>
         </div>
+        <table class="table table-responsive-sm table-hover table table-responsive-sm table-hover border" style="caption-side: top">
+            <caption style="caption-side:top;" class="mb-0 pb-0">
+                <nav class="mb-0 pb-0 badge-light">
+                    <ul class="pagination justify-content-center mb-0 pb-0 badge-light">
+                        <li class="page-item text-center" ng-click="$ctrl.setPage(0)" ng-class="{disabled:$ctrl.currentPage==0}">
+                            <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage(0)"><span class="icon-to-start-alt"></span></a>
+                        </li>
+                        <li class="page-item text-center" ng-class="{disabled:$ctrl.currentPage==0}">
+                            <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage - 1)"><span class="icon-fast-bw"></span></a>
+                        </li>
+                        <li class="page-item text-center w-100 disabled">
+                            <span class="page-link">{{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}}</span>
+                        </li>
+                        <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
+                            <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage + 1)"><span class="icon-fast-fw"></span></a>
+                        </li>
+                        <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
+                            <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.turnos.length - 1)"><span class="icon-to-end-alt"></span></a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </caption>
+            <thead class="thead-light">
+                <tr class="bg-light">
+                    <th scope="col" class="text-center w-auto p-2">Número</th>
+                    <th scope="col" class="text-center w-auto p-2">Fecha</th>
+                    <th scope="col" class="text-center w-auto p-2">Horario</th>
+                    <th scope="col" class="text-center w-auto p-2">Consultorio</th>
+                    <th scope="col" class="text-center w-auto p-2">Estado</th>
+                    <th ng-if="$ctrl.turno.Estado < 3">
+                        <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
+                    </th>
+                </tr>
+            </thead>
+            <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" ng-class="{'text-primary':$ctrl.bolder(sesion.Estado),'text-danger':$ctrl.bolder(sesion.Estado)==false}"
+                style="cursor:pointer; background:{{$ctrl.getColorConsultorio(sesion.ConsultorioID)}}">
+                <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{sesion.Numero}}</td>
+                <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toDate(sesion.FechaHora)}}</td>
+                <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
+                <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>
+                <td class="text-center w-auto p-1">
+                    {{$ctrl.getNombreEstado(sesion.Estado)}}
+                    <span ng-show="sesion.Estado == 4 && sesion.FueDobleOrden == 1"> - Doble</span>
+                    <span ng-show="sesion.Estado == 8 || sesion.Estado == 1 || sesion.Estado == 2" class="icon-calendar text-danger"
+                          ng-click="$ctrl.openCambiarSesionModal(sesion)"></span>
+                    <span ng-show="sesion.Estado == 6" class="icon-trash-empty text-danger"
+                          ng-click="$ctrl.sesionAnular(sesion.ID)"></span>
+                </td>
+                <td ng-if="$ctrl.turno.Estado < 3" class="text-center w-auto p-1">
+                    <input type="checkbox" ng-if="sesion.Estado == 2" ng-model="sesion.selected" />
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
-
+<div class="modal-footer">   
+        <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.cancelar()"><i class="icon-cancel"></i> Cerrar</md-button>    
+</div>

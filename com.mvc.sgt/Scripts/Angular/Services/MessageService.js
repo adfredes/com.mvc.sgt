@@ -7,7 +7,8 @@
 
         $this.Notify = (title, message, parentEl) => {
             let notify = $mdDialog.alert()
-                .parent(parentEl.children())
+                .parent(angular.element(document.body))
+                //.parent(parentEl.children())
                 .clickOutsideToClose(true)
                 .title(title)
                 .textContent(message)

@@ -6,7 +6,7 @@
         templateUrl: Domain + 'Turno/AsignarPaciente',
         bindings: {
             turno: "<?",
-            divid: "@",
+            cancelar: "&",        
             onChanges: "&?"
         },
         controller: ['$route', '$location', '$timeout', '$window','messageService','turnoService', 'eventService', '$element', asignarPacienteController]
@@ -48,6 +48,8 @@
 
             }, 500);
         };
+
+        vm.close = () => vm.cancelar();
 
         let getEstados = () => {
             let promise = turnoService.getEstados();

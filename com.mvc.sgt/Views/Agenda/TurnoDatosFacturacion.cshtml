@@ -1,6 +1,6 @@
 ﻿@model com.mvc.sgt.Models.TurnoFacturacionModel
 
-<md-dialog aria-label="Turnos" class="w-50">
+<md-dialog aria-label="Turnos" class="w-50" md-draggable>
     @*<form ng-cloak>*@
         <md-toolbar>
             <div class="md-toolbar-tools  badge-warning">
@@ -173,7 +173,15 @@
                                                 </span>
                                                 break;
                                             case 4:
-                                                <span>Atendido</span>
+                                                if (sesion.FueDobleOrden == true)
+                                                {
+                                                    <span>Atendido - Doble</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Atendido</span>
+                                                }
+
                                                 break;
                                             case 5:
                                                 <span>No Asistio</span>

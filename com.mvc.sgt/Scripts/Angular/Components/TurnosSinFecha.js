@@ -3,10 +3,10 @@
 
     sgtApp.component("turnosSinFecha", {
         templateUrl: Domain + 'Turno/SinFechaAsignada',
-        controller: ['turnoService', 'eventService', '$interval', '$window', turnoSinFechaController]        
+        controller: ['modalComponentService', 'turnoService', 'eventService', '$interval', '$window', turnoSinFechaController]        
     });
 
-    function turnoSinFechaController(turnoService, eventService, $interval, $window) {
+    function turnoSinFechaController(modalComponentService, turnoService, eventService, $interval, $window) {
         let vm = this;
         let stopInterval;
 
@@ -20,6 +20,8 @@
             $window.addEventListener('UpdateTurnos', getData);
         };
 
+        vm.refresh = () => {vm.Turnos = []; getData(); };
+
         let getData = () => {            
             let promise = turnoService.getTurnosSinFechaAsignada();
             promise.then(data => {                                
@@ -30,9 +32,9 @@
 
         vm.changeTurno = () => getData();
 
-        vm.verTurno = (turno) => {
-            vm.selectedTurno = {ID: turno.ID};                      
-            $("#divTurnoSinFecha").modal("show");            
+        vm.verTurno = (turno) => {            
+            vm.selectedTurno = { ID: turno.ID };                      
+            modalComponentService.openAsignarPacienteModal(vm.selectedTurno);            
         };        
     }
 

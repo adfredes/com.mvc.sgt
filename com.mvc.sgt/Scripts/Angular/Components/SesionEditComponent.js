@@ -234,11 +234,11 @@
 
             // Appending dialog to document.body to cover sidenav in docs app
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),//parent: parentEl,
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
                 //targetEvent: ev,                
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
                 multiple: true,
                 locals: { turno: vm.selectedTurno }

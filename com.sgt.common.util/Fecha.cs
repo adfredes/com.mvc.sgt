@@ -59,17 +59,21 @@ namespace com.sgt.common.util
             return dt;
         }
 
-        public static List<DateTime> NextDays(this DateTime dt, int value)
+        public static List<DateTime> NextDays(this DateTime dt, int value, bool[] atiendeDia)
         {            
                 List<DateTime> days = new List<DateTime>();                
 
                 for (int c = 0; c < value; c++)
                 {
                     DateTime day = dt.AddDays(c);
-                    if (!(day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday))
-                    {
+                if(atiendeDia[(int)day.DayOfWeek])
+                {
                     days.Add(day);
-                    }
+                }
+                    //if (!(day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday))
+                    //{
+                    //days.Add(day);
+                    //}
                 }
             return days;
         }

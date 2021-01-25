@@ -1,6 +1,6 @@
 (function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller("pacienteController", ['$scope', '$filter', 'crudService', function ($scope, $filter, crudService) {
+    sgtApp.controller("pacienteController", ['$scope', '$filter', 'crudService', 'modalComponentService', function ($scope, $filter, crudService, modalComponentService) {
             $scope.currentPage = 0;
             $scope.initPage = 0;
             $scope.pageSize = 10;
@@ -47,9 +47,11 @@
             };
             $scope.Edit = function (id) {
                 $scope.PacienteModel = { ID: id };
+                modalComponentService.openPacienteModal($scope.PacienteModel);
             };
             $scope.Create = function () {
                 $scope.PacienteModel = {};
+                modalComponentService.openPacienteModal($scope.PacienteModel);
             };
             $scope.GetPacientes = function () {
                 var _url = '';

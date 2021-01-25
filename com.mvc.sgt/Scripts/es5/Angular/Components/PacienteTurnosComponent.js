@@ -18,7 +18,12 @@
     sgtApp.component('datosSesiones', {
         templateUrl: Domain + 'Paciente/DatosSesiones',
         controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
-            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController]
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController],
+        bindings: {
+            pacienteId: "<?",
+            turnoId: "<?",
+            cancelar: '&?'
+        }
     });
     function pacienteTurnosController(messageService, turnoService, eventService, pdfService, crudService, $window, $mdSelect, $filter, $location, $route, $timeout, $mdDialog, $element) {
         var vm = this;
@@ -201,8 +206,9 @@
                 template: modalHtml,
                 controller: DialogController,
                 targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: false,
+                clickOutsideToClose: false,
+                multiple: true,
+                fullscreen: true,
                 locals: { turno: vm.selectedTurno }
             })
                 .then(function (answer) {
@@ -237,10 +243,9 @@
         vm.parent = $element.children();
         vm.$onInit = function () { return init; };
         var init = function () {
+            vm.PacienteID = vm.pacienteId;
+            vm.TurnoID = vm.turnoId;
             getPaciente(vm.PacienteID);
-        };
-        vm.pacienteChange = function () {
-            init();
         };
         var getPaciente = function (id) {
             if (id && id > 0) {
@@ -261,7 +266,7 @@
             init();
         };
         vm.close = function () {
-            $('#DatosSesiones').modal('hide');
+            vm.cancelar();
         };
     }
 })();

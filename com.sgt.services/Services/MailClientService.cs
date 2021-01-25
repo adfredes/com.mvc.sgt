@@ -27,7 +27,7 @@ namespace com.sgt.services.Services
         {
             SmtpMail config = GetConfig();
             if (config != null)
-            {
+            {                
                 var senderEmail = new MailAddress(config.Mail, "Consultorio");
                 var receiverEmail = new MailAddress(to);
 
@@ -37,8 +37,9 @@ namespace com.sgt.services.Services
                     Port = config.Port,
                     EnableSsl = config.Ssl,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
+                    UseDefaultCredentials = false,                    
                     Credentials = new NetworkCredential(config.User, config.Pass)
+                    //Credentials = new NetworkCredential(config.User, config.Pass)
                 };
 
                 using (var message = new MailMessage(senderEmail, receiverEmail)

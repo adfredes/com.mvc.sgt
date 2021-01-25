@@ -40,6 +40,7 @@ namespace com.mvc.sgt
                       "~/Content/fontello.css",
                       "~/Content/animation.css",
                       "~/Content/Styles.css",
+                      "~/Content/ui-bootstrap-csp.css",
                       "~/Content/jquery.contextMenu.min.css",
                       "~/Content/bootstrap-datepicker.min.css"));
 
@@ -50,7 +51,7 @@ namespace com.mvc.sgt
                     "~/Scripts/angular-messages.min.js",
                     "~/Scripts/angular-route.min.js",
                     "~/Scripts/angular-sanitize.min.js",                    
-                    "~/Scripts/angular-aria.min.js",
+                    "~/Scripts/angular-aria.min.js",                    
                     "~/Scripts/angular-material.min.js"                    
                 ));
 

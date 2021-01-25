@@ -4,7 +4,7 @@
         templateUrl: Domain + 'Turno/AsignarPaciente',
         bindings: {
             turno: "<?",
-            divid: "@",
+            cancelar: "&",
             onChanges: "&?"
         },
         controller: ['$route', '$location', '$timeout', '$window', 'messageService', 'turnoService', 'eventService', '$element', asignarPacienteController]
@@ -35,6 +35,7 @@
                 }
             }, 500);
         };
+        vm.close = function () { return vm.cancelar(); };
         var getEstados = function () {
             var promise = turnoService.getEstados();
             promise.then(function (data) {

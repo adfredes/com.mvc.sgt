@@ -4,6 +4,9 @@
         templateUrl: Domain + 'Paciente/ViewSesiones',
         controller: ['$route', '$location', '$timeout', '$window', 'messageService', 'turnoService', 'eventService', '$element', sesionesViewController],
         bindings: {
+            pacienteId: "<?",
+            turnoId: "<?",
+            cancelar: "&?",
             divid: "@"
         }
     });
@@ -12,32 +15,32 @@
         vm.currentPage = 0;
         vm.initPage = 0;
         vm.registerCount = 0;
-        vm.PacienteID = 0;
-        vm.TurnoID = 0;
         vm.getInformation = false;
-        vm.$onInit = function () { return init; };
         var init = function () {
-            vm.getInformation = true;
-            vm.currentPage = 0;
-            vm.initPage = 0;
-            vm.registerCount = 0;
-            vm.turnos = [];
-            vm.turno = {};
-            getConsultorios();
+            if (vm.turnoId && vm.pacienteId) {
+                console.log("init");
+                console.log(vm.turnoId);
+                console.log(vm.pacienteId);
+                vm.getInformation = true;
+                vm.currentPage = 0;
+                vm.initPage = 0;
+                vm.registerCount = 0;
+                vm.turnos = [];
+                vm.turno = {};
+                getConsultorios();
+            }
         };
+        vm.$onInit = function () { return init; };
         vm.setPage = function (pageNumber) {
             vm.currentPage = pageNumber;
             vm.turno = vm.turnos[pageNumber];
-        };
-        vm.pacienteChange = function () {
-            init();
         };
         vm.sesionClick = function (fecha) {
             $window.sessionStorage.removeItem('FechaGrillaTurnos');
             $window.sessionStorage.removeItem('VistaGrillaTurnos');
             $window.sessionStorage.setItem('FechaGrillaTurnos', moment(fecha).toDate());
             $window.sessionStorage.setItem('VistaGrillaTurnos', 'd');
-            $('#' + vm.divid).modal('hide');
+            vm.cancelar();
             $timeout(function () {
                 if ($location.path() == '/Turnos') {
                     $route.reload();
@@ -61,8 +64,8 @@
             var promise = turnoService.getEstados();
             promise.then(function (data) {
                 vm.Estados = data;
-                if (vm.PacienteID > 0) {
-                    getTurnosPaciente(vm.PacienteID);
+                if (vm.pacienteId > 0) {
+                    getTurnosPaciente(vm.pacienteId);
                 }
             })
                 .catch(function (err) {
@@ -79,11 +82,11 @@
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };
         var getTurnosPaciente = function (id) {
-            getPaciente(vm.PacienteID);
+            getPaciente(vm.pacienteId);
             var promise = turnoService.getTurnosPaciente(id);
             promise.then(function (data) {
                 vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));
-                vm.currentPage = vm.turnos.findIndex(function (e) { return e.ID == vm.TurnoID; });
+                vm.currentPage = vm.turnos.findIndex(function (e) { return e.ID == vm.turnoId; });
                 vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];
                 vm.registerCount = vm.turnos.length;
@@ -110,9 +113,7 @@
             getConsultorios();
         };
         vm.$onChanges = function (change) {
-            Estados = [];
-            Consultorios = [];
-            getConsultorios();
+            init();
         };
         vm.openDiagnostico = function () {
             turnoService.openDiagnostico(vm.paciente, vm.turno, function (promise) {
@@ -126,7 +127,7 @@
         vm.cancelarTurno = function () {
             turnoService.cancelarTurno(vm.turno, function (promise) {
                 promise.then(function (data) {
-                    getTurnosPaciente(vm.PacienteID);
+                    getTurnosPaciente(vm.pacienteId);
                     eventService.UpdateTurnos();
                 });
             }, $element);
@@ -134,7 +135,7 @@
         vm.cancelarSesiones = function () {
             turnoService.cancelarSesiones(vm.turno, function (promise) {
                 promise.then(function (data) {
-                    getTurnosPaciente(vm.PacienteID);
+                    getTurnosPaciente(vm.pacienteId);
                     eventService.UpdateTurnos();
                 });
             }, $element);
@@ -153,7 +154,7 @@
                 promise = turnoService.setEstadoNoAsistio(sesiones);
             }
             promise.then(function (data) {
-                getTurnosPaciente(vm.PacienteID);
+                getTurnosPaciente(vm.pacienteId);
                 eventService.UpdateTurnos();
             })
                 .catch(function (err) { });
@@ -179,7 +180,7 @@
                     turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
                 }
             });
-            getTurnosPaciente(vm.PacienteID);
+            getTurnosPaciente(vm.pacienteId);
             eventService.UpdateTurnos();
         };
         vm.openDobleOrden = function () {
@@ -202,7 +203,9 @@
             eventService.UpdateTurnos();
             getTurno(vm.turno.ID);
         };
-        vm.openCambiarSesionModal = function (sesion) { return turnoService.openCambiarSesionModal(sesion, updateData, $element.children()); };
+        vm.openCambiarSesionModal = function (sesion) {
+            return turnoService.openCambiarSesionModal(sesion, updateData, $element.children());
+        };
         vm.sesionAnular = function (id) {
             turnoService.sesionAnular(id, updateData, $element.children());
         };

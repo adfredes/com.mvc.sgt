@@ -18,8 +18,8 @@ namespace com.sgt.DataAccess
         public int ProfesionalID { get; set; }
         public int AusenciaID { get; set; }
         public Nullable<int> DiaSemana { get; set; }
-        public System.DateTime HoraDesde { get; set; }
-        public System.DateTime HoraHasta { get; set; }
+        public Nullable<System.DateTime> HoraDesde { get; set; }
+        public Nullable<System.DateTime> HoraHasta { get; set; }
         public Nullable<bool> Habilitado { get; set; }
     
         public virtual Profesional Profesional { get; set; }

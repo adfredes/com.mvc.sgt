@@ -59,10 +59,12 @@ namespace com.mvc.sgt.Controllers
         public  IHttpActionResult GetRangoFecha(string dia, string mes, string anio, char vista)
         {
             List<FechaModel> fechas = new List<FechaModel>();
+            var agenda = agendaService.GetAgenda();
+            bool[] atiendeDia = { agenda.AtiendeDomingo, agenda.AtiendeLunes, agenda.AtiendeMartes, agenda.AtiendeMiercoles, agenda.AtiendeJueves, agenda.AtiendeViernes, agenda.AtiendeSabado };
             //DateTime fecha = DateTime.ParseExact(dia + "/" + mes + "/" + anio, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime fecha = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
 
-            fecha.NextDays(vista =='s'?7:1).ForEach(day =>
+            fecha.NextDays(vista =='s'?7:1, atiendeDia).ForEach(day =>
             {
                 var newDate = new FechaModel();
                 newDate.Fecha = day.ToString("dd/MM/yyyy");
@@ -80,13 +82,14 @@ namespace com.mvc.sgt.Controllers
             DateTime desde = Convert.ToDateTime(anio + "/" + mes + "/" + dia);
             DateTime hasta = vista == 's' ? desde.AddDays(7) : desde;
             var recesos = agendaService.SearchRecesos(desde, hasta);
-
+            var agenda = agendaService.GetAgenda();
+            bool[] atiendeDia = { agenda.AtiendeDomingo, agenda.AtiendeLunes, agenda.AtiendeMartes, agenda.AtiendeMiercoles, agenda.AtiendeJueves, agenda.AtiendeViernes, agenda.AtiendeSabado };
             recesos.ToList().ForEach(receso =>
             {
                 DateTime finicio = receso.FechaDesde > desde ? receso.FechaDesde : desde;
                 int total = receso.FechaHasta < hasta ? (receso.FechaHasta - finicio).Days : (hasta - finicio).Days;
                 total++;
-                finicio.NextDays(total).ForEach(day =>
+                finicio.NextDays(total, atiendeDia).ForEach(day =>
                 {
                     var newDate = new FechaModel();
                     newDate.Fecha = day.ToString("dd/MM/yyyy");

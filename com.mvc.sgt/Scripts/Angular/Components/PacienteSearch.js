@@ -3,7 +3,7 @@
     
     sgtApp.component('searchPaciente', {        
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: ['crudService', '$mdDialog', '$element', '$timeout',searchPacienteController],
+        controller: ['modalComponentService','crudService', '$mdDialog', '$element', '$timeout',searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -14,7 +14,7 @@
         }
     });
 
-    function searchPacienteController(crudService, $mdDialog, $element, $timeout) {
+    function searchPacienteController(modalComponentService, crudService, $mdDialog, $element, $timeout) {
         var vm = this;
         
         vm.$onInit = () => {
@@ -39,26 +39,28 @@
                 let data = vm.Paciente;
                 vm.onChange()(data);
             }
-            else {
+            else {                
                 if (vm.Paciente) {
-                    $('#ViewPaciente').modal('show');
+                    modalComponentService.openPacienteModal(vm.Paciente);
                 }                
             }
         };
 
         vm.openViewPaciente = () => {
-            
-            let selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
+
+            modalComponentService.openPacienteModal(vm.Paciente);
+
+/*            let selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
             vm.Paciente = {};
-            $timeout(openViewPacienteTimeOut, 50, true, selectedPaciente);
+            $timeout(openViewPacienteTimeOut, 50, true, selectedPaciente);*/
             //vm.Paciente = selectedPaciente;
             //$('#ViewPaciente').modal('show');
         };
 
-        let openViewPacienteTimeOut = (selectedPaciente) => {                        
+        /*let openViewPacienteTimeOut = (selectedPaciente) => {                        
             vm.Paciente = selectedPaciente;
             $('#ViewPaciente').modal('show');
-        };
+        };*/
 
         vm.openCreate = () => {            
             vm.Paciente = {};            
@@ -102,7 +104,8 @@
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
                 fullscreen: false,
-                parent: parentView
+                multiple: true,
+                parent: angular.element(document.body)//parent: parentView
                 //,
                 //locals: { turno: turno }
             })

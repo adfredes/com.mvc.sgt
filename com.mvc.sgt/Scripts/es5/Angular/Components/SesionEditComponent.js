@@ -164,10 +164,10 @@
         vm.showModal = function (_error, parentEl) {
             var modalHtml = "\n<md-dialog aria-label=\"Turnos\">\n  <form ng-cloak>\n    <md-toolbar>\n      <div class=\"md-toolbar-tools  badge-warning\">\n        <h5 class=\"modal-title\">Turnos</h5>        \n      </div>\n    </md-toolbar>\n    <md-dialog-content>\n      <div class=\"md-dialog-content\">        \n        <p>\n          " + _error + "\n        </p>\n      </div>\n    </md-dialog-content>\n\n    <md-dialog-actions layout=\"row\">      \n      <span flex></span>      \n      <md-button type='button' class='md-raised md-primary' ng-click='hide()'><span class='icon-ok'></span> Aceptar</md-button>\n    </md-dialog-actions>\n  </form>\n</md-dialog>\n";
             $mdDialog.show({
-                parent: parentEl,
+                parent: angular.element(document.body),
                 template: modalHtml,
                 controller: ['$scope', '$mdDialog', DialogController],
-                clickOutsideToClose: true,
+                clickOutsideToClose: false,
                 fullscreen: false,
                 multiple: true,
                 locals: { turno: vm.selectedTurno }

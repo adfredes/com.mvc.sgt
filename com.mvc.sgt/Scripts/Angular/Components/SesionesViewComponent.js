@@ -5,6 +5,9 @@
         templateUrl: Domain + 'Paciente/ViewSesiones',
         controller: ['$route', '$location','$timeout','$window','messageService','turnoService', 'eventService','$element', sesionesViewController],
         bindings: {
+            pacienteId: "<?",
+            turnoId: "<?",
+            cancelar: "&?",
             divid: "@"
         }
     });
@@ -13,40 +16,36 @@
         vm = this;
         vm.currentPage = 0;
         vm.initPage = 0;
-        vm.registerCount = 0;
-        vm.PacienteID = 0;
-        vm.TurnoID = 0;
+        vm.registerCount = 0;              
         vm.getInformation = false;
 
+        let init = () => {    
+            if (vm.turnoId && vm.pacienteId) {
+                console.log("init");
+                console.log(vm.turnoId);
+                console.log(vm.pacienteId);
+                vm.getInformation = true;
+                vm.currentPage = 0;
+                vm.initPage = 0;
+                vm.registerCount = 0;
+                vm.turnos = [];
+                vm.turno = {};
+                getConsultorios();            
+            }            
+        };        
         vm.$onInit = () => init;
-
-
-
-        let init = () => {
-            vm.getInformation = true;
-            vm.currentPage = 0;
-            vm.initPage = 0;            
-            vm.registerCount = 0;
-            vm.turnos = [];
-            vm.turno = {};            
-            getConsultorios();            
-        };
 
         vm.setPage = (pageNumber) => {
             vm.currentPage = pageNumber;
             vm.turno = vm.turnos[pageNumber];
-        };
-
-        vm.pacienteChange = () => {
-            init();
-        };
+        };       
 
         vm.sesionClick = function (fecha) {
             $window.sessionStorage.removeItem('FechaGrillaTurnos');
             $window.sessionStorage.removeItem('VistaGrillaTurnos');
             $window.sessionStorage.setItem('FechaGrillaTurnos', moment(fecha).toDate());
             $window.sessionStorage.setItem('VistaGrillaTurnos', 'd');
-            $('#' + vm.divid).modal('hide');         
+            vm.cancelar();  
 
             $timeout(() => {
                 if ($location.path() == '/Turnos') {
@@ -84,8 +83,8 @@
             let promise = turnoService.getEstados();
             promise.then(data => {
                 vm.Estados = data;                
-                if (vm.PacienteID > 0) {
-                    getTurnosPaciente(vm.PacienteID);
+                if (vm.pacienteId > 0) {
+                    getTurnosPaciente(vm.pacienteId);
                 }
             })
                 .catch(err => {
@@ -104,12 +103,12 @@
         };
 
         let getTurnosPaciente = (id) => {
-            getPaciente(vm.PacienteID);
+            getPaciente(vm.pacienteId);
             let promise = turnoService.getTurnosPaciente(id);
             promise.then(data => {   
                 
                 vm.turnos = turnoService.turnosSesionesOrder(JSON.parse(data));                                
-                vm.currentPage = vm.turnos.findIndex(e => e.ID == vm.TurnoID);
+                vm.currentPage = vm.turnos.findIndex(e => e.ID == vm.turnoId);
                 vm.currentPage = vm.currentPage == -1 ? 0 : vm.currentPage;
                 vm.turno = vm.turnos[vm.currentPage];                
                 vm.registerCount = vm.turnos.length;
@@ -141,9 +140,10 @@
         };
 
         vm.$onChanges = (change) => {
-            Estados = [];
+            init();
+            /*Estados = [];
             Consultorios = [];
-            getConsultorios();
+            getConsultorios();*/
         };
 
         vm.openDiagnostico = () => {
@@ -160,7 +160,7 @@
         vm.cancelarTurno = () => {
             turnoService.cancelarTurno(vm.turno, promise => {
                 promise.then(data => {
-                    getTurnosPaciente(vm.PacienteID);
+                    getTurnosPaciente(vm.pacienteId);
                     eventService.UpdateTurnos();
                 });
             }, $element);
@@ -170,7 +170,7 @@
         vm.cancelarSesiones = () => {
             turnoService.cancelarSesiones(vm.turno, promise => {
                 promise.then(data => {
-                    getTurnosPaciente(vm.PacienteID);
+                    getTurnosPaciente(vm.pacienteId);
                     eventService.UpdateTurnos();
                 });
             }, $element);
@@ -193,7 +193,7 @@
                 promise = turnoService.setEstadoNoAsistio(sesiones);
             }
             promise.then(data => {
-                getTurnosPaciente(vm.PacienteID);
+                getTurnosPaciente(vm.pacienteId);
                 eventService.UpdateTurnos();
             })
                 .catch(err => { });
@@ -224,7 +224,7 @@
                         turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element);
                     }
                 });
-            getTurnosPaciente(vm.PacienteID);
+            getTurnosPaciente(vm.pacienteId);
             eventService.UpdateTurnos();
         };
 
@@ -252,7 +252,8 @@
             getTurno(vm.turno.ID);
         };
 
-        vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, updateData, $element.children());
+        vm.openCambiarSesionModal = (sesion) =>
+            turnoService.openCambiarSesionModal(sesion, updateData, $element.children());
 
         vm.sesionAnular = (id) => {            
             turnoService.sesionAnular(id, updateData, $element.children());

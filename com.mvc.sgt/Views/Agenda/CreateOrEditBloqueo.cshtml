@@ -10,18 +10,18 @@
                 <div ng-cloak>
                     <md-content>
                         <div class="container-fluid p-1">
-                            <form name="frmbloqueo" id="frmbloqueo" ng-cloak novalidate>
-                                <fieldset>                                                                   
+                            <form name="frmbloqueo" id="frmbloqueo" ng-submit="$ctrl.save($ctrl.bloqueo)" ng-cloak novalidate>
+                                <fieldset>
                                     <div class="row">
-                                        <div class="col-md-8 form-group">                                            
+                                        <div class="col-md-8 form-group">
                                             <md-input-container class="md-block">
                                                 <label for="consultorio">Consultorio:</label>
                                                 <md-select id="consultorio" name="consultorio" ng-model="$ctrl.bloqueo.ConsultorioId" ng-change="$ctrl.changeConsultorio()" required>
-                                                    <md-option ng-repeat="consultorio in $ctrl.consultorios" ng-value="consultorio.ID">{{consultorio.Descripcion}}</md-option>                                                    
+                                                    <md-option ng-repeat="consultorio in $ctrl.consultorios" ng-value="consultorio.ID">{{consultorio.Descripcion}}</md-option>
                                                 </md-select>
                                             </md-input-container>
                                         </div>
-                                        <div class="col-md-4 form-group">                                            
+                                        <div class="col-md-4 form-group">
                                             <md-input-container class="md-block">
                                                 <label for="turnoSimultaneo">Turno Simultáneo:</label>
                                                 <md-select id="turnoSimultaneo" name="turnoSimultaneo" ng-model="$ctrl.bloqueo.TurnoSimultaneo" required>
@@ -57,7 +57,33 @@
                                         </div>
                                     </div>
 
-                                    
+                                    <div class="row">
+                                        <div class="col-md-12 form-group">
+                                            <md-input-container class="md-block text-center">
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bLunes" aria-label="Lunes">
+                                                    Lunes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bMartes" aria-label="Martes">
+                                                    Martes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bMiercoles" aria-label="Miercoles">
+                                                    Miercoles
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bJueves" aria-label="Jueves">
+                                                    Jueves
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bViernes" aria-label="Viernes">
+                                                    Viernes
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bSabado" aria-label="Sabado">
+                                                    Sabado
+                                                </md-checkbox>
+                                                <md-checkbox ng-model="$ctrl.bloqueo.bDomingo" aria-label="Domingo">
+                                                    Domingo
+                                                </md-checkbox>
+                                            </md-input-container>
+                                        </div>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-4 form-group">
@@ -80,6 +106,8 @@
                                             </md-input-container>
                                         </div>
                                     </div>
+
+
                                 </fieldset>
                                 <div class="clearfix"></div>
                                 <span ng-show="$ctrl.error.length>0" role="alert">{{$ctrl.error}}</span>
@@ -90,7 +118,7 @@
             </div>
             <div class="modal-footer">
                 <md-button type="button" class="md-raised md-warn" ng-click="$ctrl.close()" data-dismiss="modal"><i class="icon-cancel"></i> Cancelar</md-button>
-                <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.save($ctrl.bloqueo)"><span class="icon-floppy"></span> Guardar</md-button>
+                <md-button ng-disabled="frmbloqueo.$invalid" type="submit" class="md-raised md-primary" form="frmbloqueo"><span class="icon-floppy"></span> Guardar</md-button>
             </div>
         </div>
     </div>

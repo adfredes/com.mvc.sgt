@@ -63,7 +63,14 @@
         <EntityTypeShape EntityType="TurnosModel.HorariosProfesionale" Width="1.5" PointX="7.5" PointY="31.125" />
         <AssociationConnector Association="TurnosModel.FK_HorariosProfesionales_Profesional" />
         <EntityTypeShape EntityType="TurnosModel.Profesional_Suplencias" Width="1.5" PointX="10.75" PointY="22.625" />
-        <AssociationConnector Association="TurnosModel.FK_Profesional_Suplencias_Profesional" />
+        <AssociationConnector Association="TurnosModel.FK_Profesional_Suplencias_Profesional" ManuallyRouted="true" >
+          <ConnectorPoint PointX="6.75" PointY="18.883318561298072" />
+          <ConnectorPoint PointX="7.15625" PointY="19.289568561298072" />
+          <ConnectorPoint PointX="7.15625" PointY="24.408396809895834" />
+          <ConnectorPoint PointX="7.197916666666667" PointY="24.408396809895834" />
+          <ConnectorPoint PointX="7.458333333333333" PointY="24.408396809895834" />
+          <ConnectorPoint PointX="10.75" PointY="24.408396809895834" />
+        </AssociationConnector>
         <AssociationConnector Association="TurnosModel.FK_Profesional_Suplencias_Ausencias" />
       </Diagram>
     </edmx:Diagrams>

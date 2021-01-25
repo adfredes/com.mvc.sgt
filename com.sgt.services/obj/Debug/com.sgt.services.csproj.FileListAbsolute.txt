@@ -22,7 +22,6 @@ D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll
 D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.pdb
 D:\GitHub\com.mvc.sgt\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll.config
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csprojAssemblyReference.cache
-D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCompileInputs.cache
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb
@@ -37,3 +36,15 @@ E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csprojAssembly
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.dll
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.pdb
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\com.sgt.services.dll
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\com.sgt.services.pdb
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\EntityFramework.SqlServer.dll
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\EntityFramework.dll
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\com.sgt.DataAccess.pdb
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\bin\Debug\com.sgt.DataAccess.dll.config
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\obj\Debug\com.sgt.services.csprojAssemblyReference.cache
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\obj\Debug\com.sgt.services.csproj.CopyComplete
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\obj\Debug\com.sgt.services.dll
+E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.services\obj\Debug\com.sgt.services.pdb
+D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Debug\com.sgt.services.csproj.CoreCompileInputs.cache

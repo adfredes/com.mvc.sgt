@@ -5,7 +5,7 @@
 }
 
 
-    <div id="GrillaContent">
+    <div id="GrillaContent" modal-handle>
         <div class="modal fade" id="bloquearReservarModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
                 <div class="modal-content">
@@ -22,7 +22,7 @@
                             </label>
                             <select class="form-control" id="cmbSesiones">
                                 <option value="1">1/2 Hora</option>
-                                <option value="2">1 Hora</option>
+                                <option value="2" selected>1 Hora</option>
                                 <option value="3">1 1/2 Hora</option>
                             </select>
                         </div>
@@ -175,7 +175,7 @@
 
         </div>
 
-        <datos-sesiones></datos-sesiones>
+        @*<datos-sesiones></datos-sesiones>*@
 
         <div class="modal fade" id="cancelarSesionModal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -244,12 +244,11 @@
             </div>
         </div>
 
-        <paciente-view id="ctrlPacienteViewAgenda" divid="agendaViewPaciente">
-        </paciente-view>
-        <sesiones-view divid="sesionesPacienteModal"></sesiones-view>
+        @*<paciente-view id="ctrlPacienteViewAgenda" divid="agendaViewPaciente">
+        </paciente-view>*@
+        @*<sesiones-view divid="sesionesPacienteModal"></sesiones-view>*@
 
-        <sesion-edit id="ctrlEditSesionGrilla" divid="EditSesionGrilla"></sesion-edit>
-        <asignar-paciente divid="TurnoAsignarPacienteModal"></asignar-paciente>
+        <sesion-edit id="ctrlEditSesionGrilla" divid="EditSesionGrilla"></sesion-edit>        
 
         <div id="GrillaTableContent" style="max-height:calc(100vh - 80px); overflow-y:auto;">
             <div class="botonera mt-2">
@@ -268,6 +267,7 @@
                     </div>
                 </md-button>
                 <md-button class="md-raised m-0" id="btnVistaSemanal">Semanal</md-button>
+                <md-button class="md-raised m-0 d-none" id="btnRecargar" data-dia="5">RECARGAR</md-button>
             </div>
         </div>
     </div>

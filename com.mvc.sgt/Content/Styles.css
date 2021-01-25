@@ -1,4 +1,8 @@
-﻿.ui-draggable .modal-header{
+﻿md-dialog .modal-header, md-dialog .md-toolbar-tools {
+    cursor: move;
+}
+
+.ui-draggable .modal-header{
     cursor:move;
 }
 

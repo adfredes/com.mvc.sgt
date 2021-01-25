@@ -157,69 +157,123 @@ namespace com.sgt.services.Services
                 {
 
                 }*/
-            addBloqueoAgendaSesion(entity);
+            if(entity.ConsultorioId == 0)
+            {
+                var consultorios = unitOfWork.RepoConsultorio.GetAll();
+                consultorios.ToList().ForEach(consultorio =>
+                {
+                    entity.ConsultorioId = consultorio.ID;
+                    addBloqueoAgendaSesion(entity);
+                });
+                entity.ConsultorioId = 0;
+            }
+            else
+            {
+                addBloqueoAgendaSesion(entity);
+            }
+            
 
             unitOfWork.RepoAgendaBloqueos.Add(entity);
         }
 
+        private List<bool> parseBloqueosDiaSemana(Agenda_Bloqueos entity)
+        {
+            if(entity.bDomingo.Value == false &&
+                entity.bLunes.Value == false &&
+                entity.bMartes.Value == false &&
+                entity.bMiercoles.Value == false &&
+                entity.bJueves.Value == false &&
+                entity.bViernes.Value == false &&
+                entity.bSabado.Value == false)
+            {
+                return new List<bool> {
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true,
+                    true
+                };
+            }
+            else
+            {
+                return new List<bool> {
+                    entity.bDomingo.Value,
+                    entity.bLunes.Value,
+                    entity.bMartes.Value,
+                    entity.bMiercoles.Value,
+                    entity.bJueves.Value,
+                    entity.bViernes.Value,
+                    entity.bSabado.Value
+                };
+            }
+            
+        }
         private void addBloqueoAgendaSesion(Agenda_Bloqueos entity)
         {
             short ts = entity.TurnoSimultaneo > 0 ? entity.TurnoSimultaneo : (short)1;
             short tfs = entity.TurnoSimultaneo > 0 ? entity.TurnoSimultaneo : unitOfWork.RepoConsultorio.Find(entity.ConsultorioId).TurnosSimultaneos;
-
+            
+            var diasSemana = parseBloqueosDiaSemana(entity);
+            
             for (DateTime desde = entity.FechaDesde; desde <= entity.FechaHasta; desde = desde.AddDays(1))
             {
-                var agenda = unitOfWork.RepoAgenda.Find(1);
-                if (entity.TodoElDia.HasValue && entity.TodoElDia.Value)
+                if (diasSemana[(int) desde.DayOfWeek])
                 {
-                    entity.HoraDesde = agenda.HoraDesde;
-                    entity.HoraHasta = agenda.HoraHasta.AddMinutes(agenda.Frecuencia);
-                }
-                for (DateTime horadesde = entity.HoraDesde.Value; horadesde < entity.HoraHasta.Value; horadesde = horadesde.AddMinutes(agenda.Frecuencia))
-                {
-                    for (short tsimultaneo = ts; tsimultaneo <= tfs; tsimultaneo++)
+                    var agenda = unitOfWork.RepoAgenda.Find(1);
+                    if (entity.TodoElDia.HasValue && entity.TodoElDia.Value)
                     {
-
-
-                        try
-                        {
-                            Sesion sesion = new Sesion
-                            {
-                                AgendaID = entity.AgendaId,
-                                ConsultorioID = entity.ConsultorioId,
-                                Habilitado = true,
-                                Numero = 1,
-                                TurnoSimultaneo = tsimultaneo,
-                                FechaHora = desde.AddHours(horadesde.Hour).AddMinutes(horadesde.Minute),
-                            };
-                            ICollection<Sesion> sesiones = new List<Sesion>();
-                            sesiones.Add(sesion);
-
-                            Turno turno = new Turno
-                            {
-                                CantidadSesiones = 1,
-                                Fecha = DateTime.Now,
-                                FechaModificacion = DateTime.Now,
-                                UsuarioModificacion = "sistema",
-                                Sesions = sesiones
-                            };
-                            BloquearSesion(turno);
-
-                        }
-
-                        catch
+                        entity.HoraDesde = agenda.HoraDesde;
+                        entity.HoraHasta = agenda.HoraHasta.AddMinutes(agenda.Frecuencia);
+                    }
+                    for (DateTime horadesde = entity.HoraDesde.Value; horadesde < entity.HoraHasta.Value; horadesde = horadesde.AddMinutes(agenda.Frecuencia))
+                    {
+                        for (short tsimultaneo = ts; tsimultaneo <= tfs; tsimultaneo++)
                         {
 
+
+                            try
+                            {
+                                Sesion sesion = new Sesion
+                                {
+                                    AgendaID = entity.AgendaId,
+                                    ConsultorioID = entity.ConsultorioId,
+                                    Habilitado = true,
+                                    Numero = 1,
+                                    TurnoSimultaneo = tsimultaneo,
+                                    FechaHora = desde.AddHours(horadesde.Hour).AddMinutes(horadesde.Minute),
+                                };
+                                ICollection<Sesion> sesiones = new List<Sesion>();
+                                sesiones.Add(sesion);
+
+                                Turno turno = new Turno
+                                {
+                                    CantidadSesiones = 1,
+                                    Fecha = DateTime.Now,
+                                    FechaModificacion = DateTime.Now,
+                                    UsuarioModificacion = "sistema",
+                                    Sesions = sesiones
+                                };
+                                BloquearSesion(turno);
+
+                            }
+
+                            catch
+                            {
+
+                            }
                         }
                     }
-                }
+                }                
             }
         }
 
         public void EditBloqueoAgenda(Agenda_Bloqueos entity)
-        {
+        {            
             var bloqueo = unitOfWork.RepoAgendaBloqueos.Find(entity.ID);
             var agenda = unitOfWork.RepoAgenda.Find(1);
+            var diasSemana = parseBloqueosDiaSemana(bloqueo);
             DateTime desde;
             DateTime hasta;
             if (bloqueo.TodoElDia.HasValue && bloqueo.TodoElDia.Value)
@@ -235,17 +289,38 @@ namespace com.sgt.services.Services
             }
             var sesiones = unitOfWork.RepoSesion.FindBy(
                 x => x.Estado == (short)EstadoSesion.Bloqueado
-                    && desde <= x.FechaHora && hasta > x.FechaHora
+                    && desde <= x.FechaHora && hasta > x.FechaHora                    
                 ).ToList();
+            if(entity.ConsultorioId != 0)
+            {
+                sesiones = sesiones.Where(s => s.ConsultorioID == entity.ConsultorioId).ToList();
+            }
             sesiones.ForEach(s =>
             {
-                s.Estado = (short)EstadoSesion.Cancelado;
-                unitOfWork.RepoSesion.Edit(s);
+                if (diasSemana[(int)s.FechaHora.DayOfWeek])
+                {
+                    s.Estado = (short)EstadoSesion.Cancelado;
+                    unitOfWork.RepoSesion.Edit(s);
+                }
+                    
             });
             entity.AgendaId = 1;
             if (entity.Habilitado)
             {
-                addBloqueoAgendaSesion(entity);
+                if (entity.ConsultorioId == 0)
+                {
+                    var consultorios = unitOfWork.RepoConsultorio.GetAll();
+                    consultorios.ToList().ForEach(consultorio =>
+                    {
+                        entity.ConsultorioId = consultorio.ID;
+                        addBloqueoAgendaSesion(entity);
+                    });
+                    entity.ConsultorioId = 0;
+                }
+                else
+                {
+                    addBloqueoAgendaSesion(entity);
+                }
             }
             unitOfWork.RepoAgendaBloqueos.Edit(entity);
         }
@@ -2022,8 +2097,17 @@ namespace com.sgt.services.Services
                    .ToList();
             var estados = unitOfWork.RepoSesionEstados.GetAll().ToList();
             body += "<head>";
-            body += "</head>";
-            body += "<body><h2>Turno " + turno.ID + "</h2>";
+            body += "</head>";            
+
+
+            body += "<body>";
+            body += "<h2>Turnos de kinesiología.Licenciada Elvira Y.De Lorenzo MN 14.957 </h2><b>Chacabuco 194 3°C </b><br>";
+            body += "Actuemos con conciencia y de manera responsable, si tiene síntomas compatibles con Covid-19 por favor <b>NO ASISTIR</b>.<br>";
+            body += "Al ingresar al consultorio lavarse las manos y secarse con su propia toalla que deberá traer.<br>";
+            body += "El tapaboca es de uso <b>OBLIGATORIO</b>.<br>";
+            body += "Asistir sin acompañantes.<br><br>";                        
+            body += turno.Paciente.Apellido + " " + turno.Paciente.Nombre + " (DNI " + turno.Paciente.DocumentoNumero + ")<br>";
+            body += "Diagnóstico: " +  turno.Diagnostico + "<br>";
             body += "<table><thead><tr><th style='padding-right:40px;'>Número</th><th>Dia</th><th>Hora</th></tr></thead>";
             body += "<tbody>";
 

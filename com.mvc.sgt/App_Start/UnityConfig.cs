@@ -84,16 +84,15 @@ namespace com.mvc.sgt
             container.RegisterType<DbContext, ApplicationDbContext>();
             container.RegisterType<ApplicationUserManager>();
             container.RegisterType<AccountController>(new InjectionConstructor());
-
-
+            
         }
 
         public static void RegisterComponents()
         {
-            var container = new UnityContainer();
-            RegisterTypes(container);
-            DependencyResolver.SetResolver(new Unity.AspNet.Mvc.UnityDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new Unity.AspNet.WebApi.UnityDependencyResolver(container);
+            //var container = new UnityContainer();
+            //RegisterTypes(container);
+            //DependencyResolver.SetResolver(new Unity.AspNet.Mvc.UnityDependencyResolver(container));
+            //GlobalConfiguration.Configuration.DependencyResolver = new Unity.AspNet.WebApi.UnityDependencyResolver(container);
         }
     }
 }

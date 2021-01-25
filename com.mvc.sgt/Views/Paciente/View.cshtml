@@ -1,12 +1,10 @@
 ﻿
-<div id="{{$ctrl.divid}}" class="modal fade bd-example-modal-lg" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+
             <div class="modal-header badge-primary">
                 <h4 class="modal-title text-capitalize"><span class="icon-id-card-o badge-primary"></span>{{$ctrl.paciente.Nombre}} {{$ctrl.paciente.Apellido}}</h4>
-                <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" ng-click="$ctrl.close()" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body p-0 reduce-input-container" style="height:75vh;">
+            <div class="modal-body p-0 reduce-input-container" style="height:70vh;" >
                 @*<input type="hidden" class="form-control" ng-model="$ctrl.paciente.ID">*@
                 <div ng-cloak>
                     <md-content>
@@ -16,7 +14,7 @@
                         <md-tabs md-dynamic-height md-border-bottom md-selected="$ctrl.selectedIndex" ng-show="$ctrl.saving == false">
 
                             <md-tab label="Datos Paciente">
-                                <md-content style="height:70vh; overflow:auto;">
+                                <md-content style="height:65vh; overflow:auto;">
                                     <div class="container-fluid p-0">
                                         <form name="$ctrl.frmPaciente" id="frmPaciente" ng-cloak novalidate>
                                             <fieldset class="m-0 pb-0">
@@ -146,7 +144,7 @@
                                                             <label>
                                                                 Código Seguridad
                                                             </label>
-                                                            <input type="text" value="" id="afiliado" name="afiliado" class="form-control" ng-model="$ctrl.paciente.CodigoSeguridad" maxlength="5" />
+                                                            <input type="text" value="" id="codigoseguridad" name="codigoseguridad" class="form-control" ng-model="$ctrl.paciente.CodigoSeguridad" maxlength="5" />
                                                             <div ng-show="$ctrl.frmPaciente.codigoseguridad.$touched" ng-messages="$ctrl.frmPaciente.codigoseguridad.$error" role="alert">
                                                                 <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
                                                             </div>
@@ -302,12 +300,12 @@
                                 </md-content>
                             </md-tab>
                             <md-tab label="Turnos">
-                                <md-content style="height:70vh; overflow:auto;">
+                                <md-content style="height:65vh; overflow:auto;">
                                     <paciente-turnos paciente="$ctrl.paciente" pacienteid="$ctrl.pacienteid" parent="$ctrl.parent" on-close="$ctrl.close()" on-adddiagnostico="$ctrl.reloadDiagnostico"></paciente-turnos>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Diagnosticos">
-                                <md-content style="height:70vh; overflow:auto;">
+                                <md-content style="height:65vh; overflow:auto;">
                                     <table ng-if="$ctrl.diagnosticos.length>0" class="table table-responsive-sm table-hover table table-responsive-sm table-hover border">
                                         <thead>
                                             <tr>
@@ -337,13 +335,15 @@
                                 </md-content>
                             </md-tab>
                             <md-tab label="Archivos">
-                                <md-content style="height:70vh; overflow:auto;">
+                                <md-content style="height:65vh; overflow:auto;">
                                     <div class="container-fluid p-0" ng-if="$ctrl.paciente.ID>0">
                                         @Html.Partial("ViewFiles", "Paciente")
                                     </div>
                                 </md-content>
                             </md-tab>
                         </md-tabs>
+
+
                     </md-content>
                 </div>
             </div>
@@ -352,8 +352,8 @@
                 <md-button type="submit" class="md-raised md-primary" ng-click="$ctrl.savePaciente()"><span class="icon-floppy"></span> Guardar</md-button>
                 <div ng-transclude="botton"></div>
             </div>
-        </div>
+        @*</div>
     </div>
-</div>
+</div>*@
 
 

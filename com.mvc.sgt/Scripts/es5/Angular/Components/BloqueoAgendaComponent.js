@@ -28,10 +28,13 @@
         };
         vm.changeTodoElDia = function () {
             if (vm.bloqueo.TodoElDia) {
-                vm.bloqueo.HoraDesde = new Date(vm.bloqueo.HoraDesde.setHours(0));
-                vm.bloqueo.HoraDesde = new Date(vm.bloqueo.HoraDesde.setMinutes(0));
-                vm.bloqueo.HoraHasta = new Date(vm.bloqueo.HoraHasta.setHours(23));
-                vm.bloqueo.HoraHasta = new Date(vm.bloqueo.HoraHasta.setMinutes(59));
+                var today = new Date();
+                today = new Date(today.setSeconds(0));
+                today = new Date(today.setMilliseconds(0));
+                vm.bloqueo.HoraDesde = new Date(today.setHours(0));
+                vm.bloqueo.HoraDesde = new Date(today.setMinutes(0));
+                vm.bloqueo.HoraHasta = new Date(today.setHours(23));
+                vm.bloqueo.HoraHasta = new Date(today.setMinutes(59));
             }
         };
         vm.save = function (data) {
@@ -50,6 +53,7 @@
             var promise = crudService.GetPHttp("api/grilla/Consultorios");
             promise.then(function (data) {
                 vm.consultorios = data;
+                vm.consultorios.unshift({ ID: 0, Descripcion: '[TODOS]' });
             })
                 .catch(function (err) { vm.consultorios = []; vm.reading = false; });
         };

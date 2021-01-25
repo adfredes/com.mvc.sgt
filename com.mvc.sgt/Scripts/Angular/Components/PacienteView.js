@@ -10,9 +10,10 @@
         templateUrl: Domain + 'Paciente/View',
         controller: ['eventService','messageService','turnoService','crudService', '$window', '$mdSelect', '$filter','$element', pacienteViewController],
         bindings: {
+            pacienteId: "<?",
             paciente: "<?",
             save: "&?",
-            divid: "@"
+            cancelar: "&"            
         }
     });
 
@@ -94,14 +95,20 @@
         };
 
         let pacienteChange = () => {
+            
             vm.diagnosticos = [];
             vm.files = [];
             vm.OldDiagnostico = "";
+        if (vm.pacienteId && vm.pacienteId > 0) {
+                    vm.paciente.ID = vm.pacienteId;
+            }
+
             if (!vm.paciente || !vm.paciente.ID || vm.paciente.ID === 0) {
                 vm.paciente = { ID: 0 };
             }
             else {
-                vm.paciente = { ID: vm.paciente.ID };
+               
+                vm.paciente = { ID: vm.paciente.ID };                
             }
 
             vm.uploadingText = "";
@@ -125,6 +132,7 @@
         };
 
         vm.$onInit = () => {                        
+            console.log('inicio');
             init();          
         };
 
@@ -304,13 +312,11 @@
             return angular.isDate(date);
         };
 
-        vm.close = () => {            
-            $('#ViewPaciente').modal('hide');
-            $('#CreateOrUpdate').modal('hide');            
-            $('#' + vm.divid).modal('hide');
+        vm.close = () => {                        
             vm.paciente = {};
             vm.frmPaciente.$setPristine();
             vm.frmPaciente.$setUntouched();                   
+            vm.cancelar();
         };
 
         vm.setTouch = () => {

@@ -2,7 +2,7 @@
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('searchPaciente', {
         templateUrl: Domain + '/Paciente/QuickSearch',
-        controller: ['crudService', '$mdDialog', '$element', '$timeout', searchPacienteController],
+        controller: ['modalComponentService', 'crudService', '$mdDialog', '$element', '$timeout', searchPacienteController],
         transclude: true,
         bindings: {
             addEnabled: "@?",
@@ -12,7 +12,7 @@
             onAdd: "&?"
         }
     });
-    function searchPacienteController(crudService, $mdDialog, $element, $timeout) {
+    function searchPacienteController(modalComponentService, crudService, $mdDialog, $element, $timeout) {
         var vm = this;
         vm.$onInit = function () {
             vm.searchText = '';
@@ -32,18 +32,12 @@
             }
             else {
                 if (vm.Paciente) {
-                    $('#ViewPaciente').modal('show');
+                    modalComponentService.openPacienteModal(vm.Paciente);
                 }
             }
         };
         vm.openViewPaciente = function () {
-            var selectedPaciente = JSON.parse(JSON.stringify(vm.Paciente));
-            vm.Paciente = {};
-            $timeout(openViewPacienteTimeOut, 50, true, selectedPaciente);
-        };
-        var openViewPacienteTimeOut = function (selectedPaciente) {
-            vm.Paciente = selectedPaciente;
-            $('#ViewPaciente').modal('show');
+            modalComponentService.openPacienteModal(vm.Paciente);
         };
         vm.openCreate = function () {
             vm.Paciente = {};
@@ -69,7 +63,8 @@
                 controller: ['$scope', '$mdDialog', DialogController],
                 clickOutsideToClose: false,
                 fullscreen: false,
-                parent: parentView
+                multiple: true,
+                parent: angular.element(document.body)
             })
                 .then(function (answer) {
                 vm.onAdd()(answer);

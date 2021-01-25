@@ -23,7 +23,12 @@
     sgtApp.component('datosSesiones', {        
         templateUrl: Domain + 'Paciente/DatosSesiones',
         controller: ['turnoService', 'eventService', 'pdfService', 'crudService', '$window',
-            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController]        
+            '$mdSelect', '$filter', '$location', '$route', '$timeout', '$mdDialog', '$element', datosSesionesController],
+        bindings: {
+            pacienteId: "<?",
+            turnoId: "<?", 
+            cancelar: '&?'
+        }
     });
 
 
@@ -139,8 +144,9 @@
                 }
                 else {
                     $location.path('/Turnos');
-                }
+                }                                                       
             }, 500);
+            
         };
 
         vm.cancelarSesionSelect =(ev, turno)=> turnoService.cancelarTurno(turno, promise => {
@@ -295,8 +301,9 @@
                 template: modalHtml,
                 controller:  DialogController,
                 targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: false,
+                clickOutsideToClose: false,
+                multiple: true,
+                fullscreen: true,
                 locals: { turno: vm.selectedTurno}
             })
                 .then(answer => {                    
@@ -347,13 +354,13 @@
 
 
         let init = () => {            
+            vm.PacienteID = vm.pacienteId;
+            vm.TurnoID = vm.turnoId;
             getPaciente(vm.PacienteID);
         };
 
 
-        vm.pacienteChange = () => {
-            init();
-        };              
+                   
 
         let getPaciente = id => {
             if (id && id > 0) {
@@ -380,7 +387,7 @@
         };
 
         vm.close = () => {
-            $('#DatosSesiones').modal('hide');            
+            vm.cancelar();            
         };
 
 

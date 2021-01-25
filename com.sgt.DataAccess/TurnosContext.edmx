@@ -40,6 +40,13 @@
           <Property Name="HoraHasta" Type="datetime" />
           <Property Name="TodoElDia" Type="bit" />
           <Property Name="Habilitado" Type="bit" Nullable="false" />
+          <Property Name="bLunes" Type="bit" />
+          <Property Name="bMartes" Type="bit" />
+          <Property Name="bMiercoles" Type="bit" />
+          <Property Name="bJueves" Type="bit" />
+          <Property Name="bViernes" Type="bit" />
+          <Property Name="bSabado" Type="bit" />
+          <Property Name="bDomingo" Type="bit" />
         </EntityType>
         <EntityType Name="Agenda_Receso">
           <Key>
@@ -307,8 +314,8 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
           <Property Name="ProfesionalID" Type="int" Nullable="false" />
           <Property Name="AusenciaID" Type="int" Nullable="false" />
           <Property Name="DiaSemana" Type="int" />
-          <Property Name="HoraDesde" Type="datetime" Nullable="false" />
-          <Property Name="HoraHasta" Type="datetime" Nullable="false" />
+          <Property Name="HoraDesde" Type="datetime" />
+          <Property Name="HoraHasta" Type="datetime" />
           <Property Name="Habilitado" Type="bit" />
         </EntityType>
         <EntityType Name="Profesional_TipoSesion">
@@ -685,18 +692,6 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Profesional_Suplencias_Ausencias">
-          <End Role="Profesional_Ausencias" Type="Self.Profesional_Ausencias" Multiplicity="1" />
-          <End Role="Profesional_Suplencias" Type="Self.Profesional_Suplencias" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Profesional_Ausencias">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Profesional_Suplencias">
-              <PropertyRef Name="AusenciaID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Profesional_Suplencias_Profesional">
           <End Role="Profesional" Type="Self.Profesional" Multiplicity="1" />
           <End Role="Profesional_Suplencias" Type="Self.Profesional_Suplencias" Multiplicity="*" />
@@ -706,6 +701,18 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             </Principal>
             <Dependent Role="Profesional_Suplencias">
               <PropertyRef Name="ProfesionalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesional_Suplencias_Profesional_Ausencias">
+          <End Role="Profesional_Ausencias" Type="Self.Profesional_Ausencias" Multiplicity="1" />
+          <End Role="Profesional_Suplencias" Type="Self.Profesional_Suplencias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesional_Ausencias">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Profesional_Suplencias">
+              <PropertyRef Name="AusenciaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -980,12 +987,12 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
             <End Role="Profesional" EntitySet="Profesional" />
             <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
           </AssociationSet>
-          <AssociationSet Name="FK_Profesional_Suplencias_Ausencias" Association="Self.FK_Profesional_Suplencias_Ausencias">
-            <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
-            <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
-          </AssociationSet>
           <AssociationSet Name="FK_Profesional_Suplencias_Profesional" Association="Self.FK_Profesional_Suplencias_Profesional">
             <End Role="Profesional" EntitySet="Profesional" />
+            <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesional_Suplencias_Profesional_Ausencias" Association="Self.FK_Profesional_Suplencias_Profesional_Ausencias">
+            <End Role="Profesional_Ausencias" EntitySet="Profesional_Ausencias" />
             <End Role="Profesional_Suplencias" EntitySet="Profesional_Suplencias" />
           </AssociationSet>
           <AssociationSet Name="FK_Profesional_TipoSesion_Profesional" Association="Self.FK_Profesional_TipoSesion_Profesional">
@@ -1057,6 +1064,13 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="Habilitado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Agendum" Relationship="Self.FK_Agenda_Bloqueos_Agenda" FromRole="Agenda_Bloqueos" ToRole="Agenda" />
           <NavigationProperty Name="Consultorio" Relationship="Self.FK_Agenda_Bloqueos_Consultorio" FromRole="Agenda_Bloqueos" ToRole="Consultorio" />
+          <Property Name="bLunes" Type="Boolean" />
+          <Property Name="bMartes" Type="Boolean" />
+          <Property Name="bMiercoles" Type="Boolean" />
+          <Property Name="bJueves" Type="Boolean" />
+          <Property Name="bViernes" Type="Boolean" />
+          <Property Name="bSabado" Type="Boolean" />
+          <Property Name="bDomingo" Type="Boolean" />
         </EntityType>
         <EntityType Name="Agenda_Receso">
           <Key>
@@ -1950,8 +1964,8 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="ProfesionalID" Type="Int32" Nullable="false" />
           <Property Name="AusenciaID" Type="Int32" Nullable="false" />
           <Property Name="DiaSemana" Type="Int32" />
-          <Property Name="HoraDesde" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoraHasta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraDesde" Type="DateTime" Precision="3" />
+          <Property Name="HoraHasta" Type="DateTime" Precision="3" />
           <Property Name="Habilitado" Type="Boolean" />
           <NavigationProperty Name="Profesional" Relationship="TurnosModel.FK_Profesional_Suplencias_Profesional" FromRole="Profesional_Suplencias" ToRole="Profesional" />
           <NavigationProperty Name="Profesional_Ausencias" Relationship="TurnosModel.FK_Profesional_Suplencias_Ausencias" FromRole="Profesional_Suplencias" ToRole="Profesional_Ausencias" />
@@ -2011,6 +2025,13 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <EntitySetMapping Name="Agenda_Bloqueos">
             <EntityTypeMapping TypeName="TurnosModel.Agenda_Bloqueos">
               <MappingFragment StoreEntitySet="Agenda_Bloqueos">
+                <ScalarProperty Name="bDomingo" ColumnName="bDomingo" />
+                <ScalarProperty Name="bSabado" ColumnName="bSabado" />
+                <ScalarProperty Name="bViernes" ColumnName="bViernes" />
+                <ScalarProperty Name="bJueves" ColumnName="bJueves" />
+                <ScalarProperty Name="bMiercoles" ColumnName="bMiercoles" />
+                <ScalarProperty Name="bMartes" ColumnName="bMartes" />
+                <ScalarProperty Name="bLunes" ColumnName="bLunes" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="AgendaId" ColumnName="AgendaId" />
                 <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
