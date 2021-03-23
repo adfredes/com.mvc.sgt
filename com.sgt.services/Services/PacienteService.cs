@@ -262,6 +262,34 @@ namespace com.sgt.services.Services
 
         }
 
+        public bool IsSesionSuperpuesta(int sesionID, DateTime fechaHoraSesion)
+        {
+            var fechaSesion = fechaHoraSesion.AddHours(-1 * fechaHoraSesion.Hour).AddMinutes(-1 * fechaHoraSesion.Minute);
+            var sesion = unitOfWork.RepoSesion.Find(sesionID);
+            
+            var pacienteID = sesion.Turno.PacienteID;
+            var turnoID = sesion.Turno.ID;
+            var numeroSesion = sesion.Numero;
+
+
+            try
+            {                               
+                var turnos = unitOfWork.RepoTurno.FindBy(x => x.Estado == (int)EstadoTurno.Confirmado
+                && x.PacienteID == pacienteID
+                && x.Sesions.Where(s => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)s.Estado) && fechaSesion == DbFunctions.TruncateTime(s.FechaHora).Value
+                    && !(s.TurnoID == turnoID && s.Numero == numeroSesion)
+                )
+                    .Count() > 0
+                ).ToList();
+                return turnos.Count() > 0;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
         public Paciente GetPacienteByDocumento(string documento)
         {
             return this.unitOfWork.RepoPaciente.FindBy(x => x.DocumentoNumero == documento).FirstOrDefault();

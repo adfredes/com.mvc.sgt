@@ -3,7 +3,7 @@
         <div class="panel-body">
             <div ng-controller="profesionalController" ng-init="GetProfesionales()">
 
-                <table class="table table-responsive-sm table-hover slide table-sm table-bordered mt-0 pt-0" style="caption-side: top">
+                <table class="table table-responsive-sm table-hover table-sm table-bordered mt-0 pt-0" style="caption-side: top">
                     @*<caption><p>Pagina {{currentPage+1}} / {{pages.length}}</p></caption>*@
                     <caption style="caption-side:top;" class="mb-0 pb-0">
                         <nav class="mb-0 pb-0 badge-light">
@@ -23,7 +23,7 @@
                             <th scope="col" class="text-center w-auto">Action</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="profesional in profesionales" class="animate-table-repeat">
+                    <tr ng-repeat="profesional in profesionales" class="repeated-item">
                         @*<th scope="row">{{profesional.ID}}</th>*@
                         <td class="align-middle"><span>{{profesional.Apellido}}</span></td>
                         <td class="align-middle"><span>{{profesional.Nombre}}</span></td>

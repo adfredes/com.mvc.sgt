@@ -47,5 +47,30 @@
                 }
             };
         }]);
+    sgtApp.animation('.repeated-item', function () {
+        return {
+            enter: function (element, done) {
+                element.css('opacity', 0);
+                element.animate({ opacity: 1 }, done);
+                return function (isCancelled) {
+                    if (isCancelled) {
+                        element.stop();
+                    }
+                };
+            },
+            leave: function (element, done) {
+                element.css('opacity', 1);
+                element.animate({ opacity: 0 }, done);
+                return function (isCancelled) {
+                    if (isCancelled) {
+                        element.stop();
+                    }
+                };
+            },
+            move: function (element, done) { },
+            addClass: function (element, className, done) { },
+            removeClass: function (element, className, done) { }
+        };
+    });
 })();
 //# sourceMappingURL=SgtModule.js.map

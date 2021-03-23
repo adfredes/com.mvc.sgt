@@ -538,6 +538,13 @@
         $this.IsTurnoSuperpuesto = function (turnoID) {
             return crudService.GetPHttp("Paciente/Turno/" + turnoID + "/IsSuperpuesto");
         };
+        $this.IsSesionSuperpuesta = function (sesionID, fechaHoraSesion) {
+            var data = {
+                ID: sesionID,
+                fechaHoraSesion: fechaHoraSesion
+            };
+            return crudService.PostHttp("Paciente/Sesion/IsSuperpuesto", data);
+        };
         $this.Notify = function (title, message, parentEl) {
             return $mdDialog.show($mdDialog.alert()
                 .parent(angular.element(document.body))

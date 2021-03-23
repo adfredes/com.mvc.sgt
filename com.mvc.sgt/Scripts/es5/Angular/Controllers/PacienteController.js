@@ -55,6 +55,7 @@
             };
             $scope.GetPacientes = function () {
                 var _url = '';
+                $scope.pacientes = [];
                 if ($scope.selectedLetter == 'TODOS') {
                     _url = 'paciente/Listar/' + ($scope.currentPage + 1) + '/' + $scope.pageSize;
                 }
@@ -63,6 +64,7 @@
                 }
                 var requestResponse = crudService.GetHttp(_url);
                 requestResponse.then(function (response) {
+                    $scope.pacientes = [];
                     var data = JSON.parse(response.data);
                     $scope.registerCount = data.count;
                     $scope.pacientes = data.list;

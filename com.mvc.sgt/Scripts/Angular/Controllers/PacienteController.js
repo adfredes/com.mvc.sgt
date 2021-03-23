@@ -76,14 +76,17 @@
             modalComponentService.openPacienteModal($scope.PacienteModel);
         };
 
-        $scope.GetPacientes = function () {
+        $scope.GetPacientes = function () {                       
             let _url = '';
+            $scope.pacientes = [];            
+
             if ($scope.selectedLetter == 'TODOS') { _url = 'paciente/Listar/' + ($scope.currentPage + 1) + '/' + $scope.pageSize }
             else { _url = 'paciente/Listar/' + $scope.selectedLetter + '/' + ($scope.currentPage + 1) + '/' + $scope.pageSize }
 
-            var requestResponse = crudService.GetHttp(_url);
+            let requestResponse = crudService.GetHttp(_url);
 
             requestResponse.then(function (response) {
+                $scope.pacientes = []; 
                 let data = JSON.parse(response.data);
                 $scope.registerCount = data.count;
                 $scope.pacientes = data.list;

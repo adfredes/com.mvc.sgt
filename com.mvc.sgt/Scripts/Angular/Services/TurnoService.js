@@ -900,6 +900,14 @@
             return crudService.GetPHttp(`Paciente/Turno/${turnoID}/IsSuperpuesto`);
         };
 
+        $this.IsSesionSuperpuesta = (sesionID, fechaHoraSesion) => {
+            let data = {
+                ID: sesionID,
+                fechaHoraSesion: fechaHoraSesion
+            };
+            return crudService.PostHttp(`Paciente/Sesion/IsSuperpuesto`, data);
+        };
+
         $this.Notify = (title, message, parentEl) => {
             return $mdDialog.show(
                 $mdDialog.alert()

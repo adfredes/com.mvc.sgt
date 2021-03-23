@@ -9,7 +9,7 @@
         <div class="panel-body">
             <div ng-controller="pacienteController" ng-init="GetPacientes()">
 
-                <table class="table table-responsive-sm table-hover slide table-sm table-bordered mt-0 pt-0" style="caption-side: top">
+                <table class="table table-responsive-sm table-hover table-sm table-bordered mt-0 pt-0" style="caption-side: top">
                     @*<caption><p>Pagina {{currentPage+1}} / {{pages.length}}</p></caption>*@
                     <caption style="caption-side:top;" class="mb-0 pb-0">
                         <nav class="mb-0 pb-0 badge-light">
@@ -31,7 +31,8 @@
                             <th scope="col" class="text-center w-auto">Action</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="paciente in pacientes" class="animate-table-repeat">
+                    <tr ng-repeat="paciente in pacientes" class="repeated-item">
+                    @*<tr ng-repeat="paciente in pacientes" class="animate-table-repeat">*@
                         @*<th scope="row">{{paciente.ID}}</th>*@
                         <td class="align-middle"><span>{{paciente.Apellido}}</span></td>
                         <td class="align-middle"><span>{{paciente.Nombre}}</span></td>

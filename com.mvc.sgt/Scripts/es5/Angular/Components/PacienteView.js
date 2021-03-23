@@ -259,6 +259,18 @@
                 errorField.$setTouched();
             }); });
         };
+        vm.dniOnChange = function () {
+            var cuitArray = vm.paciente.Cuit ? vm.paciente.Cuit.split('-') : ['', '', ''];
+            if (cuitArray.length !== 3) {
+                cuitArray = ['', '', ''];
+            }
+            if (!vm.paciente.DocumentoNumero || vm.paciente.DocumentoNumero.replace(/\./g, '') === '') {
+                vm.paciente.Cuit = '';
+            }
+            else {
+                vm.paciente.Cuit = cuitArray[0] + '-' + vm.paciente.DocumentoNumero.replace(/\./g, '') + '-' + cuitArray[2];
+            }
+        };
         vm.savePaciente = function () {
             vm.setTouch();
             if (vm.frmPaciente.$valid && vm.saving === false) {

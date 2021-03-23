@@ -325,6 +325,23 @@
             }));
         };
 
+        vm.dniOnChange = () => {                               
+
+            let cuitArray = vm.paciente.Cuit ? vm.paciente.Cuit.split('-') : ['', '', ''];
+            if (cuitArray.length !== 3) {
+                cuitArray = ['', '', ''];
+            }
+            if (!vm.paciente.DocumentoNumero || vm.paciente.DocumentoNumero.replace(/\./g, '') === '') {
+                vm.paciente.Cuit = '';
+            }
+            else {
+                vm.paciente.Cuit = cuitArray[0] + '-' + vm.paciente.DocumentoNumero.replace(/\./g, '') + '-' + cuitArray[2];            
+            }            
+            
+        }
+
+        
+
         vm.savePaciente = () => {            
             vm.setTouch();
             if (vm.frmPaciente.$valid && vm.saving === false) {

@@ -20,7 +20,8 @@
                 .textContent(message)
                 .ariaLabel('Confirm Dialog')
                 .ok(okText)
-                .cancel(cancelText);
+                .cancel(cancelText)
+                .multiple(true);
             return $mdDialog.show(confirm);
         };
     }

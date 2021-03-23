@@ -75,7 +75,7 @@
                                                                     <label for="documento">
                                                                         Documento
                                                                     </label>
-                                                                    <input type="text" value="" class="form-control" id="documento"
+                                                                    <input type="text" value="" class="form-control" id="documento" ng-change="$ctrl.dniOnChange()"
                                                                            name="documento" ng-model="$ctrl.paciente.DocumentoNumero" autocomplete="off" required maxlength="10" />
                                                                     <div ng-show="$ctrl.frmPaciente.documento.$touched" ng-messages="$ctrl.frmPaciente.documento.$error" role="alert">
                                                                         <span ng-messages-include="~/Home/FormElementError" class="ng-mesagges"></span>
@@ -355,5 +355,22 @@
         @*</div>
     </div>
 </div>*@
+
+<script>
+    (function () {
+        setTimeout(() => {
+            const inputNacimiento = document.querySelector('input.md-datepicker-input');
+            inputNacimiento.addEventListener('keyup', ev => {
+                if (ev.keyCode === 8) return;
+                if (ev.target.value.length == 2 || ev.target.value.length == 5) {
+                    ev.target.value = ev.target.value + '/';
+                }
+            });
+        }, 1000);
+        //const pickerNacimiento = document.querySelector('#nacimiento');
+        //const inputNacimiento = document.querySelector('input.md-datepicker-input');
+        //console.dir(inputNacimiento);
+    })();
+</script>
 
 

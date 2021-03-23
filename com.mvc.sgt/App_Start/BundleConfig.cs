@@ -39,6 +39,7 @@ namespace com.mvc.sgt
                       "~/Content/site.css",
                       "~/Content/fontello.css",
                       "~/Content/animation.css",
+                      "~/Content/animate.min.css",                      
                       "~/Content/Styles.css",
                       "~/Content/ui-bootstrap-csp.css",
                       "~/Content/jquery.contextMenu.min.css",

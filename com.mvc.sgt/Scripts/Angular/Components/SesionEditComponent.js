@@ -3,7 +3,7 @@
 
     sgtApp.component('sesionEdit', {
         templateUrl: Domain + 'Sesion/ChangeDate',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
+        controller: ['messageService','turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             divid: "@"
@@ -12,7 +12,7 @@
 
     sgtApp.component('sesionEditModal', {
         templateUrl: Domain + 'Sesion/ChangeDateModal',
-        controller: ['turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
+        controller: ['messageService','turnoService', 'eventService', 'crudService', '$mdDialog', '$element', sesionEditController],
         bindings: {
             sesion: "<?",
             onSave: "&?",
@@ -20,7 +20,7 @@
         }
     });
 
-    function sesionEditController(turnoService, eventService, crudService, $mdDialog, $element) {
+    function sesionEditController(messageService, turnoService, eventService, crudService, $mdDialog, $element) {
         let vm = this;
 
         vm.selectedDate = null;
@@ -118,11 +118,22 @@
             }
         };
 
-        vm.saveChange = () => {
+        vm.saveChange = async () => {
             if (!vm.saving) {
                 vm.saving = true;
                 let _sesiones = [];
 
+                //vm.sesion.ID
+                if (await turnoService.IsSesionSuperpuesta(vm.sesion.ID, new Date(vm.selectedDate.getTime())) == true) {
+                    const ignorar = await messageService.showConfirm('Turnos', 'La sesion esta superpuesta', 'IGNORAR', 'CANCELAR', $element)
+                        .then(() => true)
+                        .catch(() => false);                    
+                    //turnoService.Notify('Turnos', 'La sesion esta superpuesta', $element);
+                    if (!ignorar) {
+                        vm.saving = false;
+                        return;
+                    }                    
+                }
 
                 for (let i = 0; i < vm.modulos; i++) {
                     let _fechaHora = new Date(vm.selectedDate.getTime());
@@ -162,33 +173,40 @@
                 let promise = crudService.PutHttp(url, _sesiones);
 
                 promise.then(data => {                    
-                    turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
-                        .then(answer => {
-                            vm.saving = false;
-                            if (answer) {
-                                turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
-                                    .then(() => {
-                                        if (vm.onSave) {
-                                            vm.onSave()(data);
-                                        }
-                                        else {
-                                            $('#' + vm.divid).modal('hide');
-                                            eventService.UpdateTurnos();
-                                        }
-                                    });
-                            }
-                            else {
-                                if (vm.onSave) {
-                                    vm.onSave()(data);
-                                }
-                                else {
-                                    $('#' + vm.divid).modal('hide');
-                                    eventService.UpdateTurnos();
-                                }
-                            }
+                    //turnoService.IsTurnoSuperpuesto(data[0].TurnoID)
+                    //    .then(answer => {
+                    //        vm.saving = false;
+                    //        if (answer) {
+                    //            turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                    //                .then(() => {
+                    //                    if (vm.onSave) {
+                    //                        vm.onSave()(data);
+                    //                    }
+                    //                    else {
+                    //                        $('#' + vm.divid).modal('hide');
+                    //                        eventService.UpdateTurnos();
+                    //                    }
+                    //                });
+                    //        }
+                    //        else {
+                    //            if (vm.onSave) {
+                    //                vm.onSave()(data);
+                    //            }
+                    //            else {
+                    //                $('#' + vm.divid).modal('hide');
+                    //                eventService.UpdateTurnos();
+                    //            }
+                    //        }
 
-                        })
-                        .catch(() => vm.saving = false);
+                    //    })
+                    //    .catch(() => vm.saving = false);
+                    eventService.UpdateTurnos();
+                    if (vm.onSave) {
+                        vm.onSave()(data);
+                    }
+                    else {                        
+                        $('#' + vm.divid).modal('hide');                                            
+                    }
                         
 
 

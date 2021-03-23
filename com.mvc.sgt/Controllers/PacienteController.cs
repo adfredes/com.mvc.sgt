@@ -318,6 +318,15 @@ namespace com.mvc.sgt.Controllers
             return Json(pacienteService.IsSesionesSuperpuestas(ID), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [Route("Paciente/Sesion/IsSuperpuesto")]
+        public JsonResult EsSesionSuperpuesta(int ID, DateTime fechaHoraSesion )
+        {
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            var resu = pacienteService.IsSesionSuperpuesta(ID, fechaHoraSesion);
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [Route("Paciente/DatosSesiones")]
         public ActionResult DatosSesiones()
