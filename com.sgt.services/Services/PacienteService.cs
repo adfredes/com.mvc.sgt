@@ -218,6 +218,12 @@ namespace com.sgt.services.Services
         public bool IsSesionesSuperpuestas(int turnoID)
         {
             var turno = unitOfWork.RepoTurno.Find(turnoID);
+
+            return IsSesionesSuperpuestas(turno);
+        }
+
+        public bool IsSesionesSuperpuestas(Turno turno)
+        {            
             DateTime hoy = DateTime.Now;
             //DateTime minDate = turno.Sesions.Min(x => x.FechaHora);
             //DateTime maxDate = turno.Sesions.Max(x => x.FechaHora);

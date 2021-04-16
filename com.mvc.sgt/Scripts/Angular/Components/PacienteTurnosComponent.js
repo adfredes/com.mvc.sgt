@@ -187,12 +187,16 @@
                 .catch(err => { vm.turnos = []; vm.reading = false; });
         };
 
-        let getTurnosPaciente = (id) => {         
+        let getTurnosPaciente = (id) => {
+            let selectedTurno = [... vm.turnos.filter(t => t.visible === true).map(t => t.ID)];
             vm.getInformation = true;                        
             let promise = crudService.GetPHttp(`Paciente/ListTurnos/${id}`);
             promise.then(data => {
                 vm.reading = false;
-                vm.turnos = sesionesOrder(JSON.parse(data));                   
+                vm.turnos = sesionesOrder(JSON.parse(data));
+                vm.turnos.forEach(t => {
+                    t.visible = selectedTurno.includes(t.ID);                    
+                });                 
                 vm.getInformation = false;
             })
                 .catch(err => { vm.turnos = []; vm.reading = false; });

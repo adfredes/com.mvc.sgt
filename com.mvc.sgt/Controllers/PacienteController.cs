@@ -320,10 +320,21 @@ namespace com.mvc.sgt.Controllers
 
         [HttpPost]
         [Route("Paciente/Sesion/IsSuperpuesto")]
-        public JsonResult EsSesionSuperpuesta(int ID, DateTime fechaHoraSesion )
+        public JsonResult EsSesionSuperpuesta(int ID, DateTime fechaHoraSesion, int? PacienteId )
         {
             Response.StatusCode = (int)HttpStatusCode.OK;
             var resu = pacienteService.IsSesionSuperpuesta(ID, fechaHoraSesion);
+            return Json(resu, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [Route("Paciente/Turno/IsSuperpuesto")]
+        public JsonResult EsTurnoSuperpuesta(TurnoModel turno)
+        {
+            // TODO: Hacer luego la logica
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            
+            var resu = pacienteService.IsSesionesSuperpuestas(Mapper.Map<Turno>(turno));
             return Json(resu, JsonRequestBehavior.AllowGet);
         }
 

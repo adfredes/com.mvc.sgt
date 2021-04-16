@@ -17,6 +17,7 @@ namespace com.sgt.services.Interfaces
         Imagen GetFile(int id);
         Boolean TurnosAnteriores(int PacienteID, int TipoSesionID);
         bool IsSesionesSuperpuestas(int turnoID);
+        bool IsSesionesSuperpuestas(Turno turno);
         bool IsSesionSuperpuesta(int sesionID, DateTime fechaHoraSesion);
         Paciente GetPacienteByDocumento(string documento);
         

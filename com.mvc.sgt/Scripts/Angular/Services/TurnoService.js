@@ -908,6 +908,10 @@
             return crudService.PostHttp(`Paciente/Sesion/IsSuperpuesto`, data);
         };
 
+        $this.IsTurnoSuperpuestoPaciente = (turno) => {            
+            return crudService.PostHttp(`Paciente/Turno/IsSuperpuesto`, turno);
+        };
+
         $this.Notify = (title, message, parentEl) => {
             return $mdDialog.show(
                 $mdDialog.alert()

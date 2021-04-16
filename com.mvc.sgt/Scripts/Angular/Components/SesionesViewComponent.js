@@ -20,10 +20,7 @@
         vm.getInformation = false;
 
         let init = () => {    
-            if (vm.turnoId && vm.pacienteId) {
-                console.log("init");
-                console.log(vm.turnoId);
-                console.log(vm.pacienteId);
+            if (vm.turnoId && vm.pacienteId) {                
                 vm.getInformation = true;
                 vm.currentPage = 0;
                 vm.initPage = 0;

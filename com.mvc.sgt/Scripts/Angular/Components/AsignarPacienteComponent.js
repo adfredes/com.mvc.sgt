@@ -132,21 +132,34 @@
             );
         };
 
-        vm.asignarPaciente = () => {
+        vm.asignarPaciente = async () => {
             vm.paciente = JSON.parse(JSON.stringify(vm.pacienteSeleccionado));                        
             vm.turno.PacienteID = vm.paciente.ID;
+
+            if (await turnoService.IsTurnoSuperpuestoPaciente(vm.turno) == true) {
+                const ignorar = await messageService.showConfirm('Turnos', 'La sesion esta superpuesta', 'IGNORAR', 'CANCELAR', $element)
+                    .then(() => true)
+                    .catch(() => false);                
+                if (!ignorar) {
+                    vm.saving = false;
+                    return;
+                }
+            }
+
+
             turnoService.asignarPaciente(vm.turno)
                 .then(data => {
-                    turnoService.IsTurnoSuperpuesto(vm.turno.ID)
-                        .then(data => {
-                            if (data) {
-                                turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
-                                    .then(answer => existTurnosAnteriores());
-                            }
-                            else {
-                                existTurnosAnteriores();
-                            }
-                        });
+                    existTurnosAnteriores();
+                    //turnoService.IsTurnoSuperpuesto(vm.turno.ID)
+                    //    .then(data => {
+                    //        if (data) {
+                    //            turnoService.Notify('Turnos', 'Existen sesiones superpuestas', $element)
+                    //                .then(answer => existTurnosAnteriores());
+                    //        }
+                    //        else {
+                    //            existTurnosAnteriores();
+                    //        }
+                    //    });
                 })
                 .catch(error => turnoService.Notify('Turnos', error, $element));
         };

@@ -545,6 +545,9 @@
             };
             return crudService.PostHttp("Paciente/Sesion/IsSuperpuesto", data);
         };
+        $this.IsTurnoSuperpuestoPaciente = function (turno) {
+            return crudService.PostHttp("Paciente/Turno/IsSuperpuesto", turno);
+        };
         $this.Notify = function (title, message, parentEl) {
             return $mdDialog.show($mdDialog.alert()
                 .parent(angular.element(document.body))

@@ -1,10 +1,6 @@
 ﻿(function () {
 
-    let options = {};
-    let presetSessionStorage = () => {
-        sessionStorage.setItem('FechaGrillaTurnos', new Date(2018, 2, 20));
-        sessionStorage.setItem('VistaGrillaTurnos', 's');
-    };
+    let options = {};    
 
     let updating = () => {
         options.updating = true;
@@ -14,7 +10,7 @@
         }
     };
 
-    let updated = () => {
+    let updated = () => {        
         options.divGrilla.querySelector('.procesando').style.display = 'none';
         options.intervalId = window.setInterval(sesionesIsUpdating, options.timeInterval);
         options.updating = false;
@@ -24,9 +20,7 @@
         let sesionST = {};
         if (sessionStorage) {
             sesionST.vista = sessionStorage.getItem('VistaGrillaTurnos');
-            sesionST.fecha = sessionStorage.getItem('FechaGrillaTurnos');
-            sessionStorage.removeItem('VistaGrillaTurnos');
-            sessionStorage.removeItem('FechaGrillaTurnos');
+            sesionST.fecha = sessionStorage.getItem('FechaGrillaTurnos');            
         }
         return sesionST;
     };
@@ -91,6 +85,8 @@
         e.stopPropagation();        
         options.fecha = new Date();
         options.vista = 'd';
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
     
@@ -101,6 +97,8 @@
         options.fecha = new Date();
         options.vista = 'd';
         options.fecha = getDayOfWeek(options.fecha, e.target.dataset.dia);
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
 
@@ -109,11 +107,13 @@
         e.stopPropagation();        
         options.fecha = new Date();
         options.vista = 's';
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
 
     let btnRecargar_Click = (e) => {
-        console.log('click');
+        
         e.preventDefault();
         e.stopPropagation();
         redibujarGrilla();
@@ -159,6 +159,7 @@
                 sobreturnos.push(i + 1);
             }
         });
+        sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
 
         let params = {};
         params.model = _turno;
@@ -167,7 +168,8 @@
         let promise = ajaxPromise('POST', Domain + 'Sesion/Reservar', params);
         promise.then(data => {
             let turnoNuevo = JSON.parse(data);
-            options.sesionesReservadas = [];            
+            options.sesionesReservadas = [];          
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             showModalAngularComponent('AsignarPaciente', { turnoID: turnoNuevo.ID });
             renderListaReservas();
             dibujarGrilla();            
@@ -259,7 +261,7 @@
         }
     };
 
-    let clickReservar = e => {        
+    let clickReservar = e => {           
         updating();
         $('#bloquearReservarModal').modal('hide');
         let _cantidad = parseInt(modal.querySelector('#cmbSesiones').value);
@@ -317,6 +319,7 @@
             if (validarSesiones(sesionReserva.sesiones)) {
                 renderSesion(sesionReserva);
                 options.sesionesReservadas.push(sesionReserva);
+                sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
                 renderListaReservas();                
                 updated();
             }
@@ -435,6 +438,7 @@
             let id = CeldaIdToObject(celda.id);
             options.sesionesReservadas = options.sesionesReservadas.filter(sesion => sesion.fecha != id.fecha || sesion.hora != id.hora
                 || sesion.ConsultorioID != id.ConsultorioID || sesion.TurnoSimultaneo != id.TurnoSimultaneo);
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             renderListaReservas();            
             redibujarGrilla();
             updated();
@@ -579,7 +583,7 @@
         element.addEventListener(modal.evento, modal.callback);
     };
 
-    let init = () => {        
+    let init = () => {                
         options.divGrilla = document.querySelector('#GrillaContent');
 
         let divGrillaContent = options.divGrilla.querySelector('#GrillaTableContent');
@@ -622,10 +626,19 @@
             options.fecha = sessionST.fecha ? new Date(sessionST.fecha) : options.fecha;
             //options.fechaDia = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaDia;
             //options.fechaSemana = sessionST.fecha ? new Date(sessionST.fecha) : options.fechaSemana;
-        }
+        }        
 
-        options.sesiones = [];
-        options.sesionesReservadas = [];
+        options.sesiones = [];        
+        if (sessionStorage.getItem('Reservas')) {
+            options.sesionesReservadas = JSON.parse(sessionStorage.getItem('Reservas'));
+
+            if (options.sesionesReservadas.length > 0) {
+                renderListaReservas();
+            }            
+        }
+        else {
+            options.sesionesReservadas = [];
+        }        
         options.intervalId = undefined;
         dibujarGrilla();
         window.setTimeout(() => $('.modal-dialog').draggable({ handle: ".modal-header" }), 5000);
@@ -722,7 +735,7 @@
         options.recesos = await awRecesos;
         options.feriados = await awFeriados;
         options.ausencias = await awAusencias;        
-        console.dir(options.dias);
+        
 
         options.bloqueosAgenda = [];
 
@@ -773,6 +786,7 @@
             e.stopPropagation();
             options.sesionesReservadas.forEach(e => deleteSesionGrilla(options.tabla.querySelector('#' + SesionToCeldaId(e))));
             options.sesionesReservadas = [];
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             renderListaReservas();
             redibujarGrilla();
         };
@@ -808,6 +822,7 @@
                 _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);                
                 innerDiv += `<li>${e.Numero} ${_fecha} ${_desde} a ${_hasta} </li >`;
             });
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             innerDiv += "</ul>";
             divReservas.innerHTML = innerDiv;
             divReservas.querySelector("#btnDivReservasCancelar").addEventListener("click", btnDivReservasCancelar_click);
@@ -831,6 +846,8 @@
             .on('changeDate', function (e) {
                 //options.fecha = e.target.getDate()
                 options.fecha = $('#ddatepicker').datepicker('getDate');
+                sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 //if (options.vista == 'd') {
                 //    options.fechaDia = $('#ddatepicker').datepicker('getDate');
                 //    options.fecha = $('#ddatepicker').datepicker('getDate');
@@ -856,6 +873,8 @@
 
                 //options.fechaDia = $('#ddatepickerP').datepicker('getDate');
                 options.fecha = $('#ddatepickerP').datepicker('getDate');
+                sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 dibujarGrilla();
             });
 
@@ -879,10 +898,14 @@
                     //options.fechaDia = new Date(parseInt(vFecha[2]), parseInt(vFecha[1]) - 1, parseInt(vFecha[0]));
                     //options.fecha = options.fechaDia;
                     options.vista = 'd';
+                    sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                    sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 }
                 else {
                     //options.fecha = options.fechaSemana;
                     options.vista = 's';
+                    sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                    sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 }
                 dibujarGrilla();
             });
@@ -898,6 +921,8 @@
             e.stopPropagation();
             options.fecha = getPrevDate(options.fecha);
             //options.fecha = getPrevDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
 
@@ -908,6 +933,8 @@
             e.stopPropagation();
             options.fecha = getNextDate(options.fecha);
             //options.fecha = getNextDate(options.vista == 's' ? options.fechaSemana : options.fechaDia);
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
 
@@ -1025,24 +1052,7 @@
                 }
             });
 
-            //Confirmado
-            //$.contextMenu({
-            //    selector: '.div-turno[data-estado=2]',
-            //    callback: contextMenuClick,
-            //    items: {
-            //        "paciente": {name:"Paciente", id:'pct', icon: ""},
-            //        "asistio": { name: "Asistio", icon: "" },
-            //        "noAsistio": { name: "No Asistio", icon: "" },
-            //        "anularSesion": { name: "Cancelar Sesion", icon: "" },
-            //        "cambiarTurno": { name: "CambiarTurno", icon: "" },
-            //        "posponer": { name: "Posponer", icon: "" },
-            //        "sep1": "---------",
-            //        "datosPaciente": { name: "Paciente", icon: "" },
-            //        "datosSesiones": { name: "Sesiones", icon: "" },
-            //        "datosTurno": { name: "Turno", icon: "" }
-            //    }
-            //});
-
+          
             function getNamePaciente(element) {                
                 return element.dataset.paciente;
             }
@@ -1161,25 +1171,7 @@
                 }
             });
 
-            /*$.contextMenu({
-                selector: '.celda-turno[data-estado=0]',
-                callback: contextMenuClick,
-                items: {
-                    "reservar": { name: "Reservar", icon: "" },
-                    "bloquear": { name: "Bloquear", icon: "" },
-                    "cancelar": { name: "Cancelar", icon: "" },
-                    "asistio": { name: "Asistio", icon: "" },
-                    "noAsistio": { name: "No Asistio", icon: "" },
-                    "anularSesion": { name: "Anular Sesion", icon: "" },
-                    "cambiarTurno": { name: "CambiarTurno", icon: "" },
-                    "posponer": { name: "Posponer", icon: "" },
-                    "confirmado": { name: "Confirmado", icon: "" },
-                    "asignarPaciente": { name: "Asignar Paciente", icon: "" },
-                    "sep1": "---------",
-                    "datosPaciente": { name: "Paciente", icon: "" },
-                    "datosSesiones": { name: "Sesiones", icon: "" }
-                }
-            });*/
+          
 
             $.contextMenu({
                 selector: '.celda-turno[data-estado=0]',
@@ -1326,6 +1318,7 @@
                         //    //if (validarSesiones(sesionReserva.sesiones)) {
                         renderSesion(sesionReserva);
                         options.sesionesReservadas.push(sesionReserva);
+                        sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
                         renderListaReservas();
 
                         //    //}

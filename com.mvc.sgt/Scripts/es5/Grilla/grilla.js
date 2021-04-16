@@ -36,10 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 (function () {
     var options = {};
-    var presetSessionStorage = function () {
-        sessionStorage.setItem('FechaGrillaTurnos', new Date(2018, 2, 20));
-        sessionStorage.setItem('VistaGrillaTurnos', 's');
-    };
     var updating = function () {
         options.updating = true;
         options.divGrilla.querySelector('.procesando').style.display = 'block';
@@ -57,8 +53,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (sessionStorage) {
             sesionST.vista = sessionStorage.getItem('VistaGrillaTurnos');
             sesionST.fecha = sessionStorage.getItem('FechaGrillaTurnos');
-            sessionStorage.removeItem('VistaGrillaTurnos');
-            sessionStorage.removeItem('FechaGrillaTurnos');
         }
         return sesionST;
     };
@@ -105,6 +99,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         e.stopPropagation();
         options.fecha = new Date();
         options.vista = 'd';
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
     var btnVistaDiaSemana_Click = function (e) {
@@ -113,6 +109,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         options.fecha = new Date();
         options.vista = 'd';
         options.fecha = getDayOfWeek(options.fecha, e.target.dataset.dia);
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
     var btnVistaSemanal_Click = function (e) {
@@ -120,10 +118,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         e.stopPropagation();
         options.fecha = new Date();
         options.vista = 's';
+        sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+        sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
         dibujarGrilla();
     };
     var btnRecargar_Click = function (e) {
-        console.log('click');
         e.preventDefault();
         e.stopPropagation();
         redibujarGrilla();
@@ -166,6 +165,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 sobreturnos.push(i + 1);
             }
         });
+        sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
         var params = {};
         params.model = _turno;
         params.sobreturnos = sobreturnos;
@@ -173,6 +173,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         promise.then(function (data) {
             var turnoNuevo = JSON.parse(data);
             options.sesionesReservadas = [];
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             showModalAngularComponent('AsignarPaciente', { turnoID: turnoNuevo.ID });
             renderListaReservas();
             dibujarGrilla();
@@ -289,6 +290,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             if (validarSesiones(sesionReserva.sesiones)) {
                 renderSesion(sesionReserva);
                 options.sesionesReservadas.push(sesionReserva);
+                sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
                 renderListaReservas();
                 updated();
             }
@@ -378,6 +380,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             var id_1 = CeldaIdToObject(celda.id);
             options.sesionesReservadas = options.sesionesReservadas.filter(function (sesion) { return sesion.fecha != id_1.fecha || sesion.hora != id_1.hora
                 || sesion.ConsultorioID != id_1.ConsultorioID || sesion.TurnoSimultaneo != id_1.TurnoSimultaneo; });
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             renderListaReservas();
             redibujarGrilla();
             updated();
@@ -523,7 +526,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             options.fecha = sessionST.fecha ? new Date(sessionST.fecha) : options.fecha;
         }
         options.sesiones = [];
-        options.sesionesReservadas = [];
+        if (sessionStorage.getItem('Reservas')) {
+            options.sesionesReservadas = JSON.parse(sessionStorage.getItem('Reservas'));
+            if (options.sesionesReservadas.length > 0) {
+                renderListaReservas();
+            }
+        }
+        else {
+            options.sesionesReservadas = [];
+        }
         options.intervalId = undefined;
         dibujarGrilla();
         window.setTimeout(function () { return $('.modal-dialog').draggable({ handle: ".modal-header" }); }, 5000);
@@ -636,7 +647,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         return [4, awAusencias];
                     case 7:
                         _g.ausencias = _h.sent();
-                        console.dir(options.dias);
                         options.bloqueosAgenda = [];
                         redibujarGrilla();
                         return [2];
@@ -673,6 +683,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             e.stopPropagation();
             options.sesionesReservadas.forEach(function (e) { return deleteSesionGrilla(options.tabla.querySelector('#' + SesionToCeldaId(e))); });
             options.sesionesReservadas = [];
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             renderListaReservas();
             redibujarGrilla();
         };
@@ -695,6 +706,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                 _hasta = _hasta.substr(0, 2) + ':' + _hasta.substr(2, 2);
                 innerDiv_1 += "<li>" + e.Numero + " " + _fecha + " " + _desde + " a " + _hasta + " </li >";
             });
+            sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
             innerDiv_1 += "</ul>";
             divReservas.innerHTML = innerDiv_1;
             divReservas.querySelector("#btnDivReservasCancelar").addEventListener("click", btnDivReservasCancelar_click);
@@ -716,6 +728,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         $('#ddatepicker').datepicker()
             .on('changeDate', function (e) {
             options.fecha = $('#ddatepicker').datepicker('getDate');
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
         $('#ddatepickerP').datepicker({
@@ -728,6 +742,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         $('#ddatepickerP').datepicker()
             .on('changeDate', function (e) {
             options.fecha = $('#ddatepickerP').datepicker('getDate');
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
         var calendario = options.tabla.querySelector('#calendarioSesion');
@@ -744,9 +760,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                     var vFecha = e.target.dataset.fecha.split('/');
                     options.fecha = new Date(parseInt(vFecha[2]), parseInt(vFecha[1]) - 1, parseInt(vFecha[0]));
                     options.vista = 'd';
+                    sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                    sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 }
                 else {
                     options.vista = 's';
+                    sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+                    sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
                 }
                 dibujarGrilla();
             });
@@ -758,6 +778,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             e.preventDefault();
             e.stopPropagation();
             options.fecha = getPrevDate(options.fecha);
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
         boton = options.tabla.querySelector('#btnSiguiente');
@@ -765,6 +787,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
             e.preventDefault();
             e.stopPropagation();
             options.fecha = getNextDate(options.fecha);
+            sessionStorage.setItem('VistaGrillaTurnos', options.vista);
+            sessionStorage.setItem('FechaGrillaTurnos', options.fecha);
             dibujarGrilla();
         });
     }
@@ -1092,6 +1116,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
                         }
                         renderSesion(sesionReserva);
                         options.sesionesReservadas.push(sesionReserva);
+                        sessionStorage.setItem('Reservas', JSON.stringify(options.sesionesReservadas));
                         renderListaReservas();
                     }
                     break;

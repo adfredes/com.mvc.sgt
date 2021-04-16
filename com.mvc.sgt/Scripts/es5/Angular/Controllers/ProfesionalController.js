@@ -1,7 +1,6 @@
 (function () {
     var sgtApp = angular.module("sgtApp");
-    sgtApp.controller("profesionalController", ['messageService', '$scope', '$filter', 'crudService', '$element',
-        function (messageService, $scope, $filter, crudService, $element) {
+    sgtApp.controller("profesionalController", ['messageService', '$scope', '$filter', 'crudService', '$element', function (messageService, $scope, $filter, crudService, $element) {
             $scope.currentPage = 0;
             $scope.initPage = 0;
             $scope.pageSize = 10;

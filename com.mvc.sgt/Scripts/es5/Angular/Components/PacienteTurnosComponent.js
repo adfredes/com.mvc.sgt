@@ -1,3 +1,10 @@
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 (function () {
     var sgtApp = angular.module("sgtApp");
     sgtApp.component('pacienteTurnos', {
@@ -142,11 +149,15 @@
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
         };
         var getTurnosPaciente = function (id) {
+            var selectedTurno = __spreadArrays(vm.turnos.filter(function (t) { return t.visible === true; }).map(function (t) { return t.ID; }));
             vm.getInformation = true;
             var promise = crudService.GetPHttp("Paciente/ListTurnos/" + id);
             promise.then(function (data) {
                 vm.reading = false;
                 vm.turnos = sesionesOrder(JSON.parse(data));
+                vm.turnos.forEach(function (t) {
+                    t.visible = selectedTurno.includes(t.ID);
+                });
                 vm.getInformation = false;
             })
                 .catch(function (err) { vm.turnos = []; vm.reading = false; });
