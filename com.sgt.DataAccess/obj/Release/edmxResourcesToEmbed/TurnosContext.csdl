@@ -737,6 +737,7 @@
     <NavigationProperty Name="Agendum" Relationship="TurnosModel.FK_Sesion_Agenda" FromRole="Sesion" ToRole="Agendum" />
     <NavigationProperty Name="Turno" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Sesion" ToRole="Turno" />
     <Property Name="FueDobleOrden" Type="Boolean" />
+    <Property Name="CodigoTransaccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Turno">
     <Key>
@@ -761,6 +762,7 @@
     <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="Turno" ToRole="TipoSesion" />
     <Property Name="importe" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="NumeroAutorizacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Sesion_Agenda">
     <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />

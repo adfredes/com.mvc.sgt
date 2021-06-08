@@ -712,6 +712,10 @@ input[readonly]{
     content: "Enviar";
 }
 
+.botonera-turno-confirmado .btn-autorizacion:hover::after {
+    content: "Nro Autorización";
+}
+
 
 .reduce-input-container md-input-container label:not(.md-container-ignore) {
     bottom: 80% !important;

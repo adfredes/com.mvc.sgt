@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="752d4ab0461d4bcea885963b0cb4180d" Name="Diagram1" ZoomLevel="94">
+      <Diagram DiagramId="752d4ab0461d4bcea885963b0cb4180d" Name="Diagram1" ZoomLevel="16">
         <EntityTypeShape EntityType="TurnosModel.Agendum" Width="1.5" PointX="7.5" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Agenda_Bloqueos" Width="2" PointX="9.75" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosModel.Agenda_Receso" Width="1.5" PointX="9" PointY="0.75" IsExpanded="true" />

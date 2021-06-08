@@ -220,6 +220,18 @@
 
         vm.openCambiarSesionModal = (sesion) => turnoService.openCambiarSesionModal(sesion, updateData, vm.parent);
 
+        vm.openCambiarNumeroAutorizacion = (turno) => turnoService.openNumeroAutorizacion(turno,
+            (promise) => {
+                promise.then(data => turno.NumeroAutorizacion = data);
+            }
+            , vm.parent);
+
+        vm.openCambiarCodigoTransaccion = (sesion) => turnoService.openCodigoTransaccion(sesion,
+            (promise) => {
+                promise.then(data => sesion.CodigoTransaccion = data);
+            }
+            , vm.parent);
+
         vm.sesionAnular = (id) => turnoService.sesionAnular(id, updateData, vm.parent);
 
         vm.openDobleOrden = (turno) => {

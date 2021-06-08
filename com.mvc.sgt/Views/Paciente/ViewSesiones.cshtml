@@ -12,6 +12,7 @@
                 <md-button type="button" class="m-0 btn-posponer" ng-click="$ctrl.posponerSesion()" title="Posponer Sesion/es"><i class="icon-calendar-empty"></i></md-button>
                 <md-button type="button" class="m-0 btn-agregar" ng-click="$ctrl.agregarSesiones()" title="Agregar Sesion/es"><i class="icon-calendar-plus-o"></i></md-button>
                 <md-button type="button" class="m-0 btn-cancelar" ng-click="$ctrl.cancelarSesiones()" title="Cancelar Sesion/es"><i class="icon-cancel"></i></md-button>
+                <md-button type="button" class="m-0 btn-autorizacion"  ng-click="$ctrl.openCambiarNumeroAutorizacion($ctrl.turno)" title="Modificar Número Autorización"><i class="icon-pencil"></i></md-button>                
                 <md-button type="button" class="m-0 btn-diagnostico" ng-click="$ctrl.openDiagnostico()" title="Ver/Modificar Diagnóstico"><i class="icon-stethoscope"></i></md-button>
                 <md-button type="button" class="m-0 btn-dobleorden" ng-class="{'text-warning' : $ctrl.turno.TurnoDoble}" ng-click="$ctrl.openDobleOrden()" title="Doble Orden"><i class="icon-clone"></i></md-button>
                 <md-button type="button" class="m-0 btn-imprimir" ng-click="$ctrl.turnoPrint()" title="Imprimir Turno"><i class="icon-print"></i></md-button>
@@ -33,7 +34,7 @@
                             <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage - 1)"><span class="icon-fast-bw"></span></a>
                         </li>
                         <li class="page-item text-center w-100 disabled">
-                            <span class="page-link">{{$ctrl.turno.ID}} - {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}}</span>
+                            <span class="page-link">{{$ctrl.turno.ID}}  <small ng-if="$ctrl.turno.NumeroAutorizacion"> ({{$ctrl.turno.NumeroAutorizacion}}) </small>- {{$ctrl.getTipoSesion($ctrl.turno.TipoSesionID)}}</span>
                         </li>
                         <li class="page-item text-center" ng-class="{disabled:($ctrl.turnos.length - 1)==$ctrl.currentPage}">
                             <a class="page-link" tabindex="-1" ng-click="$ctrl.setPage($ctrl.currentPage + 1)"><span class="icon-fast-fw"></span></a>
@@ -48,6 +49,7 @@
             <thead class="thead-light">
                 <tr class="bg-light">
                     <th scope="col" class="text-center w-auto p-2">Número</th>
+                    <th scope="col" class="text-center w-auto p-2" ng-if="$ctrl.turno.NumeroAutorizacion">Código</th>                    
                     <th scope="col" class="text-center w-auto p-2">Fecha</th>
                     <th scope="col" class="text-center w-auto p-2">Horario</th>
                     <th scope="col" class="text-center w-auto p-2">Consultorio</th>
@@ -60,6 +62,7 @@
             <tr ng-repeat="sesion in $ctrl.turno.Sesions track by $index" ng-class="{'text-primary':$ctrl.bolder(sesion.Estado),'text-danger':$ctrl.bolder(sesion.Estado)==false}"
                 style="cursor:pointer; background:{{$ctrl.getColorConsultorio(sesion.ConsultorioID)}}">
                 <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{sesion.Numero}}</td>
+                <td class="text-center w-auto p-1" ng-if="$ctrl.turno.NumeroAutorizacion">{{sesion.CodigoTransaccion}} <strong class="icon-pencil text-primary" title="Modificar Código Transacción" ng-if="sesion.Estado == 4 || sesion.Estado == 5" ng-click="$ctrl.openCambiarCodigoTransaccion(sesion)"></strong>
                 <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toDate(sesion.FechaHora)}}</td>
                 <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.toHourRange(sesion.FechaHora, sesion.sesiones)}}</td>
                 <td class="text-center w-auto p-1" ng-click='$ctrl.sesionClick(sesion.FechaHora)'>{{$ctrl.getNombreConsultorio(sesion.ConsultorioID)}}</td>

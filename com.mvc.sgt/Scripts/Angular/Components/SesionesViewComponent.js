@@ -55,6 +55,19 @@
             }, 500);
         };
 
+
+        vm.openCambiarNumeroAutorizacion = (turno) => turnoService.openNumeroAutorizacion(turno,
+            (promise) => {
+                promise.then(data => turno.NumeroAutorizacion = data);
+            }
+            , $element);        
+        
+        vm.openCambiarCodigoTransaccion = (sesion) => turnoService.openCodigoTransaccion(sesion,
+            (promise) => {
+                promise.then(data => sesion.CodigoTransaccion = data);
+            }
+            , $element);
+
         vm.bolder = (estado) => turnoService.bolder(estado);
 
         vm.pacienteSeleccionado = {};

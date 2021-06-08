@@ -464,6 +464,20 @@ namespace com.mvc.sgt.Controllers
             }
         }
 
+        [HttpPut]        
+        [Route("Sesion/CodigoTransaccion")]
+        public JsonResult ModificarSesionCodigoTransaccion(int id, string codigo)
+        {                        
+            if (this.AgendaService.ChangeCodigoTransaccionSesion(id, codigo, User.Identity.Name)) {
+                return Json(codigo);
+            }
+            else
+            {
+                return Json("");
+            }
+            
+        }
+
         [HttpPut]
         [CreateUpdateActionFilter("admin")]
         [Route("Sesion/Posponer")]
@@ -498,6 +512,34 @@ namespace com.mvc.sgt.Controllers
         public ActionResult EditSesion()
         {
             return PartialView();
+        }
+
+        [HttpPut]
+        [Route("Turno/{id}/NumeroAutorizacion")]
+        public JsonResult ModificarTurnoNumeroAutorizacion(int id, string numero)
+        {
+            
+            //try
+            //{ChangeNumeroAutorizacionturno
+            //    var sesiones = Mapper.Map<ICollection<Sesion>>(model);
+            //    sesiones = this.AgendaService.CambiarFechaSesion(sesiones);
+            //    Response.StatusCode = (int)HttpStatusCode.OK;
+            //    return Json(sesiones);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Response.StatusCode = (int)HttpStatusCode.Conflict;
+            //    return Json(ex.Message);
+            //}
+            if (this.AgendaService.ChangeNumeroAutorizacionturno(id, numero, User.Identity.Name))
+            {
+                return Json(numero);
+            }
+            else
+            {
+                return Json("");
+            }
+
         }
 
         [HttpPut]

@@ -861,6 +861,19 @@ namespace com.sgt.services.Services
             return turno;
         }
 
+        public bool ChangeNumeroAutorizacionturno(int turnoID, string numeroAutorizacion, string usuario)
+        {
+            var turno = unitOfWork.RepoTurno.Find(turnoID);
+            
+            DateTime fechaModificacion = DateTime.Now;
+
+            turno.FechaModificacion = fechaModificacion;
+            turno.UsuarioModificacion = usuario;
+            turno.NumeroAutorizacion = numeroAutorizacion;
+            unitOfWork.RepoTurno.Edit(turno);            
+            return true;
+        }
+
         public Turno ConfirmarTurno(Turno turno, bool continuar, int? turnoID)
         {
             Turno oldTurno = GetTurno(turno.ID);
@@ -1263,6 +1276,25 @@ namespace com.sgt.services.Services
 
             return unitOfWork.RepoSesion.Find(sesionID);
 
+        }
+
+
+        public bool ChangeCodigoTransaccionSesion(int sesionID, string codigoTransaccion, string usuario)
+        {
+            //Sesion rSesion = null;
+            ICollection<Sesion> sesiones = SearchSesion(sesionID);
+
+            short nroSesion = sesiones.FirstOrDefault().Numero;
+            int turnoID = sesiones.FirstOrDefault().TurnoID;
+            DateTime fechaModificacion = DateTime.Now;
+            foreach (Sesion sesion in sesiones)
+            {
+                sesion.FechaModificacion = fechaModificacion;
+                sesion.UsuarioModificacion = usuario;
+                sesion.CodigoTransaccion = codigoTransaccion;                
+                unitOfWork.RepoSesion.Edit(sesion);
+            }
+            return true;
         }
 
 

@@ -25,6 +25,7 @@ namespace com.mvc.sgt.Models
         public Nullable<int> TipoSesionID { get; set; }
         public Nullable<int> TurnoDoble { get; set; }
         public string CodigoPractica { get; set; }
+        public string NumeroAutorizacion { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SesionModel> Sesions { get; set; }

@@ -107,34 +107,45 @@
             data.forEach(turno => {
                 turno = $this.sesionesOrder(turno);
                 let fechaActual = new Date();
-                turno.end = turno.Sesions[turno.Sesions.length - 1].FechaHora;
-                let pos = 0;
-                //while (!$this.bolder(turno.Sesions[pos].Estado) && pos < turno.sesion.length) {
-                //    pos++;
-                //}
-                turno.begin = turno.Sesions[pos].FechaHora;
+                
+                let sesiones = [...turno.Sesions.filter(s => [2, 4, 5, 8].includes(s.Estado))];
+                sesiones = sesiones.sort((a, b) => a - b);                
+                turno.end = sesiones[sesiones.length - 1].FechaHora;               
+                turno.begin = sesiones[0].FechaHora;
+                console.log(turno.Sesions[0]);
                 if (fechaActual.getTime() >= moment(turno.begin).toDate().getTime() && fechaActual.getTime() <= moment(turno.end).toDate().getTime())
                     turno.visible = true;
                 else
                     turno.visible = false;
             });
             return data;
-        };
+        };        
 
         $this.sesionesOrder = (data) => {
 
-            let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) =>
+            let sesiones = JSON.parse(JSON.stringify(data.Sesions.filter((value, index, self) => {
 
-                self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3
-                    //&& element.ID >= value.ID - 1
-                    && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
-                    && value.FechaModificacion == element.FechaModificacion
-                    //&& moment(value.FechaModificacion).toDate() - moment(element.FechaModificacion).toDate() < 1000
-                    && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
-                    && element.TurnoSimultaneo === value.TurnoSimultaneo
-                )
-                === index
-            )));
+                if ([2, 4, 5, 8].includes(value.Estado)) {
+                    return self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3                        
+                        && element.Estado === value.Estado
+                    )
+                        === index
+                }
+                else {
+                    return self.findIndex(element => element.Numero === value.Numero //&& element.ID < value.ID + 3
+                        //&& element.ID >= value.ID - 1
+                        && $this.toShortDate(moment(element.FechaHora).toDate()) == $this.toShortDate(moment(value.FechaHora).toDate())
+                        && value.FechaModificacion == element.FechaModificacion
+                        //&& moment(value.FechaModificacion).toDate() - moment(element.FechaModificacion).toDate() < 1000
+                        && element.Estado === value.Estado && element.ConsultorioID === value.ConsultorioID
+                        && element.TurnoSimultaneo === value.TurnoSimultaneo
+                    )
+                        === index
+                }
+
+
+                
+            })));
             
 
             sesiones.forEach(mValue => {
@@ -540,6 +551,145 @@
                 .catch(() => undefined);
         };
 
+        
+        $this.openNumeroAutorizacion = (turno, success, parentEl) => {
+
+            let modalHtml = `<md-dialog aria-label="Turnos" class="w-50" md-draggable>
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Turno ${turno.ID} - Número Autorización</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">        
+                                    <md-input-container class="md-block">
+                                        <label>Código Transacción</label>
+                                            <input ng-model="turno.NumeroAutorizacion" maxlength="50" md-maxlength="50" md-select-on-focus"></input>
+                                    </md-input-container>                                                                              
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(turno)'><span class='icon-save'></span> Guardar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+
+                let init = () => {
+                    $scope.turno = turno;
+                };
+
+                init();
+
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: angular.element(document.body),//parent: angular.element(document.body),
+                //parent: angular.element(document.body),//parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: false,
+                fullscreen: false,
+                multiple: true,
+                locals: { turno: turno }
+            })
+                .then(answer => {
+                    //[Route("Turno/{id}/NumeroAutorizacion")]
+        //public JsonResult ModificarTurnoNumeroAutorizacion(int id, string numero)
+
+                    turno.NumeroAutorizacion = answer.NumeroAutorizacion;
+                    let url = `Turno/${turno.ID}/NumeroAutorizacion`;
+                    const params = {                        
+                        numero: turno.NumeroAutorizacion
+                    };
+                    let promise = crudService.PutHttp(url, params);
+                    success(promise);
+                })
+                .catch(() => undefined);
+        };
+
+        $this.openCodigoTransaccion = (sesion, success, parentEl) => {
+            
+            let modalHtml = `<md-dialog aria-label="Turnos" class="w-50" md-draggable>
+                              <form ng-cloak>
+                                <md-toolbar>
+                                  <div class="md-toolbar-tools  badge-primary">
+                                    <h5 class="modal-title">Sesion ${sesion.Numero} - Código Transacción</h5>        
+                                  </div>
+                                </md-toolbar>
+                                <md-dialog-content>
+                                  <div class="md-dialog-content">        
+                                    <md-input-container class="md-block">
+                                        <label>Código Transacción</label>
+                                            <input ng-model="sesion.CodigoTransaccion" maxlength="50" md-maxlength="50" md-select-on-focus"></input>
+                                    </md-input-container>                                                                              
+                                  </div>
+                                </md-dialog-content>
+
+                                <md-dialog-actions layout="row">      
+                                  <span flex></span>
+                                  <md-button type='button' class='md-raised md-warn' ng-click='cancel()'><i class='icon-cancel'></i> Cerrar</md-button>
+                                  <md-button type='button' class='md-raised md-primary' ng-click='answer(sesion)'><span class='icon-save'></span> Guardar</md-button>
+                                </md-dialog-actions>
+                              </form>
+                             </md-dialog>`;
+            function DialogController($scope, $mdDialog) {
+
+                let init = () => {
+                    $scope.sesion = sesion;                                        
+                };
+
+                init();
+
+                $scope.hide = function () {
+                    $mdDialog.hide();
+                };
+                $scope.cancel = function () {
+                    $mdDialog.cancel();
+                };
+                $scope.answer = function (answer) {
+                    $mdDialog.hide(answer);
+                };
+            }
+
+            $mdDialog.show({
+                parent: angular.element(document.body),//parent: angular.element(document.body),
+                //parent: angular.element(document.body),//parent: parentEl.children(),
+                template: modalHtml,
+                controller: ['$scope', '$mdDialog', DialogController],
+                clickOutsideToClose: false,
+                fullscreen: false,
+                multiple: true,
+                locals: { sesion: sesion }
+            })
+                .then(answer => {
+
+                    
+                    sesion.CodigoTransaccion = answer.CodigoTransaccion;                    
+                    let url = 'Sesion/CodigoTransaccion';
+                    const params = {
+                        id: sesion.ID,
+                        codigo: sesion.CodigoTransaccion
+                    };
+                    let promise = crudService.PutHttp(url, params);                    
+                    success(promise);
+                })
+                .catch(() => undefined);
+        };
+
         $this.openDiagnostico = (paciente, turno, success, parentEl) => {            
             let modalHtml = `<md-dialog aria-label="Turnos" class="w-50" md-draggable>
                               <form ng-cloak>
@@ -633,6 +783,7 @@
                 })
                 .catch(() => undefined);
         };
+
 
         $this.openDobleOrden = (turno, success, parentEl) => {
             function DialogController($scope, $mdDialog) {

@@ -1,6 +1,6 @@
 ﻿(function () {
     let sgtApp = angular.module("sgtApp");
-    sgtApp.directive('modalHandle', ['modalComponentService', function (modalComponentService) {
+    sgtApp.directive('modalHandle', ['modalComponentService', 'turnoService', 'eventService', function (modalComponentService, turnoService, eventService) {
         return {
             restrict: 'A',
             link: function (scope, elm, attrs) {
@@ -15,12 +15,24 @@
                             break;
                         case 'PacienteView':
                             modalComponentService.openPacienteModal({ ID: $event.originalEvent.detail.valor.pacienteID });
-                            break;  
+                            break;
                         case 'AsignarPaciente':
                             modalComponentService.openAsignarPacienteModal({ ID: $event.originalEvent.detail.valor.turnoID });
                             break;
                         case 'SesionEdit':
                             modalComponentService.openSesionEditModal({ ID: $event.originalEvent.detail.valor.sesionID });
+                            break;
+                        case 'NumeroAutorizacion':
+                            turnoService.openNumeroAutorizacion($event.originalEvent.detail.valor,
+                                (promise) => promise.then(data => eventService.UpdateTurnos()),
+                                document.body
+                            );
+                            break;
+                        case 'CodigoTransaccion':
+                            turnoService.openCodigoTransaccion($event.originalEvent.detail.valor,
+                                (promise) => promise.then(data => eventService.UpdateTurnos()),
+                                document.body
+                            );
                             break;
                     }           
                 });

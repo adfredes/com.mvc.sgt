@@ -36,6 +36,7 @@ namespace com.sgt.DataAccess
         public Nullable<System.DateTime> FechaFactura { get; set; }
         public string Factura { get; set; }
         public Nullable<decimal> importe { get; set; }
+        public string NumeroAutorizacion { get; set; }
     
         public virtual Paciente Paciente { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

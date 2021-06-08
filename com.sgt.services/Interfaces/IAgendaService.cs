@@ -30,6 +30,7 @@ namespace com.sgt.services.Interfaces
         Sesion SetSesionAsistio(int sesionID, string usuario);
         Sesion SetSesionNoAsistio(int sesionID, string usuario);
         Sesion SetSesionConfirmado(int sesionID, string usuario);
+        bool ChangeCodigoTransaccionSesion(int sesionID, string codigoTransaccion, string usuario);
         ICollection<Sesion> GetSesionConsultorioByDate(DateTime fecha, int consultorioID, int turnoSimultaneo);
         ICollection<Sesion> FindSesion(int sesionID);
         ICollection<Sesion> BloquearSesion(Turno turno);
@@ -41,6 +42,7 @@ namespace com.sgt.services.Interfaces
         ICollection<Sesion> CancelarSesiones(ICollection<Sesion> sesions);
 
         Turno ReservarSesiones(Turno turno);
+        bool ChangeNumeroAutorizacionturno(int turnoID, string numeroAutorizacion, string usuario);
         Turno ReservarSesiones(Turno turno, List<int> sobreturnos);
         void CancelarReserva(int idTurno);
         void CancelarReserva(Turno turno);

@@ -72,6 +72,7 @@
         };
 
         $this.PutHttp = (_url, data) => {
+            
             let defered = $q.defer();
             let promise = defered.promise;
             $http({

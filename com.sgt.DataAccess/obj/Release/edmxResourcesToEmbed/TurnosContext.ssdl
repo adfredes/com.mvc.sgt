@@ -80,7 +80,7 @@
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="comisiones">
     <Key>
       <PropertyRef Name="idcomision" />
@@ -102,7 +102,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.comisiones' no tiene definid
     <Property Name="TipoSesionID" Type="int" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Derivadores">
     <Key>
       <PropertyRef Name="idDerivador" />
@@ -132,7 +132,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Derivadores' no tiene defini
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="fotos">
     <Key>
       <PropertyRef Name="idfoto" />
@@ -144,7 +144,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.fotos' no tiene definida nin
     <Property Name="fecha" Type="datetime" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Historial">
     <Key>
       <PropertyRef Name="idHistorial" />
@@ -196,7 +196,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="opciones">
     <Key>
       <PropertyRef Name="Id" />
@@ -332,7 +332,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="repeticionesMedicos">
     <Key>
       <PropertyRef Name="lun" />
@@ -369,6 +369,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
     <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
     <Property Name="FueDobleOrden" Type="bit" />
+    <Property Name="CodigoTransaccion" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Sesion_Estado">
     <Key>
@@ -400,7 +401,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
     <Property Name="Color" Type="varchar" MaxLength="7" Nullable="false" />
   </EntityType>
   <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
   <EntityType Name="Tratamientos">
     <Key>
       <PropertyRef Name="IdTratamiento" />
@@ -431,6 +432,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
     <Property Name="FechaFactura" Type="smalldatetime" />
     <Property Name="Factura" Type="nvarchar" MaxLength="50" />
     <Property Name="importe" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="NumeroAutorizacion" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Turno_Repeticiones">
     <Key>

@@ -85,7 +85,7 @@
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.comisiones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="comisiones">
           <Key>
             <PropertyRef Name="idcomision" />
@@ -107,7 +107,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.comisiones' no tiene definid
           <Property Name="TipoSesionID" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Derivadores' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Derivadores">
           <Key>
             <PropertyRef Name="idDerivador" />
@@ -137,7 +137,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Derivadores' no tiene defini
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.fotos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="fotos">
           <Key>
             <PropertyRef Name="idfoto" />
@@ -149,7 +149,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.fotos' no tiene definida nin
           <Property Name="fecha" Type="datetime" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Historial' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Historial">
           <Key>
             <PropertyRef Name="idHistorial" />
@@ -201,7 +201,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Historial' no tiene definida
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.opciones' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="opciones">
           <Key>
             <PropertyRef Name="Id" />
@@ -337,7 +337,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.opciones' no tiene definida 
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.repeticionesMedicos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="repeticionesMedicos">
           <Key>
             <PropertyRef Name="lun" />
@@ -374,6 +374,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
           <Property Name="UsuarioModificacion" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaModificacion" Type="datetime" Nullable="false" />
           <Property Name="FueDobleOrden" Type="bit" />
+          <Property Name="CodigoTransaccion" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Sesion_Estado">
           <Key>
@@ -405,7 +406,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.repeticionesMedicos' no tien
           <Property Name="Color" Type="varchar" MaxLength="7" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'consultorio.dbo.Tratamientos' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Tratamientos">
           <Key>
             <PropertyRef Name="IdTratamiento" />
@@ -436,6 +437,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="FechaFactura" Type="smalldatetime" />
           <Property Name="Factura" Type="nvarchar" MaxLength="50" />
           <Property Name="importe" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="NumeroAutorizacion" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Turno_Repeticiones">
           <Key>
@@ -1761,6 +1763,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <NavigationProperty Name="Agendum" Relationship="TurnosModel.FK_Sesion_Agenda" FromRole="Sesion" ToRole="Agendum" />
           <NavigationProperty Name="Turno" Relationship="TurnosModel.FK_Sesion_Turno" FromRole="Sesion" ToRole="Turno" />
           <Property Name="FueDobleOrden" Type="Boolean" />
+          <Property Name="CodigoTransaccion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Turno">
           <Key>
@@ -1785,6 +1788,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <Property Name="Factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="TipoSesion" Relationship="TurnosModel.FK_Turno_TipoSesion" FromRole="Turno" ToRole="TipoSesion" />
           <Property Name="importe" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NumeroAutorizacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Sesion_Agenda">
           <End Type="TurnosModel.Agendum" Role="Agendum" Multiplicity="1" />
@@ -2360,6 +2364,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <EntitySetMapping Name="Sesions">
             <EntityTypeMapping TypeName="TurnosModel.Sesion">
               <MappingFragment StoreEntitySet="Sesion">
+                <ScalarProperty Name="CodigoTransaccion" ColumnName="CodigoTransaccion" />
                 <ScalarProperty Name="FueDobleOrden" ColumnName="FueDobleOrden" />
                 <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
                 <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
@@ -2378,6 +2383,7 @@ advertencia 6002: La tabla o vista 'Consultorio.dbo.Tratamientos' no tiene defin
           <EntitySetMapping Name="Turnoes">
             <EntityTypeMapping TypeName="TurnosModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="NumeroAutorizacion" ColumnName="NumeroAutorizacion" />
                 <ScalarProperty Name="importe" ColumnName="importe" />
                 <ScalarProperty Name="Factura" ColumnName="Factura" />
                 <ScalarProperty Name="FechaFactura" ColumnName="FechaFactura" />

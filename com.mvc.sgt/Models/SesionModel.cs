@@ -19,6 +19,7 @@ namespace com.mvc.sgt.Models
         public bool Habilitado { get; set; }
         public string UsuarioModificacion { get; set; }
         public System.DateTime FechaModificacion { get; set; }
-        
+        public string CodigoTransaccion { get; set; }
+
     }
 }

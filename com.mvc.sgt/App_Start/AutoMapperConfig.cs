@@ -53,7 +53,7 @@ namespace com.mvc.sgt.App_Start
                 .ForMember(d => d.FechaHasta,
                 o => o.MapFrom(s => s.Sesions
                     .Where(t => EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)t.Estado) || EstadoSesion.SinFechaLibre == (EstadoSesion)t.Estado)
-                    .Max(t => t.FechaHora)))
+                    .Max(t => t.FechaHora)))                
                 ;
 
                 mapper.CreateMap<Paciente, PacienteSearchDto>()                
@@ -109,24 +109,25 @@ namespace com.mvc.sgt.App_Start
                 mapper.CreateMap<Consultorio, ConsultorioHorariosModel>()
                 .ReverseMap();
 
-            mapper.CreateMap<Sesion, SesionGrillaModel>()
-            .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))
-            .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
-            .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
-            .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
-            .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
-            .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
-            .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.TipoSesion.Descripcion + ": " +  s.Turno.Diagnostico))
-            .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
-            .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
-            .ForMember(d => d.TurnoDoble, o => o.MapFrom(s => s.Turno.TurnoDoble))
-            .ForMember(d => d.DobleOrden, o => o.MapFrom(s => s.Turno.TurnoDoble.HasValue && s.Turno.TurnoDoble.Value>0?true:false))
+                mapper.CreateMap<Sesion, SesionGrillaModel>()
+                .ForMember(d => d.Aseguradora, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Descripcion))
+                .ForMember(d => d.AseguradoraColor, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora.Color))
+                .ForMember(d => d.Paciente, o => o.MapFrom(s => s.Turno.Paciente.Apellido + ' ' + s.Turno.Paciente.Nombre))
+                .ForMember(d => d.PacienteId, o => o.MapFrom(s => s.Turno.Paciente.ID))
+                .ForMember(d => d.CantidadSesiones, o => o.MapFrom(s => s.Turno.CantidadSesiones))
+                .ForMember(d => d.EstadoTurno, o => o.MapFrom(s => s.Turno.Estado))
+                .ForMember(d => d.Diagnostico, o => o.MapFrom(s => s.Turno.TipoSesion.Descripcion + ": " + s.Turno.Diagnostico))
+                .ForMember(d => d.Plan, o => o.MapFrom(s => s.Turno.Paciente.Aseguradora_Plan.Descripcion))
+                .ForMember(d => d.Observaciones, o => o.MapFrom(s => s.Turno.Paciente.Observaciones))
+                .ForMember(d => d.TurnoDoble, o => o.MapFrom(s => s.Turno.TurnoDoble))
+                .ForMember(d => d.DobleOrden, o => o.MapFrom(s => s.Turno.TurnoDoble.HasValue && s.Turno.TurnoDoble.Value > 0 ? true : false))
+                .ForMember(d => d.NumeroAutorizacion, o => o.MapFrom(s => s.Turno.NumeroAutorizacion))
 
-            .ForMember(d => d.ProximaSesion, o => o.MapFrom(s => s.Turno.Sesions.OrderBy(se => se.Numero).ThenBy(se => se.FechaHora)
-                 .FirstOrDefault(se => se.Numero > s.Numero && EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)se.Estado)).FechaHora))
-            .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Sesions
-                .Where(se => (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre)
-                .Count() > 0 ? true : false));                
+                .ForMember(d => d.ProximaSesion, o => o.MapFrom(s => s.Turno.Sesions.OrderBy(se => se.Numero).ThenBy(se => se.FechaHora)
+                     .FirstOrDefault(se => se.Numero > s.Numero && EstadoSesionCondicion.Ocupado.Contains((EstadoSesion)se.Estado)).FechaHora))
+                .ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Sesions
+                    .Where(se => (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre)
+                    .Count() > 0 ? true : false));                
                 //.ForMember(d => d.SinAsignar, o => o.MapFrom(s => s.Turno.Paciente.Turnoes
                 //    .Where(t=> t.Sesions
                 //        .Where(se=> (EstadoSesion)se.Estado == EstadoSesion.SinFechaLibre).Count()>0)
@@ -172,6 +173,7 @@ namespace com.mvc.sgt.App_Start
                 .ReverseMap();
 
                 mapper.CreateMap<Turno, TurnoModel>()
+                .ForMember(d => d.Sesions, o => o.MapFrom(s => s.Sesions.Where(x=> x.Numero > 0)))
                 .ReverseMap();
 
                 mapper.CreateMap<Turno, TurnoSinFecha>()

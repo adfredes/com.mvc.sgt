@@ -29,6 +29,9 @@ namespace com.mvc.sgt.Models
         public Nullable<int> TurnoDoble { get; set; }
         public bool DobleOrden { get; set; }
         public string Observaciones { get; set; }
+        public string CodigoTransaccion { get; set; }
+        public string NumeroAutorizacion { get; set; }
+
 
         public Nullable<DateTime> ProximaSesion { get; set; }
 

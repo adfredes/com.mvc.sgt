@@ -1074,6 +1074,8 @@
                             //"datosPaciente": { name: "Paciente", icon: "" },
                             "datosSesiones": { name: "Sesiones", icon: "" },
                             "datosTurno": { name: "Turno", icon: "" },
+                            "sep4": "---------",
+                            "numeroAutorizacion": { name: "Número Autorización Tanda", icon: "" },
                             "sep3": {
                                 "type": "cm_separator",
                                 visible: function (key, opt) {
@@ -1108,6 +1110,9 @@
                             //"datosPaciente": { name: "Paciente", icon: "" },
                             "datosSesiones": { name: "Sesiones", icon: "" },
                             "datosTurno": { name: "Turno", icon: "" },
+                            "sep4": "---------",
+                            "numeroAutorizacion": { name: "Número Autorización Tanda", icon: "" },
+                            "codigoTransaccion": { name: "Código Transacción", icon: "" },
                             "sep3": {
                                 "type": "cm_separator",
                                 visible: function (key, opt) {
@@ -1142,6 +1147,9 @@
                             //"datosPaciente": { name: "Paciente", icon: "" },
                             "datosSesiones": { name: "Sesiones", icon: "" },
                             "datosTurno": { name: "Turno", icon: "" },
+                            "sep4": "---------",
+                            "numeroAutorizacion": { name: "Número Autorización Tanda", icon: "" },
+                            "codigoTransaccion": { name: "Código Transacción", icon: "" },
                             "sep3": {
                                 "type": "cm_separator",
                                 visible: function (key, opt) {
@@ -1259,6 +1267,16 @@
                     showModalAngularComponent('SesionesView', { turnoID:opt.$trigger[0].dataset.turnoid, pacienteID: opt.$trigger[0].dataset.pacienteid });
                     
                     break;
+
+                case 'numeroAutorizacion':
+                    showModalAngularComponent('NumeroAutorizacion', { ID: opt.$trigger[0].dataset.turnoid, NumeroAutorizacion: opt.$trigger[0].dataset.autorizacion ? opt.$trigger[0].dataset.autorizacion : '' });
+                    break;
+
+                case 'codigoTransaccion':
+                    console.log(opt.$trigger[0].dataset.transaccion);
+                    showModalAngularComponent('CodigoTransaccion', { ID: opt.$trigger[0].dataset.id, CodigoTransaccion: opt.$trigger[0].dataset.transaccion ? opt.$trigger[0].dataset.transaccion : '' });
+                    break;
+                    
 
                 case 'sobreTurno':
                     let parentNode = opt.$trigger[0].parentNode;
@@ -1574,9 +1592,14 @@
                             data-dobleorden=${_sesion.DobleOrden}
                             data-toggle="tooltip" data-placement="top"
                             data-paciente="${_sesion.Paciente}"
+                            data-autorizacion="${_sesion.NumeroAutorizacion ? _sesion.NumeroAutorizacion : ''}"
+                            data-transaccion="${_sesion.CodigoTransaccion ? _sesion.CodigoTransaccion : ''}"
                             title="${_sesion.Paciente}
 ${_sesion.ProximaSesion ? nombreDias[moment(_sesion.ProximaSesion).toDate().getDay()] + ' - ' + moment(_sesion.ProximaSesion).format("DD/MM/YYYY HH:mm") : ''}
-${_sesion.Diagnostico ? _sesion.Diagnostico : ''}">
+${_sesion.Diagnostico ? _sesion.Diagnostico : ''}
+${_sesion.NumeroAutorizacion ? 'Autorización: ' + _sesion.NumeroAutorizacion : ''}
+${_sesion.CodigoTransaccion ? 'Transacción: ' + _sesion.CodigoTransaccion : ''}
+">
                             ${getDivTurnoInnerHTML(_sesion)}</div>`;
         return divCelda;
     }
@@ -1595,7 +1618,9 @@ ${_sesion.Diagnostico ? _sesion.Diagnostico : ''}">
                         ${_sesion.Diagnostico ? _sesion.Diagnostico + "<br>" : ''}
                         ${_sesion.Observaciones ? "Obs: " + _sesion.Observaciones + "<br>" : ''}
                         ${_sesion.DobleOrden ? '<span class="icon-calendar"/>Doble Orden<br>' : ''}
-                        ${getNombreEstado(_sesion.Estado)}`;
+                        ${ _sesion.NumeroAutorizacion ? 'N.A.:' + _sesion.NumeroAutorizacion + '<br>' : ''}
+                        ${_sesion.CodigoTransaccion ? 'C.T.:' + _sesion.CodigoTransaccion + '<br>' : ''}
+                        ${ getNombreEstado(_sesion.Estado) ? getNombreEstado(_sesion.Estado) + '<br>' : ''}`;                        
             if (_sesion.SinAsignar) {
                 innerHTML += `<span class="icon-attention sin-fecha" title="Sesiones sin fechas asignadas"></span>`;
             }

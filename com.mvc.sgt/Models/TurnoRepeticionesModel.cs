@@ -16,6 +16,7 @@ namespace com.mvc.sgt.Models
         public System.DateTime Hora { get; set; }
         public int Frecuencia { get; set; }
         public string UsuarioModificacion { get; set; }
+        public string NumeroAutorizacion { get; set; }
         public System.DateTime FechaModificacion { get; set; }
             
     }

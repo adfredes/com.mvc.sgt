@@ -26,6 +26,7 @@ namespace com.sgt.DataAccess
         public string UsuarioModificacion { get; set; }
         public System.DateTime FechaModificacion { get; set; }
         public Nullable<bool> FueDobleOrden { get; set; }
+        public string CodigoTransaccion { get; set; }
     
         public virtual Agendum Agendum { get; set; }
         public virtual Turno Turno { get; set; }
