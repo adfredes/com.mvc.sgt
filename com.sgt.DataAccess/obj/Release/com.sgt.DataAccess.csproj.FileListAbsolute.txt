@@ -25,3 +25,17 @@ E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.dll
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.pdb
 E:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csprojAssemblyReference.cache
 D:\GitHub\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\com.sgt.DataAccess.dll.config
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\com.sgt.DataAccess.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\com.sgt.DataAccess.pdb
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.SqlServer.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.xml
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\EntityFramework.SqlServer.xml
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.resources.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\bin\Release\es\EntityFramework.SqlServer.resources.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csprojAssemblyReference.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.csproj.CopyComplete
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.DataAccess\obj\Release\com.sgt.DataAccess.pdb

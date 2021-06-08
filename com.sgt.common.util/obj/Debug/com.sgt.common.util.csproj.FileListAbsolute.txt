@@ -25,3 +25,9 @@ E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.common.util\obj\Debug\com.sgt.common.u
 E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.common.util\obj\Debug\com.sgt.common.util.dll
 E:\GitHub\com.mvc.sgt - copia (5)\com.sgt.common.util\obj\Debug\com.sgt.common.util.pdb
 D:\GitHub\com.mvc.sgt\com.sgt.common.util\obj\Debug\com.sgt.common.util.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\bin\Debug\com.sgt.common.util.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\bin\Debug\com.sgt.common.util.pdb
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\obj\Debug\com.sgt.common.util.csprojAssemblyReference.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\obj\Debug\com.sgt.common.util.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\obj\Debug\com.sgt.common.util.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.common.util\obj\Debug\com.sgt.common.util.pdb

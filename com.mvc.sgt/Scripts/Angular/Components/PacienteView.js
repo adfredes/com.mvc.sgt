@@ -58,6 +58,9 @@
                 let promise = crudService.GetPHttp(`Paciente/Get/${id}`);
                 promise.then(data => {
                     vm.paciente = JSON.parse(data);
+                    if (!vm.paciente.Cuit) {
+                        vm.dniOnChange();
+                    }
                     vm.pacienteid = vm.paciente.ID;
                     vm.saving = false;
                     vm.getLocalidades();

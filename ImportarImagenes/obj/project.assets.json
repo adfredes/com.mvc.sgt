@@ -207,20 +207,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\afredes\\.nuget\\packages\\": {}
+    "C:\\Users\\adfre\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "projectUniqueName": "D:\\Repositorios\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
       "projectName": "ImportarImagenes",
-      "projectPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
-      "packagesPath": "C:\\Users\\afredes\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\com.mvc.sgt\\ImportarImagenes\\obj\\",
+      "projectPath": "D:\\Repositorios\\com.mvc.sgt\\ImportarImagenes\\ImportarImagenes.csproj",
+      "packagesPath": "C:\\Users\\adfre\\.nuget\\packages\\",
+      "outputPath": "D:\\Repositorios\\com.mvc.sgt\\ImportarImagenes\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\afredes\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\adfre\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -233,11 +233,11 @@
       "frameworks": {
         "net471": {
           "projectReferences": {
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
+            "D:\\Repositorios\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj": {
+              "projectPath": "D:\\Repositorios\\com.mvc.sgt\\com.sgt.DataAccess\\com.sgt.DataAccess.csproj"
             },
-            "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
-              "projectPath": "D:\\GitHub\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
+            "D:\\Repositorios\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj": {
+              "projectPath": "D:\\Repositorios\\com.mvc.sgt\\com.sgt.services\\com.sgt.services.csproj"
             }
           }
         }

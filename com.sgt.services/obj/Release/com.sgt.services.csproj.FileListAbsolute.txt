@@ -21,3 +21,15 @@ E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CopyC
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.dll
 E:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.pdb
 D:\GitHub\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.services.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.services.pdb
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\EntityFramework.SqlServer.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\EntityFramework.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.pdb
+D:\Repositorios\com.mvc.sgt\com.sgt.services\bin\Release\com.sgt.DataAccess.dll.config
+D:\Repositorios\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csprojAssemblyReference.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CoreCompileInputs.cache
+D:\Repositorios\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.csproj.CopyComplete
+D:\Repositorios\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.dll
+D:\Repositorios\com.mvc.sgt\com.sgt.services\obj\Release\com.sgt.services.pdb
